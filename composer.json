@@ -1,0 +1,46 @@
+{
+  "name": "andy87/yii2-dnk-file-crafter",
+  "description": "PHP library for Yii2 - developed by and_y87",
+  "keywords": ["and_y87", "php", "generator", "crafter", "yii2", "library"],
+  "homepage": "https://andy87.ru",
+  "license": "CC-BY-SA-4.0",
+
+  "version": "0.0.1",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+
+  "authors": [
+    {
+      "name": "Kidin Andrey",
+      "email": "kidin_a@list.ru"
+    }
+  ],
+
+  "require": {
+    "php": ">=8.0",
+    "yiisoft/yii2": "~2.0.43"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "andy87\\yii2\\dnk_file_crafter\\": "src/"
+    }
+  },
+
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer" : true
+    },
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
