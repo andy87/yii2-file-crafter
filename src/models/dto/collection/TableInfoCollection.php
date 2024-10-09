@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\dnk_file_crafter\models\dto\collection;
 
+use andy87\yii2\dnk_file_crafter\services\producers\TableInfoDtoProducer;
 use Exception;
 use andy87\yii2\dnk_file_crafter\models\dto\{
     TableInfoDto,
@@ -32,11 +33,21 @@ class TableInfoCollection
         {
             foreach ($cacheFileList as $cacheFile)
             {
-                $json = file_get_contents($cacheFile);
+                if (file_exists($cacheFile))
+                {
+                    $json = file_get_contents($cacheFile);
 
-                $params = json_decode($json, true);
+                    $params = json_decode($json, true);
 
-                $this->tables[] = $this->generateModel($params);
+                    $this->tables[] = TableInfoDtoProducer::create($params);
+
+                } else {
+
+                    Yii::error([__METHOD__, 'Error! file_exists($cacheFile)',[
+                        'message' => 'File not found',
+                        'position' => $cacheFile
+                    ]]);
+                }
             }
 
             return true;
@@ -50,40 +61,6 @@ class TableInfoCollection
             ]]);
 
             return false;
-        }
-    }
-
-    /**
-     * @param array $params
-     *
-     * @return TableInfoDto
-     */
-    private function generateModel( array $params ): TableInfoDto
-    {
-        $tableInfoDto = new TableInfoDto();
-
-        $tableInfoDto->tableName = $params['tableName'];
-
-        $tableInfoDto->tableComment = $params['tableComment'];
-
-        $tableInfoDto->naming = new Naming($params['naming']);
-
-        $this->fillFields($tableInfoDto, $params['fields']);
-
-        return $tableInfoDto;
-    }
-
-    /**
-     * @param TableInfoDto $tableInfoDto
-     * @param array $fields
-     *
-     * @return void
-     */
-    private function fillFields( TableInfoDto $tableInfoDto, array $fields )
-    {
-        foreach ($fields as $field)
-        {
-            $tableInfoDto->fields[] = new Field($field);
         }
     }
 }

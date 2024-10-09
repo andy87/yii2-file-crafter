@@ -9,6 +9,13 @@ use andy87\yii2\dnk_file_crafter\models\dto\table\{ Field, Naming };
  */
 class TableInfoDto
 {
+    public const PARAM_TABLE_NAME = 'tableName';
+    public const PARAM_TABLE_COMMENT = 'tableComment';
+    public const PARAM_NAMING = 'naming';
+    public const PARAM_FIELDS = 'fields';
+
+
+
     /**
      * @var string
      */

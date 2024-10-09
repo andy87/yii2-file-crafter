@@ -2,8 +2,8 @@
 
 namespace andy87\yii2\dnk_file_crafter\services;
 
-use andy87\yii2\dnk_file_crafter\models\dto\collection\TableInfoCollection;
 use yii\web\Request;
+use andy87\yii2\dnk_file_crafter\models\dto\collection\TableInfoCollection;
 
 /**
  *
@@ -20,7 +20,7 @@ class CollectionService
     /**
      * @param CacheService $cacheService
      */
-    public function __construct(CacheService $cacheService)
+    public function __construct( CacheService $cacheService )
     {
         $this->cacheService = $cacheService;
     }
@@ -30,13 +30,13 @@ class CollectionService
      */
     public function findCollection(): TableInfoCollection
     {
-        $collection = new TableInfoCollection();
+        $tableInfoCollection = new TableInfoCollection();
 
         $cacheFileList = $this->cacheService->getCacheFileList();
 
-        $collection->fillTables($cacheFileList);
+        $tableInfoCollection->fillTables($cacheFileList);
 
-        return $collection;
+        return $tableInfoCollection;
     }
 
     /**
@@ -44,7 +44,7 @@ class CollectionService
      *
      * @return void
      */
-    public function updatePostHandler(Request $request)
+    public function updatePostHandler( Request $request )
     {
         
     }
@@ -54,7 +54,7 @@ class CollectionService
      *
      * @return void
      */
-    public function createPostHandler(Request $request)
+    public function createPostHandler( Request $request )
     {
 
     }

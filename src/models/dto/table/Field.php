@@ -2,6 +2,9 @@
 
 namespace andy87\yii2\dnk_file_crafter\models\dto\table;
 
+/**
+ *
+ */
 class Field
 {
     public string $name;
@@ -20,5 +23,15 @@ class Field
 
     public string $comment;
 
-    public Naming $naming;
+
+
+    /**
+     * @param array $params
+     */
+    public function __construct(array $params)
+    {
+        foreach ($params as $key => $value) {
+            $this->$key = $value;
+        }
+    }
 }

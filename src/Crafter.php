@@ -7,6 +7,8 @@ use andy87\yii2\dnk_file_crafter\models\dto\collection\TableInfoCollection;
 use andy87\yii2\dnk_file_crafter\services\CacheService;
 use andy87\yii2\dnk_file_crafter\services\CollectionService;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\web\Request;
 
 /**
  * 
@@ -80,19 +82,23 @@ class Crafter extends CoreGenerator
 
     /**
      * @return void
+     *
+     * @throws InvalidConfigException
      */
     public function collectionHandler(): void
     {
         // получить существующие модели, информация в которых взята из файлов cache
         $this->tableInfoCollection = $this->collectionService->findCollection();
 
-        $request = Yii::$app->request;
+        /** @var Request $request */
+        $request = Yii::$app->get('request');
+
+        // Создание cache файла для новой модели
+        $this->collectionService->createPostHandler($request);
 
         // редактирование существующих моделей
         $this->collectionService->updatePostHandler($request);
 
-        // Создание cache файла для новой модели
-        $this->collectionService->createPostHandler($request);
 
         // получить существующие модели, информация в которых взята из файлов cache
         $this->tableInfoCollection = $this->collectionService->findCollection();
