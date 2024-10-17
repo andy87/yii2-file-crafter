@@ -34,23 +34,22 @@ ___
 <h3>Используя консоль</h3>
 <small><i>(Предпочтительней)</i></small>
 
-- Сomposer, установленный локально
+- Composer, установленный локально
 ```bash
 composer require andy87/yii2-dnk-file-crafter
 ````  
-- Сomposer.phar
+- Composer.phar
 ```bash
 php composer.phar require andy87/yii2-dnk-file-crafter
 ```
-**Иногда далее необходимо:** обновление зависимостей `composer install`
-
 
 <span id="yii2-dnk-file-crafter-setup-composer-composer"></span>
 <h3>Используя: файл `composer.json`</h3>
 
-Открыть файл `composer.json`, в раздел с ключём `require` добавить строку  
+Открыть файл `composer.json`,  
+в раздел с ключём `require` добавить строку:  
 `"andy87/yii2-dnk-file-crafter": "*"`  
-**Иногда далее необходимо:** обновление зависимостей `composer install`
+
 
 <p align="center">- - - - -</p>
 
@@ -60,25 +59,39 @@ php composer.phar require andy87/yii2-dnk-file-crafter
     Настройка
 </h2>
 
-Внесение дополнительных инструкций в конфигурационный файл c настройкой компонента `gii`
-```php
-$config['modules']['gii'] = [];
-```
-basic:`config/(web|web-local|local).php`
-advanced:`(frontend|backend)/config/main-local.php`
+Настройки в конфигурационном файле.  CrudParams::
+ - basic:`config/(web|web-local|local).php`
+ - advanced:`(frontend|backend)/config/main-local.php`
 
 ```php
 $config['modules']['gii'] = [
     'class' => 'yii\gii\Module',
     'generators' => [
         'fileCrafter' => [
-            'class' => 'andy87\yii2\dnk_file_crafter\Crafter',
-            'mode' => 'advanced', // basic|advanced
+            'class' => \andy87\yii2\dnk_file_crafter\Crafter::class,
+            'mode' => Model::ADVANCED, // basic|advanced
             'dir' => [
-                'cache' => '@runtime/dnk-file-crafter/cache',
-                'migration-template' => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/migration',
-                'custom-template' => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/custom',
+                Dir::CACHE => '@runtime/dnk-file-crafter/cache',
+                Dir::MIGRATION => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/migration',
+                Dir::CUSTOM => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/custom',
             ],
+            'params' => [
+                Params::CRUD => [
+                    CrudParams::MODEL_CLASS => '',
+                    CrudParams::SEARCH_MODEL_CLASS => '',
+                    CrudParams::CONTROLLER_CLASS => '',
+                    CrudParams::VIEW_PATH => '',
+                    CrudParams::BASE_CONTROLLER_CLASS => '',
+                    CrudParams::VIEW_WIDGET => '',
+                    CrudParams::ENABLE_I18N => '',
+                    CrudParams::ENABLE_PJAX => '',
+                    CrudParams::CODE_TEMPLATE => '',
+                ],
+                Params::DNK => [
+                    DnkParams::MAPPING => [],
+                ],
+]
+            ]
         ],
     ],
 ];

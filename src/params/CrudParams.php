@@ -2,12 +2,12 @@
 
 namespace andy87\yii2\dnk_file_crafter\params;
 
-use andy87\yii2\dnk_file_crafter\core\CoreParams;
+use andy87\yii2\dnk_file_crafter\core\Params;
 
 /**
  * 
  */
-class CrudParams extends CoreParams
+class CrudParams extends Params
 {
     public const MODEL_CLASS = 'modelClass';
     public const SEARCH_MODEL_CLASS = 'searchModelClass';

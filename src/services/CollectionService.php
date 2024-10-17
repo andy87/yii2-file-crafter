@@ -44,7 +44,7 @@ class CollectionService
      *
      * @return void
      */
-    public function updatePostHandler( Request $request )
+    public function handlerUpdate(Request $request )
     {
         
     }
@@ -54,7 +54,7 @@ class CollectionService
      *
      * @return void
      */
-    public function createPostHandler( Request $request )
+    public function handlerCreate(Request $request )
     {
 
     }

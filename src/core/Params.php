@@ -5,8 +5,11 @@ namespace andy87\yii2\dnk_file_crafter\core;
 /**
  * 
  */
-abstract class CoreParams
+abstract class Params
 {
+    public const DNK = 0;
+    public const CRUD = 1;
+
     /**
      * @param array $params
      */

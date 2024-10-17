@@ -2,12 +2,12 @@
 
 namespace andy87\yii2\dnk_file_crafter\params;
 
-use andy87\yii2\dnk_file_crafter\core\CoreParams;
+use andy87\yii2\dnk_file_crafter\core\Params;
 
 /**
  * 
  */
-class DnkParams extends CoreParams
+class DnkParams extends Params
 {
     public const MAPPING = 'mapping';
     

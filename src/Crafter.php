@@ -2,16 +2,14 @@
 
 namespace andy87\yii2\dnk_file_crafter;
 
-use andy87\yii2\dnk_file_crafter\core\CoreGenerator;
-use andy87\yii2\dnk_file_crafter\models\dto\collection\TableInfoCollection;
-use andy87\yii2\dnk_file_crafter\services\CacheService;
-use andy87\yii2\dnk_file_crafter\services\CollectionService;
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\web\Request;
+use yii\{ web\Request, base\InvalidConfigException };
+use andy87\yii2\dnk_file_crafter\params\{ DnkParams, CrudParams };
+use andy87\yii2\dnk_file_crafter\services\{ CacheService, CollectionService };
+use andy87\yii2\dnk_file_crafter\{core\CoreGenerator, core\Params, models\dto\collection\TableInfoCollection};
 
 /**
- * 
+ *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
  */
 class Crafter extends CoreGenerator
 {
@@ -46,8 +44,8 @@ class Crafter extends CoreGenerator
      * @var array Collection settings for custom generation
      */
     public array $params = [
-        'crud' => null, //new CrudParams(),
-        'dnk' => null,  //new DnkParams()
+        Params::CRUD => null, //new CrudParams(),
+        Params::DNK => null,  //new DnkParams()
     ];
 
     private CacheService $cacheService;
@@ -57,16 +55,18 @@ class Crafter extends CoreGenerator
     public TableInfoCollection $tableInfoCollection;
 
 
-
     /**
      * @return void
+     *
+     * @throws InvalidConfigException
      */
     public function prepare(): void
     {
+        exit(__METHOD__);
+
         $this->setupServices();
 
         $this->collectionHandler();
-
     }
 
     /**
@@ -74,7 +74,6 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-
         $this->cacheService = new CacheService($this->dir['cache']);
 
         $this->collectionService = new CollectionService($this->cacheService);
@@ -87,24 +86,43 @@ class Crafter extends CoreGenerator
      */
     public function collectionHandler(): void
     {
-        // получить существующие модели, информация в которых взята из файлов cache
-        $this->tableInfoCollection = $this->collectionService->findCollection();
+        $this->setupTableInfoCollection();
 
-        /** @var Request $request */
-        $request = Yii::$app->get('request');
+        $this->postHandler();
 
-        // Создание cache файла для новой модели
-        $this->collectionService->createPostHandler($request);
+        $this->setupTableInfoCollection();
+    }
 
-        // редактирование существующих моделей
-        $this->collectionService->updatePostHandler($request);
-
-
-        // получить существующие модели, информация в которых взята из файлов cache
+    /**
+     * @return void
+     */
+    private function setupTableInfoCollection(): void
+    {
         $this->tableInfoCollection = $this->collectionService->findCollection();
     }
 
+    /**
+     * @return void
+     * @throws InvalidConfigException
+     */
+    private function postHandler(): void
+    {
+        /** @var Request $request */
+        $request = Yii::$app->get('request');
 
+        if ( $request->isPost )
+        {
+            // Создание cache файла для новой модели
+            $this->collectionService->handlerCreate($request);
+
+            // редактирование существующих моделей
+            $this->collectionService->handlerUpdate($request);
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function generate(): string
     {
 
