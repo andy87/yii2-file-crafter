@@ -37,15 +37,16 @@ class Crafter extends CoreGenerator
      */
     public array $dir = [
         'cache' => '@runtime/' . self::ID . '/cache',
-        'templateDnk' => '@runtime/' . self::ID . '/templates',
+        'migration' => '@runtime/' . self::ID . '/templates/migration',
+        'custom' => '@runtime/' . self::ID . '/templates/custom',
     ];
 
     /**
      * @var array Collection settings for custom generation
      */
     public array $params = [
-        Params::CRUD => null, //new CrudParams(),
-        Params::DNK => null,  //new DnkParams()
+        'crud' => null, //new CrudParams(),
+        'dnk' => null,  //new DnkParams()
     ];
 
     private CacheService $cacheService;
@@ -62,11 +63,13 @@ class Crafter extends CoreGenerator
      */
     public function prepare(): void
     {
-        exit(__METHOD__);
-
         $this->setupServices();
 
-        $this->collectionHandler();
+        $this->setupTableInfoCollection();
+
+        $this->postHandler();
+
+        $this->setupTableInfoCollection();
     }
 
     /**
@@ -79,19 +82,6 @@ class Crafter extends CoreGenerator
         $this->collectionService = new CollectionService($this->cacheService);
     }
 
-    /**
-     * @return void
-     *
-     * @throws InvalidConfigException
-     */
-    public function collectionHandler(): void
-    {
-        $this->setupTableInfoCollection();
-
-        $this->postHandler();
-
-        $this->setupTableInfoCollection();
-    }
 
     /**
      * @return void

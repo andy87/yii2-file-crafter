@@ -9,17 +9,6 @@ use andy87\yii2\dnk_file_crafter\core\Params;
  */
 class CrudParams extends Params
 {
-    public const MODEL_CLASS = 'modelClass';
-    public const SEARCH_MODEL_CLASS = 'searchModelClass';
-    public const CONTROLLER_CLASS = 'controllerClass';
-    public const VIEW_PATH = 'viewPath';
-    public const BASE_CONTROLLER_CLASS = 'baseControllerClass';
-    public const VIEW_WIDGET = 'viewWidget';
-    public const ENABLE_I18N = 'enableI18n';
-    public const ENABLE_PJAX = 'enablePjax';
-    public const CODE_TEMPLATE = 'codeTemplate';
-
-
     const VIEW_WIDGET_GRID_VIEW = 'grid';
     const VIEW_WIDGET_LIST_VIEW = 'list';
 
@@ -29,12 +18,15 @@ class CrudParams extends Params
     private string $controllerClass;
     private string $viewPath;
     private string $baseControllerClass;
-    private string $viewWidget;
-    private bool $enableI18n;
-    private bool $enablePjax;
+    private string $viewWidget = self::VIEW_WIDGET_GRID_VIEW;
+    private bool $enableI18n = false;
+    private bool $enablePjax = false;
     private string $codeTemplate;
 
 
+    /**
+     * @return array
+     */
     public function getParams(): array
     {
         return [
