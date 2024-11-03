@@ -33,15 +33,15 @@ class TableInfoDto extends BaseModel
     /**
      * Needle for unique table name validation
      *
-     * @var CacheService
+     * @var array $cacheParams
      */
-    private CacheService $cacheService;
+    private array $cacheParams;
 
 
     /**
      * @var string
      */
-    public string $tableName;
+    public string $tableName = '';
 
     /**
      * Custom fields, setup on config:
@@ -81,13 +81,13 @@ class TableInfoDto extends BaseModel
 
 
     /**
-     * @param CacheService $cacheService
+     * @param array $cacheParams
      *
      * @param array $config
      */
-    public function __construct( CacheService $cacheService, array $config = [] )
+    public function __construct( array $cacheParams, array $config = [] )
     {
-        $this->cacheService = $cacheService;
+        $this->cacheParams = $cacheParams;
 
         parent::__construct($config);
     }
@@ -98,15 +98,12 @@ class TableInfoDto extends BaseModel
     public function rules(): array
     {
         return [
-            [['tableName'], 'required'],
-            [['listCustomField', 'listDbFields'], 'safe'],
-            [['tableName'], 'string', 'max' => 255],
-            [['tableName'],
-                'unique',
-                'targetClass' => UniqueTableNameValidator::class,
-                'paramsCache' => $this->cacheService->params,
-            ],
-            [['listCustomField', 'listDbFields'], 'each', 'rule' => ['safe']],
+            [ ['customFields', 'dbFields'], 'safe'],
+            [ ['customFields', 'dbFields'], 'each', 'rule' => ['safe'] ],
+            [ ['tableName'], 'required' ],
+            [ ['tableName'], 'string', 'max' => 255 ],
+            [ ['tableName'], 'unique', 'targetClass' => UniqueTableNameValidator::class ],
+
         ];
     }
 
@@ -148,5 +145,13 @@ class TableInfoDto extends BaseModel
     public function isCreate(): bool
     {
         return $this->scenario === self::SCENARIO_CREATE;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->cacheParams;
     }
 }

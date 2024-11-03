@@ -2,8 +2,10 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\rules;
 
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 use Yii;
 use yii\validators\UniqueValidator;
+use andy87\yii2\dnk_file_crafter\components\services\CacheService;
 
 /**
  * Class UniqueTableNameValidator
@@ -14,20 +16,13 @@ use yii\validators\UniqueValidator;
  */
 class UniqueTableNameValidator extends UniqueValidator
 {
-    public array $paramsCache = [
-        'cacheDir' => '@runtime/cache',
-        'ext' => '.tpl',
-    ];
-
-
-
     /**
-     * @param $model
+     * @param TableInfoDto $model
      * @param $attribute
      *
      * @return void
      */
-    public function validateAttribute($model, $attribute): void
+    public function validateAttribute( $model, $attribute): void
     {
         $targetAttribute = $this->targetAttribute === null ? $attribute : $this->targetAttribute;
 
@@ -39,8 +34,10 @@ class UniqueTableNameValidator extends UniqueValidator
             }
         }
 
-        $cacheDir = Yii::getAlias($this->paramsCache['cacheDir']);
-        $ext = $this->paramsCache['ext'];
+        $cacheParams = $model->getParams();
+
+        $cacheDir = Yii::getAlias($cacheParams['cacheDir']);
+        $ext = $cacheParams['ext'];
 
         $listFilePath = scandir("$cacheDir/*$ext");
 

@@ -52,7 +52,7 @@ class PanelService
 
         if ($tableName !== null) $params['tableName'] = $tableName;
 
-        $params['custom_fields'] = $this->params['custom_fields'] ?? [];
+        $params['customFields'] = $this->params['custom_fields'] ?? [];
 
         return $this->tableInfoProducer->create($params);
     }
@@ -72,10 +72,7 @@ class PanelService
 
             $name = $pathInfo['filename'];
 
-            $tableInfoDto = new TableInfoDto($this->cacheService);
-            $tableInfoDto->tableName = $name;
-
-            $tableInfoDtoList[] = $tableInfoDto;
+            $tableInfoDtoList[] = $this->tableInfoProducer->create(['tableName' => $name]);
         }
 
         return $tableInfoDtoList;

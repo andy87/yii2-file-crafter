@@ -24,14 +24,18 @@ $R = $generator->panelResources;
         </label>
 
     </div>
-    <div class="b_form--wrapper">
-        <?php foreach ($R->tableInfoDto->customFields as $fieldKey => $fieldLabel) : ?>
-            <div class="b_form--layer">
-                <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
-                <input class="input" type="text" name="<?= $fieldKey?>">
-            </div>
-        <?php endforeach; ?>
-    </div>
+
+    <?php if( count($R->tableInfoDto->customFields) ): ?>
+        <div class="b_form--wrapper">
+            <b class="b_form--label">Custom fields</b>
+            <?php foreach ($R->tableInfoDto->customFields as $fieldKey => $fieldLabel) : ?>
+                <div class="b_form--layer">
+                    <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
+                    <input class="input" type="text" name="<?= $fieldKey?>">
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <div class="block__field">
         <h4 class="header">

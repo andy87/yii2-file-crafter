@@ -117,10 +117,6 @@ class Crafter extends CoreGenerator
         $this->setupServices();
 
         $this->panelResources = $this->getPanelResources();
-
-        //$this->requestHandler();
-
-        //$this->setupTableInfoCollection();
     }
 
     /**

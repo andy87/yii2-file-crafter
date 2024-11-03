@@ -15,6 +15,8 @@ use Yii;
 class CacheService
 {
     public const DEFAULT_CACHE_DIR = Crafter::RESOURCES . '/cache';
+    public const DEFAULT_CACHE_EXT = '.json';
+
 
 
 

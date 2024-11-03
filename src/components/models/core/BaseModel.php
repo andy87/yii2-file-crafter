@@ -21,6 +21,6 @@ class BaseModel extends Model
      */
     public function load($data, $formName = null)
     {
-        return parent::load($data, $formName);
+        return parent::load($data, '');
     }
 }

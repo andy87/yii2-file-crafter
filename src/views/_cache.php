@@ -28,7 +28,6 @@ $R = $generator->panelResources;
         </label>
     </div>
 
-
     <?php foreach ($R->listTableInfoDto as $tableInfoDto ): ?>
         <div class="b_cache--item">
             <a class="b_cache--link" href="<?= $tableInfoDto->getUpdateHref(); ?>">

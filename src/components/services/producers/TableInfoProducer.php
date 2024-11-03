@@ -35,7 +35,7 @@ class TableInfoProducer
      */
     public function create( array $params ): TableInfoDto
     {
-        $tableInfoDto = new TableInfoDto( $this->cacheService );
+        $tableInfoDto = new TableInfoDto( $this->cacheService->params );
 
         $tableInfoDto->load($params);
 
