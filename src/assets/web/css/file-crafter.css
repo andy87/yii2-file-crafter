@@ -1,0 +1,146 @@
+H4 SVG{
+    vertical-align: top;
+}
+.header {
+    font-size: 24px;
+    line-height: 32px;
+    font-family: Calibri, sans-serif;
+}
+.block__form {
+    width: 100%;
+    margin-bottom: 32px;
+}
+.b_form--layer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    font-size: 0;
+}
+.b_form--layout {
+    width: 31%;
+    display: inline-block;
+    padding: 0;
+}
+.b_form--label{
+    display: block;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+.b_form--label .text {
+    display: inline-block;
+    margin-left: 0;
+    line-height: 18px;
+    font-size: 13px;
+}
+.b_form--checkbox {
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.input{
+    display: block;
+    width: 100%;
+    height: 29px;
+    padding: 0 .75rem;
+    font-size: 13px;
+    line-height: 29px;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.block__field {
+    width: 100%;
+    margin-top: 1rem;
+}
+.b_field--table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.b_field--row{
+    border-bottom: 1px solid #ccc;
+}
+.b_field--header{
+    vertical-align: top;
+    padding: 5px;
+    text-align: left;
+    line-height: 22px;
+    font-size: 13px;
+}
+.b_field--header.__type{
+    width: 112px;
+}
+.b_field--header.__size{
+    width: 64px;
+}
+.b_field--header.__mini{
+    width: 24px;
+    padding: 5px 0;
+    text-align: center;
+}
+.b_field--header.__btn{
+    width: 24px;
+    padding: 5px 0;
+    text-align: right;
+}
+.b_field--button{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+}
+.b_field--button svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.b_field--button.__removeField {
+    opacity: 0;
+    transition: opacity 0.25s linear;
+}
+.b_field--row:hover .b_field--button.__removeField{
+    opacity: 1;
+}
+.b_field--cell{
+    vertical-align: baseline;
+    text-align: left;
+    padding: 5px 2px;
+}
+.b_field--cell.__mini {
+    text-align: center;
+}
+.b_field--cell.__btn {
+    text-align: right;
+    padding: 5px 0;
+}
+.b_field--cell .input{
+    height: 24px;
+    line-height: 24px;
+}
+
+SELECT.input{
+    padding-left: 5px;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

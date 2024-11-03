@@ -19,11 +19,6 @@ abstract class CoreGenerator extends \yii\gii\Generator
     public const VIEWS = null;
 
 
-    public $templates = [
-        'default' => 'Default',
-    ];
-
-
 
     /**
      * Generator

@@ -9,6 +9,9 @@ use andy87\yii2\dnk_file_crafter\{core\CoreGenerator, models\dto\collection\Tabl
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
+ *
+
+ * @property array $templates
  */
 class Crafter extends CoreGenerator
 {
@@ -41,10 +44,11 @@ class Crafter extends CoreGenerator
     public const RESOURCES = '@app/runtime/' . self::ID;
 
 
+
     /**
-     * @var array
+     * @var array Группы шаблонов
      */
-    private array $dnk = [];
+    private array $templateGroup = [];
 
 
     /**
@@ -72,19 +76,6 @@ class Crafter extends CoreGenerator
         ]
     ];
 
-
-    /**
-     * @var array
-     */
-    public $templates = [];
-
-    /**
-     * Серсив занимается кешированием данных
-     *
-     * @var CacheService
-     */
-    private CacheService $cacheService;
-
     /**
      * Серсив занимается обработкой данных
      *
@@ -101,6 +92,8 @@ class Crafter extends CoreGenerator
 
     /**
      * @return void
+     *
+     * @throws InvalidConfigException
      */
     public function prepare(): void
     {
@@ -110,11 +103,11 @@ class Crafter extends CoreGenerator
 
         $this->setupServices();
 
-        //$this->setupTableInfoCollection();
+        $this->setupTableInfoCollection();
 
-        //$this->postHandler();
+        $this->requestHandler();
 
-        //$this->setupTableInfoCollection();
+        $this->setupTableInfoCollection();
     }
 
     /**
@@ -129,7 +122,7 @@ class Crafter extends CoreGenerator
         {
             if ( is_array( $template ) )
             {
-                $this->dnk[$key] = $template;
+                $this->templateGroup[$key] = $template;
 
                 $this->templates[$key] = count($template) . " files";
             }
@@ -143,15 +136,11 @@ class Crafter extends CoreGenerator
      */
     private function checkDirectories(): void
     {
-        $x = [];
-
         foreach ( $this->params as $key => $params )
         {
             if( in_array( $key,self::DIR_CHECKING ) )
             {
                 $dirPath = $params['dir'] ?? null;
-
-                $x[] = $dirPath;
 
                 $this->checkDirectory($dirPath);
             }
@@ -175,12 +164,10 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-        $cacheDir = $this->getCacheDir();
-        $sourceDir = $this->getSourceDir();
-
-        $this->cacheService = new CacheService($cacheDir);
-
-        $this->collectionService = new CollectionService($this->cacheService);
+        $this->collectionService = new CollectionService(
+            $this->getSourceDir(),
+            new CacheService($this->getCacheDir())
+        );
     }
 
     /**
@@ -237,7 +224,7 @@ class Crafter extends CoreGenerator
      * @return void
      * @throws InvalidConfigException
      */
-    private function postHandler(): void
+    private function requestHandler(): void
     {
         /** @var Request $request */
         $request = Yii::$app->get('request');
