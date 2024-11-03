@@ -27,27 +27,22 @@ abstract class CoreGenerator extends \yii\gii\Generator
      */
     abstract public function generate(): string;
 
-    /**
-     * @return void
-     */
-    abstract public function prepare(): void;
 
 
     /**
-     * @return void
-     */
-    public function init(): void
-    {
-        //parent::init();
-
-        $this->prepare();
-    }
-
-
-    /**
-     * Get path to view
+     * Используется в абстракции
      *
      * @return string
+     *
+     * \vendor\yiisoft\yii2-gii\src\views\default\view.php
+     *
+     * ```
+     *  <?= $this->renderFile( $generator->formView(), [
+     *      'generator' => $generator,
+     *      'form' => $form,
+     *  ]) ?>
+     * ```
+     * @see self::formView()
      */
     public function formView(): string
     {

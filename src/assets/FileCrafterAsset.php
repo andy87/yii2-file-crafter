@@ -9,15 +9,16 @@ use yii\web\AssetBundle;
  */
 class FileCrafterAsset extends AssetBundle
 {
+    /** @var string  */
     public $sourcePath = '@vendor/andy87/yii2-dnk-file-crafter/src/assets/web';
 
-    public $css = [
-        'css/file-crafter.css',
-    ];
-    public $js = [
-        'js/file-crafter.js',
-    ];
+    /** @var string[]  */
+    public $css = [ 'css/file-crafter.css' ];
 
+    /** @var string[]  */
+    public $js = [ 'js/file-crafter.js' ];
+
+    /** @var string[]  */
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',

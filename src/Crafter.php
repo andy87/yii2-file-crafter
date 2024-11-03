@@ -50,6 +50,11 @@ class Crafter extends CoreGenerator
      */
     private array $templateGroup = [];
 
+    /**
+     * @var array Список дополнительных параметров для генерации
+     */
+    private array $options = [];
+
 
     /**
      * @var array Collection settings for custom generation
@@ -63,6 +68,7 @@ class Crafter extends CoreGenerator
             'dir' => self::RESOURCES . '/templates/source',
             'ext' => '.tpl'
         ],
+        'custom_fields' => [],
         'crud' => [
             'modelClass' => 'app\models\source\{PascalCase}',
             'searchModelClass' => 'app\common\models\source\{PascalCase}',
@@ -89,25 +95,26 @@ class Crafter extends CoreGenerator
     public TableInfoCollection $tableInfoCollection;
 
 
-
     /**
      * @return void
      *
      * @throws InvalidConfigException
      */
-    public function prepare(): void
+    public function init(): void
     {
+        Yii::$app->viewPath = self::VIEWS;
+
         $this->prepareSelectTemplate();
 
         $this->checkDirectories();
 
         $this->setupServices();
 
-        $this->setupTableInfoCollection();
+        //$this->setupTableInfoCollection();
 
-        $this->requestHandler();
+        //$this->requestHandler();
 
-        $this->setupTableInfoCollection();
+        //$this->setupTableInfoCollection();
     }
 
     /**
@@ -237,6 +244,14 @@ class Crafter extends CoreGenerator
             // редактирование существующих моделей
             $this->collectionService->handlerUpdate($request);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptionFields(): array
+    {
+        return $this->params['custom_fields'] ?? [];
     }
 
     /**

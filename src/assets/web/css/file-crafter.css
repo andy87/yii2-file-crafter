@@ -13,10 +13,10 @@ H4 SVG{
 .b_form--layer {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     align-content: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     font-size: 0;
 }
 .b_form--layout {
