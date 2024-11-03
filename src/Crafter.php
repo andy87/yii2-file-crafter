@@ -42,7 +42,9 @@ class Crafter extends CoreGenerator
     public const VIEWS = self::SRC . '/views';
 
     public const RESOURCES = '@app/runtime/' . self::ID;
-
+    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
 
 
     /**
@@ -54,6 +56,8 @@ class Crafter extends CoreGenerator
      * @var array Список дополнительных параметров для генерации
      */
     private array $options = [];
+
+    public string $scenario = self::SCENARIO_DEFAULT;
 
 
     /**
@@ -102,7 +106,7 @@ class Crafter extends CoreGenerator
      */
     public function init(): void
     {
-        Yii::$app->viewPath = self::VIEWS;
+        $this->scenarioHandler();
 
         $this->prepareSelectTemplate();
 
@@ -260,5 +264,16 @@ class Crafter extends CoreGenerator
     public function generate(): string
     {
         return '';
+    }
+
+    /**
+     * @return void
+     */
+    private function scenarioHandler(): void
+    {
+        if ( Yii::$app->request->get(self::SCENARIO_UPDATE) )
+        {
+            $this->scenario = self::SCENARIO_UPDATE;
+        }
     }
 }

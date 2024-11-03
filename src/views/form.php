@@ -116,8 +116,12 @@ FileCrafterAsset::register($this);
             </table>
         </div>
 
-        <div class="form-group text-right p-3">
-            <button type="submit" class="btn btn-success" name="create">Create</button>
+        <div class="form-group text-right pt-3">
+            <?php if ( $generator->scenario === Crafter::SCENARIO_CREATE ) : ?>
+                <button type="submit" class="btn btn-success" name="create">Create</button>
+            <?php else : ?>
+                <button type="submit" class="btn btn-info" name="update">Save</button>
+            <?php endif; ?>
         </div>
 
     </div>
@@ -131,6 +135,38 @@ FileCrafterAsset::register($this);
     </h2>
 
     <div class="block__cache">
+        <div class="block__form">
+
+            <div class="b_form--layer">
+                <label class="b_form--label">
+                    <input class="b_form--checkbox" type="checkbox">
+                    Table name
+                </label>
+
+            </div>
+        </div>
+
+        <div class="block__form">
+
+            <div class="b_form--layer">
+                <label class="b_form--label">
+                    <input class="b_form--checkbox" type="checkbox">
+                    Table name
+                </label>
+
+            </div>
+        </div>
+
+        <div class="block__form">
+
+            <div class="b_form--layer">
+                <label class="b_form--label">
+                    <input class="b_form--checkbox" type="checkbox">
+                    Table name
+                </label>
+
+            </div>
+        </div>
 
     </div>
 
