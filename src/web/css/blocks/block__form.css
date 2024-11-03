@@ -1,0 +1,49 @@
+
+.block__form {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.b_form--wrapper {
+    display: block;
+    width: 100%;
+    flex-wrap: wrap;
+    font-size: 0;
+}
+
+.b_form--layer {
+    width: 32%;
+    display: inline-block;
+    padding: 0 1.33% 0 0;
+}
+
+.b_form--label{
+    display: block;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.b_form--label.__main {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: Calibri, sans-serif;
+}
+
+.b_form--label.__main > * {
+    vertical-align: top;
+}
+
+.b_form--label .text {
+    display: inline-block;
+    margin-left: 0;
+    line-height: 18px;
+    font-size: 13px;
+}
+
+.b_form--checkbox {
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+}

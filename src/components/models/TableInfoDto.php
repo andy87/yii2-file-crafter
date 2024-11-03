@@ -135,6 +135,14 @@ class TableInfoDto extends BaseModel
     }
 
     /**
+     * @return string
+     */
+    public function displayTableName(): string
+    {
+        return ucfirst( strtolower( str_replace('_', ' ', $this->tableName) ) );
+    }
+
+    /**
      * @return bool
      */
     public function isCreate(): bool

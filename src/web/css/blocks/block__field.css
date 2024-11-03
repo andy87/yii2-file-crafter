@@ -1,0 +1,77 @@
+
+.block__field {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.b_field--table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.b_field--row { border-bottom: 1px solid #ccc }
+
+.b_field--header {
+    vertical-align: top;
+    padding: 5px;
+    text-align: left;
+    line-height: 22px;
+    font-size: 13px;
+}
+
+.b_field--header.__type { width: 112px }
+
+.b_field--header.__size { width: 64px }
+
+.b_field--header.__mini {
+    width: 24px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.b_field--header.__btn {
+    width: 24px;
+    padding: 5px 0;
+    text-align: right;
+}
+
+.b_field--button {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+}
+
+.b_field--button svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.b_field--button.__removeField {
+    opacity: 0;
+    transition: opacity 0.25s linear;
+}
+
+.b_field--row:hover .b_field--button.__removeField { opacity: 1 }
+
+.b_field--cell{
+    vertical-align: baseline;
+    text-align: left;
+    padding: 5px 2px;
+}
+
+.b_field--cell.__mini { text-align: center }
+
+.b_field--cell.__btn {
+    text-align: right;
+    padding: 5px 0;
+}
+
+.b_field--cell .input{
+    height: 24px;
+    line-height: 24px;
+}

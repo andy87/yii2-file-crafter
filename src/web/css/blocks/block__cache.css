@@ -1,0 +1,31 @@
+
+.block__cache {
+    display: block;
+    width: 100%;
+}
+
+.b_cache--item {
+    display: block;
+    padding-bottom: 10px;
+}
+
+.b_cache--link {
+    display: inline-block;
+}
+
+.b_cache--label {
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+    line-height: 28px;
+    font-family: "Calibri Light", sans-serif;
+}
+.b_cache--label.__big {
+    font-size: 21px;
+    font-weight: bold;
+}
+.b_cache--checkbox {
+    width: 18px;
+    height: 18px;
+    margin: 6px 2px;
+}
