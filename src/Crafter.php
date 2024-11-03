@@ -3,9 +3,10 @@
 namespace andy87\yii2\dnk_file_crafter;
 
 use andy87\yii2\dnk_file_crafter\{components\core\CoreGenerator,
+    components\resources\PanelResources,
     components\services\CacheService,
     models\dto\collection\TableInfoCollection};
-use andy87\yii2\dnk_file_crafter\components\services\{CollectionService};
+use andy87\yii2\dnk_file_crafter\components\services\{PanelService};
 use Yii;
 use yii\{base\InvalidConfigException, web\Request};
 
@@ -14,6 +15,7 @@ use yii\{base\InvalidConfigException, web\Request};
  *
 
  * @property array $templates
+ * @property PanelService $panelService
  */
 class Crafter extends CoreGenerator
 {
@@ -38,11 +40,6 @@ class Crafter extends CoreGenerator
     public const RESOURCES = '@app/runtime/' . self::ID;
 
 
-    // Scenarios
-    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_UPDATE = 'update';
-
 
     // Значения для виджета отображения списка моделей
     /** @var string Grid */
@@ -64,7 +61,6 @@ class Crafter extends CoreGenerator
      */
     private array $options = [];
 
-    public string $scenario = self::SCENARIO_DEFAULT;
 
 
     /**
@@ -94,12 +90,16 @@ class Crafter extends CoreGenerator
     ];
 
     /**
-     * Серсив занимается обработкой данных
+     * Сервис занимается обработкой данных
      *
-     * @var CollectionService
+     * @var PanelService
      */
-    private CollectionService $collectionService;
+    private PanelService $panelService;
 
+    /**
+     * @var PanelResources
+     */
+    public PanelResources $panelResources;
 
 
 
@@ -110,15 +110,13 @@ class Crafter extends CoreGenerator
      */
     public function init(): void
     {
-        $this->scenarioHandler();
-
         $this->prepareSelectTemplate();
 
         $this->checkDirectories();
 
         $this->setupServices();
 
-        //$this->setupTableInfoCollection();
+        $this->panelResources = $this->getPanelResources();
 
         //$this->requestHandler();
 
@@ -127,7 +125,26 @@ class Crafter extends CoreGenerator
 
     /**
      * Подготовка группы шаблонов
-     *  назначение групп в свойство `dnk`
+     *  назначение групп в свойство `templateGroup`
+     *
+     * Разбирает значения в
+     * ```
+     *  $config['modules']['gii'] = [
+     *      'class' => yii\gii\Module::class,
+     *      'generators' => [
+     *          'fileCrafter' => [
+     *              'templates' => [
+     *                  'frontend' => [
+     *                      'source/file/path' => 'path/for/generate/file'
+     *                  ],
+     *                  'backend' => [
+     *                      'source/file/path' => 'path/for/generate/file'
+     *                  ],
+     *              ]
+     *          ]
+     *      ]
+     *  ]
+     * ```
      *
      * @return void
      */
@@ -145,7 +162,7 @@ class Crafter extends CoreGenerator
     }
 
     /**
-     * Создаёт директории, где хранятся шаблоны для генерации
+     * Create directories where templates are stored for generation and cache
      *
      * @return void
      */
@@ -163,6 +180,8 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * Check directory and create if not exists
+     *
      * @param string $dirPath
      *
      * @return void
@@ -175,91 +194,26 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * Setup services `PanelService`
+     *
      * @return void
      */
     public function setupServices(): void
     {
-        $this->collectionService = new CollectionService(
-            $this->getSourceDir(),
-            new CacheService($this->getCacheDir())
+        $this->panelService = new PanelService($this->params);
+    }
+
+    /**
+     * Constructor for `PanelResources`
+     *
+     * @return PanelResources
+     */
+    private function getPanelResources(): PanelResources
+    {
+        return new PanelResources(
+            $this->panelService->getTableInfoDto(),
+            $this->panelService->getListTableInfoDto()
         );
-    }
-
-    /**
-     * @return string
-     */
-    private function getCacheDir(): string
-    {
-        $dirPath = $this->params['cache']['dir'] ?? null;
-        $default = self::RESOURCES . '/cache';
-
-        return $this->getDir( $default, $dirPath );
-    }
-
-    /**
-     * @return string
-     */
-    private function getSourceDir(): string
-    {
-        $dirPath = $this->params['source']['dir'] ?? null;
-        $default = self::RESOURCES . '/templates/source';
-
-        return $this->getDir( $default, $dirPath );
-    }
-
-    /**
-     * @param ?string $dirPath
-     *
-     * @param string $default
-     *
-     * @return string
-     */
-    private function getDir( string $default, ?string $dirPath = null ): string
-    {
-        if ( !$dirPath || !is_dir($dirPath) )
-        {
-            $dirPath = $default;
-
-            $this->checkDirectory($dirPath);
-        }
-
-        return $dirPath;
-    }
-
-
-    /**
-     * @return void
-     */
-    private function setupTableInfoCollection(): void
-    {
-        $this->tableInfoCollection = $this->collectionService->findCollection();
-    }
-
-    /**
-     * @return void
-     * @throws InvalidConfigException
-     */
-    private function requestHandler(): void
-    {
-        /** @var Request $request */
-        $request = Yii::$app->get('request');
-
-        if ( $request->isPost )
-        {
-            // Создание cache файла для новой модели
-            $this->collectionService->handlerCreate($request);
-
-            // редактирование существующих моделей
-            $this->collectionService->handlerUpdate($request);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptionFields(): array
-    {
-        return $this->params['custom_fields'] ?? [];
     }
 
     /**
@@ -268,16 +222,5 @@ class Crafter extends CoreGenerator
     public function generate(): string
     {
         return '';
-    }
-
-    /**
-     * @return void
-     */
-    private function scenarioHandler(): void
-    {
-        if ( Yii::$app->request->get(self::SCENARIO_UPDATE) )
-        {
-            $this->scenario = self::SCENARIO_UPDATE;
-        }
     }
 }

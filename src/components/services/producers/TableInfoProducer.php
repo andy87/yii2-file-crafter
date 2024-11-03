@@ -2,9 +2,7 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\services\producers;
 
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
-use andy87\yii2\dnk_file_crafter\services\producers\Field;
-use andy87\yii2\dnk_file_crafter\services\producers\Naming;
+use andy87\yii2\dnk_file_crafter\components\{ models\TableInfoDto, services\CacheService };
 
 /**
  * Class TableInfoDtoProducer
@@ -16,59 +14,30 @@ use andy87\yii2\dnk_file_crafter\services\producers\Naming;
 class TableInfoProducer
 {
     /**
-     * @param array $params
-     *
-     * @return TableInfoDto
+     * @var CacheService $cacheService
      */
-    public static function create( array $params ): TableInfoDto
+    private CacheService $cacheService;
+
+
+
+    /**
+     * @param CacheService $cacheService
+     */
+    public function __construct( CacheService $cacheService )
     {
-        $tableInfoDto = new TableInfoDto();
-
-        $tableInfoDto->load($params, '');
-
-        $tableInfoDto->tableName = $params[TableInfoDto::PARAM_TABLE_NAME];
-
-        $tableInfoDto->tableComment = $params[TableInfoDto::PARAM_TABLE_COMMENT];
-
-        $tableInfoDto = self::setupNaming($tableInfoDto, $params );
-
-        return self::setupFields($tableInfoDto, $params );
+        $this->cacheService = $cacheService;
     }
 
     /**
-     * @param TableInfoDto $tableInfoDto
      * @param array $params
      *
      * @return TableInfoDto
      */
-    private static function setupNaming( TableInfoDto $tableInfoDto, array $params ): TableInfoDto
+    public function create( array $params ): TableInfoDto
     {
-        if ( isset($params[TableInfoDto::PARAM_NAMING]) )
-        {
-            $tableInfoDto->naming = new Naming($params[TableInfoDto::PARAM_NAMING]);
-        }
+        $tableInfoDto = new TableInfoDto( $this->cacheService );
 
-        return $tableInfoDto;
-    }
-
-    /**
-     * @param TableInfoDto $tableInfoDto
-     * @param array $params
-     *
-     * @return TableInfoDto
-     */
-    private static function setupFields( TableInfoDto $tableInfoDto, array $params ): TableInfoDto
-    {
-        if ( isset($params[TableInfoDto::PARAM_FIELDS]) )
-        {
-            $fields = [];
-
-            foreach ( $params[TableInfoDto::PARAM_FIELDS] as $field ) {
-                $fields[] = new Field( $field );
-            }
-
-            $tableInfoDto->fields = $fields;
-        }
+        $tableInfoDto->load($params);
 
         return $tableInfoDto;
     }

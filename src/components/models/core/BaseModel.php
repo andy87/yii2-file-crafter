@@ -19,7 +19,7 @@ class BaseModel extends Model
      *
      * @return bool
      */
-    public function load($data, ?string $formName = '')
+    public function load($data, $formName = null)
     {
         return parent::load($data, $formName);
     }

@@ -4,7 +4,9 @@ namespace andy87\yii2\dnk_file_crafter\components\models;
 
 use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
 use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
+use andy87\yii2\dnk_file_crafter\components\services\CacheService;
 use Yii;
+use yii\caching\Cache;
 
 /**
  * Class TableInfo
@@ -15,12 +17,25 @@ use Yii;
  */
 class TableInfoDto extends BaseModel
 {
+    // Scenarios
+    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
+
+    /**
+     * @var string
+     */
+    public string $scenario = self::SCENARIO_DEFAULT;
+
+
+
     /**
      * Needle for unique table name validation
      *
-     * @var array
+     * @var CacheService
      */
-    private array $paramsCache;
+    private CacheService $cacheService;
 
 
     /**
@@ -55,24 +70,24 @@ class TableInfoDto extends BaseModel
      * ```
      * @var array
      */
-    public array $listCustomField = [];
+    public array $customFields = [];
 
     /**
      * @var DbFieldDto[]
      */
-    public array $listDbFields = [];
+    public array $dbFields = [];
 
 
 
 
     /**
-     * @param array $paramsCache
+     * @param CacheService $cacheService
      *
      * @param array $config
      */
-    public function __construct( array $paramsCache, array $config = [] )
+    public function __construct( CacheService $cacheService, array $config = [] )
     {
-        $this->paramsCache = $paramsCache;
+        $this->cacheService = $cacheService;
 
         parent::__construct($config);
     }
@@ -89,7 +104,7 @@ class TableInfoDto extends BaseModel
             [['tableName'],
                 'unique',
                 'targetClass' => UniqueTableNameValidator::class,
-                'paramsCache' => $this->paramsCache,
+                'paramsCache' => $this->cacheService->params,
             ],
             [['listCustomField', 'listDbFields'], 'each', 'rule' => ['safe']],
         ];
@@ -105,5 +120,25 @@ class TableInfoDto extends BaseModel
             'listCustomField' => 'Custom fields',
             'listDbFields' => 'DB fields',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdateHref(): string
+    {
+        return sprintf(
+            '?%s=%s',
+            self::SCENARIO_UPDATE,
+            $this->tableName
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCreate(): bool
+    {
+        return $this->scenario === self::SCENARIO_CREATE;
     }
 }
