@@ -1,17 +1,19 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\services\producers;
+namespace andy87\yii2\dnk_file_crafter\components\services\producers;
 
-use andy87\yii2\dnk_file_crafter\models\dto\{
-    TableInfoDto,
-    table\Field,
-    table\Naming
-};
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
+use andy87\yii2\dnk_file_crafter\services\producers\Field;
+use andy87\yii2\dnk_file_crafter\services\producers\Naming;
 
 /**
  * Class TableInfoDtoProducer
+ *
+ * @package andy87\yii2\dnk_file_crafter\services\producers
+ *
+ * @tag: #producer
  */
-class TableInfoDtoProducer
+class TableInfoProducer
 {
     /**
      * @param array $params
@@ -21,6 +23,8 @@ class TableInfoDtoProducer
     public static function create( array $params ): TableInfoDto
     {
         $tableInfoDto = new TableInfoDto();
+
+        $tableInfoDto->load($params, '');
 
         $tableInfoDto->tableName = $params[TableInfoDto::PARAM_TABLE_NAME];
 

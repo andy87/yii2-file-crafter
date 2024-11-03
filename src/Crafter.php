@@ -2,10 +2,12 @@
 
 namespace andy87\yii2\dnk_file_crafter;
 
+use andy87\yii2\dnk_file_crafter\{components\core\CoreGenerator,
+    components\services\CacheService,
+    models\dto\collection\TableInfoCollection};
+use andy87\yii2\dnk_file_crafter\components\services\{CollectionService};
 use Yii;
-use yii\{ web\Request, base\InvalidConfigException };
-use andy87\yii2\dnk_file_crafter\services\{ CacheService, CollectionService };
-use andy87\yii2\dnk_file_crafter\{core\CoreGenerator, models\dto\collection\TableInfoCollection};
+use yii\{base\InvalidConfigException, web\Request};
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
@@ -24,7 +26,23 @@ class Crafter extends CoreGenerator
 
 
     /** @var array Список ключей в массиве `params` для проверки наличия директории */
-    private const DIR_CHECKING = ['cache', 'source'];
+    private const PARAMS_REQUIRED_DIRECTORY = ['cache', 'source'];
+
+    /** @var string Path on root directory */
+    public const SRC = '@vendor/andy87/' . self::ID . '/src';
+
+    /** @var string Path with view directory */
+    public const VIEWS = self::SRC . '/views';
+
+    /** @var string Root directory */
+    public const RESOURCES = '@app/runtime/' . self::ID;
+
+
+    // Scenarios
+    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
 
     // Значения для виджета отображения списка моделей
     /** @var string Grid */
@@ -34,17 +52,6 @@ class Crafter extends CoreGenerator
     public const VIEW_WIDGET_LIST_VIEW = 'list';
 
 
-
-    /** @var string Path on root directory */
-    public const SRC = '@vendor/andy87/' . self::ID . '/src';
-
-    /** @var string Path with view directory */
-    public const VIEWS = self::SRC . '/views';
-
-    public const RESOURCES = '@app/runtime/' . self::ID;
-    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_UPDATE = 'update';
 
 
     /**
@@ -93,10 +100,7 @@ class Crafter extends CoreGenerator
      */
     private CollectionService $collectionService;
 
-    /**
-     * @var TableInfoCollection
-     */
-    public TableInfoCollection $tableInfoCollection;
+
 
 
     /**
@@ -149,7 +153,7 @@ class Crafter extends CoreGenerator
     {
         foreach ( $this->params as $key => $params )
         {
-            if( in_array( $key,self::DIR_CHECKING ) )
+            if( in_array( $key,self::PARAMS_REQUIRED_DIRECTORY ) )
             {
                 $dirPath = $params['dir'] ?? null;
 

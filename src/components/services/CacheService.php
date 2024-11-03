@@ -1,6 +1,6 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\services;
+namespace andy87\yii2\dnk_file_crafter\components\services;
 
 class CacheService
 {

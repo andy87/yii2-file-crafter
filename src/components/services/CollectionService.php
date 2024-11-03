@@ -1,9 +1,9 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\services;
+namespace andy87\yii2\dnk_file_crafter\components\services;
 
-use yii\web\Request;
 use andy87\yii2\dnk_file_crafter\models\dto\collection\TableInfoCollection;
+use yii\web\Request;
 
 /**
  *

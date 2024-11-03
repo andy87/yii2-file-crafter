@@ -1,6 +1,6 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\assets;
+namespace andy87\yii2\dnk_file_crafter\components\assets;
 
 use yii\web\AssetBundle;
 
@@ -10,7 +10,7 @@ use yii\web\AssetBundle;
 class FileCrafterAsset extends AssetBundle
 {
     /** @var string  */
-    public $sourcePath = '@vendor/andy87/yii2-dnk-file-crafter/src/assets/web';
+    public $sourcePath = '@vendor/andy87/yii2-dnk-file-crafter/src/web';
 
     /** @var string[]  */
     public $css = [ 'css/file-crafter.css' ];

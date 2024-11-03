@@ -1,6 +1,6 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\core;
+namespace andy87\yii2\dnk_file_crafter\components\core;
 
 /**
  *
@@ -46,7 +46,7 @@ abstract class CoreGenerator extends \yii\gii\Generator
      */
     public function formView(): string
     {
-        return static::VIEWS . '/form.php';
+        return static::VIEWS . '/panel.php';
     }
 
     /**
