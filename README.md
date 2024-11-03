@@ -11,6 +11,7 @@ Yii2 migrate architect - библиотека для фреймворка Yii2 �
 - [Настройка](#yii2-dnk-file-crafter-config)
 - [Использование](#yii2-dnk-file-crafter-setup-composer-composer-use)
 
+
 ___
 
 <span id="yii2-migrate-architect-setup"></span>
@@ -64,35 +65,81 @@ php composer.phar require andy87/yii2-dnk-file-crafter
  - advanced:`(frontend|backend)/config/main-local.php`
 
 ```php
-$config['modules']['gii'] = [
-    'class' => 'yii\gii\Module',
+ $config['modules']['gii'] = [
+    'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
-            'class' => \andy87\yii2\dnk_file_crafter\Crafter::class,
-            'mode' => Model::ADVANCED, // basic|advanced
-            'dir' => [
-                Dir::CACHE => '@runtime/dnk-file-crafter/cache',
-                Dir::MIGRATION => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/migration',
-                Dir::CUSTOM => '@vendor/andy87/yii2-dnk-file-crafter/src/templates/custom',
-            ],
+            'class' => Crafter::class,
             'params' => [
-                Params::CRUD => [
-                    CrudParams::MODEL_CLASS => '',
-                    CrudParams::SEARCH_MODEL_CLASS => '',
-                    CrudParams::CONTROLLER_CLASS => '',
-                    CrudParams::VIEW_PATH => '',
-                    CrudParams::BASE_CONTROLLER_CLASS => '',
-                    CrudParams::VIEW_WIDGET => '',
-                    CrudParams::ENABLE_I18N => '',
-                    CrudParams::ENABLE_PJAX => '',
-                    CrudParams::CODE_TEMPLATE => '',
+                'cache' => [
+                    'dir' => '@runtime/andy87/yii2-dnk-file-crafter/cache',
+                    'ext' => '.tpl'
                 ],
-                Params::DNK => [
-                    DnkParams::MAPPING => [],
+                'source' => [
+                    'dir' => '@runtime/andy87/yii2-dnk-file-crafter/templates/source',
+                    'ext' => '.tpl'
                 ],
-]
+                'crud' => [
+                    'modelClass' => 'app\models\source\{PascalCase}',
+                    'searchModelClass' => 'app\common\models\source\{PascalCase}',
+                    'controllerClass' => 'app\backend\controllers\source\{PascalCase}Controller',
+                    'viewPath' => '@backend\source\{snake_case}',
+                    'baseControllerClass' => 'app\backend\components\controllers\BackendController',
+                    'viewWidget' => Crafter::VIEW_WIDGET_GRID_VIEW,
+                    'enableI18n' => false,
+                    'enablePjax' => false,
+                    'codeTemplate' => 'default',
+                ]
+            ],
+            'templates' => [
+                'default' => 'all',
+                'common' => [
+                    'common/services/ItemService' => 'app/common/services/items/{PascalCase}Service',
+                ],
+                'console' => [
+                    'console/controllers/ItemController' => 'app/console/controllers/{PascalCase}Controller',
+                    'console/services/ItemService' => 'app/console/services/{PascalCase}Service',
+                    'console/tests/unit/services/ItemServiceTest' => 'app/console/tests/unit/services/{PascalCase}ServiceTest',
+                ],
+                'frontend' => [
+                   'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
+                    'frontend/resources/ItemIndexResource' => 'app/frontend/resources/{PascalCase}IndexResource',
+                    'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
+                    'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
+                    'frontend/tests/unit/models/item/ItemTest' => 'app/frontend/tests/unit/models/{PascalCase}Test',
+                    'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
+                ],
+                'backend' => [
+                    'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
+                    'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
+                    'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
+                    'backend/tests/unit/models/item/ItemTest' => 'app/backend/tests/unit/models/{PascalCase}Test',
+                    'backend/tests/unit/services/ItemServiceTest' => 'app/backend/tests/unit/services/items/{PascalCase}ServiceTest',
+                    'backend/tests/functional/ItemControllerCest' => 'app/backend/tests/functional/{PascalCase}ControllerCest',
+                ],
+                'all' => [
+                    'common/services/ItemService' => 'app/common/services/items/{PascalCase}Service',
+
+                    'console/controllers/ItemController' => 'app/console/controllers/{PascalCase}Controller',
+                    'console/services/ItemService' => 'app/console/services/{PascalCase}Service',
+                    'console/tests/unit/services/ItemServiceTest' => 'app/console/tests/unit/services/{PascalCase}ServiceTest',
+
+                    'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
+                    'frontend/resources/ItemIndexResource' => 'app/frontend/resources/{PascalCase}IndexResource',
+                    'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
+                    'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
+                    'frontend/tests/unit/models/item/ItemTest' => 'app/frontend/tests/unit/models/{PascalCase}Test',
+                    'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
+
+                    'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
+                    'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
+                    'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
+                    'backend/tests/unit/models/item/ItemTest' => 'app/backend/tests/unit/models/{PascalCase}Test',
+                    'backend/tests/unit/services/ItemServiceTest' => 'app/backend/tests/unit/services/items/{PascalCase}ServiceTest',
+                    'backend/tests/functional/ItemControllerCest' => 'app/backend/tests/functional/{PascalCase}ControllerCest',
+                ]
             ]
-        ],
+        ]
     ],
 ];
 ```

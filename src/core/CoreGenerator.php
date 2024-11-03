@@ -2,12 +2,10 @@
 
 namespace andy87\yii2\dnk_file_crafter\core;
 
-use yii\gii\Generator;
-
 /**
  *
  */
-abstract class CoreGenerator extends Generator
+abstract class CoreGenerator extends \yii\gii\Generator
 {
 
     /** @var string ID on module list */
@@ -19,6 +17,11 @@ abstract class CoreGenerator extends Generator
 
     /** @var string Path with view directory */
     public const VIEWS = null;
+
+
+    public $templates = [
+        'default' => 'Default',
+    ];
 
 
 
@@ -40,7 +43,7 @@ abstract class CoreGenerator extends Generator
      */
     public function init(): void
     {
-        parent::uinit();
+        //parent::init();
 
         $this->prepare();
     }
@@ -53,7 +56,7 @@ abstract class CoreGenerator extends Generator
      */
     public function formView(): string
     {
-        return static::VIEWS . '/display.php';
+        return static::VIEWS . '/form.php';
     }
 
     /**
@@ -63,7 +66,7 @@ abstract class CoreGenerator extends Generator
      */
     public function getName(): string
     {
-        return ucfirst(static::ID);
+        return 'File Crafter';
     }
 
     /**
