@@ -53,11 +53,12 @@ class PanelService
 
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
         {
+
             $params = $this->cacheService->getContentCacheFile($tableName);
 
             $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
 
-            $tableInfoDto->setAttributes($params);
+            $tableInfoDto->load($params, '');
         }
 
         if ( Yii::$app->request->isPost )

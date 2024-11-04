@@ -205,4 +205,12 @@ class TableInfoDto extends BaseModel
     {
         return $this->{self::ATTR_CUSTOM_FIELDS};
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDbFields(): mixed
+    {
+        return $this->{self::ATTR_DB_FIELDS};
+    }
 }

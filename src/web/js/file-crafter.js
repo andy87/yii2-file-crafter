@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 inputFieldName.value = fieldName;
 
                 inputFieldName.setAttribute('value', fieldName);
-                inputFieldName.setAttribute('disabled', 'disabled');
 
                 this.autocomplete(TR, fieldName);
 

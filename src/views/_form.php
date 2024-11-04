@@ -1,5 +1,6 @@
 <?php
 
+use andy87\yii2\dnk_file_crafter\components\models\DbFieldDto;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 use andy87\yii2\dnk_file_crafter\Crafter;
@@ -13,6 +14,7 @@ use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 $R = $generator->panelResources;
 
 $customFields = $R->tableInfoDto->getCustomFields();
+$listDbFields = $R->tableInfoDto->getDbFields();
 
 $form = ActiveForm::begin([
     'id' => 'form',
@@ -33,7 +35,7 @@ $form = ActiveForm::begin([
             <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
                 <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM6.016 16q0 0.832 0.576 1.44t1.408 0.576v1.984q0 2.496 1.76 4.256t4.256 1.76v-4q-0.832 0-1.44-0.576t-0.576-1.44v-1.984q-0.832 0-1.408-0.576t-0.576-1.44 0.576-1.408 1.408-0.576v-2.016q0-0.832 0.576-1.408t1.44-0.576v-4q-2.496 0-4.256 1.76t-1.76 4.224v2.016q-0.832 0-1.408 0.576t-0.576 1.408zM18.016 26.016q2.464 0 4.224-1.76t1.76-4.256v-1.984q0.832 0 1.408-0.576t0.608-1.44-0.608-1.408-1.408-0.576v-2.016q0-2.464-1.76-4.224t-4.224-1.76v4q0.8 0 1.408 0.576t0.576 1.408v2.016q0.832 0 1.408 0.576t0.608 1.408-0.608 1.44-1.408 0.576v1.984q0 0.832-0.576 1.44t-1.408 0.576v4z"/>
             </svg>
-            <input class="input __header" type="text" name="<?= TableInfoDto::ATTR_TABLE_NAME?>">
+            <input class="input __header" type="text" name="<?= TableInfoDto::ATTR_TABLE_NAME?>" value="<?= $R->tableInfoDto->table_name ?? '' ?>">
         </label>
 
     </div>
@@ -79,7 +81,70 @@ $form = ActiveForm::begin([
             </tr>
             </thead>
             <tbody class="b_field--layer" id="table_db_field">
+                <?php if( count($listDbFields) ): ?>
+                    <?php foreach ($listDbFields as $dbField) : ?>
+                        <tr class="b_field--row">
 
+                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
+                                <input class=input type="text"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_NAME ?>]"
+                                       value="<?= $dbField[DbFieldDto::ATTR_NAME] ?? '' ?>">
+                            </td>
+
+                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
+                                <input class="input" type="text"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_COMMENT ?>]"
+                                       value="<?= $dbField[DbFieldDto::ATTR_COMMENT] ?? '' ?>"
+                                >
+                            </td>
+
+                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
+                                <?php $option = $listDbFields[$R->tableInfoDto->table_name][DbFieldDto::ATTR_TYPE] ?? null ?>
+                                <select class="input" name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_TYPE ?>]">
+                                    <?php foreach ( TableInfoDto::TYPES as $key => $value ) : ?>
+                                        <option value="<?= $key?>" <?= ($option === $key) ? 'checked' : '' ?>><?= $value?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+
+                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_SIZE ?>">
+                                <input class="input" type="number"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_SIZE ?>]"
+                                       value="<?= $dbField[DbFieldDto::ATTR_SIZE] ?? '' ?>"
+                                >
+                            </td>
+
+                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>">
+                                <input class="b_form--checkbox" type="checkbox" title="Foreign Key"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? 'checked' ?>
+                                >
+                            </td>
+
+                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_UNIQUE ?>">
+                                <input class="b_form--checkbox" type="checkbox" title="Unique"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_UNIQUE ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_UNIQUE] ?? 'checked' ?>
+                                >
+                            </td>
+
+                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_NOT_NULL ?>">
+                                <input class="b_form--checkbox" type="checkbox" title="Not Null"
+                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_NOT_NULL ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_NOT_NULL] ?? 'checked' ?>
+                                >
+                            </td>
+
+                            <td class="b_field--cell __btn">
+                                <button class="b_field--button __removeField" style="font-size: 13px;" onclick="app.dbFields.removeField(this)" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FF0000" width="20px" height="20px" viewBox="0 0 32 32">
+                                        <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM8 16q0 0.832 0.576 1.44t1.44 0.576h12q0.8 0 1.408-0.576t0.576-1.44-0.576-1.408-1.408-0.576h-12q-0.832 0-1.44 0.576t-0.576 1.408z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
