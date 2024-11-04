@@ -53,7 +53,7 @@ class PanelService
 
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
         {
-            $params = $this->cacheService->getCacheFile($tableName);
+            $params = $this->cacheService->getContentCacheFile($tableName);
 
             $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
 
@@ -88,7 +88,9 @@ class PanelService
 
             $name = $pathInfo['filename'];
 
-            $tableInfoDtoList[] = $this->tableInfoProducer->create(['tableName' => $name]);
+            $params = $this->cacheService->getContentCacheFile($name);
+
+            $tableInfoDtoList[] = $this->tableInfoProducer->create($params);
         }
 
         return $tableInfoDtoList;

@@ -68,7 +68,7 @@ class CacheService
      *
      * @return array
      */
-    public function getCacheFile(mixed $tableName): array
+    public function getContentCacheFile(mixed $tableName): array
     {
         $pathCache = $this->getDir() . '/' . $tableName . self::DEFAULT_CACHE_EXT;
 

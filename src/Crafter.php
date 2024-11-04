@@ -108,13 +108,6 @@ class Crafter extends CoreGenerator
      */
     public function init(): void
     {
-        /*echo '<pre>';
-        print_r([
-            'bodyParams' => Yii::$app->request->bodyParams
-        ]);
-        echo '</pre>';
-        die();*/
-
         $this->prepareSelectTemplate();
 
         $this->checkDirectories();
