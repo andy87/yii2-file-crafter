@@ -29,7 +29,9 @@ $R = $generator->panelResources;
         </label>
     </div>
 
-    <?php foreach ($R->listTableInfoDto as $tableInfoDto ): ?>
+    <?php foreach ($R->listTableInfoDto as $tableInfoDto ):
+        if ( $tableInfoDto->table_name === $R->tableInfoDto->table_name ) continue;
+        ?>
         <div class="b_cache--item">
             <a class="b_cache--link" href="<?= $tableInfoDto->getUpdateHref(); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="28px" height="28px" viewBox="0 0 32 32" version="1.1">

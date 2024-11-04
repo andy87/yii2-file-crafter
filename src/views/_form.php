@@ -46,7 +46,11 @@ $form = ActiveForm::begin([
             <?php foreach ($customFields as $fieldKey => $fieldLabel) : ?>
                 <div class="b_form--layer">
                     <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
-                    <input class="input" type="text" name="<?= $fieldKey?>" title="{{<?= $fieldKey?>}}">
+                    <input class="input" type="text"
+                           title="{{<?= $fieldKey?>}}"
+                           name="<?= TableInfoDto::ATTR_CUSTOM_FIELDS ."[$fieldKey]"?>"
+                           value="<?= $R->tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$fieldKey] ?? '' ?>"
+                    >
                 </div>
             <?php endforeach; ?>
         </div>

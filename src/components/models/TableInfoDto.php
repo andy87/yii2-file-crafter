@@ -207,7 +207,7 @@ class TableInfoDto extends BaseModel
 
         unset($params['scenario']);
 
-        $content = json_encode( $params, JSON_PRETTY_PRINT );
+        $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
 
         return file_put_contents( Yii::getAlias($fileName), $content );
     }

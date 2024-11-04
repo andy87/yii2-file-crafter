@@ -49,15 +49,21 @@ class PanelService
     {
         $tableInfoDto = $this->tableInfoProducer->create($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
 
-        $tableInfoDto->load($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
+        $tableInfoDto->load($this->params);
 
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
 
-            $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
+            $tableInfoDto->table_name = strtolower($tableName);
 
-            $tableInfoDto->load($params, '');
+            if (count($params))
+            {
+                $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
+
+                $tableInfoDto->load($params, '');
+            }
+
         }
 
         if ( Yii::$app->request->isPost )
