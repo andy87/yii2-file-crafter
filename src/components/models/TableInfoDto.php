@@ -192,6 +192,19 @@ class TableInfoDto extends BaseModel
 
         $params = $this->attributes;
 
+        foreach ($this->db_fields as $index => $dbField)
+        {
+            if ($dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_FOREIGN_KEYS] = 'checked';
+            }
+            if ($dbField[DbFieldDto::ATTR_UNIQUE] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_UNIQUE] = 'checked';
+            }
+            if ($dbField[DbFieldDto::ATTR_NOT_NULL] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_NOT_NULL] = 'checked';
+            }
+        }
+
         unset($params['scenario']);
 
         $content = json_encode( $params, JSON_PRETTY_PRINT );

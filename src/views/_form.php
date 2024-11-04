@@ -82,25 +82,27 @@ $form = ActiveForm::begin([
             </thead>
             <tbody class="b_field--layer" id="table_db_field">
                 <?php if( count($listDbFields) ): ?>
-                    <?php foreach ($listDbFields as $dbField) : ?>
+                    <?php foreach ($listDbFields as $dbField) :
+                        $prefix = TableInfoDto::ATTR_DB_FIELDS . '[' . $dbField[DbFieldDto::ATTR_NAME] . ']';
+                        ?>
                         <tr class="b_field--row">
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
                                 <input class=input type="text"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_NAME ?>]"
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NAME ?>]"
                                        value="<?= $dbField[DbFieldDto::ATTR_NAME] ?? '' ?>">
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
                                 <input class="input" type="text"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_COMMENT ?>]"
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_COMMENT ?>]"
                                        value="<?= $dbField[DbFieldDto::ATTR_COMMENT] ?? '' ?>"
                                 >
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
                                 <?php $option = $listDbFields[$R->tableInfoDto->table_name][DbFieldDto::ATTR_TYPE] ?? null ?>
-                                <select class="input" name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_TYPE ?>]">
+                                <select class="input" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_TYPE ?>]">
                                     <?php foreach ( TableInfoDto::TYPES as $key => $value ) : ?>
                                         <option value="<?= $key?>" <?= ($option === $key) ? 'checked' : '' ?>><?= $value?></option>
                                     <?php endforeach; ?>
@@ -109,29 +111,29 @@ $form = ActiveForm::begin([
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_SIZE ?>">
                                 <input class="input" type="number"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_SIZE ?>]"
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_SIZE ?>]"
                                        value="<?= $dbField[DbFieldDto::ATTR_SIZE] ?? '' ?>"
                                 >
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>">
                                 <input class="b_form--checkbox" type="checkbox" title="Foreign Key"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]"
-                                    <?= $dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? 'checked' ?>
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? '' ?>
                                 >
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_UNIQUE ?>">
                                 <input class="b_form--checkbox" type="checkbox" title="Unique"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_UNIQUE ?>]"
-                                    <?= $dbField[DbFieldDto::ATTR_UNIQUE] ?? 'checked' ?>
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_UNIQUE ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_UNIQUE] ?? '' ?>
                                 >
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_NOT_NULL ?>">
                                 <input class="b_form--checkbox" type="checkbox" title="Not Null"
-                                       name="<?= TableInfoDto::ATTR_DB_FIELDS ?>[<?=$R->tableInfoDto->table_name?>][<?= DbFieldDto::ATTR_NOT_NULL ?>]"
-                                    <?= $dbField[DbFieldDto::ATTR_NOT_NULL] ?? 'checked' ?>
+                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NOT_NULL ?>]"
+                                    <?= $dbField[DbFieldDto::ATTR_NOT_NULL] ?? '' ?>
                                 >
                             </td>
 

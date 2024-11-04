@@ -62,7 +62,9 @@ class PanelService
 
         if ( Yii::$app->request->isPost )
         {
-            $tableInfoDto->load(Yii::$app->request->post());
+            $tableInfoDto = $this->tableInfoProducer->create(Yii::$app->request->post());
+
+            $this->cacheService->removeItem($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
 
             if ( $tableInfoDto->save() )
             {
