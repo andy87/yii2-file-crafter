@@ -5,7 +5,7 @@ namespace andy87\yii2\dnk_file_crafter\components\services\producers;
 use andy87\yii2\dnk_file_crafter\components\{ models\TableInfoDto, services\CacheService };
 
 /**
- * Class TableInfoDtoProducer
+ * TableInfoDto creator
  *
  * @package andy87\yii2\dnk_file_crafter\services\producers
  *

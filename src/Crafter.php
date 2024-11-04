@@ -8,7 +8,7 @@ use andy87\yii2\dnk_file_crafter\{components\core\CoreGenerator,
     models\dto\collection\TableInfoCollection};
 use andy87\yii2\dnk_file_crafter\components\services\{PanelService};
 use Yii;
-use yii\{base\InvalidConfigException, web\Request};
+use yii\{base\InvalidConfigException, db\BaseActiveRecord, web\Controller, web\Request};
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation

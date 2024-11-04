@@ -6,19 +6,21 @@ use yii\web\AssetBundle;
 
 /**
  * Asset
+ *
+ * JS + CSS
  */
 class FileCrafterAsset extends AssetBundle
 {
     /** @var string  */
     public $sourcePath = '@vendor/andy87/yii2-dnk-file-crafter/src/web';
 
-    /** @var string[]  */
+    /** @var string[] library css (using @import) */
     public $css = [ 'css/file-crafter.css' ];
 
-    /** @var string[]  */
+    /** @var string[] dynamic on module */
     public $js = [ 'js/file-crafter.js' ];
 
-    /** @var string[]  */
+    /** @var array depends */
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',

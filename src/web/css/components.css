@@ -2,7 +2,11 @@
 
 * {
     vertical-align: top;
+    font-size: 15px;
+    font-family: Calibri, sans-serif;
 }
+
+BUTTON, A { font-size: 20px }
 
 .header {
     font-size: 24px;
@@ -31,6 +35,10 @@
     height: 32px;
     line-height: 22px;
     padding: 6px;
+}
+
+.form-group {
+    font-size: 13px;
 }
 
 

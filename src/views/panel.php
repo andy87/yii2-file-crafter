@@ -24,3 +24,5 @@ FileCrafterAsset::register($this);
 <div>
     <h3>Generate</h3>
 </div>
+
+<?= $this->render('cache/tr', ['generator' => $generator ] );?>

@@ -4,6 +4,7 @@ namespace andy87\yii2\dnk_file_crafter\components\services;
 
 use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 use andy87\yii2\dnk_file_crafter\components\services\producers\TableInfoProducer;
+use Yii;
 
 /**
  *
@@ -42,19 +43,34 @@ class PanelService
     }
 
     /**
-     * @param ?string $tableName
-     *
      * @return TableInfoDto
      */
-    public function getTableInfoDto( ?string $tableName = null ): TableInfoDto
+    public function getTableInfoDto(): TableInfoDto
     {
-        $params = [];
+        $tableInfoDto = $this->tableInfoProducer->create($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
 
-        if ($tableName !== null) $params['tableName'] = $tableName;
+        $tableInfoDto->load($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
 
-        $params['customFields'] = $this->params['custom_fields'] ?? [];
+        if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
+        {
+            $params = $this->cacheService->getCacheFile($tableName);
 
-        return $this->tableInfoProducer->create($params);
+            $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
+
+            $tableInfoDto->setAttributes($params);
+        }
+
+        if ( Yii::$app->request->isPost )
+        {
+            $tableInfoDto->load(Yii::$app->request->post());
+
+            if ( $tableInfoDto->save() )
+            {
+                $tableInfoDto = new TableInfoDto($this->params['cache']);
+            }
+        }
+
+        return $tableInfoDto;
     }
 
     /**

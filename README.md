@@ -79,6 +79,10 @@ php composer.phar require andy87/yii2-dnk-file-crafter
                     'dir' => '@runtime/andy87/yii2-dnk-file-crafter/templates/source',
                     'ext' => '.tpl'
                 ],
+                'custom_fields' => [
+                    'singular' => 'Ед. число', // {{singular}}
+                    'plural' => 'Мн. число', // {{plural}}
+               ],
                 'crud' => [
                     'modelClass' => 'app\models\source\{PascalCase}',
                     'searchModelClass' => 'app\common\models\source\{PascalCase}',
@@ -102,48 +106,35 @@ php composer.phar require andy87/yii2-dnk-file-crafter
                     'console/tests/unit/services/ItemServiceTest' => 'app/console/tests/unit/services/{PascalCase}ServiceTest',
                 ],
                 'frontend' => [
-                   'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
-                    'frontend/resources/ItemIndexResource' => 'app/frontend/resources/{PascalCase}IndexResource',
+                'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
                     'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
                     'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
-                    'frontend/tests/unit/models/item/ItemTest' => 'app/frontend/tests/unit/models/{PascalCase}Test',
                     'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
                 ],
                 'backend' => [
                     'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
                     'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
                     'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
-                    'backend/tests/unit/models/item/ItemTest' => 'app/backend/tests/unit/models/{PascalCase}Test',
-                    'backend/tests/unit/services/ItemServiceTest' => 'app/backend/tests/unit/services/items/{PascalCase}ServiceTest',
-                    'backend/tests/functional/ItemControllerCest' => 'app/backend/tests/functional/{PascalCase}ControllerCest',
                 ],
                 'all' => [
                     'common/services/ItemService' => 'app/common/services/items/{PascalCase}Service',
 
-                    'console/controllers/ItemController' => 'app/console/controllers/{PascalCase}Controller',
                     'console/services/ItemService' => 'app/console/services/{PascalCase}Service',
-                    'console/tests/unit/services/ItemServiceTest' => 'app/console/tests/unit/services/{PascalCase}ServiceTest',
 
                     'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
-                    'frontend/resources/ItemIndexResource' => 'app/frontend/resources/{PascalCase}IndexResource',
                     'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
                     'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
-                    'frontend/tests/unit/models/item/ItemTest' => 'app/frontend/tests/unit/models/{PascalCase}Test',
                     'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
 
                     'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
                     'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
                     'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
-                    'backend/tests/unit/models/item/ItemTest' => 'app/backend/tests/unit/models/{PascalCase}Test',
-                    'backend/tests/unit/services/ItemServiceTest' => 'app/backend/tests/unit/services/items/{PascalCase}ServiceTest',
-                    'backend/tests/functional/ItemControllerCest' => 'app/backend/tests/functional/{PascalCase}ControllerCest',
                 ]
             ]
         ]
     ],
 ];
 ```
-
 
 
 [Packagist](https://packagist.org/packages/andy87/yii2-dnk-file-crafter)

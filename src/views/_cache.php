@@ -1,5 +1,6 @@
 <?php
 
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 use yii\web\View;
 use andy87\yii2\dnk_file_crafter\Crafter;
 
@@ -37,7 +38,7 @@ $R = $generator->panelResources;
             </a>
 
             <label class="b_cache--label">
-                <input class="b_cache--checkbox" type="checkbox" name="generateList[<?= $tableInfoDto->tableName ?>]" value="generate" title="Generate files for <?= $tableInfoDto->tableName ?>">
+                <input class="b_cache--checkbox" type="checkbox" name="generateList[<?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>]" value="generate" title="Generate files for <?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>">
 
                 <?= $tableInfoDto->displayTablename() ?>
             </label>

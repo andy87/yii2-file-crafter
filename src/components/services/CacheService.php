@@ -19,7 +19,6 @@ class CacheService
 
 
 
-
     /**
      * @var array
      */
@@ -62,5 +61,27 @@ class CacheService
         }
 
         return $list;
+    }
+
+    /**
+     * @param mixed $tableName
+     *
+     * @return array
+     */
+    public function getCacheFile(mixed $tableName): array
+    {
+        $pathCache = $this->getDir() . '/' . $tableName . self::DEFAULT_CACHE_EXT;
+
+        if (file_exists($pathCache))
+        {
+            $content = file_get_contents($pathCache);
+
+            if (strlen($content))
+            {
+                return json_decode($content, true);
+            }
+        }
+
+        return [];
     }
 }

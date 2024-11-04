@@ -4,12 +4,9 @@ namespace andy87\yii2\dnk_file_crafter\components\models;
 
 use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
 use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
-use andy87\yii2\dnk_file_crafter\components\services\CacheService;
-use Yii;
-use yii\caching\Cache;
 
 /**
- * Class TableInfo
+ * TableInfoDto
  *
  * @package andy87\yii2\dnk_file_crafter\models
  *
@@ -18,17 +15,47 @@ use yii\caching\Cache;
 class TableInfoDto extends BaseModel
 {
     // Scenarios
-    const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_UPDATE = 'update';
+    public const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
+    public const SCENARIO_CREATE = 'create';
+    public const SCENARIO_UPDATE = 'update';
+
+    public const ATTR_TABLE_NAME = 'table_name';
+    public const ATTR_CUSTOM_FIELDS = 'custom_fields';
+    public const ATTR_DB_FIELDS = 'db_fields';
+
+    /**
+     * @var array
+     */
+    public const TYPES = [
+        'int' => 'int',
+        'string' => 'string',
+        'text' => 'text',
+        'date' => 'date',
+        'datetime' => 'datetime',
+        'timestamp' => 'timestamp',
+        'time' => 'time',
+        'float' => 'float',
+        'double' => 'double',
+        'decimal' => 'decimal',
+        'json' => 'json',
+        'jsonb' => 'jsonb',
+        'binary' => 'binary',
+        'boolean' => 'boolean',
+        'money' => 'money',
+        'smallint' => 'smallint',
+        'bigint' => 'bigint',
+        'char' => 'char',
+        'varchar' => 'varchar',
+        'tinyint' => 'tinyint',
+        'enum' => 'enum',
+        'set' => 'set',
+    ];
 
 
     /**
      * @var string
      */
     public string $scenario = self::SCENARIO_DEFAULT;
-
-
 
     /**
      * Needle for unique table name validation
@@ -37,11 +64,10 @@ class TableInfoDto extends BaseModel
      */
     private array $cacheParams;
 
-
     /**
      * @var string
      */
-    public string $tableName = '';
+    public string $table_name = '';
 
     /**
      * Custom fields, setup on config:
@@ -51,11 +77,10 @@ class TableInfoDto extends BaseModel
      *          'generators' => [
      *              'fileCrafter' => [
      *                  'class' => Crafter::class,
-     *                      'params' => [
-     *                          'custom_fields' => [
-     *                              'key_1' => 'label #1',
-     *                              'keyTwo' => 'header 2',
-     *                          ],
+     *                  'params' => [
+     *                      'custom_fields' => [
+     *                          'key_1' => 'label #1',
+     *                          'keyTwo' => 'header 2',
      *                      ],
      *                  ],
      *             ],
@@ -65,24 +90,22 @@ class TableInfoDto extends BaseModel
      * use on template:
      * ```
      *
-     * <?= $generator->customFields['key_1']; ?>
+     * <?= $generator->custom_fields['key_1']; ?>
      *
      * ```
      * @var array
      */
-    public array $customFields = [];
+    public array $custom_fields = [];
 
     /**
      * @var DbFieldDto[]
      */
-    public array $dbFields = [];
-
+    public array $db_fields = [];
 
 
 
     /**
      * @param array $cacheParams
-     *
      * @param array $config
      */
     public function __construct( array $cacheParams, array $config = [] )
@@ -93,17 +116,16 @@ class TableInfoDto extends BaseModel
     }
 
     /**
-     * @return array[]
+     * @return array
      */
     public function rules(): array
     {
         return [
-            [ ['customFields', 'dbFields'], 'safe'],
-            [ ['customFields', 'dbFields'], 'each', 'rule' => ['safe'] ],
-            [ ['tableName'], 'required' ],
-            [ ['tableName'], 'string', 'max' => 255 ],
-            [ ['tableName'], 'unique', 'targetClass' => UniqueTableNameValidator::class ],
-
+            [ [self::ATTR_TABLE_NAME], 'required' ],
+            [ [self::ATTR_TABLE_NAME], 'string', 'max' => 255 ],
+            [ [self::ATTR_TABLE_NAME], 'unique', 'targetClass' => UniqueTableNameValidator::class ],
+            [ [self::ATTR_CUSTOM_FIELDS, self::ATTR_DB_FIELDS], 'safe'],
+            [ [self::ATTR_CUSTOM_FIELDS, self::ATTR_DB_FIELDS], 'each', 'rule' => ['safe'] ],
         ];
     }
 
@@ -113,9 +135,9 @@ class TableInfoDto extends BaseModel
     public function attributeLabels(): array
     {
         return [
-            'tableName' => 'Table name',
-            'listCustomField' => 'Custom fields',
-            'listDbFields' => 'DB fields',
+            self::ATTR_TABLE_NAME => 'Table name',
+            self::ATTR_CUSTOM_FIELDS => 'Custom fields',
+            self::ATTR_DB_FIELDS => 'Fields database',
         ];
     }
 
@@ -127,7 +149,7 @@ class TableInfoDto extends BaseModel
         return sprintf(
             '?%s=%s',
             self::SCENARIO_UPDATE,
-            $this->tableName
+            $this->{self::ATTR_TABLE_NAME}
         );
     }
 
@@ -136,7 +158,11 @@ class TableInfoDto extends BaseModel
      */
     public function displayTableName(): string
     {
-        return ucfirst( strtolower( str_replace('_', ' ', $this->tableName) ) );
+        return ucfirst(
+            strtolower(
+                str_replace('_', ' ', $this->{self::ATTR_TABLE_NAME})
+            )
+        );
     }
 
     /**
@@ -153,5 +179,25 @@ class TableInfoDto extends BaseModel
     public function getParams(): array
     {
         return $this->cacheParams;
+    }
+
+    /**
+     * @return bool
+     */
+    public function save(): bool
+    {
+        $fileName =  $this->cacheParams['dir'] . "/". $this->{self::ATTR_TABLE_NAME}  . $this->cacheParams['ext'];
+
+        $content = json_encode( $this->attributes );
+
+        return file_put_contents( $fileName, $content );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomFields(): mixed
+    {
+        return $this->{self::ATTR_CUSTOM_FIELDS};
     }
 }

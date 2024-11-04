@@ -1,7 +1,9 @@
 <?php
 
 use yii\web\View;
+use yii\widgets\ActiveForm;
 use andy87\yii2\dnk_file_crafter\Crafter;
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 
 /**
  * @var View $this
@@ -10,28 +12,47 @@ use andy87\yii2\dnk_file_crafter\Crafter;
 
 $R = $generator->panelResources;
 
+$customFields = $R->tableInfoDto->getCustomFields();
+
+$form = ActiveForm::begin([
+    'id' => 'form',
+    'action' => '',
+    'method' => 'post',
+    'options' => [
+        'class' => 'block__form',
+    ],
+]);
+
 ?>
 
-<div class="block__form">
-
     <div class="b_form--wrapper">
+
         <label class="b_form--label __main">
+            <?= $R->tableInfoDto->getAttributeLabel(TableInfoDto::ATTR_TABLE_NAME); ?>
+            <br>
             <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
                 <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM6.016 16q0 0.832 0.576 1.44t1.408 0.576v1.984q0 2.496 1.76 4.256t4.256 1.76v-4q-0.832 0-1.44-0.576t-0.576-1.44v-1.984q-0.832 0-1.408-0.576t-0.576-1.44 0.576-1.408 1.408-0.576v-2.016q0-0.832 0.576-1.408t1.44-0.576v-4q-2.496 0-4.256 1.76t-1.76 4.224v2.016q-0.832 0-1.408 0.576t-0.576 1.408zM18.016 26.016q2.464 0 4.224-1.76t1.76-4.256v-1.984q0.832 0 1.408-0.576t0.608-1.44-0.608-1.408-1.408-0.576v-2.016q0-2.464-1.76-4.224t-4.224-1.76v4q0.8 0 1.408 0.576t0.576 1.408v2.016q0.832 0 1.408 0.576t0.608 1.408-0.608 1.44-1.408 0.576v1.984q0 0.832-0.576 1.44t-1.408 0.576v4z"/>
             </svg>
-            Model
-            <input class="input __header" type="text" name="table_name">
+            <?= $form->field($R->tableInfoDto, TableInfoDto::ATTR_TABLE_NAME, [
+                    'options' => [
+                        'tag' => false
+                    ],
+                    'inputOptions' => [
+                        'class' => 'input __header'
+                    ],
+                ])->label(false);
+            ?>
         </label>
 
     </div>
 
-    <?php if( count($R->tableInfoDto->customFields) ): ?>
+    <?php if( count($customFields) ): ?>
         <div class="b_form--wrapper">
             <b class="b_form--label">Custom fields</b>
-            <?php foreach ($R->tableInfoDto->customFields as $fieldKey => $fieldLabel) : ?>
+            <?php foreach ($customFields as $fieldKey => $fieldLabel) : ?>
                 <div class="b_form--layer">
                     <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
-                    <input class="input" type="text" name="<?= $fieldKey?>">
+                    <input class="input" type="text" name="<?= $fieldKey?>" title="{{<?= $fieldKey?>}}">
                 </div>
             <?php endforeach; ?>
         </div>
@@ -65,50 +86,8 @@ $R = $generator->panelResources;
                 </th>
             </tr>
             </thead>
-            <tbody class="b_field--layer">
-            <tr class="b_field--row">
-                <td class="b_field--cell">
-                    <input class=input type="text" name="fields[0][name]">
-                </td>
-                <td class="b_field--cell">
-                    <input class="input" type="text" name="fields[0][comment]">
-                </td>
-                <td class="b_field--cell">
-                    <select class="input" name="fields[0][type]">
-                        <option value="int">int</option>
-                        <option value="varchar">varchar</option>
-                        <option value="text">text</option>
-                        <option value="date">date</option>
-                        <option value="datetime">datetime</option>
-                        <option value="timestamp">timestamp</option>
-                        <option value="time">time</option>
-                        <option value="float">float</option>
-                        <option value="double">double</option>
-                        <option value="decimal">decimal</option>
-                        <option value="enum">enum</option>
-                        <option value="set">set</option>
-                    </select>
-                </td>
-                <td class="b_field--cell">
-                    <input class="input" type="number" name="fields[0][size]">
-                </td>
-                <td class="b_field--cell __mini">
-                    <input class="b_form--checkbox" type="checkbox" name="fields[0][fk]" title="Foreign Key">
-                </td>
-                <td class="b_field--cell __mini">
-                    <input class="b_form--checkbox" type="checkbox" name="fields[0][un]" title="Unique">
-                </td>
-                <td class="b_field--cell __mini">
-                    <input class="b_form--checkbox" type="checkbox" name="fields[0][nn]" title="Not Null">
-                </td>
-                <td class="b_field--cell __btn">
-                    <button class="b_field--button __removeField" onclick="app.actions.removeField(this)" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="#FF0000" width="20px" height="20px" viewBox="0 0 32 32">
-                            <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM8 16q0 0.832 0.576 1.44t1.44 0.576h12q0.8 0 1.408-0.576t0.576-1.44-0.576-1.408-1.408-0.576h-12q-0.832 0-1.44 0.576t-0.576 1.408z"/>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
+            <tbody class="b_field--layer" id="table_db_field">
+
             </tbody>
         </table>
     </div>
@@ -117,8 +96,11 @@ $R = $generator->panelResources;
         <?php if ( $R->tableInfoDto->isCreate() ) : ?>
             <button type="submit" class="btn btn-success" name="create">Create</button>
         <?php else : ?>
+            <a href="?" class="btn btn-warning">Close</a>
             <button type="submit" class="btn btn-info" name="update">Save</button>
         <?php endif; ?>
     </div>
 
-</div>
+<?php ActiveForm::end(); ?>
+
+
