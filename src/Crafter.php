@@ -233,4 +233,9 @@ class Crafter extends CoreGenerator
             header('Location: ' . Yii::$app->request->referrer);
         }
     }
+
+    public function getCustomFields()
+    {
+        return $this->params['custom_fields'];
+    }
 }

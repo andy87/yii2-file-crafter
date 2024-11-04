@@ -9,6 +9,7 @@
     width: 100%;
     flex-wrap: wrap;
     font-size: 0;
+    margin-top: 16px;
 }
 
 .b_form--layer {

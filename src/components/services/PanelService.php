@@ -49,6 +49,14 @@ class PanelService
     {
         $tableInfoDto = $this->tableInfoProducer->create($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
 
+        $customFields = [];
+
+        foreach ($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] as $key => $label )
+        {
+            $customFields[$key] = '';
+        }
+
+        $this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] = $customFields;
         $tableInfoDto->load($this->params);
 
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )

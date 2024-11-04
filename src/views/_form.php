@@ -13,7 +13,7 @@ use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 
 $R = $generator->panelResources;
 
-$customFields = $R->tableInfoDto->getCustomFields();
+$customFields = $generator->getCustomFields();
 $listDbFields = $R->tableInfoDto->getDbFields();
 
 $form = ActiveForm::begin([
@@ -42,14 +42,14 @@ $form = ActiveForm::begin([
 
     <?php if( count($customFields) ): ?>
         <div class="b_form--wrapper">
-            <b class="b_form--label">Custom fields</b>
+            <b class="b_form--label __main">Custom fields</b>
             <?php foreach ($customFields as $fieldKey => $fieldLabel) : ?>
                 <div class="b_form--layer">
                     <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
                     <input class="input" type="text"
                            title="{{<?= $fieldKey?>}}"
                            name="<?= TableInfoDto::ATTR_CUSTOM_FIELDS ."[$fieldKey]"?>"
-                           value="<?= $R->tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$fieldKey] ?? '' ?>"
+                           value="<?= (count($R->tableInfoDto->custom_fields)) ? $R->tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$fieldKey] : '' ?>"
                     >
                 </div>
             <?php endforeach; ?>
