@@ -159,10 +159,10 @@ $form = ActiveForm::begin([
 
     <div class="form-group text-right pt-3">
         <?php if ( $R->tableInfoDto->isCreate() ) : ?>
-            <button type="submit" class="btn btn-success" name="create">Create</button>
+            <button type="submit" class="btn btn-success" name="<?= TableInfoDto::SCENARIO_CREATE ?>">Create</button>
         <?php else : ?>
             <a href="?" class="btn btn-warning">Close</a>
-            <button type="submit" class="btn btn-info" name="update">Save</button>
+            <button type="submit" class="btn btn-info" name="<?= TableInfoDto::SCENARIO_UPDATE?>">Save</button>
         <?php endif; ?>
     </div>
 

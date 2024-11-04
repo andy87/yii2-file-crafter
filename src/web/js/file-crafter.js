@@ -34,6 +34,19 @@ document.addEventListener('DOMContentLoaded', function () {
                         isUnique : null
                     };
 
+                if ( fieldName.indexOf('priority') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('weight') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('height') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('size') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('cost') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('count') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('age') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('year') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('day') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('month') !== -1 ) option = 'int';
+                if ( fieldName.indexOf('lat') !== -1 ) option = 'float';
+                if ( fieldName.indexOf('lon') !== -1 ) option = 'float';
+                if ( fieldName.indexOf('lon') !== -1 ) option = 'float';
 
                 if ( fieldName.indexOf('_id') !== -1 )
                 {
@@ -68,17 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     size = 32;
                     checkBox.isUnique = true;
                 }
-                if ( fieldName.indexOf('title') !== -1 ) option = 'string';
-                if ( fieldName.indexOf('label') !== -1 ) option = 'string';
 
-                if ( fieldName.indexOf('header') !== -1 ) {
-                    option = 'string';
-                    size = 80;
-                }
-                if ( fieldName.indexOf('title') !== -1 ) {
-                    option = 'string';
-                    size = 80;
-                }
+                if ( fieldName.indexOf('header') !== -1 ) size = 80;
+                if ( fieldName.indexOf('title') !== -1 ) size = 80;
+
                 if ( fieldName.indexOf('is') === 0 ) {
                     option = 'boolean';
                 }

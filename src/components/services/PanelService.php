@@ -5,6 +5,7 @@ namespace andy87\yii2\dnk_file_crafter\components\services;
 use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 use andy87\yii2\dnk_file_crafter\components\services\producers\TableInfoProducer;
 use Yii;
+use yii\base\InvalidRouteException;
 
 /**
  *
@@ -44,6 +45,8 @@ class PanelService
 
     /**
      * @return TableInfoDto
+     *
+     * @throws InvalidRouteException
      */
     public function getTableInfoDto(): TableInfoDto
     {
@@ -74,7 +77,10 @@ class PanelService
 
         }
 
-        if ( Yii::$app->request->isPost )
+        $isCreate = isset($_POST[TableInfoDto::SCENARIO_CREATE]);
+        $isUpdate = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE, false);
+
+        if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
         {
             $tableInfoDto = $this->tableInfoProducer->create(Yii::$app->request->post());
 
@@ -82,7 +88,10 @@ class PanelService
 
             if ( $tableInfoDto->save() )
             {
-                $tableInfoDto = new TableInfoDto($this->params['cache']);
+                // url pathInfo from  Yii::$app->request
+                $url = Yii::$app->request->pathInfo;
+
+                Yii::$app->response->redirect("/$url");
             }
         }
 

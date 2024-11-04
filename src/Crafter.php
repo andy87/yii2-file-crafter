@@ -3,6 +3,7 @@
 namespace andy87\yii2\dnk_file_crafter;
 
 use Yii;
+use yii\base\InvalidRouteException;
 use yii\gii\CodeFile;
 use andy87\yii2\dnk_file_crafter\{
     components\core\CoreGenerator,
@@ -243,6 +244,8 @@ class Crafter extends CoreGenerator
 
         $templateList = $this->templateGroup[$this->template];
 
+        $this->generateList = array_keys($this->generateList);
+
         $listTableInfoDto = $this->panelService->getListTableInfoDto();
 
         foreach ($listTableInfoDto as $tableInfoDto)
@@ -274,7 +277,10 @@ class Crafter extends CoreGenerator
      */
     private function getParams(TableInfoDto $tableInfoDto)
     {
-        $pascalCase = Inflector::id2camel($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
+        $tableName = $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME};
+        $tableName = str_replace([' ','-'], '_', $tableName);
+
+        $pascalCase = Inflector::id2camel($tableName,'_');
 
         $params = [
             '{{PascalCase}}' => $pascalCase,
@@ -294,6 +300,8 @@ class Crafter extends CoreGenerator
 
     /**
      * @return void
+     *
+     * @throws InvalidRouteException
      */
     private function removeHandler(): void
     {
@@ -301,7 +309,10 @@ class Crafter extends CoreGenerator
         {
             $this->panelService->removeModel( $remove );
 
-            header('Location: ' . Yii::$app->request->referrer);
+            // url pathInfo from  Yii::$app->request
+            $url = Yii::$app->request->pathInfo;
+
+            Yii::$app->response->redirect("/$url");
         }
     }
 

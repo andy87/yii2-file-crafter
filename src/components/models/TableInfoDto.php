@@ -5,6 +5,7 @@ namespace andy87\yii2\dnk_file_crafter\components\models;
 use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
 use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
 use Yii;
+use yii\helpers\Inflector;
 
 /**
  * TableInfoDto
@@ -29,20 +30,20 @@ class TableInfoDto extends BaseModel
      * @var array
      */
     public const TYPES = [
-        'int' => 'int',
         'string' => 'string',
+        'int' => 'int',
+        'boolean' => 'boolean',
         'text' => 'text',
-        'date' => 'date',
-        'datetime' => 'datetime',
         'timestamp' => 'timestamp',
+        'datetime' => 'datetime',
+        'date' => 'date',
         'time' => 'time',
+        'json' => 'json',
         'float' => 'float',
         'double' => 'double',
         'decimal' => 'decimal',
-        'json' => 'json',
         'jsonb' => 'jsonb',
         'binary' => 'binary',
-        'boolean' => 'boolean',
         'money' => 'money',
         'smallint' => 'smallint',
         'bigint' => 'bigint',
@@ -160,11 +161,7 @@ class TableInfoDto extends BaseModel
      */
     public function displayTableName(): string
     {
-        return ucfirst(
-            strtolower(
-                str_replace('_', ' ', $this->{self::ATTR_TABLE_NAME})
-            )
-        );
+        return Inflector::id2camel($this->{self::ATTR_TABLE_NAME}, '_');
     }
 
     /**
@@ -188,9 +185,11 @@ class TableInfoDto extends BaseModel
      */
     public function save(): bool
     {
-        $fileName =  $this->cacheParams['dir'] . "/". $this->{self::ATTR_TABLE_NAME}  . $this->cacheParams['ext'];
-
         $params = $this->attributes;
+
+        $params[self::ATTR_TABLE_NAME] = strtolower(str_replace([' ','-'], '_', $params[self::ATTR_TABLE_NAME]));
+
+        $fileName =  $this->cacheParams['dir'] . "/". $params[self::ATTR_TABLE_NAME]  . $this->cacheParams['ext'];
 
         foreach ($this->db_fields as $index => $dbField)
         {
@@ -209,7 +208,27 @@ class TableInfoDto extends BaseModel
 
         $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
 
+        $update = Yii::$app->request->get(self::SCENARIO_UPDATE);
+
+        if ( $update && $update !== $params[self::ATTR_TABLE_NAME] ) {
+            $this->removeItem($update);
+        }
+
         return file_put_contents( Yii::getAlias($fileName), $content );
+    }
+
+    /**
+     * @param string $item
+     *
+     * @return void
+     */
+    public function removeItem(string $item): void
+    {
+        $itemPath =  $this->cacheParams['dir'] . "/$item" . $this->cacheParams['ext'];
+
+        $itemPath = Yii::getAlias($itemPath);
+
+        if ( file_exists($itemPath)) unlink($itemPath);
     }
 
     /**
