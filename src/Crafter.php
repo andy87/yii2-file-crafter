@@ -105,11 +105,16 @@ class Crafter extends CoreGenerator
 
     /**
      * @return void
-     *
-     * @throws InvalidConfigException
      */
     public function init(): void
     {
+        /*echo '<pre>';
+        print_r([
+            'bodyParams' => Yii::$app->request->bodyParams
+        ]);
+        echo '</pre>';
+        die();*/
+
         $this->prepareSelectTemplate();
 
         $this->checkDirectories();

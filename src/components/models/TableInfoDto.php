@@ -4,6 +4,7 @@ namespace andy87\yii2\dnk_file_crafter\components\models;
 
 use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
 use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
+use Yii;
 
 /**
  * TableInfoDto
@@ -188,9 +189,13 @@ class TableInfoDto extends BaseModel
     {
         $fileName =  $this->cacheParams['dir'] . "/". $this->{self::ATTR_TABLE_NAME}  . $this->cacheParams['ext'];
 
-        $content = json_encode( $this->attributes );
+        $params = $this->attributes;
 
-        return file_put_contents( $fileName, $content );
+        unset($params['scenario']);
+
+        $content = json_encode( $params, JSON_PRETTY_PRINT );
+
+        return file_put_contents( Yii::getAlias($fileName), $content );
     }
 
     /**

@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return document.querySelector(this.targets.template_db_field).innerHTML;
             },
 
-            changeIndex: function (HTML, index)
+            changeIndex: function (HTML, fieldName)
             {
-                return HTML.replace(/\[0\]/g, `[${index}]`);
+                return HTML.replace(/\[0\]/g, `[${fieldName}]`);
             },
 
             autocomplete : function(TR, fieldName)
@@ -45,17 +45,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 if ( fieldName.indexOf('mail') !== -1 )
                 {
                     option = 'string';
-                    size = 64;
+                    size = 128;
                     checkBox.isUnique = true;
                 }
 
                 if ( fieldName.indexOf('date') !== -1 ) option = 'date';
+
+                if ( fieldName.indexOf('_at') !== -1 ) option = 'datetime';
                 if ( fieldName.indexOf('datetime') !== -1 ) option = 'datetime';
                 if ( fieldName.indexOf('timestamp') !== -1 ) option = 'timestamp';
+
                 if ( fieldName.indexOf('content') !== -1 ) option = 'text';
                 if ( fieldName.indexOf('html') !== -1 ) option = 'text';
                 if ( fieldName.indexOf('text') !== -1 ) option = 'text';
-                if ( fieldName.indexOf('name') !== -1 ) option = 'string';
+
+                if ( fieldName.indexOf('name') !== -1 ) {
+                    option = 'string';
+                    size = 64;
+                }
+                if ( fieldName.indexOf('key') !== -1 ) {
+                    option = 'string';
+                    size = 32;
+                    checkBox.isUnique = true;
+                }
                 if ( fieldName.indexOf('title') !== -1 ) option = 'string';
 
                 if ( fieldName.indexOf('header') !== -1 ) {
@@ -66,6 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     option = 'string';
                     size = 80;
                 }
+                if ( fieldName.indexOf('is') === 0 ) {
+                    option = 'boolean';
+                }
+
 
                 if (option)
                 {
