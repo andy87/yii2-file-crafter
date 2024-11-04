@@ -1,8 +1,8 @@
 <?php
 
-use andy87\yii2\dnk_file_crafter\components\models\DbFieldDto;
 use yii\web\View;
 use andy87\yii2\dnk_file_crafter\Crafter;
+use andy87\yii2\dnk_file_crafter\components\models\DbFieldDto;
 
 /**
  * @var View $this
@@ -11,26 +11,27 @@ use andy87\yii2\dnk_file_crafter\Crafter;
 
 $R = $generator->panelResources;
 
+$prefix = $R->tableInfoDto::ATTR_DB_FIELDS . '[0]';
+
 ?>
 
 <script type="text/html" id="template_db_field">
 
-    <tr class="b_field--row">
+    <tr class="b_field--row __new">
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
             <input class=input type="text"
                    onchange="app.dbFields.changeKey(this)"
                    data-key="[0]"
-                   name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_NAME ?>]"
-            >
+                   name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NAME ?>]">
         </td>
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
-            <input class="input" type="text" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_COMMENT ?>]">
+            <input class="input" type="text" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_COMMENT ?>]">
         </td>
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
-            <select class="input" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_TYPE ?>]">
+            <select class="input" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_TYPE ?>]">
                 <?php foreach ( $R->tableInfoDto::TYPES as $key => $value ) : ?>
                     <option value="<?= $key?>"><?= $value?></option>
                 <?php endforeach; ?>
@@ -38,19 +39,19 @@ $R = $generator->panelResources;
         </td>
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_SIZE ?>">
-            <input class="input" type="number" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_SIZE ?>]">
+            <input class="input" type="number" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_SIZE ?>]">
         </td>
 
         <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>">
-            <input class="b_form--checkbox" type="checkbox" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]" title="Foreign Key">
+            <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]" title="Foreign Key">
         </td>
 
         <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_UNIQUE ?>">
-            <input class="b_form--checkbox" type="checkbox" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_UNIQUE ?>]" title="Unique">
+            <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_UNIQUE ?>]" title="Unique">
         </td>
 
         <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_NOT_NULL ?>">
-            <input class="b_form--checkbox" type="checkbox" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_NOT_NULL ?>]" title="Not Null">
+            <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NOT_NULL ?>]" title="Not Null">
         </td>
 
         <td class="b_field--cell __btn">

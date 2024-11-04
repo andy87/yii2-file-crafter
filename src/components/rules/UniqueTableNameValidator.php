@@ -2,10 +2,9 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\rules;
 
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 use Yii;
 use yii\validators\UniqueValidator;
-use andy87\yii2\dnk_file_crafter\components\services\CacheService;
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
 
 /**
  * Class UniqueTableNameValidator

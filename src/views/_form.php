@@ -15,18 +15,9 @@ $R = $generator->panelResources;
 
 $customFields = $generator->getCustomFields();
 $listDbFields = $R->tableInfoDto->getDbFields();
-
-$form = ActiveForm::begin([
-    'id' => 'form',
-    'action' => '',
-    'method' => 'post',
-    'options' => [
-        'class' => 'block__form',
-    ],
-]);
-
 ?>
 
+<div class="block__form">
     <div class="b_form--wrapper">
 
         <label class="b_form--label __main">
@@ -165,7 +156,4 @@ $form = ActiveForm::begin([
             <button type="submit" class="btn btn-info" name="<?= TableInfoDto::SCENARIO_UPDATE?>">Save</button>
         <?php endif; ?>
     </div>
-
-<?php ActiveForm::end(); ?>
-
-
+</div>

@@ -2,8 +2,8 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\services;
 
-use andy87\yii2\dnk_file_crafter\Crafter;
 use Yii;
+use andy87\yii2\dnk_file_crafter\Crafter;
 
 /**
  * Class CacheService

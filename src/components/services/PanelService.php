@@ -2,13 +2,17 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\services;
 
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
-use andy87\yii2\dnk_file_crafter\components\services\producers\TableInfoProducer;
 use Yii;
 use yii\base\InvalidRouteException;
+use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
+use andy87\yii2\dnk_file_crafter\components\services\producers\TableInfoProducer;
 
 /**
+ * Service for Panel
  *
+ * @package andy87\yii2\dnk_file_crafter\components\services
+ *
+ * @tag: #service #panel
  */
 class PanelService
 {
@@ -138,25 +142,23 @@ class PanelService
      */
     public function constructGeneratePath(string $generatePath): string
     {
-        return Yii::getAlias("@app/$generatePath");
+        return Yii::getAlias("@root/$generatePath");
     }
 
     /**
      * @param string $sourcePath
+     *
      * @return string
      */
     public function constructSourcePath(string $sourcePath): string
     {
-        $dir = $this->params['source']['dir'];
         $ext = $this->params['source']['ext'];
 
-        $path = Yii::getAlias("$dir/$sourcePath");
-
-        if ( !str_contains($path, '.') )
+        if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) )
         {
-            $path .= $ext;
+            $sourcePath .= $ext;
         }
 
-        return $path;
+        return $sourcePath;
     }
 }

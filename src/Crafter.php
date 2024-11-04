@@ -3,22 +3,23 @@
 namespace andy87\yii2\dnk_file_crafter;
 
 use Yii;
-use yii\base\InvalidRouteException;
 use yii\gii\CodeFile;
+use yii\helpers\Inflector;
 use andy87\yii2\dnk_file_crafter\{
     components\core\CoreGenerator,
     components\models\TableInfoDto,
     components\services\PanelService,
     components\resources\PanelResources
 };
-use yii\helpers\Inflector;
+use yii\base\InvalidRouteException;
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
  *
-
- * @property array $templates
  * @property PanelService $panelService
+ *
+ * @see Crafter::VIEW_WIDGET_GRID_VIEW
+ * @see Crafter::VIEW_WIDGET_LIST_VIEW
  */
 class Crafter extends CoreGenerator
 {
@@ -53,23 +54,15 @@ class Crafter extends CoreGenerator
 
 
 
-
     /**
      * @var array Группы шаблонов
      */
     private array $templateGroup = [];
 
     /**
-     * @var array Список дополнительных параметров для генерации
-     */
-    private array $options = [];
-
-    /**
      * @var array
      */
     public array $generateList = [];
-
-
 
     /**
      * @var array Collection settings for custom generation
@@ -113,6 +106,8 @@ class Crafter extends CoreGenerator
 
     /**
      * @return void
+     *
+     * @throws InvalidRouteException
      */
     public function init(): void
     {
@@ -128,16 +123,14 @@ class Crafter extends CoreGenerator
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
 
-        $rules[] = [
-            ['generateList'],
-            'safe'
-        ];
+        $rules[] = [ ['generateList'], 'safe' ];
+        $rules[] = [ ['generateList'], 'safe' ];
 
         return $rules;
     }
@@ -226,6 +219,8 @@ class Crafter extends CoreGenerator
      * Constructor for `PanelResources`
      *
      * @return PanelResources
+     *
+     * @throws InvalidRouteException
      */
     private function getPanelResources(): PanelResources
     {
@@ -234,6 +229,7 @@ class Crafter extends CoreGenerator
             $this->panelService->getListTableInfoDto()
         );
     }
+
 
     /**
      * @return array
@@ -252,17 +248,23 @@ class Crafter extends CoreGenerator
         {
             if ( in_array($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}, $this->generateList) )
             {
-                $params = $this->getParams($tableInfoDto);
+                $replaceList = $this->getReplaceList($tableInfoDto);
+
+                $params = [
+                    'replaceList' => $replaceList,
+                    'tableInfoDto' => $tableInfoDto,
+                ];
 
                 foreach ($templateList as $sourcePath => $generatePath)
                 {
                     $sourcePath = $this->panelService->constructSourcePath($sourcePath);
-                    $generatePath = $this->panelService->constructGeneratePath($sourcePath);
+                    $generatePath = $this->panelService->constructGeneratePath($generatePath);
+                    $generatePath = str_replace(array_keys($replaceList), array_values($replaceList), $generatePath);
 
-                    $files[] = new CodeFile(
-                        $generatePath,
-                        $this->render($sourcePath, $params)
-                    );
+                    $content = $this->render($sourcePath, $params);
+                    $content = str_replace(array_keys($replaceList), array_values($replaceList), $content);
+
+                    $files[] = new CodeFile( $generatePath, $content );
                 }
             }
         }
@@ -271,11 +273,19 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * @return string the root path of the template files that are currently being used.
+     */
+    public function getTemplatePath(): string
+    {
+        return Yii::getAlias($this->params['source']['dir']);
+    }
+
+    /**
      * @param TableInfoDto $tableInfoDto
      *
      * @return array
      */
-    private function getParams(TableInfoDto $tableInfoDto)
+    private function getReplaceList(TableInfoDto $tableInfoDto): array
     {
         $tableName = $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME};
         $tableName = str_replace([' ','-'], '_', $tableName);

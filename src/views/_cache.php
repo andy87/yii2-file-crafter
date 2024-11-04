@@ -40,7 +40,10 @@ $R = $generator->panelResources;
             </a>
 
             <label class="b_cache--label">
-                <input class="b_cache--checkbox" type="checkbox" name="Crafter[generateList][<?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>]" value="generate" title="Generate files for <?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>">
+                <input class="b_cache--checkbox" type="checkbox" value="generate"
+                       name="Crafter[generateList][<?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>]"
+                       title="Generate files for <?= $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} ?>"
+                <?= ( $tableInfoDto->isPreviewGenerate($generator->generateList) ) ? 'checked' : '' ?>>
 
                 <?= $tableInfoDto->displayTablename() ?>
             </label>

@@ -2,10 +2,10 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\models;
 
-use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
-use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
 use Yii;
 use yii\helpers\Inflector;
+use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
+use andy87\yii2\dnk_file_crafter\components\rules\UniqueTableNameValidator;
 
 /**
  * TableInfoDto
@@ -245,5 +245,15 @@ class TableInfoDto extends BaseModel
     public function getDbFields(): mixed
     {
         return $this->{self::ATTR_DB_FIELDS};
+    }
+
+    /**
+     * @param array $generateList
+     *
+     * @return bool
+     */
+    public function isPreviewGenerate(array $generateList): bool
+    {
+        return in_array($this->{self::ATTR_TABLE_NAME}, $generateList);
     }
 }

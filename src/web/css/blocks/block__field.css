@@ -10,7 +10,10 @@
 }
 
 .b_field--row { border-bottom: 1px solid #ccc }
-
+.b_field--row.__new INPUT,
+.b_field--row.__new SELECT {
+    background-color: #ffdfc0;
+}
 .b_field--header {
     vertical-align: top;
     padding: 5px;

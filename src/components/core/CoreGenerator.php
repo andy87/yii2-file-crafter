@@ -2,10 +2,12 @@
 
 namespace andy87\yii2\dnk_file_crafter\components\core;
 
+use yii\gii\Generator;
+
 /**
  *
  */
-abstract class CoreGenerator extends \yii\gii\Generator
+abstract class CoreGenerator extends Generator
 {
 
     /** @var string ID on module list */
@@ -17,15 +19,6 @@ abstract class CoreGenerator extends \yii\gii\Generator
 
     /** @var string Path with view directory */
     public const VIEWS = null;
-
-
-
-    /**
-     * Generator
-     *
-     * @return array
-     */
-    abstract public function generate(): array;
 
 
 

@@ -7,6 +7,21 @@
 
 BUTTON, A { font-size: 20px }
 
+
+SELECT.input { padding-left: 5px }
+
+INPUT[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: textfield;
+}
+
+INPUT[type="number"]::-webkit-outer-spin-button,
+INPUT[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 #fileCrafter-generator .btn { font-size: 15px }
 
 .header {
@@ -52,16 +67,4 @@ BUTTON, A { font-size: 20px }
     vertical-align: middle;
 }
 
-SELECT.input { padding-left: 5px }
-
-INPUT[type="number"] {
-    -moz-appearance: textfield;
-    -webkit-appearance: none;
-    appearance: textfield;
-}
-
-INPUT[type="number"]::-webkit-outer-spin-button,
-INPUT[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+.preview-code {font-size: 14px }

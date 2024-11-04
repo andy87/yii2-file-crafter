@@ -17,8 +17,7 @@
   ],
 
   "require": {
-    "php": ">=8.0",
-    "yiisoft/yii2": "~2.0.43"
+    "php": ">=8.0"
   },
 
   "autoload": {
