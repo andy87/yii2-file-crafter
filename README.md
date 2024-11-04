@@ -1,5 +1,5 @@
 
-<h1 align="center">Yii2 migrate architect</h1>
+<h1 align="center">Yii2 File Crafter</h1>
 
 Yii2 migrate architect - библиотека для фреймворка Yii2 упрощающая написание кода миграций. 
 
