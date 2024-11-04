@@ -25,12 +25,16 @@ BUTTON, A { font-size: 20px }
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition:
+        border-color .15s ease-in-out,
+        box-shadow .15s ease-in-out;
 }
+
 .input[disabled] {
     background-color: #e9ecef;
     color: #495057;
 }
+
 .input.__header {
     display: inline-block;
     width: 50%;
@@ -39,10 +43,7 @@ BUTTON, A { font-size: 20px }
     padding: 6px;
 }
 
-.form-group {
-    font-size: 13px;
-}
-
+.form-group { font-size: 13px }
 
 SELECT.input { padding-left: 5px }
 
@@ -57,4 +58,3 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-

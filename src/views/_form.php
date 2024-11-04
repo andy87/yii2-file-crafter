@@ -107,10 +107,10 @@ $form = ActiveForm::begin([
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
-                                <?php $option = $listDbFields[$R->tableInfoDto->table_name][DbFieldDto::ATTR_TYPE] ?? null ?>
+                                <?php $option = $dbField[DbFieldDto::ATTR_TYPE] ?>
                                 <select class="input" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_TYPE ?>]">
                                     <?php foreach ( TableInfoDto::TYPES as $key => $value ) : ?>
-                                        <option value="<?= $key?>" <?= ($option === $key) ? 'checked' : '' ?>><?= $value?></option>
+                                        <option value="<?= $key?>" <?= ($option === $key) ? 'selected' : '' ?>><?= $value?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </td>
