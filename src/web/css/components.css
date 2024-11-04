@@ -45,6 +45,11 @@ BUTTON, A { font-size: 20px }
 
 .form-group { font-size: 13px }
 
+.default-view-files,
+.default-view-files * {
+    vertical-align: middle;
+}
+
 SELECT.input { padding-left: 5px }
 
 INPUT[type="number"] {

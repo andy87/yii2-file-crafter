@@ -122,4 +122,32 @@ class PanelService
         $this->cacheService->removeItem($remove);
     }
 
+    /**
+     * @param string $generatePath
+     *
+     * @return string
+     */
+    public function constructGeneratePath(string $generatePath): string
+    {
+        return Yii::getAlias("@app/$generatePath");
+    }
+
+    /**
+     * @param string $sourcePath
+     * @return string
+     */
+    public function constructSourcePath(string $sourcePath): string
+    {
+        $dir = $this->params['source']['dir'];
+        $ext = $this->params['source']['ext'];
+
+        $path = Yii::getAlias("$dir/$sourcePath");
+
+        if ( !str_contains($path, '.') )
+        {
+            $path .= $ext;
+        }
+
+        return $path;
+    }
 }

@@ -2,14 +2,15 @@
 
 namespace andy87\yii2\dnk_file_crafter;
 
-use andy87\yii2\dnk_file_crafter\{components\core\CoreGenerator,
-    components\models\TableInfoDto,
-    components\resources\PanelResources,
-    components\services\CacheService,
-    models\dto\collection\TableInfoCollection};
-use andy87\yii2\dnk_file_crafter\components\services\{PanelService};
 use Yii;
-use yii\{base\InvalidConfigException, db\BaseActiveRecord, web\Controller, web\Request};
+use yii\gii\CodeFile;
+use andy87\yii2\dnk_file_crafter\{
+    components\core\CoreGenerator,
+    components\models\TableInfoDto,
+    components\services\PanelService,
+    components\resources\PanelResources
+};
+use yii\helpers\Inflector;
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
@@ -61,6 +62,11 @@ class Crafter extends CoreGenerator
      * @var array Список дополнительных параметров для генерации
      */
     private array $options = [];
+
+    /**
+     * @var array
+     */
+    public array $generateList = [];
 
 
 
@@ -118,6 +124,21 @@ class Crafter extends CoreGenerator
         $this->removeHandler();
 
         $this->panelResources = $this->getPanelResources();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+
+        $rules[] = [
+            ['generateList'],
+            'safe'
+        ];
+
+        return $rules;
     }
 
     /**
@@ -214,12 +235,62 @@ class Crafter extends CoreGenerator
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function generate(): string
+    public function generate(): array
     {
-        return '';
+        $files = [];
+
+        $templateList = $this->templateGroup[$this->template];
+
+        $listTableInfoDto = $this->panelService->getListTableInfoDto();
+
+        foreach ($listTableInfoDto as $tableInfoDto)
+        {
+            if ( in_array($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}, $this->generateList) )
+            {
+                $params = $this->getParams($tableInfoDto);
+
+                foreach ($templateList as $sourcePath => $generatePath)
+                {
+                    $sourcePath = $this->panelService->constructSourcePath($sourcePath);
+                    $generatePath = $this->panelService->constructGeneratePath($sourcePath);
+
+                    $files[] = new CodeFile(
+                        $generatePath,
+                        $this->render($sourcePath, $params)
+                    );
+                }
+            }
+        }
+
+        return $files;
     }
+
+    /**
+     * @param TableInfoDto $tableInfoDto
+     *
+     * @return array
+     */
+    private function getParams(TableInfoDto $tableInfoDto)
+    {
+        $pascalCase = Inflector::id2camel($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
+
+        $params = [
+            '{{PascalCase}}' => $pascalCase,
+            '{{camelCase}}' => lcfirst($pascalCase),
+            '{{snake_case}}' => $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME},
+            '{{kebab-case}}' => str_replace('_', '-', $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}),
+        ];
+
+        foreach ($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] as $key => $title )
+        {
+            $params["{{{$key}}}"] = $tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$key];
+        }
+
+        return $params;
+    }
+
 
     /**
      * @return void

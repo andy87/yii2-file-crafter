@@ -23,9 +23,9 @@ abstract class CoreGenerator extends \yii\gii\Generator
     /**
      * Generator
      *
-     * @return string
+     * @return array
      */
-    abstract public function generate(): string;
+    abstract public function generate(): array;
 
 
 
