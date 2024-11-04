@@ -149,6 +149,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 let TR = self.closest('TR');
 
                 TR.remove();
+            },
+
+            changeKey : function (self)
+            {
+                let TR = self.closest('TR');
+
+                TR.querySelector('[data-db-field="name"]').setAttribute('data-key', self.value);
+                TR.querySelector('[data-db-field="name"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][name]`);
+                TR.querySelector('[data-db-field="comment"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][comment]`);
+                TR.querySelector('[data-db-field="type"]').querySelector('select').setAttribute('name', `db_fields[${self.value}][type]`);
+                TR.querySelector('[data-db-field="size"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][size]`);
+                TR.querySelector('[data-db-field="foreignKeys"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][foreignKeys]`);
+                TR.querySelector('[data-db-field="unique"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][unique]`);
+                TR.querySelector('[data-db-field="notNull"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][notNull]`);
             }
         },
 

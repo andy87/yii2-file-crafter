@@ -89,6 +89,8 @@ $form = ActiveForm::begin([
 
                             <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
                                 <input class=input type="text"
+                                       onchange="app.dbFields.changeKey(this)"
+                                       data-key="<?= $dbField[DbFieldDto::ATTR_NAME] ?>"
                                        name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NAME ?>]"
                                        value="<?= $dbField[DbFieldDto::ATTR_NAME] ?? '' ?>">
                             </td>

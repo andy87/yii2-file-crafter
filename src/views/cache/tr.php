@@ -18,7 +18,11 @@ $R = $generator->panelResources;
     <tr class="b_field--row">
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
-            <input class=input type="text" name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_NAME ?>]">
+            <input class=input type="text"
+                   onchange="app.dbFields.changeKey(this)"
+                   data-key="[0]"
+                   name="<?= $R->tableInfoDto::ATTR_DB_FIELDS ?>[0][<?= DbFieldDto::ATTR_NAME ?>]"
+            >
         </td>
 
         <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
