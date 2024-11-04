@@ -28,7 +28,10 @@ BUTTON, A { font-size: 20px }
     border-radius: .25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
-
+.input[disabled] {
+    background-color: #e9ecef;
+    color: #495057;
+}
 .input.__header {
     display: inline-block;
     width: 50%;

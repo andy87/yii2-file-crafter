@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     checkBox.isUnique = true;
                 }
                 if ( fieldName.indexOf('title') !== -1 ) option = 'string';
+                if ( fieldName.indexOf('label') !== -1 ) option = 'string';
 
                 if ( fieldName.indexOf('header') !== -1 ) {
                     option = 'string';
@@ -128,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 inputFieldName.value = fieldName;
 
                 inputFieldName.setAttribute('value', fieldName);
+                inputFieldName.setAttribute('disabled', 'disabled');
 
                 this.autocomplete(TR, fieldName);
 
@@ -139,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     HTML = this.getTemplateTr(),
                     countTr = this.getCountTR() + 1;
 
-                HTML = this.changeIndex(HTML, countTr);
+                HTML = this.changeIndex(HTML, fieldName);
 
                 this.appendNewTR(HTML, fieldName);
             },
