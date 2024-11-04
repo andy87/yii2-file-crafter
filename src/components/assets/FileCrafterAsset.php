@@ -1,6 +1,6 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\assets;
+namespace andy87\yii2\file_crafter\components\assets;
 
 use yii\web\AssetBundle;
 

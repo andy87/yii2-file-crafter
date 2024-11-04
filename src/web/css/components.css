@@ -22,7 +22,7 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-#fileCrafter-generator .btn { font-size: 15px }
+.btn { font-size: 15px }
 
 .header {
     font-size: 24px;
@@ -67,4 +67,4 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     vertical-align: middle;
 }
 
-.preview-code {font-size: 14px }
+.preview-code { font-size: 14px }

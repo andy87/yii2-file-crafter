@@ -1,13 +1,13 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\resources;
+namespace andy87\yii2\file_crafter\components\resources;
 
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
+use andy87\yii2\file_crafter\components\models\TableInfoDto;
 
 /**
  * Class PanelResources
  *
- * @package andy87\yii2\dnk_file_crafter\components\resources
+ * @package andy87\yii2\file_crafter\components\resources
  *
  * @tag: #resource #panel
  */

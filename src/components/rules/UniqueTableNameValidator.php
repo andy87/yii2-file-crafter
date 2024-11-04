@@ -1,15 +1,15 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\rules;
+namespace andy87\yii2\file_crafter\components\rules;
 
 use Yii;
 use yii\validators\UniqueValidator;
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
+use andy87\yii2\file_crafter\components\models\TableInfoDto;
 
 /**
  * Class UniqueTableNameValidator
  *
- * @package andy87\yii2\dnk_file_crafter\components\rules
+ * @package andy87\yii2\file_crafter\components\rules
  *
  * @tag: #validator #unique #table #name
  */

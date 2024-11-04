@@ -1,14 +1,14 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\services;
+namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
-use andy87\yii2\dnk_file_crafter\Crafter;
+use andy87\yii2\file_crafter\Crafter;
 
 /**
  * Class CacheService
  *
- * @package andy87\yii2\dnk_file_crafter\components\services
+ * @package andy87\yii2\file_crafter\components\services
  *
  * @tag: #service #cache
  */
@@ -45,16 +45,6 @@ class CacheService
         $alias = $this->params['dir'] ?? self::DEFAULT_CACHE_DIR;
 
         return Yii::getAlias($alias);
-    }
-
-    /**
-     * Get cache dir
-     *
-     * @return string
-     */
-    public function getExt(): string
-    {
-        return $this->params['ext'] ?? self::DEFAULT_CACHE_EXT;
     }
 
     /**

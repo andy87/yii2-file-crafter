@@ -1,5 +1,5 @@
 {
-  "name": "andy87/yii2-dnk-file-crafter",
+  "name": "andy87/yii2-file-crafter",
   "description": "PHP library for Yii2 - developed by and_y87",
   "keywords": ["and_y87", "php", "generator", "crafter", "yii2", "library"],
   "homepage": "https://andy87.ru",
@@ -15,14 +15,13 @@
       "email": "kidin_a@list.ru"
     }
   ],
-
   "require": {
     "php": ">=8.0"
   },
 
   "autoload": {
     "psr-4": {
-      "andy87\\yii2\\dnk_file_crafter\\": "src/"
+      "andy87\\yii2\\file_crafter\\": "src/"
     }
   },
 

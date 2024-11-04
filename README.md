@@ -5,16 +5,16 @@ Yii2 File Crafter - library for generating a many templates with minimal differe
 
 ### Содержание:
 
-- [Setup](#yii2-dnk-file-crafter-setup)
-- [Config](#yii2-dnk-file-crafter-config)
-- [Using](#yii2-dnk-file-crafter-setup-composer-composer-use)
+- [Setup](#yii2-file-crafter-setup)
+- [Config](#yii2-file-crafter-config)
+- [Using](#yii2-file-crafter-using)
 
 
 ___
 
-<span id="yii2-migrate-architect-setup"></span>
+<span id="yii2-file-crafter-setup"></span>
 <h2 align="center">
-Setup
+    Setup
 </h2>
 
 <span id="yii2-migrate-architect-setup-require"></span>
@@ -52,7 +52,7 @@ Open file `composer.json`, in section with key `require` add line:
 <p align="center">- - - - -</p>
 
 
-<span id="yii2-migrate-architect-config"></span>
+<span id="yii2-file-crafter-config"></span>
 <h2 align="center">
     Config
 </h2>
@@ -77,8 +77,8 @@ Config in the configuration file.
                     'ext' => '.tpl'
                 ],
                 'custom_fields' => [
-                    'singular' => 'Ед. число', // {{singular}}
-                    'plural' => 'Мн. число', // {{plural}}
+                    'singular' => 'label - one', // {{singular}}
+                    'plural' => 'label - many', // {{plural}}
                ],
                 'bash' => [
                     'php yii gii/model
@@ -96,14 +96,14 @@ Config in the configuration file.
                     'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service',
                 ],
                 'backend' => [
-                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{camelCase}Service',
+                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{{camelCase}}Service',
                 ],
                 'frontend' => [
                     'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
                 ],
                 'all' => [
                     'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service',
-                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{camelCase}Service',
+                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{{camelCase}}Service',
                     'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
                 ]
             ]
@@ -111,5 +111,10 @@ Config in the configuration file.
     ],
 ];
 ```
+
+<span id="yii2-file-crafter-using"></span>
+<h2 align="center">
+    Using
+</h2>
 
 [Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)

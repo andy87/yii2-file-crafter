@@ -1,13 +1,13 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\models;
+namespace andy87\yii2\file_crafter\components\models;
 
-use andy87\yii2\dnk_file_crafter\components\models\core\BaseModel;
+use andy87\yii2\file_crafter\components\models\core\BaseModel;
 
 /**
  * Class DbField
  *
- * @package andy87\yii2\dnk_file_crafter\models
+ * @package andy87\yii2\file_crafter\models
  *
  * @tag: #model #db #field
  */

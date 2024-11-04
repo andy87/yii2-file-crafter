@@ -9,11 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 template_db_field : "#template_db_field",
             },
 
-            getCountTR: function ()
-            {
-                return document.querySelectorAll(this.targets.table_db_field + ' tr').length;
-            },
-
             getTemplateTr: function ()
             {
                 return document.querySelector(this.targets.template_db_field).innerHTML;
@@ -143,15 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
             addField: function ()
             {
                 let fieldName = prompt('Field name'),
-                    HTML = this.getTemplateTr(),
-                    countTr = this.getCountTR() + 1;
+                    TR = this.getTemplateTr();
 
-                HTML = this.changeIndex(HTML, fieldName);
+                TR = this.changeIndex(TR, fieldName);
 
-                this.appendNewTR(HTML, fieldName);
+                this.appendNewTR(TR, fieldName);
             },
 
-            removeField(self) {
+            removeField(self)
+            {
                 let TR = self.closest('TR');
 
                 TR.remove();

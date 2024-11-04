@@ -1,6 +1,6 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\core;
+namespace andy87\yii2\file_crafter\components\core;
 
 use yii\gii\Generator;
 

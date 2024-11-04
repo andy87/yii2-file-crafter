@@ -1,13 +1,13 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\models\core;
+namespace andy87\yii2\file_crafter\components\models\core;
 
 use yii\base\Model;
 
 /**
  * Class BaseModel
  *
- * @package andy87\yii2\dnk_file_crafter\models\core
+ * @package andy87\yii2\file_crafter\models\core
  *
  * @tag: #model #core
  */

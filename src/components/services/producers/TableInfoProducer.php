@@ -1,13 +1,13 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\services\producers;
+namespace andy87\yii2\file_crafter\components\services\producers;
 
-use andy87\yii2\dnk_file_crafter\components\{ models\TableInfoDto, services\CacheService };
+use andy87\yii2\file_crafter\components\{ models\TableInfoDto, services\CacheService };
 
 /**
  * TableInfoDto creator
  *
- * @package andy87\yii2\dnk_file_crafter\services\producers
+ * @package andy87\yii2\file_crafter\services\producers
  *
  * @tag: #producer
  */

@@ -35,13 +35,6 @@
     vertical-align: top;
 }
 
-.b_form--label .text {
-    display: inline-block;
-    margin-left: 0;
-    line-height: 18px;
-    font-size: 13px;
-}
-
 .b_form--checkbox {
     display: inline-block;
     height: 18px;

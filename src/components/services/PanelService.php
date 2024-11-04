@@ -1,16 +1,16 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter\components\services;
+namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
 use yii\base\InvalidRouteException;
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
-use andy87\yii2\dnk_file_crafter\components\services\producers\TableInfoProducer;
+use andy87\yii2\file_crafter\components\models\TableInfoDto;
+use andy87\yii2\file_crafter\components\services\producers\TableInfoProducer;
 
 /**
  * Service for Panel
  *
- * @package andy87\yii2\dnk_file_crafter\components\services
+ * @package andy87\yii2\file_crafter\components\services
  *
  * @tag: #service #panel
  */

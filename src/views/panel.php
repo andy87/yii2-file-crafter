@@ -1,8 +1,8 @@
 <?php
 
 use yii\web\View;
-use andy87\yii2\dnk_file_crafter\Crafter;
-use andy87\yii2\dnk_file_crafter\components\assets\FileCrafterAsset;
+use andy87\yii2\file_crafter\Crafter;
+use andy87\yii2\file_crafter\components\assets\FileCrafterAsset;
 
 /**
  * @var View $this

@@ -1,11 +1,11 @@
 <?php
 
-namespace andy87\yii2\dnk_file_crafter;
+namespace andy87\yii2\file_crafter;
 
 use Yii;
 use yii\gii\CodeFile;
 use yii\helpers\Inflector;
-use andy87\yii2\dnk_file_crafter\{
+use andy87\yii2\file_crafter\{
     components\core\CoreGenerator,
     components\models\TableInfoDto,
     components\services\PanelService,
@@ -147,7 +147,7 @@ class Crafter extends CoreGenerator
     /**
      *
      * Prepare a group of templates
-     * assign groups to the `templateGroup` property
+     * assigns groups to the `templateGroup` property
      *
      * Generate new vision of the `templates` property
      * Copy mapping from the `templates` property to the `templateGroup` property
