@@ -151,5 +151,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 TR.remove();
             }
         },
+
+        cache : {
+            removeModel: function (modelName)
+            {
+                let message = `Do you really want to remove the model "${modelName}"?`;
+
+                if ( confirm(message) )
+                {
+                    window.location.href = `?remove=${modelName}`;
+                }
+            }
+        }
     };
 });

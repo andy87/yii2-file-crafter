@@ -53,7 +53,6 @@ class PanelService
 
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
         {
-
             $params = $this->cacheService->getContentCacheFile($tableName);
 
             $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
@@ -95,6 +94,16 @@ class PanelService
         }
 
         return $tableInfoDtoList;
+    }
+
+    /**
+     * @param string $remove
+     *
+     * @return void
+     */
+    public function removeModel(string $remove): void
+    {
+        $this->cacheService->removeItem($remove);
     }
 
 }

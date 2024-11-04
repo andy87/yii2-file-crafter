@@ -70,7 +70,7 @@ class CacheService
      */
     public function getContentCacheFile(mixed $tableName): array
     {
-        $pathCache = $this->getDir() . '/' . $tableName . self::DEFAULT_CACHE_EXT;
+        $pathCache = $this->constructPath($tableName);
 
         if (file_exists($pathCache))
         {
@@ -83,5 +83,30 @@ class CacheService
         }
 
         return [];
+    }
+
+    /**
+     * @param string $remove
+     *
+     * @return void
+     */
+    public function removeItem(string $remove): void
+    {
+        $pathCache = $this->constructPath($remove);
+
+        if (file_exists($pathCache))
+        {
+            unlink($pathCache);
+        }
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
+    private function constructPath( string $name ): string
+    {
+        return $this->getDir() . "/$name"  . $this->params['ext'];
     }
 }

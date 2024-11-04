@@ -3,6 +3,7 @@
 namespace andy87\yii2\dnk_file_crafter;
 
 use andy87\yii2\dnk_file_crafter\{components\core\CoreGenerator,
+    components\models\TableInfoDto,
     components\resources\PanelResources,
     components\services\CacheService,
     models\dto\collection\TableInfoCollection};
@@ -114,6 +115,8 @@ class Crafter extends CoreGenerator
 
         $this->setupServices();
 
+        $this->removeHandler();
+
         $this->panelResources = $this->getPanelResources();
     }
 
@@ -216,5 +219,18 @@ class Crafter extends CoreGenerator
     public function generate(): string
     {
         return '';
+    }
+
+    /**
+     * @return void
+     */
+    private function removeHandler(): void
+    {
+        if ( $remove = Yii::$app->request->get(TableInfoDto::SCENARIO_REMOVE) )
+        {
+            $this->panelService->removeModel( $remove );
+
+            header('Location: ' . Yii::$app->request->referrer);
+        }
     }
 }

@@ -19,6 +19,7 @@ class TableInfoDto extends BaseModel
     public const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
     public const SCENARIO_CREATE = 'create';
     public const SCENARIO_UPDATE = 'update';
+    public const SCENARIO_REMOVE = 'remove';
 
     public const ATTR_TABLE_NAME = 'table_name';
     public const ATTR_CUSTOM_FIELDS = 'custom_fields';
