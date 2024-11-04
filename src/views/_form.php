@@ -1,10 +1,8 @@
 <?php
 
-use andy87\yii2\dnk_file_crafter\components\models\DbFieldDto;
 use yii\web\View;
-use yii\widgets\ActiveForm;
 use andy87\yii2\dnk_file_crafter\Crafter;
-use andy87\yii2\dnk_file_crafter\components\models\TableInfoDto;
+use andy87\yii2\dnk_file_crafter\components\models\{ DbFieldDto, TableInfoDto };
 
 /**
  * @var View $this

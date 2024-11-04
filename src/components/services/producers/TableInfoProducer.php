@@ -22,6 +22,8 @@ class TableInfoProducer
 
     /**
      * @param CacheService $cacheService
+     *
+     * @tag #constructor
      */
     public function __construct( CacheService $cacheService )
     {
@@ -29,6 +31,8 @@ class TableInfoProducer
     }
 
     /**
+     * Create TableInfoDto
+     *
      * @param array $params
      *
      * @return TableInfoDto

@@ -36,21 +36,28 @@ class PanelService
 
 
     /**
+     * PanelService constructor.
+     *
      * @param array $params
+     *
+     * @tag #constructor
      */
     public function __construct( array $params )
     {
         $this->params = $params;
 
-        $this->cacheService = new CacheService($this->params['cache']);
+        $this->cacheService = new CacheService($this->params['cache'] ?? [
+            'dir' => CacheService::DEFAULT_CACHE_DIR,
+            'ext' => CacheService::DEFAULT_CACHE_EXT,
+        ]);
 
         $this->tableInfoProducer = new TableInfoProducer($this->cacheService);
     }
 
     /**
-     * @return TableInfoDto
+     * Get TableInfoDto
      *
-     * @throws InvalidRouteException
+     * @return TableInfoDto
      */
     public function getTableInfoDto(): TableInfoDto
     {
@@ -64,8 +71,23 @@ class PanelService
         }
 
         $this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] = $customFields;
+
         $tableInfoDto->load($this->params);
 
+        return $tableInfoDto;
+    }
+
+    /**
+     * Handler Create/Update
+     *
+     * @param TableInfoDto $tableInfoDto
+     *
+     * @return TableInfoDto
+     *
+     * @throws InvalidRouteException
+     */
+    public function handlerTableInfo(TableInfoDto $tableInfoDto): TableInfoDto
+    {
         if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
@@ -92,10 +114,7 @@ class PanelService
 
             if ( $tableInfoDto->save() )
             {
-                // url pathInfo from  Yii::$app->request
-                $url = Yii::$app->request->pathInfo;
-
-                Yii::$app->response->redirect("/$url");
+                $this->goHome();
             }
         }
 
@@ -103,6 +122,23 @@ class PanelService
     }
 
     /**
+     * Redirect to main page of panel
+     *
+     * @return void
+     *
+     * @throws InvalidRouteException
+     */
+    public function goHome(): void
+    {
+        $url = Yii::$app->request->pathInfo;
+
+        Yii::$app->response->redirect("/$url");
+    }
+
+    /**
+     * Collect list of TableInfoDto
+     *  from cache files
+     *
      * @return TableInfoDto[]
      */
     public function getListTableInfoDto(): array
@@ -126,6 +162,8 @@ class PanelService
     }
 
     /**
+     * Remove cache data
+     *
      * @param string $remove
      *
      * @return void
@@ -136,6 +174,8 @@ class PanelService
     }
 
     /**
+     * Get path for target generate file
+     *
      * @param string $generatePath
      *
      * @return string
@@ -146,6 +186,8 @@ class PanelService
     }
 
     /**
+     * Get path for source template file
+     *
      * @param string $sourcePath
      *
      * @return string
@@ -160,5 +202,17 @@ class PanelService
         }
 
         return $sourcePath;
+    }
+
+    /**
+     * Execute bash
+     *
+     * @param string $bash
+     *
+     * @return void
+     */
+    public function runBash(string $bash): void
+    {
+        exec($bash);
     }
 }

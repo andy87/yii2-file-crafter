@@ -27,6 +27,8 @@ class CacheService
 
     /**
      * @param array $params
+     *
+     * @tag #constructor
      */
     public function __construct(array $params)
     {
@@ -34,6 +36,8 @@ class CacheService
     }
 
     /**
+     * Get cache dir
+     *
      * @return string
      */
     public function getDir(): string
@@ -44,6 +48,18 @@ class CacheService
     }
 
     /**
+     * Get cache dir
+     *
+     * @return string
+     */
+    public function getExt(): string
+    {
+        return $this->params['ext'] ?? self::DEFAULT_CACHE_EXT;
+    }
+
+    /**
+     * Collect all cache files
+     *
      * @return array
      */
     public function getCacheFileList(): array
@@ -64,6 +80,8 @@ class CacheService
     }
 
     /**
+     * Get content from cache file
+     *
      * @param mixed $tableName
      *
      * @return array
@@ -86,6 +104,8 @@ class CacheService
     }
 
     /**
+     * Remove cache file
+     *
      * @param string $remove
      *
      * @return void

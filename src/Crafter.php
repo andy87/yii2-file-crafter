@@ -24,20 +24,20 @@ use yii\base\InvalidRouteException;
 class Crafter extends CoreGenerator
 {
 
-    /** @var string ID on module list */
-    public const ID = 'yii2-dnk-file-crafter';
+    /** @var string ID  */
+    public const ID = 'yii2-file-crafter';
 
-    /** @var string Описание */
-    protected const DESCRIPTION =  'Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation';
+    /** @var string Description */
+    protected const DESCRIPTION =  'Yii2 File Crafter is an extension for the Gii module in the Yii2 framework, which makes it easier to create a large number of files of the same template';
 
 
-    /** @var array Список ключей в массиве `params` для проверки наличия директории */
+    /** @var array List of keys in the `params` array to check for the presence of a directory **/
     private const PARAMS_REQUIRED_DIRECTORY = ['cache', 'source'];
 
-    /** @var string Path on root directory */
+    /** @var string Root directory path */
     public const SRC = '@vendor/andy87/' . self::ID . '/src';
 
-    /** @var string Path with view directory */
+    /** @var string View directory  path*/
     public const VIEWS = self::SRC . '/views';
 
     /** @var string Root directory */
@@ -45,7 +45,7 @@ class Crafter extends CoreGenerator
 
 
 
-    // Значения для виджета отображения списка моделей
+    // Values for the model list display widget
     /** @var string Grid */
     public const VIEW_WIDGET_GRID_VIEW = 'grid';
 
@@ -55,11 +55,13 @@ class Crafter extends CoreGenerator
 
 
     /**
-     * @var array Группы шаблонов
+     * @var array Template groups
      */
     private array $templateGroup = [];
 
     /**
+     * Table name list from request for generate files
+     *
      * @var array
      */
     public array $generateList = [];
@@ -69,35 +71,34 @@ class Crafter extends CoreGenerator
      */
     public array $params = [
         'cache' => [
-            'dir' => self::RESOURCES . '/cache',
+            'dir' => self::RESOURCES . '/cache', // @app/runtime/yii2-file-crafter/cache
             'ext' => '.json'
         ],
         'source' => [
-            'dir' => self::RESOURCES . '/templates/source',
+
+            'dir' => self::RESOURCES . '/templates/source',  // @pp/runtime/yii2-file-crafter/templates/source
             'ext' => '.tpl'
         ],
-        'custom_fields' => [],
-        'crud' => [
-            'modelClass' => 'app\models\source\{PascalCase}',
-            'searchModelClass' => 'app\common\models\source\{PascalCase}',
-            'controllerClass' => 'app\backend\controllers\source\{PascalCase}Controller',
-            'viewPath' => '@backend\source\{snake_case}',
-            'baseControllerClass' => 'app\backend\components\controllers\BackendController',
-            'viewWidget' => Crafter::VIEW_WIDGET_GRID_VIEW,
-            'enableI18n' => false,
-            'enablePjax' => false,
-            'codeTemplate' => 'default',
-        ]
+        'bash' => [
+            // list bash command
+        ],
+        'custom_fields' => [
+            // list custom fields
+            // 'field' => 'label'
+            // use on template: {{field}}
+        ],
     ];
 
     /**
-     * Сервис занимается обработкой данных
+     * Service handles data processing
      *
      * @var PanelService
      */
     private PanelService $panelService;
 
     /**
+     * Resources for the view
+     *
      * @var PanelResources
      */
     public PanelResources $panelResources;
@@ -105,9 +106,13 @@ class Crafter extends CoreGenerator
 
 
     /**
+     * Init
+     *
      * @return void
      *
      * @throws InvalidRouteException
+     *
+     * @tag: #init
      */
     public function init(): void
     {
@@ -123,7 +128,11 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * Rules
+     *
      * @return array
+     *
+     * @tag: #rules
      */
     public function rules(): array
     {
@@ -136,10 +145,13 @@ class Crafter extends CoreGenerator
     }
 
     /**
-     * Подготовка группы шаблонов
-     *  назначение групп в свойство `templateGroup`
      *
-     * Разбирает значения в
+     * Prepare a group of templates
+     * assign groups to the `templateGroup` property
+     *
+     * Generate new vision of the `templates` property
+     * Copy mapping from the `templates` property to the `templateGroup` property
+     *
      * ```
      *  $config['modules']['gii'] = [
      *      'class' => yii\gii\Module::class,
@@ -150,7 +162,8 @@ class Crafter extends CoreGenerator
      *                      'source/file/path' => 'path/for/generate/file'
      *                  ],
      *                  'backend' => [
-     *                      'source/file/path' => 'path/for/generate/file'
+     *                      'source/file/path.php' => 'path/for/generate/file'
+     *                      'source/file/path.tpl' => 'path/for/generate/file'
      *                  ],
      *              ]
      *          ]
@@ -224,47 +237,41 @@ class Crafter extends CoreGenerator
      */
     private function getPanelResources(): PanelResources
     {
+        $tableInfoDto = $this->panelService->getTableInfoDto();
+
+        $tableInfoDto = $this->panelService->handlerTableInfo($tableInfoDto);
+
         return new PanelResources(
-            $this->panelService->getTableInfoDto(),
+            $tableInfoDto,
             $this->panelService->getListTableInfoDto()
         );
     }
 
 
     /**
+     * Generation Core
+     *
      * @return array
      */
     public function generate(): array
     {
         $files = [];
 
-        $templateList = $this->templateGroup[$this->template];
-
-        $this->generateList = array_keys($this->generateList);
-
         $listTableInfoDto = $this->panelService->getListTableInfoDto();
 
-        foreach ($listTableInfoDto as $tableInfoDto)
+        if (count($listTableInfoDto))
         {
-            if ( in_array($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}, $this->generateList) )
+            $this->generateList = array_keys($this->generateList);
+
+            foreach ($listTableInfoDto as $tableInfoDto)
             {
-                $replaceList = $this->getReplaceList($tableInfoDto);
-
-                $params = [
-                    'replaceList' => $replaceList,
-                    'tableInfoDto' => $tableInfoDto,
-                ];
-
-                foreach ($templateList as $sourcePath => $generatePath)
+                if ( in_array($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}, $this->generateList) )
                 {
-                    $sourcePath = $this->panelService->constructSourcePath($sourcePath);
-                    $generatePath = $this->panelService->constructGeneratePath($generatePath);
-                    $generatePath = str_replace(array_keys($replaceList), array_values($replaceList), $generatePath);
+                    $replaceList = $this->getReplaceList($tableInfoDto);
 
-                    $content = $this->render($sourcePath, $params);
-                    $content = str_replace(array_keys($replaceList), array_values($replaceList), $content);
+                   $this->execBash($replaceList);
 
-                    $files[] = new CodeFile( $generatePath, $content );
+                    $files = $this->generateTargetFiles($tableInfoDto, $replaceList);
                 }
             }
         }
@@ -273,6 +280,82 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * Execute bash commands
+     *
+     * @param array $replaceList
+     *
+     * @return void
+     */
+    private function execBash(array $replaceList): void
+    {
+        if (count($this->params['bash']))
+        {
+            foreach ($this->params['bash'] as $bash)
+            {
+                $bash = $this->replacing($bash, $replaceList);
+
+                $this->panelService->runBash($bash);
+            }
+        }
+    }
+
+    /**
+     * Generate target files
+     *
+     * @param TableInfoDto $tableInfoDto
+     * @param array $replaceList
+     *
+     * @return array
+     */
+    private function generateTargetFiles( TableInfoDto $tableInfoDto, array $replaceList ): array
+    {
+        $files = [];
+
+        if ( count($this->templateGroup[$this->template]) )
+        {
+            $params = [
+                'tableInfoDto' => $tableInfoDto,
+                'replaceList' => $replaceList,
+            ];
+
+            foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
+            {
+                $sourcePath = $this->panelService->constructSourcePath($sourcePath);
+                $sourcePath = $this->replacing($sourcePath, $replaceList);
+
+                $generatePath = $this->panelService->constructGeneratePath($generatePath);
+                $generatePath = $this->replacing($generatePath, $replaceList);
+
+                $content = $this->render($sourcePath, $params);
+                $content = $this->replacing($content, $replaceList);
+
+                $files[] = new CodeFile( $generatePath, $content );
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * Replace the template with the specified parameters
+     *  {{PascalCase}} - PascalCase
+     *  {{camelCase}} - camelCase
+     *  {{snake_case}} - snake_case
+     *  {{kebab-case}} - kebab-case
+     *
+     * @param string $content
+     * @param array $replaceParams
+     *
+     * @return string
+     */
+    private function replacing(string $content, array $replaceParams ): string
+    {
+        return str_replace(array_keys($replaceParams), array_values($replaceParams), $content);
+    }
+
+    /**
+     * Get the root path of the template files that are currently being used.
+     *
      * @return string the root path of the template files that are currently being used.
      */
     public function getTemplatePath(): string
@@ -281,6 +364,8 @@ class Crafter extends CoreGenerator
     }
 
     /**
+     * Generate the list of parameters for replacing
+     *
      * @param TableInfoDto $tableInfoDto
      *
      * @return array
@@ -309,6 +394,8 @@ class Crafter extends CoreGenerator
 
 
     /**
+     * Remove handler
+     *
      * @return void
      *
      * @throws InvalidRouteException
@@ -319,15 +406,15 @@ class Crafter extends CoreGenerator
         {
             $this->panelService->removeModel( $remove );
 
-            // url pathInfo from  Yii::$app->request
-            $url = Yii::$app->request->pathInfo;
-
-            Yii::$app->response->redirect("/$url");
+            $this->panelService->goHome();
         }
     }
 
-    public function getCustomFields()
+    /**
+     * @return mixed
+     */
+    public function getCustomFields(): mixed
     {
-        return $this->params['custom_fields'];
+        return $this->params[TableInfoDto::ATTR_CUSTOM_FIELDS];
     }
 }

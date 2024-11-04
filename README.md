@@ -1,26 +1,24 @@
 
 <h1 align="center">Yii2 File Crafter</h1>
 
-Yii2 migrate architect - библиотека для фреймворка Yii2 упрощающая написание кода миграций. 
-
-Цель: сделать простой и быстрый инструмент добавления миграций.
+Yii2 File Crafter - library for generating a many templates with minimal differences
 
 ### Содержание:
 
-- [Установка](#yii2-dnk-file-crafter-setup)
-- [Настройка](#yii2-dnk-file-crafter-config)
-- [Использование](#yii2-dnk-file-crafter-setup-composer-composer-use)
+- [Setup](#yii2-dnk-file-crafter-setup)
+- [Config](#yii2-dnk-file-crafter-config)
+- [Using](#yii2-dnk-file-crafter-setup-composer-composer-use)
 
 
 ___
 
 <span id="yii2-migrate-architect-setup"></span>
-<h2 align="center"> 
-    Установка
+<h2 align="center">
+Setup
 </h2>
 
 <span id="yii2-migrate-architect-setup-require"></span>
-<h3>Требования</h3> 
+<h3>Requirements</h3> 
 
 - php >=8.0
 - Yii2
@@ -30,25 +28,24 @@ ___
 </h3>
 
 <span id="yii2-migrate-architect-setup"></span>
-## Добавление пакета в проект
+## Add package to project
 
-<h3>Используя консоль</h3>
-<small><i>(Предпочтительней)</i></small>
+<h3>Using console</h3>
+<small><i>(Recommended)</i></small>
 
-- Composer, установленный локально
+- Composer ( global setup )
 ```bash
-composer require andy87/yii2-dnk-file-crafter
+composer require andy87/yii2-file-crafter
 ````  
-- Composer.phar
+- Composer.phar ( local setup )
 ```bash
-php composer.phar require andy87/yii2-dnk-file-crafter
+php composer.phar require andy87/yii2-file-crafter
 ```
 
 <span id="yii2-dnk-file-crafter-setup-composer-composer"></span>
-<h3>Используя: файл `composer.json`</h3>
+<h3>Using: file `composer.json`</h3>
 
-Открыть файл `composer.json`,  
-в раздел с ключём `require` добавить строку:  
+Open file `composer.json`, in section with key `require` add line:  
 `"andy87/yii2-dnk-file-crafter": "*"`  
 
 
@@ -57,10 +54,10 @@ php composer.phar require andy87/yii2-dnk-file-crafter
 
 <span id="yii2-migrate-architect-config"></span>
 <h2 align="center">
-    Настройка
+    Config
 </h2>
 
-Настройки в конфигурационном файле.  CrudParams::
+Config in the configuration file.
  - basic:`config/(web|web-local|local).php`
  - advanced:`(frontend|backend)/config/main-local.php`
 
@@ -83,52 +80,31 @@ php composer.phar require andy87/yii2-dnk-file-crafter
                     'singular' => 'Ед. число', // {{singular}}
                     'plural' => 'Мн. число', // {{plural}}
                ],
-                'crud' => [
-                    'modelClass' => 'app\models\source\{PascalCase}',
-                    'searchModelClass' => 'app\common\models\source\{PascalCase}',
-                    'controllerClass' => 'app\backend\controllers\source\{PascalCase}Controller',
-                    'viewPath' => '@backend\source\{snake_case}',
-                    'baseControllerClass' => 'app\backend\components\controllers\BackendController',
-                    'viewWidget' => Crafter::VIEW_WIDGET_GRID_VIEW,
-                    'enableI18n' => false,
-                    'enablePjax' => false,
-                    'codeTemplate' => 'default',
+                'bash' => [
+                    'php yii gii/model
+                    --tableName={{snake_case}}
+                    --modelClass={{PascalCase}}
+                    --ns="app\common\models\sources"
+                    --baseClass="app\components\models\BaseModel"
+                    --generateRelations
+                    --useClassConstant
+                    --generateLabelsFromComments'
                 ]
             ],
             'templates' => [
-                'default' => 'all',
                 'common' => [
-                    'common/services/ItemService' => 'app/common/services/items/{PascalCase}Service',
-                ],
-                'console' => [
-                    'console/controllers/ItemController' => 'app/console/controllers/{PascalCase}Controller',
-                    'console/services/ItemService' => 'app/console/services/{PascalCase}Service',
-                    'console/tests/unit/services/ItemServiceTest' => 'app/console/tests/unit/services/{PascalCase}ServiceTest',
-                ],
-                'frontend' => [
-                'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
-                    'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
-                    'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
-                    'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
+                    'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service',
                 ],
                 'backend' => [
-                    'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
-                    'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
-                    'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
+                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{camelCase}Service',
+                ],
+                'frontend' => [
+                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
                 ],
                 'all' => [
-                    'common/services/ItemService' => 'app/common/services/items/{PascalCase}Service',
-
-                    'console/services/ItemService' => 'app/console/services/{PascalCase}Service',
-
-                    'frontend/controllers/ItemController' => 'app/frontend/controllers/{PascalCase}Controller',
-                    'frontend/views/item/index' => 'app/frontend/views/{snake_case}/index',
-                    'frontend/services/ItemService' => 'app/frontend/services/items/{PascalCase}Service',
-                    'frontend/tests/functional/ItemControllerCest' => 'app/frontend/tests/functional/{PascalCase}ControllerCest',
-
-                    'backend/controllers/ItemController' => 'app/backend/controllers/{PascalCase}Controller',
-                    'backend/views/item/index' => 'app/backend/views/{snake_case}/index',
-                    'backend/services/ItemService' => 'app/backend/services/items/{PascalCase}Service',
+                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service',
+                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{camelCase}Service',
+                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
                 ]
             ]
         ]
@@ -136,5 +112,4 @@ php composer.phar require andy87/yii2-dnk-file-crafter
 ];
 ```
 
-
-[Packagist](https://packagist.org/packages/andy87/yii2-dnk-file-crafter)
+[Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)
