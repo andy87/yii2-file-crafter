@@ -128,11 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.appendNewTR(HTML, fieldName);
             },
 
-            removeField(event) {
-                //target
-                let target = event.target();
+            removeField(self) {
+                let TR = self.closest('TR');
 
-                console.log('event', event);
+                TR.remove();
             }
         },
     };
