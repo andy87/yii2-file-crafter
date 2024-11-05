@@ -6,7 +6,7 @@ $config = [];
 
 if (YII_ENV_DEV)
 {
-    $mapping = require __DIR__ . '/mapping.php';
+    $mapping = require __DIR__ . '/../mapping.php';
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
