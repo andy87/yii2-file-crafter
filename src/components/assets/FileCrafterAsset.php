@@ -12,7 +12,7 @@ use yii\web\AssetBundle;
 class FileCrafterAsset extends AssetBundle
 {
     /** @var string  */
-    public $sourcePath = '@vendor/andy87/yii2-dnk-file-crafter/src/web';
+    public $sourcePath = '@vendor/andy87/yii2-file-crafter/src/web';
 
     /** @var string[] library css (using @import) */
     public $css = [ 'css/file-crafter.css' ];

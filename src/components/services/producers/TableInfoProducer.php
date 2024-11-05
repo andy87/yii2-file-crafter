@@ -14,20 +14,20 @@ use andy87\yii2\file_crafter\components\{ models\TableInfoDto, services\CacheSer
 class TableInfoProducer
 {
     /**
-     * @var CacheService $cacheService
+     * @var array $custom_fields
      */
-    private CacheService $cacheService;
+    private array $custom_fields;
 
 
 
     /**
-     * @param CacheService $cacheService
+     * @param array $custom_fields
      *
      * @tag #constructor
      */
-    public function __construct( CacheService $cacheService )
+    public function __construct( array $custom_fields )
     {
-        $this->cacheService = $cacheService;
+        $this->custom_fields = $custom_fields;
     }
 
     /**
@@ -37,9 +37,9 @@ class TableInfoProducer
      *
      * @return TableInfoDto
      */
-    public function create( array $params ): TableInfoDto
+    public function create( array $params = [] ): TableInfoDto
     {
-        $tableInfoDto = new TableInfoDto( $this->cacheService->params );
+        $tableInfoDto = new TableInfoDto( $this->custom_fields );
 
         $tableInfoDto->load($params);
 

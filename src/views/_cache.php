@@ -30,6 +30,7 @@ $R = $generator->panelResources;
     </div>
 
     <?php foreach ($R->listTableInfoDto as $tableInfoDto ):
+        /** @var TableInfoDto $tableInfoDto */
         if ( $tableInfoDto->table_name === $R->tableInfoDto->table_name ) continue;
         ?>
         <div class="b_cache--item">

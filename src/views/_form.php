@@ -11,7 +11,7 @@ use andy87\yii2\file_crafter\components\models\{ DbFieldDto, TableInfoDto };
 
 $R = $generator->panelResources;
 
-$customFields = $generator->getCustomFields();
+$customFields = $generator->custom_fields;
 $listDbFields = $R->tableInfoDto->getDbFields();
 ?>
 

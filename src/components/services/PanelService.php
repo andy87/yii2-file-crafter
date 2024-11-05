@@ -2,8 +2,10 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
+use andy87\yii2\file_crafter\components\models\DbFieldDto;
 use Yii;
 use yii\base\InvalidRouteException;
+use andy87\yii2\file_crafter\Crafter;
 use andy87\yii2\file_crafter\components\models\TableInfoDto;
 use andy87\yii2\file_crafter\components\services\producers\TableInfoProducer;
 
@@ -16,13 +18,6 @@ use andy87\yii2\file_crafter\components\services\producers\TableInfoProducer;
  */
 class PanelService
 {
-    /**
-     * @var array
-     */
-    private array $params;
-
-
-
     /**
      * @var CacheService
      */
@@ -38,20 +33,15 @@ class PanelService
     /**
      * PanelService constructor.
      *
-     * @param array $params
+     * @param Crafter $crafter
      *
      * @tag #constructor
      */
-    public function __construct( array $params )
+    public function __construct( Crafter $crafter )
     {
-        $this->params = $params;
+        $this->cacheService = new CacheService($crafter->cache);
 
-        $this->cacheService = new CacheService($this->params['cache'] ?? [
-            'dir' => CacheService::DEFAULT_CACHE_DIR,
-            'ext' => CacheService::DEFAULT_CACHE_EXT,
-        ]);
-
-        $this->tableInfoProducer = new TableInfoProducer($this->cacheService);
+        $this->tableInfoProducer = new TableInfoProducer($crafter->custom_fields);
     }
 
     /**
@@ -61,20 +51,7 @@ class PanelService
      */
     public function getTableInfoDto(): TableInfoDto
     {
-        $tableInfoDto = $this->tableInfoProducer->create($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS]);
-
-        $customFields = [];
-
-        foreach ($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] as $key => $label )
-        {
-            $customFields[$key] = '';
-        }
-
-        $this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] = $customFields;
-
-        $tableInfoDto->load($this->params);
-
-        return $tableInfoDto;
+        return $this->tableInfoProducer->create();
     }
 
     /**
@@ -112,13 +89,47 @@ class PanelService
 
             $this->cacheService->removeItem($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
 
-            if ( $tableInfoDto->save() )
+            if ( $this->save($tableInfoDto) )
             {
                 $this->goHome();
             }
         }
 
         return $tableInfoDto;
+    }
+
+    private function save( TableInfoDto $tableInfoDto)
+    {
+        $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}));
+
+        $fileName =  $this->cacheService->constructPath($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
+
+        $params = $tableInfoDto->attributes;
+
+        foreach ($tableInfoDto->{TableInfoDto::ATTR_DB_FIELDS} as $index => $dbField)
+        {
+            if ($dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_FOREIGN_KEYS] = 'checked';
+            }
+            if ($dbField[DbFieldDto::ATTR_UNIQUE] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_UNIQUE] = 'checked';
+            }
+            if ($dbField[DbFieldDto::ATTR_NOT_NULL] ?? false) {
+                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_NOT_NULL] = 'checked';
+            }
+        }
+
+        unset($params['scenario']);
+
+        $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
+
+        $update = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE);
+
+        if ( $update && $update !== $params[TableInfoDto::ATTR_TABLE_NAME] ) {
+            $this->removeItem($update);
+        }
+
+        return file_put_contents( Yii::getAlias($fileName), $content );
     }
 
     /**
@@ -189,13 +200,12 @@ class PanelService
      * Get path for source template file
      *
      * @param string $sourcePath
+     * @param string $ext
      *
      * @return string
      */
-    public function constructSourcePath(string $sourcePath): string
+    public function constructSourcePath(string $sourcePath, string $ext): string
     {
-        $ext = $this->params['source']['ext'];
-
         if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) )
         {
             $sourcePath .= $ext;
@@ -214,5 +224,19 @@ class PanelService
     public function runBash(string $bash): void
     {
         exec($bash);
+    }
+
+    /**
+     * @param string $cacheFileName
+     *
+     * @return void
+     */
+    public function removeItem(string $cacheFileName): void
+    {
+        $itemPath =  $this->cacheService->constructPath($cacheFileName);
+
+        $itemPath = Yii::getAlias($itemPath);
+
+        if ( file_exists($itemPath)) unlink($itemPath);
     }
 }

@@ -48,6 +48,16 @@ class CacheService
     }
 
     /**
+     * Get cache dir
+     *
+     * @return string
+     */
+    public function getExt(): string
+    {
+        return $this->params['ext'] ?? self::DEFAULT_CACHE_EXT;
+    }
+
+    /**
      * Collect all cache files
      *
      * @return array
@@ -115,8 +125,8 @@ class CacheService
      *
      * @return string
      */
-    private function constructPath( string $name ): string
+    public function constructPath( string $name ): string
     {
-        return $this->getDir() . "/$name"  . $this->params['ext'];
+        return $this->getDir() . "/$name"  . $this->getExt();
     }
 }

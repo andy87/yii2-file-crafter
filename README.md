@@ -42,11 +42,11 @@ composer require andy87/yii2-file-crafter
 php composer.phar require andy87/yii2-file-crafter
 ```
 
-<span id="yii2-dnk-file-crafter-setup-composer-composer"></span>
+<span id="yii2-file-crafter-setup-composer-composer"></span>
 <h3>Using: file `composer.json`</h3>
 
 Open file `composer.json`, in section with key `require` add line:  
-`"andy87/yii2-dnk-file-crafter": "*"`  
+`"andy87/yii2-file-crafter": "*"`  
 
 
 <p align="center">- - - - -</p>
@@ -67,30 +67,28 @@ Config in the configuration file.
     'generators' => [
         'fileCrafter' => [
             'class' => Crafter::class,
-            'params' => [
-                'cache' => [
-                    'dir' => '@runtime/andy87/yii2-dnk-file-crafter/cache',
-                    'ext' => '.tpl'
-                ],
-                'source' => [
-                    'dir' => '@runtime/andy87/yii2-dnk-file-crafter/templates/source',
-                    'ext' => '.tpl'
-                ],
-                'custom_fields' => [
-                    'singular' => 'label - one', // {{singular}}
-                    'plural' => 'label - many', // {{plural}}
-               ],
-                'bash' => [
-                    'php yii gii/model
-                    --tableName={{snake_case}}
-                    --modelClass={{PascalCase}}
-                    --ns="app\common\models\sources"
-                    --baseClass="app\components\models\BaseModel"
-                    --generateRelations
-                    --useClassConstant
-                    --generateLabelsFromComments'
-                ]
+            'cache' => [
+                'dir' => '@runtime/andy87/yii2-file-crafter/cache',
+                'ext' => '.tpl'
             ],
+            'source' => [
+                'dir' => '@runtime/andy87/yii2-file-crafter/templates/source',
+                'ext' => '.tpl'
+            ],
+            'custom_fields' => [
+                'singular' => 'label - one', // {{singular}}
+                'plural' => 'label - many', // {{plural}}
+           ],
+            'bash' => [
+                'php yii gii/model
+                --tableName={{snake_case}}
+                --modelClass={{PascalCase}}
+                --ns="app\common\models\sources"
+                --baseClass="app\components\models\BaseModel"
+                --generateRelations
+                --useClassConstant
+                --generateLabelsFromComments'
+            ]
             'templates' => [
                 'common' => [
                     'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service',

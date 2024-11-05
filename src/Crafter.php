@@ -31,9 +31,6 @@ class Crafter extends CoreGenerator
     protected const DESCRIPTION =  'Yii2 File Crafter is an extension for the Gii module in the Yii2 framework, which makes it easier to create a large number of files of the same template';
 
 
-    /** @var array List of keys in the `params` array to check for the presence of a directory **/
-    private const PARAMS_REQUIRED_DIRECTORY = ['cache', 'source'];
-
     /** @var string Root directory path */
     public const SRC = '@vendor/andy87/' . self::ID . '/src';
 
@@ -67,27 +64,35 @@ class Crafter extends CoreGenerator
     public array $generateList = [];
 
     /**
-     * @var array Collection settings for custom generation
+     * @var array 
      */
-    public array $params = [
-        'cache' => [
-            'dir' => self::RESOURCES . '/cache', // @app/runtime/yii2-file-crafter/cache
-            'ext' => '.json'
-        ],
-        'source' => [
-
-            'dir' => self::RESOURCES . '/templates/source',  // @pp/runtime/yii2-file-crafter/templates/source
-            'ext' => '.tpl'
-        ],
-        'bash' => [
-            // list bash command
-        ],
-        'custom_fields' => [
-            // list custom fields
-            // 'field' => 'label'
-            // use on template: {{field}}
-        ],
+    public array $cache = [
+        'dir' => self::RESOURCES . '/cache', // @app/runtime/yii2-file-crafter/cache
+        'ext' => '.json'
     ];
+
+    /**
+     * @var array 
+     */
+    public array $source = [
+        'dir' => self::RESOURCES . '/templates/source',  // @pp/runtime/yii2-file-crafter/templates/source
+        'ext' => '.tpl'
+    ];
+
+    /**
+     * @var array 
+     */
+    public array $bash = [];
+
+    /**
+     * list custom fields
+     *  'field' => 'label'
+     *  use on template: {{field}}
+     * 
+     * @var array 
+     */
+    public array $custom_fields = [];
+    
 
     /**
      * Service handles data processing
@@ -193,14 +198,14 @@ class Crafter extends CoreGenerator
      */
     private function checkDirectories(): void
     {
-        foreach ( $this->params as $key => $params )
-        {
-            if( in_array( $key,self::PARAMS_REQUIRED_DIRECTORY ) )
-            {
-                $dirPath = $params['dir'] ?? null;
+        $directoryList = [
+            $this->source['dir'] ?? null,
+            $this->cache['dir'] ?? null,
+        ];
 
-                $this->checkDirectory($dirPath);
-            }
+        foreach ( $directoryList as $dirPath )
+        {
+            if( $dirPath ) $this->checkDirectory($dirPath);
         }
     }
 
@@ -225,7 +230,7 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-        $this->panelService = new PanelService($this->params);
+        $this->panelService = new PanelService($this);
     }
 
     /**
@@ -288,7 +293,9 @@ class Crafter extends CoreGenerator
      */
     private function execBash(array $replaceList): void
     {
-        if (count($this->params['bash']))
+        $bash = $this->params['bash'] ?? null;
+
+        if ( $bash && is_array($bash) )
         {
             foreach ($this->params['bash'] as $bash)
             {
@@ -318,9 +325,11 @@ class Crafter extends CoreGenerator
                 'replaceList' => $replaceList,
             ];
 
+            $ext = $this->source['ext'];
+
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
-                $sourcePath = $this->panelService->constructSourcePath($sourcePath);
+                $sourcePath = $this->panelService->constructSourcePath($sourcePath, $ext);
                 $sourcePath = $this->replacing($sourcePath, $replaceList);
 
                 $generatePath = $this->panelService->constructGeneratePath($generatePath);
@@ -360,7 +369,7 @@ class Crafter extends CoreGenerator
      */
     public function getTemplatePath(): string
     {
-        return Yii::getAlias($this->params['source']['dir']);
+        return Yii::getAlias($this->source['dir']);
     }
 
     /**
@@ -384,7 +393,7 @@ class Crafter extends CoreGenerator
             '{{kebab-case}}' => str_replace('_', '-', $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}),
         ];
 
-        foreach ($this->params[TableInfoDto::ATTR_CUSTOM_FIELDS] as $key => $title )
+        foreach ($this->{TableInfoDto::ATTR_CUSTOM_FIELDS} as $key => $title )
         {
             $params["{{{$key}}}"] = $tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$key];
         }
@@ -408,13 +417,5 @@ class Crafter extends CoreGenerator
 
             $this->panelService->goHome();
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCustomFields(): mixed
-    {
-        return $this->params[TableInfoDto::ATTR_CUSTOM_FIELDS];
     }
 }

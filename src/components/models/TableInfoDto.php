@@ -181,65 +181,6 @@ class TableInfoDto extends BaseModel
     }
 
     /**
-     * @return bool
-     */
-    public function save(): bool
-    {
-        $params = $this->attributes;
-
-        $params[self::ATTR_TABLE_NAME] = strtolower(str_replace([' ','-'], '_', $params[self::ATTR_TABLE_NAME]));
-
-        $fileName =  $this->cacheParams['dir'] . "/". $params[self::ATTR_TABLE_NAME]  . $this->cacheParams['ext'];
-
-        foreach ($this->db_fields as $index => $dbField)
-        {
-            if ($dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_FOREIGN_KEYS] = 'checked';
-            }
-            if ($dbField[DbFieldDto::ATTR_UNIQUE] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_UNIQUE] = 'checked';
-            }
-            if ($dbField[DbFieldDto::ATTR_NOT_NULL] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_NOT_NULL] = 'checked';
-            }
-        }
-
-        unset($params['scenario']);
-
-        $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
-
-        $update = Yii::$app->request->get(self::SCENARIO_UPDATE);
-
-        if ( $update && $update !== $params[self::ATTR_TABLE_NAME] ) {
-            $this->removeItem($update);
-        }
-
-        return file_put_contents( Yii::getAlias($fileName), $content );
-    }
-
-    /**
-     * @param string $item
-     *
-     * @return void
-     */
-    public function removeItem(string $item): void
-    {
-        $itemPath =  $this->cacheParams['dir'] . "/$item" . $this->cacheParams['ext'];
-
-        $itemPath = Yii::getAlias($itemPath);
-
-        if ( file_exists($itemPath)) unlink($itemPath);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCustomFields(): mixed
-    {
-        return $this->{self::ATTR_CUSTOM_FIELDS};
-    }
-
-    /**
      * @return mixed
      */
     public function getDbFields(): mixed
