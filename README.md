@@ -61,6 +61,27 @@ Config in the configuration file.
  - basic:`config/(web|web-local|local).php`
  - advanced:`(frontend|backend)/config/main-local.php`
 
+
+Minimum config
+```php
+ $config['modules']['gii'] = [
+    'class' => yii\gii\Module::class,
+    'generators' => [
+        'fileCrafter' => [
+            'class' => Crafter::class,
+            'templates' => [
+                'all' => [
+                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
+                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                ]
+            ]
+        ]
+    ],
+];
+```
+
+Full Config with all options
 ```php
  $config['modules']['gii'] = [
     'class' => yii\gii\Module::class,
@@ -68,11 +89,11 @@ Config in the configuration file.
         'fileCrafter' => [
             'class' => Crafter::class,
             'cache' => [
-                'dir' => '@runtime/andy87/yii2-file-crafter/cache',
+                'dir' => '@runtime/yii2-file-crafter/cache',
                 'ext' => '.tpl'
             ],
             'source' => [
-                'dir' => '@runtime/andy87/yii2-file-crafter/templates/source',
+                'dir' => '@runtime/yii2-file-crafter/templates/source',
                 'ext' => '.tpl'
             ],
             'custom_fields' => [
@@ -80,29 +101,22 @@ Config in the configuration file.
                 'plural' => 'label - many', // {{plural}}
            ],
             'bash' => [
-                'php yii gii/model
-                --tableName={{snake_case}}
-                --modelClass={{PascalCase}}
-                --ns="app\common\models\sources"
-                --baseClass="app\components\models\BaseModel"
-                --generateRelations
-                --useClassConstant
-                --generateLabelsFromComments'
+                'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\components\models\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
             ]
             'templates' => [
                 'common' => [
-                    'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service',
+                    'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service.php',
                 ],
                 'backend' => [
-                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{{camelCase}}Service',
+                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
                 ],
                 'frontend' => [
-                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
+                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
                 ],
                 'all' => [
-                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service',
-                    'backend/test/unit/camelCaseService' => 'backend/test/unit/{{camelCase}}Service',
-                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index',
+                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
+                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
                 ]
             ]
         ]

@@ -29,7 +29,7 @@ class Crafter extends CoreGenerator
     public const ID = 'yii2-file-crafter';
 
     /** @var string Description */
-    protected const DESCRIPTION =  'Yii2 File Crafter is an extension for the Gii module in the Yii2 framework, which makes it easier to create a large number of files of the same template';
+    protected const DESCRIPTION =  'Makes it easier to create a large number of files of the same template.';
 
 
     /** @var string Root directory path */
