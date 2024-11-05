@@ -13,20 +13,20 @@ if (YII_ENV_DEV)
         'class' => yii\gii\Module::class,
         'generators' => [
             'fileCrafter' => [
-                'class' => Crafter::class,
-                'params' => [
-                    'cache' => [
-                        'dir' => '@console/runtime/andy87/yii2-file-crafter/cache',
-                        'ext' => '.json'
-                    ],
-                    'source' => [
-                        'dir' => '@console/runtime/andy87/yii2-file-crafter/templates/source',
-                        'ext' => '.tpl',
-                    ],
-                    'custom_fields' => [
-                        'singular' => 'Ед. число',
-                        'plural' => 'Мн. число',
-                    ],
+                'cache' => [
+                    'dir' => '@console/runtime/andy87/yii2-file-crafter/cache',
+                    'ext' => '.json'
+                ],
+                'source' => [
+                    'dir' => '@console/runtime/andy87/yii2-file-crafter/templates/source',
+                    'ext' => '.tpl',
+                ],
+                'bash' => [
+                    'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\common\components\core\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
+                ],
+                'custom_fields' => [
+                    'singular' => 'Ед. число',
+                    'plural' => 'Мн. число',
                 ],
                 'templates' => [
                     'common' => $mapping['common'],

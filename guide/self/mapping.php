@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Full separated mapping for the file crafter generator.
+ */
+
 return [
     'common' => [
         'common/services/ItemService' => 'app/common/services/items/{{PascalCase}}Service',
