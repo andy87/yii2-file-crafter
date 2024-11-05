@@ -13,6 +13,7 @@ if (YII_ENV_DEV)
         'class' => yii\gii\Module::class,
         'generators' => [
             'fileCrafter' => [
+                'class' => Crafter::class,
                 'cache' => [
                     'dir' => '@console/runtime/andy87/yii2-file-crafter/cache',
                     'ext' => '.json'
