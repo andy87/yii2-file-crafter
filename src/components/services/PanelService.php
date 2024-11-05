@@ -219,11 +219,11 @@ class PanelService
      *
      * @param string $bash
      *
-     * @return void
+     * @return ?string
      */
-    public function runBash(string $bash): void
+    public function runBash(string $bash): ?string
     {
-        exec($bash);
+        return shell_exec($bash) ?? null;
     }
 
     /**

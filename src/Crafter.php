@@ -3,6 +3,7 @@
 namespace andy87\yii2\file_crafter;
 
 use Yii;
+use yii\base\Model;
 use yii\gii\CodeFile;
 use yii\helpers\Inflector;
 use andy87\yii2\file_crafter\{
@@ -83,6 +84,7 @@ class Crafter extends CoreGenerator
      * @var array 
      */
     public array $bash = [];
+    public array $bashResult = [];
 
     /**
      * list custom fields
@@ -274,7 +276,7 @@ class Crafter extends CoreGenerator
                 {
                     $replaceList = $this->getReplaceList($tableInfoDto);
 
-                   $this->execBash($replaceList);
+                    $this->bashResult = $this->execBash($replaceList);
 
                     $files = $this->generateTargetFiles($tableInfoDto, $replaceList);
                 }
@@ -289,21 +291,24 @@ class Crafter extends CoreGenerator
      *
      * @param array $replaceList
      *
-     * @return void
+     * @return array
      */
-    private function execBash(array $replaceList): void
+    private function execBash(array $replaceList): array
     {
-        $bash = $this->params['bash'] ?? null;
+        $result = [];
 
-        if ( $bash && is_array($bash) )
+        if (count($this->bash))
         {
-            foreach ($this->params['bash'] as $bash)
+            foreach ($this->bash as $bash)
             {
                 $bash = $this->replacing($bash, $replaceList);
 
-                $this->panelService->runBash($bash);
+                $output = $this->panelService->runBash($bash);
+
+                $result[$bash] = $output;
             }
         }
+        return $result;
     }
 
     /**
@@ -325,11 +330,9 @@ class Crafter extends CoreGenerator
                 'replaceList' => $replaceList,
             ];
 
-            $ext = $this->source['ext'];
-
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
-                $sourcePath = $this->panelService->constructSourcePath($sourcePath, $ext);
+                $sourcePath = $this->panelService->constructSourcePath($sourcePath, $this->source['ext']);
                 $sourcePath = $this->replacing($sourcePath, $replaceList);
 
                 $generatePath = $this->panelService->constructGeneratePath($generatePath);
@@ -417,5 +420,30 @@ class Crafter extends CoreGenerator
 
             $this->panelService->goHome();
         }
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save($files, $answers, &$results): bool
+    {
+        $saveResult = parent::save($files, $answers, $results);
+
+        $lines = [];
+
+        if (count($this->bashResult))
+        {
+            $lines[] = "executing bash commands...";
+            foreach ($this->bashResult as $command => $output)
+            {
+                $lines[] = "executing: " . $command;
+                $lines = array_merge($lines, explode("\n", $output));
+            }
+        }
+
+        $results = implode("\n", $lines) . "\n" . $results;
+
+        return $saveResult;
     }
 }
