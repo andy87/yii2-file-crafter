@@ -394,6 +394,10 @@ Content of the templates file rendered with the `View` method `renderFile`
 
 And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )
 
+And also passed to the render method:  
+ - `$schema` - schema object  
+ - `$generator` - module generate object  
+
 ___
 
 [Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)
