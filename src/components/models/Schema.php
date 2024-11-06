@@ -230,7 +230,7 @@ class Schema extends Model
     public function stickyAttributes(): array
     {
         return [
-            self::NAME
+            self::NAME,
         ];
     }
 
@@ -240,7 +240,20 @@ class Schema extends Model
     public function hints(): array
     {
         return [
-            Schema::NAME => 'Enter the name of the schema',
+            Schema::NAME => 'Module generate filed <code>table_name</code> from this field.<br>
+Example:
+<pre>
+{
+    "name": "User ME#GA Roles LIST !!!",
+    "table_name": "user_mega_roles_list",
+    "custom_fields": {
+        "custom_filed_key_1": "value 1",
+        "custom_filed_key_2": "value 2"
+    },
+    "db_fields": []
+}
+</pre>
+',
         ];
     }
 

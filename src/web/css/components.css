@@ -68,6 +68,16 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     padding: 7px;
     margin-left: 5px;
 }
+.popover-body{
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+}
+.popover-body CODE{
+    font-size: 13px;
+    vertical-align: bottom;
+    font-family: "Calibri Light", sans-serif;
+
+}
 
 .form-group { font-size: 13px }
 
