@@ -25,33 +25,6 @@ class Schema extends Model
     public const CUSTOM_FIELDS = 'custom_fields';
     public const DB_FIELDS = 'db_fields';
 
-    /**
-     * @var array
-     */
-    public const TYPES = [
-        'string' => 'string',
-        'int' => 'int',
-        'boolean' => 'boolean',
-        'text' => 'text',
-        'timestamp' => 'timestamp',
-        'datetime' => 'datetime',
-        'date' => 'date',
-        'time' => 'time',
-        'json' => 'json',
-        'float' => 'float',
-        'double' => 'double',
-        'decimal' => 'decimal',
-        'jsonb' => 'jsonb',
-        'binary' => 'binary',
-        'money' => 'money',
-        'smallint' => 'smallint',
-        'bigint' => 'bigint',
-        'char' => 'char',
-        'varchar' => 'varchar',
-        'tinyint' => 'tinyint',
-        'enum' => 'enum',
-        'set' => 'set',
-    ];
 
 
     /**
@@ -60,16 +33,15 @@ class Schema extends Model
     public string $scenario = self::SCENARIO_DEFAULT;
 
     /**
-     * Needle for unique Schema validation
-     *
-     * @var array $cacheParams
+     * @var string
      */
-    private array $cacheParams;
+    public string $name = '';
 
     /**
      * @var string
      */
     public string $table_name = '';
+
 
     /**
      * Custom fields, setup on config:
@@ -105,18 +77,6 @@ class Schema extends Model
     public array $db_fields = [];
 
 
-
-    /**
-     * @param array $cacheParams
-     * @param array $config
-     */
-    public function __construct( array $cacheParams, array $config = [] )
-    {
-        $this->cacheParams = $cacheParams;
-
-        parent::__construct($config);
-    }
-
     /**
      * @return array
      */
@@ -125,7 +85,7 @@ class Schema extends Model
         return [
             [ [self::TABLE_NAME], 'required' ],
             [ [self::TABLE_NAME], 'string', 'max' => 255 ],
-            [ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
+            //[ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
         ];
@@ -151,7 +111,7 @@ class Schema extends Model
         return sprintf(
             '?%s=%s',
             self::SCENARIO_UPDATE,
-            $this->{self::TABLE_NAME}
+            $this->getTableName()
         );
     }
 
@@ -160,7 +120,7 @@ class Schema extends Model
      */
     public function displayTableName(): string
     {
-        return Inflector::id2camel($this->{self::TABLE_NAME}, '_');
+        return Inflector::id2camel($this->getTableName(), '_');
     }
 
     /**
@@ -180,11 +140,11 @@ class Schema extends Model
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getDbFields(): mixed
+    public function getDbFields(): array
     {
-        return $this->{self::DB_FIELDS};
+        return $this->db_fields;
     }
 
     /**
@@ -194,7 +154,7 @@ class Schema extends Model
      */
     public function isPreviewGenerate(array $generateList): bool
     {
-        return in_array($this->{self::TABLE_NAME}, $generateList);
+        return in_array($this->getTableName(), $generateList);
     }
 
     /**
@@ -204,7 +164,7 @@ class Schema extends Model
      */
     public function getTableName(): string
     {
-        return $this->{self::TABLE_NAME};
+        return $this->table_name;
     }
 
     /**
@@ -212,7 +172,7 @@ class Schema extends Model
      */
     public function getCustomFields(): array
     {
-        return $this->{self::CUSTOM_FIELDS};
+        return $this->custom_fields;
     }
 
     /**

@@ -84,7 +84,7 @@ class PanelService
 
             $schema = $this->schemaProducer->create($params);
 
-            $this->cacheService->removeItem($schema->{Schema::TABLE_NAME});
+            $this->cacheService->removeItem($schema->getTableName());
 
             if ( $this->save($schema) )
             {
@@ -104,13 +104,14 @@ class PanelService
      */
     private function save(Schema $schema): bool|int
     {
-        $schema->{Schema::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schema->{Schema::TABLE_NAME}));
+        $schema->name = strtolower(str_replace([' ','-'], '_', $schema->getTableName()));
+        $schema->table_name = strtolower(str_replace([' ','-'], '_', $schema->getTableName()));
 
-        $fileName =  $this->cacheService->constructPath($schema->{Schema::TABLE_NAME});
+        $fileName = $this->cacheService->constructPath($schema->getTableName());
 
         $params = $schema->attributes;
 
-        foreach ($schema->{Schema::DB_FIELDS} as $index => $dbField)
+        foreach ($schema->db_fields as $index => $dbField)
         {
             if ($dbField[Field::FOREIGN_KEYS] ?? false) {
                 $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
@@ -275,7 +276,7 @@ class PanelService
      */
     public function getReplaceList(Schema $schema): array
     {
-        $tableName = $schema->{Schema::TABLE_NAME};
+        $tableName = $schema->getTableName();
         $tableName = str_replace([' ','-'], '_', $tableName);
 
         $pascalCase = Inflector::id2camel($tableName,'_');
@@ -283,8 +284,10 @@ class PanelService
         $params = [
             '{{PascalCase}}' => $pascalCase,
             '{{camelCase}}' => lcfirst($pascalCase),
-            '{{snake_case}}' => $schema->{Schema::TABLE_NAME},
-            '{{kebab-case}}' => str_replace('_', '-', $schema->{Schema::TABLE_NAME}),
+            '{{snake_case}}' => $schema->getTableName(),
+            '{{kebab-case}}' => str_replace('_', '-', $schema->getTableName()),
+            '{{UPPERCASE}}' => strtoupper($schema->getTableName()),
+            '{{lowercase}}' => strtolower($schema->getTableName()),
         ];
 
         $customFields = $schema->getCustomFields();

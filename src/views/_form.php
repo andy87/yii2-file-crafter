@@ -38,7 +38,7 @@ $listDbFields = $R->schema->getDbFields();
                     <input class="input" type="text"
                            title="{{<?= $fieldKey?>}}"
                            name="<?= Schema::CUSTOM_FIELDS ."[$fieldKey]"?>"
-                           value="<?= (count($R->schema->custom_fields)) ? $R->schema->{Schema::CUSTOM_FIELDS}[$fieldKey] : '' ?>">
+                           value="<?= (count($R->schema->getCustomFields())) ? $R->schema->custom_fields[$fieldKey] : '' ?>">
                 </div>
             <?php endforeach; ?>
         </div>
@@ -101,7 +101,7 @@ $listDbFields = $R->schema->getDbFields();
                                 <?php $option = $dbField[Field::TYPE] ?>
                                <label>
                                    <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
-                                       <?php foreach (Schema::TYPES as $key => $value ) : ?>
+                                       <?php foreach (Field::TYPES as $key => $value ) : ?>
                                            <option value="<?= $key?>" <?= ($option === $key) ? 'selected' : '' ?>><?= $value?></option>
                                        <?php endforeach; ?>
                                    </select>

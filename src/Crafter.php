@@ -39,14 +39,11 @@ class Crafter extends CoreGenerator
     /** @var string Path to the root directory */
     public const ROOT = '@vendor/andy87/' . self::ID;
 
-    /** @var string Root directory */
-    public const DIR_DEFAULT_RESOURCES = '@app/runtime/' . self::ID;
-
     /** @var string Root directory path */
-    public const DIR_SRC = self::ROOT . '/src';
+    public const SRC = self::ROOT . '/src';
 
     /** @var string View directory  path*/
-    public const DIR_VIEWS = self::DIR_SRC . '/views';
+    public const VIEWS = self::SRC . '/views';
 
 
     // Values for the model list display widget
@@ -71,13 +68,13 @@ class Crafter extends CoreGenerator
 
     /** @var array Cache settings */
     public array $cache = [
-        'dir' => self::DIR_DEFAULT_RESOURCES . '/cache',
+        'dir' => self::DEFAULT_RESOURCES_DIR . '/cache',
         'ext' => '.json'
     ];
 
     /** @var array Source settings */
     public array $source = [
-        'dir' => self::DIR_DEFAULT_RESOURCES . '/templates/source',
+        'dir' => self::DEFAULT_RESOURCES_DIR . '/templates/source',
         'ext' => '.tpl'
     ];
 

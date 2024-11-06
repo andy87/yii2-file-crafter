@@ -16,12 +16,22 @@ use andy87\yii2\file_crafter\components\models\Schema;
 class UniqueSchemaNameValidator extends UniqueValidator
 {
     /**
+     * @var array $cacheParams [
+     *      'cacheDir' => '@runtime/cache/...',
+     *      'ext' => '.json',
+     *  ]
+     */
+    public array $cacheParams;
+
+
+
+    /**
      * @param Schema $model
      * @param $attribute
      *
      * @return void
      */
-    public function validateAttribute( $model, $attribute): void
+    public function validateAttribute( $model, $attribute ): void
     {
         $targetAttribute = $this->targetAttribute === null ? $attribute : $this->targetAttribute;
 
@@ -33,10 +43,8 @@ class UniqueSchemaNameValidator extends UniqueValidator
             }
         }
 
-        $cacheParams = $model->getParams();
-
-        $cacheDir = Yii::getAlias($cacheParams['cacheDir']);
-        $ext = $cacheParams['ext'];
+        $cacheDir = Yii::getAlias($this->cacheParams['cacheDir']);
+        $ext = $this->cacheParams['ext'];
 
         $listFilePath = scandir("$cacheDir/*$ext");
 

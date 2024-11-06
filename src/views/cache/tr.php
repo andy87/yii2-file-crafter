@@ -37,7 +37,7 @@ $prefix = Schema::DB_FIELDS . '[0]';
         <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
             <label>
                 <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
-                    <?php foreach (Schema::TYPES as $key => $value ) : ?>
+                    <?php foreach (Field::TYPES as $key => $value ) : ?>
                         <option value="<?= $key?>"><?= $value?></option>
                     <?php endforeach; ?>
                 </select>

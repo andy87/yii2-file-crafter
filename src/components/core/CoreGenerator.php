@@ -22,12 +22,13 @@ abstract class CoreGenerator extends Generator
     /** @var string ID on module list */
     public const ID = null;
 
+    /** @var string Description on module list */
+    protected const DESCRIPTION = null;
 
-    /** @var string Path on root directory */
-    public const DIR_SRC = null;
 
-    /** @var string Path with view directory */
-    public const DIR_VIEWS = null;
+    /** @var string Root directory */
+    public const DEFAULT_RESOURCES_DIR = '@app/runtime/' . self::ID;
+
 
     /** @var array Mapping event */
     protected const EVENT_MAPPING = [
@@ -53,7 +54,7 @@ abstract class CoreGenerator extends Generator
      */
     public function formView(): string
     {
-        return static::DIR_VIEWS . '/panel.php';
+        return static::VIEWS . '/panel.php';
     }
 
     /**

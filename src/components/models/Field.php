@@ -22,6 +22,35 @@ class Field extends Model
     public const NOT_NULL = 'notNull';
 
 
+    /**
+     * @var array
+     */
+    public const TYPES = [
+        'string' => 'string',
+        'int' => 'int',
+        'boolean' => 'boolean',
+        'text' => 'text',
+        'timestamp' => 'timestamp',
+        'datetime' => 'datetime',
+        'date' => 'date',
+        'time' => 'time',
+        'json' => 'json',
+        'float' => 'float',
+        'double' => 'double',
+        'decimal' => 'decimal',
+        'jsonb' => 'jsonb',
+        'binary' => 'binary',
+        'money' => 'money',
+        'smallint' => 'smallint',
+        'bigint' => 'bigint',
+        'char' => 'char',
+        'varchar' => 'varchar',
+        'tinyint' => 'tinyint',
+        'enum' => 'enum',
+        'set' => 'set',
+    ];
+
+
 
     public string $name;
     public string $comment;

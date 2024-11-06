@@ -157,11 +157,19 @@ Module use marks for replace variables in templates.
  - `{{snake_case}}` - snake_case by schema name  
  - `{{kebab-case}}` - kebab-case by schema name  
  - `{{UPPERCASE}}` - UPPERCASE by schema name  
- - `{{lowercase}}` - lowercase  
- - `{{[key]}}` - custom key from property `custom_fields` on `config`  
+ - `{{lowercase}}` - lowercase by schema name
+ - `{{[key]}}` - custom key from property `custom_fields` on `config` ( see [Custom Fields](#yii2-file-crafter-using-Custom) )
+
+#### Example
+for schema name `Product Items` replace marks:
+- `{{PascalCase}}` - `ProductItems`  
+- `{{camelCase}}` - `productItems`  
+- `{{snake_case}}` - `product_items`  
+- `{{kebab-case}}` - `product-items`  
+- `{{UPPERCASE}}` - `PRODUCT ITEMS`  
+- `{{lowercase}}` - `product items`  
 
 --- 
-
 
 <span id="yii2-file-crafter-using-Cache"></span>
 <h2 align="center">Cache</h2>  
@@ -171,7 +179,6 @@ Module use marks for replace variables in templates.
 
 --- 
 
-
 <span id="yii2-file-crafter-using-Source"></span>
 <h2 align="center">Source</h2>  
 
@@ -180,11 +187,10 @@ Module use marks for replace variables in templates.
 
 --- 
 
-
 <span id="yii2-file-crafter-using-Custom"></span>
 <h2 align="center">Custom Fields</h2>  
 Array with custom fields for use custom variables in templates.  
-Using on template key wrapped in square brackets: `{{%key%}}`  
+Using on template key wrapped in square brackets: `{{%key%}}`    
 Example: `{{key_one}}`, `{{key_two}}`...  
 
 Example simple config
