@@ -277,6 +277,8 @@ class Crafter extends CoreGenerator
                 }
         }
 
+        $event->crafter = $this;
+
         return $event;
     }
 
@@ -381,7 +383,7 @@ class Crafter extends CoreGenerator
 
                 $this->event(CrafterEventRender::AFTER, $eventRender );
 
-                $files[] = new CodeFile( $generatePath, $eventRender->content );
+                $files[] = new CodeFile( $eventRender->generatePath, $eventRender->content );
             }
         }
 
