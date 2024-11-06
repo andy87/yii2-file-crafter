@@ -22,7 +22,7 @@ $R = $generator->panelResources;
         </svg>
 
         <label class="b_cache--label __big">
-            <input class="b_cache--checkbox" type="checkbox" name="check_all" value="generate" title="Checked all">
+            <input class="b_cache--checkbox" type="checkbox" onchange="app.cache.checkedAll(this)" value="generate" title="Checked all">
 
             <b>Model list</b>
         </label>

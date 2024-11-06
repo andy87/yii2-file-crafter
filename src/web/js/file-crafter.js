@@ -177,6 +177,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     window.location.href = `?remove=${modelName}`;
                 }
+            },
+            checkedAll(self) {
+
+                let parent = self.closest('.block__cache'),
+                    checkboxes = parent.querySelectorAll('input[type="checkbox"]');
+
+                let state = self.checked;
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = state;
+                });
             }
         }
     };
