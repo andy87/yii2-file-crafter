@@ -25,19 +25,19 @@ class PanelService
     private SchemaProducer $schemaProducer;
 
 
-
     /**
      * PanelService constructor.
      *
-     * @param Crafter $crafter
+     * @param array $cacheParams
+     * @param array $keyCustomFields
      *
      * @tag #constructor
      */
-    public function __construct( Crafter $crafter )
+    public function __construct( array $cacheParams, array $keyCustomFields )
     {
-        $this->cacheService = new CacheService($crafter->cache);
+        $this->cacheService = new CacheService($cacheParams);
 
-        $this->schemaProducer = new SchemaProducer($crafter->custom_fields);
+        $this->schemaProducer = new SchemaProducer($keyCustomFields);
     }
 
     /**

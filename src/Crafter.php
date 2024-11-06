@@ -209,7 +209,10 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-        $this->panelService = new PanelService($this);
+        $this->panelService = new PanelService(
+            $this->cache,
+            array_keys($this->custom_fields)
+        );
     }
 
     /**

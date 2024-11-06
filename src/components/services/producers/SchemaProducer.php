@@ -14,22 +14,20 @@ use Yii;
  */
 class SchemaProducer
 {
-    /**
-     * @var array $custom_fields
-     */
+    /** @var array $custom_fields */
     private array $custom_fields;
 
 
 
     /**
-     * @param array $custom_fields
+     * @param array $keyCustomFields
      *
      * @tag #constructor
      */
-    public function __construct( array $custom_fields )
+    public function __construct( array $keyCustomFields )
     {
-        foreach (array_keys($custom_fields) as $custom_field) {
-            $this->custom_fields[$custom_field] ='';
+        foreach ($keyCustomFields as $key ) {
+            $this->custom_fields[$key] = '';
         }
     }
 
