@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\models;
 
+use Yii;
 use yii\base\Model;
 use yii\helpers\Inflector;
 use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
@@ -21,6 +22,7 @@ class Schema extends Model
     public const SCENARIO_UPDATE = 'update';
     public const SCENARIO_REMOVE = 'remove';
 
+    public const NAME = 'name';
     public const TABLE_NAME = 'table_name';
     public const CUSTOM_FIELDS = 'custom_fields';
     public const DB_FIELDS = 'db_fields';
@@ -84,7 +86,7 @@ class Schema extends Model
     {
         return [
             [ [self::TABLE_NAME], 'required' ],
-            [ [self::TABLE_NAME], 'string', 'max' => 255 ],
+            [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
             //[ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
@@ -97,7 +99,7 @@ class Schema extends Model
     public function attributeLabels(): array
     {
         return [
-            self::TABLE_NAME => 'Table name',
+            self::TABLE_NAME => 'Schema name',
             self::CUSTOM_FIELDS => 'Custom fields',
             self::DB_FIELDS => 'Fields database',
         ];
@@ -116,27 +118,11 @@ class Schema extends Model
     }
 
     /**
-     * @return string
-     */
-    public function displayTableName(): string
-    {
-        return Inflector::id2camel($this->getTableName(), '_');
-    }
-
-    /**
      * @return bool
      */
     public function isCreate(): bool
     {
         return $this->scenario === self::SCENARIO_CREATE;
-    }
-
-    /**
-     * @return array
-     */
-    public function getParams(): array
-    {
-        return $this->cacheParams;
     }
 
     /**
@@ -155,6 +141,14 @@ class Schema extends Model
     public function isPreviewGenerate(array $generateList): bool
     {
         return in_array($this->getTableName(), $generateList);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**
@@ -186,4 +180,45 @@ class Schema extends Model
     {
         return $this->table_name === $tableName;
     }
+
+
+    /**
+     * Save schema to cache file
+     *
+     * @param string $fileName
+     *
+     * @return bool
+     */
+    public function save(string $fileName): bool
+    {
+        $params = $this->attributes;
+
+        foreach ($this->db_fields as $index => $dbField)
+        {
+            if ($dbField[Field::FOREIGN_KEYS] ?? false) $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
+
+            if ($dbField[Field::UNIQUE] ?? false) $params[Schema::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
+
+            if ($dbField[Field::NOT_NULL] ?? false) $params[Schema::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
+        }
+
+        unset($params['scenario']);
+
+        $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
+
+        return (bool) file_put_contents( Yii::getAlias($fileName), $content );
+    }
+
+    /**
+     * @return void
+     */
+    public function prepareNaming(): void
+    {
+        $this->name = trim($this->name);
+
+        $table_name = preg_replace('/[^a-zA-Z_]/', '', $this->name);
+
+        $this->table_name = strtolower($table_name);
+    }
+
 }

@@ -45,7 +45,7 @@ $R = $generator->panelResources;
                        title="Generate files for <?= $schema->getTableName() ?>"
                 <?= ( $schema->isPreviewGenerate($generator->generateList) ) ? 'checked' : '' ?>>
 
-                <?= $schema->displayTablename() ?>
+                <?= $schema->name ?>
             </label>
             <button class="b_cache--button" onclick="app.cache.removeModel('<?=$schema->getTableName()?>')" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#FF0000" width="20px" height="20px" viewBox="0 0 32 32">

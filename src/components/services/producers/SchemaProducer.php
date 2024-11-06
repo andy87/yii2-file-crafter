@@ -3,6 +3,7 @@
 namespace andy87\yii2\file_crafter\components\services\producers;
 
 use andy87\yii2\file_crafter\components\models\Schema;
+use Yii;
 
 /**
  * SchemaDto creator
@@ -27,7 +28,9 @@ class SchemaProducer
      */
     public function __construct( array $custom_fields )
     {
-        $this->custom_fields = $custom_fields;
+        foreach (array_keys($custom_fields) as $custom_field) {
+            $this->custom_fields[$custom_field] ='';
+        }
     }
 
     /**
@@ -39,9 +42,15 @@ class SchemaProducer
      */
     public function create( array $params = [] ): Schema
     {
-        $schema = new Schema( $this->custom_fields );
+        $schema = new Schema();
+
+        if (empty($schema->custom_fields)){
+            $schema->custom_fields = $this->custom_fields;
+        }
 
         $schema->load($params, '');
+
+        $schema->prepareNaming();
 
         return $schema;
     }

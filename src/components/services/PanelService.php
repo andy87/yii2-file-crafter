@@ -65,8 +65,6 @@ class PanelService
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
 
-            $schema->table_name = strtolower($tableName);
-
             if (count($params))
             {
                 $schema->scenario = Schema::SCENARIO_UPDATE;
@@ -78,16 +76,22 @@ class PanelService
         $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
         $isUpdate = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
 
+
         if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
         {
-            $params = Yii::$app->request->post();
+            $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
-            $schema = $this->schemaProducer->create($params);
+            $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
+
+            if ( $update && $update !== $schema->getTableName() ) {
+                $this->removeItem($update);
+            }
 
             $this->cacheService->removeItem($schema->getTableName());
 
-            if ( $this->save($schema) )
-            {
+            $fileName = $this->cacheService->constructPath($schema->getTableName());
+
+            if ( $schema->save($fileName) ) {
                 $this->goHome();
             }
         }
@@ -95,47 +99,6 @@ class PanelService
         return $schema;
     }
 
-    /**
-     * Save schema to cache file
-     *
-     * @param Schema $schema
-     *
-     * @return false|int
-     */
-    private function save(Schema $schema): bool|int
-    {
-        $schema->name = strtolower(str_replace([' ','-'], '_', $schema->getTableName()));
-        $schema->table_name = strtolower(str_replace([' ','-'], '_', $schema->getTableName()));
-
-        $fileName = $this->cacheService->constructPath($schema->getTableName());
-
-        $params = $schema->attributes;
-
-        foreach ($schema->db_fields as $index => $dbField)
-        {
-            if ($dbField[Field::FOREIGN_KEYS] ?? false) {
-                $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
-            }
-            if ($dbField[Field::UNIQUE] ?? false) {
-                $params[Schema::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
-            }
-            if ($dbField[Field::NOT_NULL] ?? false) {
-                $params[Schema::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
-            }
-        }
-
-        unset($params['scenario']);
-
-        $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
-
-        $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
-
-        if ( $update && $update !== $params[Schema::TABLE_NAME] ) {
-            $this->removeItem($update);
-        }
-
-        return file_put_contents( Yii::getAlias($fileName), $content );
-    }
 
     /**
      * Redirect to main page of panel
