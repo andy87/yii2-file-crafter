@@ -196,8 +196,7 @@ class Crafter extends CoreGenerator
             $this->cache['dir'] ?? null,
         ];
 
-        foreach ( $directoryList as $dirPath )
-        {
+        foreach ( $directoryList as $dirPath ) {
             if( $dirPath ) $this->panelService->checkDirectory($dirPath);
         }
     }
@@ -238,11 +237,8 @@ class Crafter extends CoreGenerator
      */
     public function event($name, mixed $data = [] ): void
     {
-        if ( $this->eventHandler )
-        {
-            $event = $this->fabricEvent($name, $data);
-
-            parent::trigger($name, $event);
+        if ( $this->eventHandler ) {
+            parent::trigger( $name, $this->fabricEvent( $name, $data ) );
         }
     }
 
@@ -293,7 +289,7 @@ class Crafter extends CoreGenerator
 
         $listSchemaDto = $this->panelService->getListSchemaDto();
 
-        if (count($listSchemaDto))
+        if ( count($listSchemaDto) )
         {
             $this->generateList = array_keys($this->generateList);
 
@@ -326,9 +322,9 @@ class Crafter extends CoreGenerator
     {
         $result = [];
 
-        if (count($this->commands))
+        if ( count($this->commands) )
         {
-            foreach ($this->commands as $command)
+            foreach ( $this->commands as $command )
             {
                 $commandCli = new Cmd();
                 $commandCli->exec = $this->panelService->replacing($command, $replaceList);
@@ -397,15 +393,9 @@ class Crafter extends CoreGenerator
      */
     private function renderTemplate(CrafterEventRender $eventRender): string
     {
-        $eventRender->content = $this->render(
-            $eventRender->sourcePath,
-            $eventRender->replaceList
-        );
+        $eventRender->content = $this->render( $eventRender->sourcePath, $eventRender->replaceList );
 
-        return $this->panelService->replacing(
-            $eventRender->content,
-            $eventRender->replaceList
-        );
+        return $this->panelService->replacing( $eventRender->content, $eventRender->replaceList );
     }
 
     /**
@@ -432,9 +422,11 @@ class Crafter extends CoreGenerator
         if (count($this->bashResult))
         {
             $lines[] = "executing bash commands...";
+
             foreach ($this->bashResult as $command => $output)
             {
                 $lines[] = "executing: " . $command;
+
                 $lines = array_merge($lines, explode("\n", $output));
             }
         }

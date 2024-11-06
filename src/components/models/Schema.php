@@ -216,7 +216,9 @@ class Schema extends Model
     {
         $this->name = trim($this->name);
 
-        $table_name = preg_replace('/[^a-zA-Z_]/', '', $this->name);
+        $table_name = preg_replace('/[^a-zA-Z\s]/', '', $this->name);
+        $table_name = str_replace(' ', '_', $table_name);
+        $table_name  =trim($table_name, '_');
 
         $this->table_name = strtolower($table_name);
     }
