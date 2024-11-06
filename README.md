@@ -48,7 +48,10 @@ php composer.phar require andy87/yii2-file-crafter
 Open file `composer.json`, in section with key `require` add line:  
 `"andy87/yii2-file-crafter": "*"`  
 
-
+dont forget update composer
+```bash
+composer update
+```
 <p align="center">- - - - -</p>
 
 
@@ -132,55 +135,57 @@ Full Config with all options
 <span id="yii2-file-crafter-using"></span>
 <h2>
     Using
-</h2>
+</h2>  
 
-- [Marks](#yii2-file-crafter-using-Marks)
-- [Cache](#yii2-file-crafter-using-Cache)
-- [Source](#yii2-file-crafter-using-Source)
-- [Custom](#yii2-file-crafter-using-Custom)
-- [Commands](#yii2-file-crafter-using-Commands)
-- [Events](#yii2-file-crafter-using-Events)
-- [Templates](#yii2-file-crafter-using-Templates)
+- [Marks](#yii2-file-crafter-using-Marks)  
+- [Cache](#yii2-file-crafter-using-Cache)  
+- [Source](#yii2-file-crafter-using-Source)  
+- [Custom](#yii2-file-crafter-using-Custom)  
+- [Commands](#yii2-file-crafter-using-Commands)  
+- [Events](#yii2-file-crafter-using-Events)  
+- [Templates](#yii2-file-crafter-using-Templates)  
 
 --- 
 
 
-<span id="yii2-file-crafter-using-Marks"></span>
-<h2 align="center">Marks</h2>
+<span id="yii2-file-crafter-using-Marks"></span>  
+<h2 align="center">Marks</h2>  
 
 Module use marks for replace variables in templates.  
  - `{{PascalCase}}` - PascalCase by schema name  
- - `{{camelCase}}` - camelCase by schema name
- - `{{snake_case}}` - snake_case by schema name
- - `{{kebab-case}}` - kebab-case by schema name
- - `{{UPPERCASE}}` - UPPERCASE by schema name
+ - `{{camelCase}}` - camelCase by schema name  
+ - `{{snake_case}}` - snake_case by schema name  
+ - `{{kebab-case}}` - kebab-case by schema name  
+ - `{{UPPERCASE}}` - UPPERCASE by schema name  
  - `{{lowercase}}` - lowercase  
- - `{{[key]}}` - custom key from property `custom_fields` on `config`
+ - `{{[key]}}` - custom key from property `custom_fields` on `config`  
 
 --- 
 
 
 <span id="yii2-file-crafter-using-Cache"></span>
 <h2 align="center">Cache</h2>  
- - `dir` - path to the cache directory with schema data  
- - `ext` - extension of the cache file  
+
+- `dir` - path to the cache directory with schema data  
+- `ext` - extension of the cache file  
 
 --- 
 
 
 <span id="yii2-file-crafter-using-Source"></span>
 <h2 align="center">Source</h2>  
-    - `dir` - path to the directory with the templates files source for generation  
-    - `ext` - extension of the templates file
+
+- `dir` - path to the directory with the templates files source for generation  
+- `ext` - extension of the templates file  
 
 --- 
 
 
 <span id="yii2-file-crafter-using-Custom"></span>
 <h2 align="center">Custom Fields</h2>  
- Array with custom fields for use custom variables in templates.  
- Using on template key wrapped in square brackets: `{{%key%}}`  
-    Example: `{{key_one}}`, `{{key_two}}`...  
+Array with custom fields for use custom variables in templates.  
+Using on template key wrapped in square brackets: `{{%key%}}`  
+Example: `{{key_one}}`, `{{key_two}}`...  
 
 Example simple config
 ```php
