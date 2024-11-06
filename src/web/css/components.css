@@ -55,9 +55,18 @@ INPUT[type="number"]::-webkit-inner-spin-button {
 .input.__header {
     display: inline-block;
     width: 50%;
+    margin-left: 8px;
     height: 32px;
     line-height: 22px;
     padding: 6px;
+}
+
+.sticky-value {
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 7px;
+    margin-left: 5px;
 }
 
 .form-group { font-size: 13px }
