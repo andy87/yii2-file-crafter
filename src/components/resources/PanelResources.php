@@ -16,7 +16,7 @@ class PanelResources
     /**
      * @var Schema
      */
-    public Schema $schemaDto;
+    public Schema $schema;
 
     /**
      * @var Schema[]
@@ -26,14 +26,14 @@ class PanelResources
 
 
     /**
-     * @param Schema $schemaDto
+     * @param Schema $schema
      * @param array $listSchemaDto
      *
      * @return void
      */
-    public function __construct(Schema $schemaDto, array $listSchemaDto )
+    public function __construct(Schema $schema, array $listSchemaDto )
     {
-        $this->schemaDto = $schemaDto;
+        $this->schema = $schema;
 
         $this->listSchemaDto = $listSchemaDto;
     }

@@ -277,8 +277,6 @@ class Crafter extends CoreGenerator
                 }
         }
 
-        $event->crafter = $this;
-
         return $event;
     }
 
@@ -299,15 +297,15 @@ class Crafter extends CoreGenerator
         {
             $this->generateList = array_keys($this->generateList);
 
-            foreach ($listSchemaDto as $schemaDto)
+            foreach ($listSchemaDto as $schema)
             {
-                if ( in_array($schemaDto->getTableName(), $this->generateList) )
+                if ( in_array($schema->getTableName(), $this->generateList) )
                 {
-                    $replaceList = $this->panelService->getReplaceList($schemaDto);
+                    $replaceList = $this->panelService->getReplaceList($schema);
 
                     $this->bashResult = $this->execCommands($replaceList);
 
-                    $files = array_merge($files, $this->fileGenerating($schemaDto, $replaceList));
+                    $files = array_merge($files, $this->fileGenerating($schema, $replaceList));
                 }
             }
         }
@@ -357,19 +355,19 @@ class Crafter extends CoreGenerator
     /**
      * Generate target files
      *
-     * @param Schema $schemaDto
+     * @param Schema $schema
      * @param array $replaceList
      *
      * @return CodeFile[]
      */
-    private function fileGenerating(Schema $schemaDto, array $replaceList ): array
+    private function fileGenerating(Schema $schema, array $replaceList ): array
     {
         $files = [];
 
         if ( count($this->templateGroup[$this->template]) )
         {
             $eventRender = new CrafterEventRender();
-            $eventRender->schemaDto = $schemaDto;
+            $eventRender->schema = $schema;
             $eventRender->replaceList = $replaceList;
 
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)

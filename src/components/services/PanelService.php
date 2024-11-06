@@ -53,25 +53,25 @@ class PanelService
     /**
      * Handler Create/Update
      *
-     * @param Schema $schemaDto
+     * @param Schema $schema
      *
      * @return Schema
      *
      * @throws InvalidRouteException
      */
-    public function handlerSchema(Schema $schemaDto): Schema
+    public function handlerSchema(Schema $schema): Schema
     {
         if ( $tableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE) )
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
 
-            $schemaDto->table_name = strtolower($tableName);
+            $schema->table_name = strtolower($tableName);
 
             if (count($params))
             {
-                $schemaDto->scenario = Schema::SCENARIO_UPDATE;
+                $schema->scenario = Schema::SCENARIO_UPDATE;
 
-                $schemaDto->load($params, '');
+                $schema->load($params, '');
             }
         }
 
@@ -82,35 +82,35 @@ class PanelService
         {
             $params = Yii::$app->request->post();
 
-            $schemaDto = $this->schemaProducer->create($params);
+            $schema = $this->schemaProducer->create($params);
 
-            $this->cacheService->removeItem($schemaDto->{Schema::TABLE_NAME});
+            $this->cacheService->removeItem($schema->{Schema::TABLE_NAME});
 
-            if ( $this->save($schemaDto) )
+            if ( $this->save($schema) )
             {
                 $this->goHome();
             }
         }
 
-        return $schemaDto;
+        return $schema;
     }
 
     /**
      * Save schema to cache file
      *
-     * @param Schema $schemaDto
+     * @param Schema $schema
      *
      * @return false|int
      */
-    private function save(Schema $schemaDto): bool|int
+    private function save(Schema $schema): bool|int
     {
-        $schemaDto->{Schema::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schemaDto->{Schema::TABLE_NAME}));
+        $schema->{Schema::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schema->{Schema::TABLE_NAME}));
 
-        $fileName =  $this->cacheService->constructPath($schemaDto->{Schema::TABLE_NAME});
+        $fileName =  $this->cacheService->constructPath($schema->{Schema::TABLE_NAME});
 
-        $params = $schemaDto->attributes;
+        $params = $schema->attributes;
 
-        foreach ($schemaDto->{Schema::DB_FIELDS} as $index => $dbField)
+        foreach ($schema->{Schema::DB_FIELDS} as $index => $dbField)
         {
             if ($dbField[Field::FOREIGN_KEYS] ?? false) {
                 $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
@@ -168,9 +168,9 @@ class PanelService
 
             $params = $this->cacheService->getContentCacheFile($fileName);
 
-            $schemaDto = $this->schemaProducer->create($params);
+            $schema = $this->schemaProducer->create($params);
 
-            $listSchemaDto[] = $schemaDto;
+            $listSchemaDto[] = $schema;
         }
 
         return $listSchemaDto;
@@ -269,13 +269,13 @@ class PanelService
     /**
      * Generate the list of parameters for replacing
      *
-     * @param Schema $schemaDto
+     * @param Schema $schema
      *
      * @return array
      */
-    public function getReplaceList(Schema $schemaDto): array
+    public function getReplaceList(Schema $schema): array
     {
-        $tableName = $schemaDto->{Schema::TABLE_NAME};
+        $tableName = $schema->{Schema::TABLE_NAME};
         $tableName = str_replace([' ','-'], '_', $tableName);
 
         $pascalCase = Inflector::id2camel($tableName,'_');
@@ -283,11 +283,11 @@ class PanelService
         $params = [
             '{{PascalCase}}' => $pascalCase,
             '{{camelCase}}' => lcfirst($pascalCase),
-            '{{snake_case}}' => $schemaDto->{Schema::TABLE_NAME},
-            '{{kebab-case}}' => str_replace('_', '-', $schemaDto->{Schema::TABLE_NAME}),
+            '{{snake_case}}' => $schema->{Schema::TABLE_NAME},
+            '{{kebab-case}}' => str_replace('_', '-', $schema->{Schema::TABLE_NAME}),
         ];
 
-        $customFields = $schemaDto->getCustomFields();
+        $customFields = $schema->getCustomFields();
 
         if (count($customFields)) {
             foreach ($customFields as $key => $title ) {
@@ -308,7 +308,7 @@ class PanelService
     {
         $this->removeHandler();
 
-        $panelResources->schemaDto = $this->handlerSchema($panelResources->schemaDto);
+        $panelResources->schema = $this->handlerSchema($panelResources->schema);
     }
 
     /**

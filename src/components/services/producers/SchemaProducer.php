@@ -39,10 +39,10 @@ class SchemaProducer
      */
     public function create( array $params = [] ): Schema
     {
-        $schemaDto = new Schema( $this->custom_fields );
+        $schema = new Schema( $this->custom_fields );
 
-        $schemaDto->load($params, '');
+        $schema->load($params, '');
 
-        return $schemaDto;
+        return $schema;
     }
 }
