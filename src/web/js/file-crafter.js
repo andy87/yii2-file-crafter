@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if ( fieldName.indexOf('year') !== -1 ) option = 'int';
                 if ( fieldName.indexOf('day') !== -1 ) option = 'int';
                 if ( fieldName.indexOf('month') !== -1 ) option = 'int';
+
                 if ( fieldName.indexOf('lat') !== -1 ) option = 'float';
                 if ( fieldName.indexOf('lon') !== -1 ) option = 'float';
                 if ( fieldName.indexOf('lon') !== -1 ) option = 'float';

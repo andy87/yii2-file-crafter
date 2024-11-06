@@ -2,10 +2,15 @@
 
 namespace andy87\yii2\file_crafter\components\core;
 
+use andy87\yii2\file_crafter\components\Log;
 use yii\gii\Generator;
 
 /**
+ * CoreGenerator
  *
+ * @package andy87\yii2\file_crafter\components\core
+ *
+ * @tag: #generator #core
  */
 abstract class CoreGenerator extends Generator
 {
@@ -26,16 +31,6 @@ abstract class CoreGenerator extends Generator
      * Используется в абстракции
      *
      * @return string
-     *
-     * \vendor\yiisoft\yii2-gii\src\views\default\view.php
-     *
-     * ```
-     *  <?= $this->renderFile( $generator->formView(), [
-     *      'generator' => $generator,
-     *      'form' => $form,
-     *  ]) ?>
-     * ```
-     * @see self::formView()
      */
     public function formView(): string
     {

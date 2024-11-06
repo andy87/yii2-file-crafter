@@ -2,7 +2,7 @@
 
 use yii\web\View;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\{ DbFieldDto, TableInfoDto };
+use andy87\yii2\file_crafter\components\models\{ Field, SchemaDro };
 
 /**
  * @var View $this
@@ -12,19 +12,19 @@ use andy87\yii2\file_crafter\components\models\{ DbFieldDto, TableInfoDto };
 $R = $generator->panelResources;
 
 $customFields = $generator->custom_fields;
-$listDbFields = $R->tableInfoDto->getDbFields();
+$listDbFields = $R->schemaDto->getDbFields();
 ?>
 
 <div class="block__form">
     <div class="b_form--wrapper">
 
         <label class="b_form--label __main">
-            <?= $R->tableInfoDto->getAttributeLabel(TableInfoDto::ATTR_TABLE_NAME); ?>
+            <?= $R->schemaDto->getAttributeLabel(SchemaDro::TABLE_NAME); ?>
             <br>
             <svg xmlns="http://www.w3.org/2000/svg" fill="#000" width="32px" height="32px" viewBox="0 0 32 32">
                 <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM6.016 16q0 0.832 0.576 1.44t1.408 0.576v1.984q0 2.496 1.76 4.256t4.256 1.76v-4q-0.832 0-1.44-0.576t-0.576-1.44v-1.984q-0.832 0-1.408-0.576t-0.576-1.44 0.576-1.408 1.408-0.576v-2.016q0-0.832 0.576-1.408t1.44-0.576v-4q-2.496 0-4.256 1.76t-1.76 4.224v2.016q-0.832 0-1.408 0.576t-0.576 1.408zM18.016 26.016q2.464 0 4.224-1.76t1.76-4.256v-1.984q0.832 0 1.408-0.576t0.608-1.44-0.608-1.408-1.408-0.576v-2.016q0-2.464-1.76-4.224t-4.224-1.76v4q0.8 0 1.408 0.576t0.576 1.408v2.016q0.832 0 1.408 0.576t0.608 1.408-0.608 1.44-1.408 0.576v1.984q0 0.832-0.576 1.44t-1.408 0.576v4z"/>
             </svg>
-            <input class="input __header" type="text" name="<?= TableInfoDto::ATTR_TABLE_NAME?>" value="<?= $R->tableInfoDto->table_name ?? '' ?>">
+            <input class="input __header" type="text" name="<?= SchemaDro::TABLE_NAME?>" value="<?= $R->schemaDto->table_name ?? '' ?>">
         </label>
 
     </div>
@@ -37,9 +37,8 @@ $listDbFields = $R->tableInfoDto->getDbFields();
                     <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
                     <input class="input" type="text"
                            title="{{<?= $fieldKey?>}}"
-                           name="<?= TableInfoDto::ATTR_CUSTOM_FIELDS ."[$fieldKey]"?>"
-                           value="<?= (count($R->tableInfoDto->custom_fields)) ? $R->tableInfoDto->{TableInfoDto::ATTR_CUSTOM_FIELDS}[$fieldKey] : '' ?>"
-                    >
+                           name="<?= SchemaDro::CUSTOM_FIELDS ."[$fieldKey]"?>"
+                           value="<?= (count($R->schemaDto->custom_fields)) ? $R->schemaDto->{SchemaDro::CUSTOM_FIELDS}[$fieldKey] : '' ?>">
                 </div>
             <?php endforeach; ?>
         </div>
@@ -76,68 +75,68 @@ $listDbFields = $R->tableInfoDto->getDbFields();
             <tbody class="b_field--layer" id="table_db_field">
                 <?php if( count($listDbFields) ): ?>
                     <?php foreach ($listDbFields as $dbField) :
-                        $prefix = TableInfoDto::ATTR_DB_FIELDS . '[' . $dbField[DbFieldDto::ATTR_NAME] . ']';
+                        $prefix = SchemaDro::DB_FIELDS . '[' . $dbField[Field::NAME] . ']';
                         ?>
                         <tr class="b_field--row">
 
-                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
+                            <td class="b_field--cell" data-db-field="<?= Field::NAME ?>">
                                 <labeL>
                                     <input class=input type="text"
                                            onchange="app.dbFields.changeKey(this)"
-                                           data-key="<?= $dbField[DbFieldDto::ATTR_NAME] ?>"
-                                           name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NAME ?>]"
-                                           value="<?= $dbField[DbFieldDto::ATTR_NAME] ?? '' ?>">
+                                           data-key="<?= $dbField[Field::NAME] ?>"
+                                           name="<?= $prefix ?>[<?= Field::NAME ?>]"
+                                           value="<?= $dbField[Field::NAME] ?? '' ?>">
                                     </labeL>
                             </td>
 
-                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
+                            <td class="b_field--cell" data-db-field="<?= Field::COMMENT ?>">
                                 <label>
                                     <input class="input" type="text"
-                                           name="<?= $prefix ?>[<?= DbFieldDto::ATTR_COMMENT ?>]"
-                                           value="<?= $dbField[DbFieldDto::ATTR_COMMENT] ?? '' ?>">
+                                           name="<?= $prefix ?>[<?= Field::COMMENT ?>]"
+                                           value="<?= $dbField[Field::COMMENT] ?? '' ?>">
                                 </label>
                             </td>
 
-                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
-                                <?php $option = $dbField[DbFieldDto::ATTR_TYPE] ?>
+                            <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
+                                <?php $option = $dbField[Field::TYPE] ?>
                                <label>
-                                   <select class="input" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_TYPE ?>]">
-                                       <?php foreach ( TableInfoDto::TYPES as $key => $value ) : ?>
+                                   <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
+                                       <?php foreach (SchemaDro::TYPES as $key => $value ) : ?>
                                            <option value="<?= $key?>" <?= ($option === $key) ? 'selected' : '' ?>><?= $value?></option>
                                        <?php endforeach; ?>
                                    </select>
                                </label>
                             </td>
 
-                            <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_SIZE ?>">
+                            <td class="b_field--cell" data-db-field="<?= Field::SIZE ?>">
                                 <label>
                                     <input class="input" type="number"
-                                           name="<?= $prefix ?>[<?= DbFieldDto::ATTR_SIZE ?>]"
-                                           value="<?= $dbField[DbFieldDto::ATTR_SIZE] ?? '' ?>">
+                                           name="<?= $prefix ?>[<?= Field::SIZE ?>]"
+                                           value="<?= $dbField[Field::SIZE] ?? '' ?>">
                                 </label>
                             </td>
 
-                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>">
+                            <td class="b_field--cell __mini" data-db-field="<?= Field::FOREIGN_KEYS ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Foreign Key"
-                                           name="<?= $prefix ?>[<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]"
-                                        <?= $dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? '' ?>>
+                                           name="<?= $prefix ?>[<?= Field::FOREIGN_KEYS ?>]"
+                                        <?= $dbField[Field::FOREIGN_KEYS] ?? '' ?>>
                                 </label>
                             </td>
 
-                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_UNIQUE ?>">
+                            <td class="b_field--cell __mini" data-db-field="<?= Field::UNIQUE ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Unique"
-                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_UNIQUE ?>]"
-                                    <?= $dbField[DbFieldDto::ATTR_UNIQUE] ?? '' ?>>
+                                       name="<?= $prefix ?>[<?= Field::UNIQUE ?>]"
+                                    <?= $dbField[Field::UNIQUE] ?? '' ?>>
                                 </label>
                             </td>
 
-                            <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_NOT_NULL ?>">
+                            <td class="b_field--cell __mini" data-db-field="<?= Field::NOT_NULL ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Not Null"
-                                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NOT_NULL ?>]"
-                                    <?= $dbField[DbFieldDto::ATTR_NOT_NULL] ?? '' ?>>
+                                       name="<?= $prefix ?>[<?= Field::NOT_NULL ?>]"
+                                    <?= $dbField[Field::NOT_NULL] ?? '' ?>>
                                 </label>
                             </td>
 
@@ -156,11 +155,11 @@ $listDbFields = $R->tableInfoDto->getDbFields();
     </div>
 
     <div class="form-group text-right pt-3">
-        <?php if ( $R->tableInfoDto->isCreate() ) : ?>
-            <button type="submit" class="btn btn-success" name="<?= TableInfoDto::SCENARIO_CREATE ?>">Create</button>
+        <?php if ( $R->schemaDto->isCreate() ) : ?>
+            <button type="submit" class="btn btn-success" name="<?= SchemaDro::SCENARIO_CREATE ?>">Create</button>
         <?php else : ?>
             <a href="?" class="btn btn-warning">Close</a>
-            <button type="submit" class="btn btn-info" name="<?= TableInfoDto::SCENARIO_UPDATE?>">Save</button>
+            <button type="submit" class="btn btn-info" name="<?= SchemaDro::SCENARIO_UPDATE?>">Save</button>
         <?php endif; ?>
     </div>
 </div>

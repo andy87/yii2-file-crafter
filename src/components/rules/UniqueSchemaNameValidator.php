@@ -4,7 +4,7 @@ namespace andy87\yii2\file_crafter\components\rules;
 
 use Yii;
 use yii\validators\UniqueValidator;
-use andy87\yii2\file_crafter\components\models\TableInfoDto;
+use andy87\yii2\file_crafter\components\models\SchemaDro;
 
 /**
  * Class UniqueTableNameValidator
@@ -13,10 +13,10 @@ use andy87\yii2\file_crafter\components\models\TableInfoDto;
  *
  * @tag: #validator #unique #table #name
  */
-class UniqueTableNameValidator extends UniqueValidator
+class UniqueSchemaNameValidator extends UniqueValidator
 {
     /**
-     * @param TableInfoDto $model
+     * @param SchemaDro $model
      * @param $attribute
      *
      * @return void

@@ -2,16 +2,16 @@
 
 namespace andy87\yii2\file_crafter\components\services\producers;
 
-use andy87\yii2\file_crafter\components\{ models\TableInfoDto, services\CacheService };
+use andy87\yii2\file_crafter\components\models\SchemaDro;
 
 /**
- * TableInfoDto creator
+ * SchemaDto creator
  *
  * @package andy87\yii2\file_crafter\services\producers
  *
  * @tag: #producer
  */
-class TableInfoProducer
+class SchemaProducer
 {
     /**
      * @var array $custom_fields
@@ -31,18 +31,18 @@ class TableInfoProducer
     }
 
     /**
-     * Create TableInfoDto
+     * Create SchemaDto
      *
      * @param array $params
      *
-     * @return TableInfoDto
+     * @return SchemaDro
      */
-    public function create( array $params = [] ): TableInfoDto
+    public function create( array $params = [] ): SchemaDro
     {
-        $tableInfoDto = new TableInfoDto( $this->custom_fields );
+        $schemaDto = new SchemaDro( $this->custom_fields );
 
-        $tableInfoDto->load($params);
+        $schemaDto->load($params, '');
 
-        return $tableInfoDto;
+        return $schemaDto;
     }
 }

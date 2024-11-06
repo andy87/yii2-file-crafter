@@ -3,16 +3,21 @@
 namespace andy87\yii2\file_crafter\components\assets;
 
 use yii\web\AssetBundle;
+use andy87\yii2\file_crafter\Crafter;
 
 /**
  * Asset
  *
  * JS + CSS
+ *
+ * @package andy87\yii2\file_crafter\components\assets
+ *
+ * @tag: #asset
  */
-class FileCrafterAsset extends AssetBundle
+class FileCrafterPanelAsset extends AssetBundle
 {
     /** @var string  */
-    public $sourcePath = '@vendor/andy87/yii2-file-crafter/src/web';
+    public $sourcePath = Crafter::SRC . '/web';
 
     /** @var string[] library css (using @import) */
     public $css = [ 'css/file-crafter.css' ];

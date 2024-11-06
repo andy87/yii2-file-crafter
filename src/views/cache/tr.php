@@ -2,7 +2,7 @@
 
 use yii\web\View;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\DbFieldDto;
+use andy87\yii2\file_crafter\components\models\{ Field, SchemaDro };
 
 /**
  * @var View $this
@@ -11,7 +11,7 @@ use andy87\yii2\file_crafter\components\models\DbFieldDto;
 
 $R = $generator->panelResources;
 
-$prefix = $R->tableInfoDto::ATTR_DB_FIELDS . '[0]';
+$prefix = SchemaDro::DB_FIELDS . '[0]';
 
 ?>
 
@@ -19,52 +19,52 @@ $prefix = $R->tableInfoDto::ATTR_DB_FIELDS . '[0]';
 
     <tr class="b_field--row __new">
 
-        <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_NAME ?>">
+        <td class="b_field--cell" data-db-field="<?= Field::NAME ?>">
             <label>
                 <input class=input type="text"
                        onchange="app.dbFields.changeKey(this)"
                        data-key="[0]"
-                       name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NAME ?>]">
+                       name="<?= $prefix ?>[<?= Field::NAME ?>]">
             </label>
         </td>
 
-        <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_COMMENT ?>">
+        <td class="b_field--cell" data-db-field="<?= Field::COMMENT ?>">
             <labeL>
-                <input class="input" type="text" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_COMMENT ?>]">
+                <input class="input" type="text" name="<?= $prefix ?>[<?= Field::COMMENT ?>]">
             </labeL>
         </td>
 
-        <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_TYPE ?>">
+        <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
             <label>
-                <select class="input" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_TYPE ?>]">
-                    <?php foreach ( $R->tableInfoDto::TYPES as $key => $value ) : ?>
+                <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
+                    <?php foreach (SchemaDro::TYPES as $key => $value ) : ?>
                         <option value="<?= $key?>"><?= $value?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
         </td>
 
-        <td class="b_field--cell" data-db-field="<?= DbFieldDto::ATTR_SIZE ?>">
+        <td class="b_field--cell" data-db-field="<?= Field::SIZE ?>">
             <labeL>
-                <input class="input" type="number" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_SIZE ?>]">
+                <input class="input" type="number" name="<?= $prefix ?>[<?= Field::SIZE ?>]">
             </labeL>
         </td>
 
-        <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>">
+        <td class="b_field--cell __mini" data-db-field="<?= Field::FOREIGN_KEYS ?>">
             <labeL>
-                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_FOREIGN_KEYS ?>]" title="Foreign Key">
+                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= Field::FOREIGN_KEYS ?>]" title="Foreign Key">
             </labeL>
         </td>
 
-        <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_UNIQUE ?>">
+        <td class="b_field--cell __mini" data-db-field="<?= Field::UNIQUE ?>">
             <labeL>
-                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_UNIQUE ?>]" title="Unique">
+                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= Field::UNIQUE ?>]" title="Unique">
             </labeL>
         </td>
 
-        <td class="b_field--cell __mini" data-db-field="<?= DbFieldDto::ATTR_NOT_NULL ?>">
+        <td class="b_field--cell __mini" data-db-field="<?= Field::NOT_NULL ?>">
             <labeL>
-                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= DbFieldDto::ATTR_NOT_NULL ?>]" title="Not Null">
+                <input class="b_form--checkbox" type="checkbox" name="<?= $prefix ?>[<?= Field::NOT_NULL ?>]" title="Not Null">
             </labeL>
         </td>
 

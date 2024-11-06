@@ -2,7 +2,8 @@
 
 namespace andy87\yii2\file_crafter\components\resources;
 
-use andy87\yii2\file_crafter\components\models\TableInfoDto;
+use andy87\yii2\file_crafter\components\Log;
+use andy87\yii2\file_crafter\components\models\SchemaDro;
 
 /**
  * Class PanelResources
@@ -14,27 +15,27 @@ use andy87\yii2\file_crafter\components\models\TableInfoDto;
 class PanelResources
 {
     /**
-     * @var TableInfoDto
+     * @var SchemaDro
      */
-    public TableInfoDto $tableInfoDto;
+    public SchemaDro $schemaDto;
 
     /**
-     * @var TableInfoDto[]
+     * @var SchemaDro[]
      */
-    public array $listTableInfoDto = [];
+    public array $listSchemaDto = [];
 
 
 
     /**
-     * @param TableInfoDto $tableInfoDto
-     * @param array $listTableInfoDto
+     * @param SchemaDro $schemaDto
+     * @param array $listSchemaDto
      *
      * @return void
      */
-    public function __construct( TableInfoDto $tableInfoDto, array $listTableInfoDto )
+    public function __construct(SchemaDro $schemaDto, array $listSchemaDto )
     {
-        $this->tableInfoDto = $tableInfoDto;
+        $this->schemaDto = $schemaDto;
 
-        $this->listTableInfoDto = $listTableInfoDto;
+        $this->listSchemaDto = $listSchemaDto;
     }
 }

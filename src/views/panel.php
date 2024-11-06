@@ -1,15 +1,16 @@
 <?php
 
+use andy87\yii2\file_crafter\components\Log;
 use yii\web\View;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\assets\FileCrafterAsset;
+use andy87\yii2\file_crafter\components\assets\FileCrafterPanelAsset;
 
 /**
  * @var View $this
  * @var Crafter $generator
  */
 
-FileCrafterAsset::register($this);
+FileCrafterPanelAsset::register($this);
 
 ?>
 

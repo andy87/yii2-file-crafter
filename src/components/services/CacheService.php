@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
+use andy87\yii2\file_crafter\components\Log;
 use Yii;
 use andy87\yii2\file_crafter\Crafter;
 
@@ -14,7 +15,7 @@ use andy87\yii2\file_crafter\Crafter;
  */
 class CacheService
 {
-    public const DEFAULT_CACHE_DIR = Crafter::RESOURCES . '/cache';
+    public const DEFAULT_CACHE_DIR = Crafter::DEFAULT_RESOURCES_DIR . '/cache';
     public const DEFAULT_CACHE_EXT = '.json';
 
 
@@ -22,7 +23,10 @@ class CacheService
     /**
      * @var array
      */
-    public array $params;
+    public array $params = [
+        'dir' => self::DEFAULT_CACHE_DIR,
+        'ext' => self::DEFAULT_CACHE_EXT,
+    ];
 
 
     /**
@@ -68,10 +72,11 @@ class CacheService
 
         $files = scandir($this->getDir());
 
-        foreach ($files as $file) {
-            if ($file === '.' || $file === '..') {
-                continue;
-            }
+        foreach ($files as $file)
+        {
+            if ($file === '.' || $file === '..') continue;
+
+            if (preg_match('/[^\w\_\.]/', $file)) continue;
 
             $list[] = $file;
         }

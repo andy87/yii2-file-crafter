@@ -2,12 +2,15 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
-use andy87\yii2\file_crafter\components\models\DbFieldDto;
+use andy87\yii2\file_crafter\components\Log;
+use andy87\yii2\file_crafter\components\models\Field;
+use andy87\yii2\file_crafter\components\resources\PanelResources;
 use Yii;
 use yii\base\InvalidRouteException;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\TableInfoDto;
-use andy87\yii2\file_crafter\components\services\producers\TableInfoProducer;
+use andy87\yii2\file_crafter\components\models\SchemaDro;
+use andy87\yii2\file_crafter\components\services\producers\SchemaProducer;
+use yii\helpers\Inflector;
 
 /**
  * Service for Panel
@@ -24,9 +27,9 @@ class PanelService
     private CacheService $cacheService;
 
     /**
-     * @var TableInfoProducer
+     * @var SchemaProducer
      */
-    private TableInfoProducer $tableInfoProducer;
+    private SchemaProducer $schemaProducer;
 
 
 
@@ -41,81 +44,89 @@ class PanelService
     {
         $this->cacheService = new CacheService($crafter->cache);
 
-        $this->tableInfoProducer = new TableInfoProducer($crafter->custom_fields);
+        $this->schemaProducer = new SchemaProducer($crafter->custom_fields);
     }
 
     /**
-     * Get TableInfoDto
+     * Get SchemaDto
      *
-     * @return TableInfoDto
+     * @return SchemaDro
      */
-    public function getTableInfoDto(): TableInfoDto
+    public function getSchemaDto(): SchemaDro
     {
-        return $this->tableInfoProducer->create();
+        return $this->schemaProducer->create();
     }
 
     /**
      * Handler Create/Update
      *
-     * @param TableInfoDto $tableInfoDto
+     * @param SchemaDro $schemaDto
      *
-     * @return TableInfoDto
+     * @return SchemaDro
      *
      * @throws InvalidRouteException
      */
-    public function handlerTableInfo(TableInfoDto $tableInfoDto): TableInfoDto
+    public function handlerSchema(SchemaDro $schemaDto): SchemaDro
     {
-        if ( $tableName = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE) )
+        if ( $tableName = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE) )
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
 
-            $tableInfoDto->table_name = strtolower($tableName);
+            $schemaDto->table_name = strtolower($tableName);
 
             if (count($params))
             {
-                $tableInfoDto->scenario = TableInfoDto::SCENARIO_UPDATE;
+                $schemaDto->scenario = SchemaDro::SCENARIO_UPDATE;
 
-                $tableInfoDto->load($params, '');
+                $schemaDto->load($params, '');
             }
-
         }
 
-        $isCreate = isset($_POST[TableInfoDto::SCENARIO_CREATE]);
-        $isUpdate = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE, false);
+        $isCreate = isset($_POST[SchemaDro::SCENARIO_CREATE]);
+        $isUpdate = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE, false);
 
         if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
         {
-            $tableInfoDto = $this->tableInfoProducer->create(Yii::$app->request->post());
+            $params = Yii::$app->request->post();
 
-            $this->cacheService->removeItem($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
+            $schemaDto = $this->schemaProducer->create($params);
 
-            if ( $this->save($tableInfoDto) )
+            $this->cacheService->removeItem($schemaDto->{SchemaDro::TABLE_NAME});
+
+            if ( $this->save($schemaDto) )
             {
                 $this->goHome();
             }
         }
 
-        return $tableInfoDto;
+        return $schemaDto;
     }
 
-    private function save( TableInfoDto $tableInfoDto)
+    /**
+     * Save schema to cache file
+     *
+     * @param SchemaDro $schemaDto
+     *
+     * @return false|int
+     */
+    private function save(SchemaDro $schemaDto): bool|int
     {
-        $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME}));
+        $schemaDto->{SchemaDro::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schemaDto->{SchemaDro::TABLE_NAME}));
 
-        $fileName =  $this->cacheService->constructPath($tableInfoDto->{TableInfoDto::ATTR_TABLE_NAME});
+        $fileName =  $this->cacheService->constructPath($schemaDto->{SchemaDro::TABLE_NAME});
 
-        $params = $tableInfoDto->attributes;
+        $params = $schemaDto->attributes;
 
-        foreach ($tableInfoDto->{TableInfoDto::ATTR_DB_FIELDS} as $index => $dbField)
+        foreach ($schemaDto->{SchemaDro::DB_FIELDS} as $index => $dbField)
         {
-            if ($dbField[DbFieldDto::ATTR_FOREIGN_KEYS] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_FOREIGN_KEYS] = 'checked';
+            if ($dbField[Field::FOREIGN_KEYS] ?? false) {
+                $params[SchemaDro::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
             }
-            if ($dbField[DbFieldDto::ATTR_UNIQUE] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_UNIQUE] = 'checked';
+            if ($dbField[Field::UNIQUE] ?? false) {
+                $params[SchemaDro::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
             }
-            if ($dbField[DbFieldDto::ATTR_NOT_NULL] ?? false) {
-                $params[TableInfoDto::ATTR_DB_FIELDS][$index][DbFieldDto::ATTR_NOT_NULL] = 'checked';
+            if ($dbField[Field::NOT_NULL] ?? false) {
+                $params[SchemaDro::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
             }
         }
 
@@ -123,9 +134,9 @@ class PanelService
 
         $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
 
-        $update = Yii::$app->request->get(TableInfoDto::SCENARIO_UPDATE);
+        $update = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE);
 
-        if ( $update && $update !== $params[TableInfoDto::ATTR_TABLE_NAME] ) {
+        if ( $update && $update !== $params[SchemaDro::TABLE_NAME] ) {
             $this->removeItem($update);
         }
 
@@ -147,29 +158,29 @@ class PanelService
     }
 
     /**
-     * Collect list of TableInfoDto
+     * Collect list of SchemaDto
      *  from cache files
      *
-     * @return TableInfoDto[]
+     * @return SchemaDro[]
      */
-    public function getListTableInfoDto(): array
+    public function getListSchemaDto(): array
     {
         $list = $this->cacheService->getCacheFileList();
 
-        $tableInfoDtoList = [];
+        $listSchemaDto = [];
 
         foreach ($list as $cacheFile)
         {
-            $pathInfo = pathinfo($cacheFile);
+            $fileName = pathinfo($cacheFile, PATHINFO_FILENAME);
 
-            $name = $pathInfo['filename'];
+            $params = $this->cacheService->getContentCacheFile($fileName);
 
-            $params = $this->cacheService->getContentCacheFile($name);
+            $schemaDto = $this->schemaProducer->create($params);
 
-            $tableInfoDtoList[] = $this->tableInfoProducer->create($params);
+            $listSchemaDto[] = $schemaDto;
         }
 
-        return $tableInfoDtoList;
+        return $listSchemaDto;
     }
 
     /**
@@ -206,8 +217,7 @@ class PanelService
      */
     public function constructSourcePath(string $sourcePath, string $ext): string
     {
-        if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) )
-        {
+        if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) ) {
             $sourcePath .= $ext;
         }
 
@@ -238,5 +248,99 @@ class PanelService
         $itemPath = Yii::getAlias($itemPath);
 
         if ( file_exists($itemPath)) unlink($itemPath);
+    }
+
+    /**
+     * Replace the template with the specified parameters
+     *  {{PascalCase}} - PascalCase
+     *  {{camelCase}} - camelCase
+     *  {{snake_case}} - snake_case
+     *  {{kebab-case}} - kebab-case
+     *
+     * @param string $content
+     * @param array $replaceParams
+     *
+     * @return string
+     */
+    public function replacing(string $content, array $replaceParams ): string
+    {
+        return str_replace(array_keys($replaceParams), array_values($replaceParams), $content);
+    }
+
+    /**
+     * Generate the list of parameters for replacing
+     *
+     * @param SchemaDro $schemaDto
+     *
+     * @return array
+     */
+    public function getReplaceList(SchemaDro $schemaDto): array
+    {
+        $tableName = $schemaDto->{SchemaDro::TABLE_NAME};
+        $tableName = str_replace([' ','-'], '_', $tableName);
+
+        $pascalCase = Inflector::id2camel($tableName,'_');
+
+        $params = [
+            '{{PascalCase}}' => $pascalCase,
+            '{{camelCase}}' => lcfirst($pascalCase),
+            '{{snake_case}}' => $schemaDto->{SchemaDro::TABLE_NAME},
+            '{{kebab-case}}' => str_replace('_', '-', $schemaDto->{SchemaDro::TABLE_NAME}),
+        ];
+
+        $customFields = $schemaDto->getCustomFields();
+
+        if (count($customFields)) {
+            foreach ($customFields as $key => $title ) {
+                $params["{{{$key}}}"] = $title;
+            }
+        }
+
+        return $params;
+    }
+
+
+    /**
+     * Common Handler for
+     *
+     * @throws InvalidRouteException
+     */
+    public function handlers(PanelResources$panelResources): void
+    {
+        $this->removeHandler();
+
+        $panelResources->schemaDto = $this->handlerSchema($panelResources->schemaDto);
+    }
+
+    /**
+     * Remove handler
+     *
+     * @return void
+     *
+     * @throws InvalidRouteException
+     */
+    private function removeHandler(): void
+    {
+        if ( $remove = Yii::$app->request->get(SchemaDro::SCENARIO_REMOVE) )
+        {
+            $this->removeModel( $remove );
+
+            $this->goHome();
+        }
+    }
+
+
+    /**
+     * Check directory and create if not exists
+     *
+     * @param string $dirPath
+     *
+     * @return void
+     */
+    public function checkDirectory( string $dirPath ): void
+    {
+        $dirPath = Yii::getAlias($dirPath);
+
+        if ( !is_dir($dirPath) ) mkdir($dirPath, 0777, true);
     }
 }
