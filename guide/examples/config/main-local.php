@@ -1,5 +1,6 @@
 <?php
 
+use yii\gii\Module;
 use andy87\yii2\file_crafter\Crafter;
 
 $config = [];
@@ -10,7 +11,7 @@ if (YII_ENV_DEV)
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => yii\gii\Module::class,
+        'class' => Module::class,
         'generators' => [
             'fileCrafter' => [
                 'class' => Crafter::class,
@@ -25,6 +26,7 @@ if (YII_ENV_DEV)
                 'commands' => [
                     'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\common\components\core\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
                 ],
+                'eventHandler' => FileCrafterBehavior::class,
                 'custom_fields' => [
                     'singular' => 'Ед. число',
                     'plural' => 'Мн. число',
