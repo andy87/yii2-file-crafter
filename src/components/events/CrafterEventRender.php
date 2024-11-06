@@ -22,36 +22,31 @@ class CrafterEventRender extends CrafterEvent
 
 
     /**
-     * @var Schema
+     * @var ?Schema
      */
-    public Schema $schemaDto;
+    public ?Schema $schema = null;
 
     /**
      * Path to source
      *
      * @var string
      */
-    public string $sourcePath;
+    public string $sourcePath = '';
 
     /**
      * Path to generate
      *
      * @var string
      */
-    public string $generatePath;
+    public string $generatePath = '';
 
     /**
      * @var array
      */
-    public array $replaceList;
+    public array $replaceList = [];
 
     /**
      * @var string
      */
-    public string $template;
-
-    /**
-     * @var string
-     */
-    public string $content;
+    public string $content = '';
 }

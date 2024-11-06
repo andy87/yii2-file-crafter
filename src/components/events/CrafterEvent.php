@@ -10,6 +10,8 @@ use andy87\yii2\file_crafter\Crafter;
  *
  * @package andy87\yii2\file_crafter\components\events
  *
+ * @property Crafter $sender
+ *
  * @tag: #event #parent
  */
 class CrafterEvent extends Event
@@ -37,11 +39,4 @@ class CrafterEvent extends Event
 
     /** @var string  */
     public const AFTER_RENDER = 'afterRender';
-
-
-
-    /**
-     * @var Crafter
-     */
-    public Crafter $crafter;
 }

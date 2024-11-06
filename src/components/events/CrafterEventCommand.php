@@ -22,7 +22,7 @@ class CrafterEventCommand extends CrafterEvent
 
 
     /**
-     * @var Cmd
+     * @var ?Cmd
      */
-    public Cmd $cmd;
+    public ?Cmd $cmd = null;
 }
