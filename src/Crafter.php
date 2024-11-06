@@ -3,11 +3,10 @@
 namespace andy87\yii2\file_crafter;
 
 use Yii;
-use yii\base\Model;
 use yii\gii\CodeFile;
-use yii\helpers\Inflector;
-use andy87\yii2\file_crafter\{components\core\CoreGenerator,
-    components\Log,
+use andy87\yii2\file_crafter\{
+    components\core\CoreGenerator,
+    components\interfaces\CrafterEventsInterface,
     components\models\SchemaDro,
     components\services\PanelService,
     components\resources\PanelResources};
@@ -21,9 +20,8 @@ use yii\base\InvalidRouteException;
  * @see Crafter::VIEW_WIDGET_GRID_VIEW
  * @see Crafter::VIEW_WIDGET_LIST_VIEW
  */
-class Crafter extends CoreGenerator
+class Crafter extends CoreGenerator implements CrafterEventsInterface
 {
-
     /** @var string ID  */
     public const ID = 'yii2-file-crafter';
 
@@ -95,7 +93,7 @@ class Crafter extends CoreGenerator
      * @var array 
      */
     public array $custom_fields = [];
-    
+
 
     /**
      * Service handles data processing
@@ -246,6 +244,8 @@ class Crafter extends CoreGenerator
 
         $listSchemaDto = $this->panelService->getListSchemaDto();
 
+        //$this->trigger(self::EVENT_BEFORE_GENERATE );
+
         if (count($listSchemaDto))
         {
             $this->generateList = array_keys($this->generateList);
@@ -263,6 +263,8 @@ class Crafter extends CoreGenerator
                 }
             }
         }
+
+        //$this->trigger(self::EVENT_AFTER_GENERATE );
 
         return $files;
     }
