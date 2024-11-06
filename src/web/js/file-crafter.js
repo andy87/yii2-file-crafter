@@ -2,6 +2,21 @@ let app = {};
 
 document.addEventListener('DOMContentLoaded', function () {
     app = {
+        init : function (){
+
+            this.bind();
+        },
+
+        bind : function ()
+        {
+            const removeRequiredField = function(){
+                document.querySelector('.field-schema-name.required').remove();
+            };
+            
+            document.querySelector('BUTTON[name="preview"]').addEventListener('click', removeRequiredField);
+            document.querySelector('BUTTON[name="generate"]').addEventListener('click', removeRequiredField);
+        },
+
         dbFields : {
             targets : {
 
@@ -191,4 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     };
+
+    app.init();
 });

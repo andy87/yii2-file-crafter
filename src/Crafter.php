@@ -393,12 +393,12 @@ class Crafter extends CoreGenerator
      */
     private function renderTemplate(CrafterEventRender $eventRender): string
     {
-        $eventRender->content = $this->render( $eventRender->sourcePath, $eventRender->replaceList );
-
-        return $this->panelService->replacing( $eventRender->content, [
+        $eventRender->content = $this->render( $eventRender->sourcePath, [
             'schema' => $eventRender->schema,
             'generator' => $this
         ]);
+
+        return $this->panelService->replacing( $eventRender->content, $eventRender->replaceList);
     }
 
     /**

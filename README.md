@@ -396,7 +396,7 @@ And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yi
 
 And also passed to the render method:  
  - `$schema` - schema object  
- - `$generator` - module generate object  
+ - `$generator` - module generate object
 
 ___
 
