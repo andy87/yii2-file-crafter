@@ -2,7 +2,7 @@
 
 use yii\web\View;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\{ Field, SchemaDro };
+use andy87\yii2\file_crafter\components\models\{ Field, Schema };
 
 /**
  * @var View $this
@@ -11,7 +11,7 @@ use andy87\yii2\file_crafter\components\models\{ Field, SchemaDro };
 
 $R = $generator->panelResources;
 
-$prefix = SchemaDro::DB_FIELDS . '[0]';
+$prefix = Schema::DB_FIELDS . '[0]';
 
 ?>
 
@@ -37,7 +37,7 @@ $prefix = SchemaDro::DB_FIELDS . '[0]';
         <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
             <label>
                 <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
-                    <?php foreach (SchemaDro::TYPES as $key => $value ) : ?>
+                    <?php foreach (Schema::TYPES as $key => $value ) : ?>
                         <option value="<?= $key?>"><?= $value?></option>
                     <?php endforeach; ?>
                 </select>

@@ -2,8 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\models;
 
-use andy87\yii2\file_crafter\components\Log;
-use Yii;
+use yii\base\Model;
 use yii\helpers\Inflector;
 use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
 
@@ -14,7 +13,7 @@ use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
  *
  * @tag: #model #table #info
  */
-class SchemaDro extends \yii\base\Model
+class Schema extends Model
 {
     // Scenarios
     public const SCENARIO_DEFAULT = self::SCENARIO_CREATE;

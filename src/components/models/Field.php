@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\models;
 
+use yii\base\Model;
 
 /**
  * Class DbField
@@ -10,7 +11,7 @@ namespace andy87\yii2\file_crafter\components\models;
  *
  * @tag: #model #db #field
  */
-class Field extends \yii\base\Model
+class Field extends Model
 {
     public const NAME = 'name';
     public const COMMENT = 'comment';

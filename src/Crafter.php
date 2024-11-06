@@ -2,15 +2,18 @@
 
 namespace andy87\yii2\file_crafter;
 
+use andy87\yii2\file_crafter\{components\core\CoreGenerator,
+    components\events\CrafterEvent,
+    components\events\CrafterEventCommand,
+    components\events\CrafterEventGenerate,
+    components\events\CrafterEventRender,
+    components\models\Dto\Cmd,
+    components\models\Schema,
+    components\resources\PanelResources,
+    components\services\PanelService};
 use Yii;
-use yii\gii\CodeFile;
-use andy87\yii2\file_crafter\{
-    components\core\CoreGenerator,
-    components\interfaces\CrafterEventsInterface,
-    components\models\SchemaDro,
-    components\services\PanelService,
-    components\resources\PanelResources};
 use yii\base\InvalidRouteException;
+use yii\gii\CodeFile;
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
@@ -19,9 +22,12 @@ use yii\base\InvalidRouteException;
  *
  * @see Crafter::VIEW_WIDGET_GRID_VIEW
  * @see Crafter::VIEW_WIDGET_LIST_VIEW
+ *
+ * @package andy87\yii2\file_crafter
  */
-class Crafter extends CoreGenerator implements CrafterEventsInterface
+class Crafter extends CoreGenerator
 {
+    // Info
     /** @var string ID  */
     public const ID = 'yii2-file-crafter';
 
@@ -29,17 +35,18 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
     protected const DESCRIPTION =  'Makes it easier to create a large number of files of the same template.';
 
 
+    // Directory paths
+    /** @var string Path to the root directory */
     public const ROOT = '@vendor/andy87/' . self::ID;
 
+    /** @var string Root directory */
+    public const DIR_DEFAULT_RESOURCES = '@app/runtime/' . self::ID;
+
     /** @var string Root directory path */
-    public const SRC = self::ROOT . '/src';
+    public const DIR_SRC = self::ROOT . '/src';
 
     /** @var string View directory  path*/
-    public const VIEWS = self::SRC . '/views';
-
-    /** @var string Root directory */
-    public const DEFAULT_RESOURCES_DIR = '@app/runtime/' . self::ID;
-
+    public const DIR_VIEWS = self::DIR_SRC . '/views';
 
 
     // Values for the model list display widget
@@ -51,63 +58,45 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
 
 
 
-    /**
-     * @var array Template groups
-     */
+    /** @var array Template groups */
     private array $templateGroup = [];
 
-    /**
-     * Schema list from request for generate files
-     *
-     * @var array
-     */
-    public array $generateList = [];
 
-    /**
-     * @var array 
-     */
+    /** @var PanelService Service handles data processing */
+    private PanelService $panelService;
+
+    /** @var PanelResources Resources for the view */
+    public PanelResources $panelResources;
+
+
+    /** @var array Cache settings */
     public array $cache = [
-        'dir' => self::DEFAULT_RESOURCES_DIR . '/cache', // @app/runtime/yii2-file-crafter/cache
+        'dir' => self::DIR_DEFAULT_RESOURCES . '/cache',
         'ext' => '.json'
     ];
 
-    /**
-     * @var array 
-     */
+    /** @var array Source settings */
     public array $source = [
-        'dir' => self::DEFAULT_RESOURCES_DIR . '/templates/source',  // @pp/runtime/yii2-file-crafter/templates/source
+        'dir' => self::DIR_DEFAULT_RESOURCES . '/templates/source',
         'ext' => '.tpl'
     ];
 
-    /**
-     * @var array 
-     */
-    public array $bash = [];
-    public array $bashResult = [];
+    /** @var ?string Behavior for event handling */
+    public ?string $eventHandler = null;
 
-    /**
-     * list custom fields
-     *  'field' => 'label'
-     *  use on template: {{field}}
-     * 
-     * @var array 
-     */
+    /** @var array list custom fields */
     public array $custom_fields = [];
 
 
-    /**
-     * Service handles data processing
-     *
-     * @var PanelService
-     */
-    private PanelService $panelService;
+    /** @var array User CLI commands */
+    public array $commands = [];
 
-    /**
-     * Resources for the view
-     *
-     * @var PanelResources
-     */
-    public PanelResources $panelResources;
+    /** @var array CLI commands result */
+    public array $bashResult = [];
+
+
+    /** @var array Schema list from request for generate files */
+    public array $generateList = [];
 
 
 
@@ -117,11 +106,16 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
      * @return void
      *
      * @throws InvalidRouteException
-     *
-     * @tag: #init
      */
     public function init(): void
     {
+        if ( $this->eventHandler ) {
+            $this->attachBehavior('eventHandler', $this->eventHandler);
+        }
+
+        $this->event(CrafterEvent::BEFORE_INIT );
+
+
         $this->setupServices();
 
         $this->checkDirectories();
@@ -131,20 +125,21 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
         $this->panelResources = $this->getPanelResources();
 
         $this->panelService->handlers($this->panelResources);
+
+
+        $this->event(CrafterEvent::AFTER_INIT );
+
     }
 
     /**
      * Rules
      *
      * @return array
-     *
-     * @tag: #rules
      */
     public function rules(): array
     {
         $rules = parent::rules();
 
-        $rules[] = [ ['generateList'], 'safe' ];
         $rules[] = [ ['generateList'], 'safe' ];
 
         return $rules;
@@ -234,6 +229,58 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
     }
 
     /**
+     * Event handler
+     *
+     * @param $name
+     * @param array $data
+     *
+     * @return void
+     */
+    public function event($name, mixed $data = [] ): void
+    {
+        if ( $this->eventHandler )
+        {
+            $event = $this->fabricEvent($name, $data);
+
+            parent::trigger($name, $event);
+        }
+    }
+
+    /**
+     * Fabric event
+     *
+     * @param string $eventName
+     * @param mixed $data
+     *
+     * @return CrafterEvent
+     */
+    private function fabricEvent(string $eventName, mixed $data = []): CrafterEvent
+    {
+        $className = self::EVENT_MAPPING[$eventName];
+
+        switch ($eventName)
+        {
+            case CrafterEventCommand::class:
+            case CrafterEventRender::class:
+                /** @var CrafterEventCommand|CrafterEventRender $data */
+                $event = $data;
+                break;
+
+            default:
+
+                /** @var CrafterEvent|CrafterEventGenerate $event */
+                $event = new $className();
+
+                if ($eventName === CrafterEvent::AFTER_GENERATE)
+                {
+                    $event->files = $data;
+                }
+        }
+
+        return $event;
+    }
+
+    /**
      * Generation Core
      *
      * @return array
@@ -242,9 +289,9 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
     {
         $files = [];
 
-        $listSchemaDto = $this->panelService->getListSchemaDto();
+        $this->event(CrafterEventGenerate::BEFORE );
 
-        //$this->trigger(self::EVENT_BEFORE_GENERATE );
+        $listSchemaDto = $this->panelService->getListSchemaDto();
 
         if (count($listSchemaDto))
         {
@@ -252,19 +299,18 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
 
             foreach ($listSchemaDto as $schemaDto)
             {
-
                 if ( in_array($schemaDto->getTableName(), $this->generateList) )
                 {
                     $replaceList = $this->panelService->getReplaceList($schemaDto);
 
-                    $this->bashResult = $this->execBash($replaceList);
+                    $this->bashResult = $this->execCommands($replaceList);
 
                     $files = array_merge($files, $this->fileGenerating($schemaDto, $replaceList));
                 }
             }
         }
 
-        //$this->trigger(self::EVENT_AFTER_GENERATE );
+        $this->event(CrafterEventGenerate::AFTER, $files );
 
         return $files;
     }
@@ -276,19 +322,31 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
      *
      * @return array
      */
-    private function execBash(array $replaceList): array
+    private function execCommands(array $replaceList): array
     {
         $result = [];
 
-        if (count($this->bash))
+        if (count($this->commands))
         {
-            foreach ($this->bash as $bash)
+            foreach ($this->commands as $command)
             {
-                $bash = $this->panelService->replacing($bash, $replaceList);
+                $commandCli = new Cmd();
+                $commandCli->exec = $this->panelService->replacing($command, $replaceList);
+                $commandCli->replaceList = $replaceList;
 
-                $output = $this->panelService->runBash($bash);
 
-                $result[$bash] = $output;
+                $this->event(CrafterEventCommand::BEFORE, $commandCli);
+
+
+                $output = $this->panelService->runBash($commandCli);
+
+                $commandCli->output = $output;
+
+
+                $this->event(CrafterEventCommand::AFTER, $commandCli);
+
+
+                $result[$commandCli->exec] = $commandCli->output;
             }
         }
         return $result;
@@ -297,38 +355,57 @@ class Crafter extends CoreGenerator implements CrafterEventsInterface
     /**
      * Generate target files
      *
-     * @param SchemaDro $schemaDto
+     * @param Schema $schemaDto
      * @param array $replaceList
      *
-     * @return array
+     * @return CodeFile[]
      */
-    private function fileGenerating(SchemaDro $schemaDto, array $replaceList ): array
+    private function fileGenerating(Schema $schemaDto, array $replaceList ): array
     {
         $files = [];
 
         if ( count($this->templateGroup[$this->template]) )
         {
-            $params = [
-                'schemaDto' => $schemaDto,
-                'replaceList' => $replaceList,
-            ];
+            $eventRender = new CrafterEventRender();
+            $eventRender->schemaDto = $schemaDto;
+            $eventRender->replaceList = $replaceList;
 
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
-                $sourcePath = $this->panelService->constructSourcePath($sourcePath, $this->source['ext']);
-                $sourcePath = $this->panelService->replacing($sourcePath, $replaceList);
+                $eventRender->sourcePath = $this->panelService->constructSourcePath($sourcePath, $this->source['ext'], $replaceList);
+                $eventRender->generatePath = $this->panelService->constructGeneratePath($generatePath, $replaceList);
 
-                $generatePath = $this->panelService->constructGeneratePath($generatePath);
-                $generatePath = $this->panelService->replacing($generatePath, $replaceList);
+                $this->event(CrafterEventRender::BEFORE, $eventRender );
 
-                $content = $this->render($sourcePath, $params);
-                $content = $this->panelService->replacing($content, $replaceList);
+                $eventRender->content = $this->renderTemplate( $eventRender );
 
-                $files[] = new CodeFile( $generatePath, $content );
+                $this->event(CrafterEventRender::AFTER, $eventRender );
+
+                $files[] = new CodeFile( $generatePath, $eventRender->content );
             }
         }
 
         return $files;
+    }
+
+    /**
+     * Render template
+     *
+     * @param CrafterEventRender $eventRender
+     *
+     * @return string
+     */
+    private function renderTemplate(CrafterEventRender $eventRender): string
+    {
+        $eventRender->content = $this->render(
+            $eventRender->sourcePath,
+            $eventRender->replaceList
+        );
+
+        return $this->panelService->replacing(
+            $eventRender->content,
+            $eventRender->replaceList
+        );
     }
 
     /**

@@ -2,15 +2,12 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
-use andy87\yii2\file_crafter\components\Log;
-use andy87\yii2\file_crafter\components\models\Field;
-use andy87\yii2\file_crafter\components\resources\PanelResources;
 use Yii;
+use yii\helpers\Inflector;
 use yii\base\InvalidRouteException;
 use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\SchemaDro;
-use andy87\yii2\file_crafter\components\services\producers\SchemaProducer;
-use yii\helpers\Inflector;
+use andy87\yii2\file_crafter\components\models\{ Field, Schema, Dto\Cmd };
+use andy87\yii2\file_crafter\components\{ resources\PanelResources, services\producers\SchemaProducer };
 
 /**
  * Service for Panel
@@ -21,14 +18,10 @@ use yii\helpers\Inflector;
  */
 class PanelService
 {
-    /**
-     * @var CacheService
-     */
+    /** @var CacheService */
     private CacheService $cacheService;
 
-    /**
-     * @var SchemaProducer
-     */
+    /** @var SchemaProducer */
     private SchemaProducer $schemaProducer;
 
 
@@ -50,9 +43,9 @@ class PanelService
     /**
      * Get SchemaDto
      *
-     * @return SchemaDro
+     * @return Schema
      */
-    public function getSchemaDto(): SchemaDro
+    public function getSchemaDto(): Schema
     {
         return $this->schemaProducer->create();
     }
@@ -60,15 +53,15 @@ class PanelService
     /**
      * Handler Create/Update
      *
-     * @param SchemaDro $schemaDto
+     * @param Schema $schemaDto
      *
-     * @return SchemaDro
+     * @return Schema
      *
      * @throws InvalidRouteException
      */
-    public function handlerSchema(SchemaDro $schemaDto): SchemaDro
+    public function handlerSchema(Schema $schemaDto): Schema
     {
-        if ( $tableName = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE) )
+        if ( $tableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE) )
         {
             $params = $this->cacheService->getContentCacheFile($tableName);
 
@@ -76,14 +69,14 @@ class PanelService
 
             if (count($params))
             {
-                $schemaDto->scenario = SchemaDro::SCENARIO_UPDATE;
+                $schemaDto->scenario = Schema::SCENARIO_UPDATE;
 
                 $schemaDto->load($params, '');
             }
         }
 
-        $isCreate = isset($_POST[SchemaDro::SCENARIO_CREATE]);
-        $isUpdate = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE, false);
+        $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
+        $isUpdate = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
 
         if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
         {
@@ -91,7 +84,7 @@ class PanelService
 
             $schemaDto = $this->schemaProducer->create($params);
 
-            $this->cacheService->removeItem($schemaDto->{SchemaDro::TABLE_NAME});
+            $this->cacheService->removeItem($schemaDto->{Schema::TABLE_NAME});
 
             if ( $this->save($schemaDto) )
             {
@@ -105,28 +98,28 @@ class PanelService
     /**
      * Save schema to cache file
      *
-     * @param SchemaDro $schemaDto
+     * @param Schema $schemaDto
      *
      * @return false|int
      */
-    private function save(SchemaDro $schemaDto): bool|int
+    private function save(Schema $schemaDto): bool|int
     {
-        $schemaDto->{SchemaDro::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schemaDto->{SchemaDro::TABLE_NAME}));
+        $schemaDto->{Schema::TABLE_NAME} = strtolower(str_replace([' ','-'], '_', $schemaDto->{Schema::TABLE_NAME}));
 
-        $fileName =  $this->cacheService->constructPath($schemaDto->{SchemaDro::TABLE_NAME});
+        $fileName =  $this->cacheService->constructPath($schemaDto->{Schema::TABLE_NAME});
 
         $params = $schemaDto->attributes;
 
-        foreach ($schemaDto->{SchemaDro::DB_FIELDS} as $index => $dbField)
+        foreach ($schemaDto->{Schema::DB_FIELDS} as $index => $dbField)
         {
             if ($dbField[Field::FOREIGN_KEYS] ?? false) {
-                $params[SchemaDro::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
+                $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
             }
             if ($dbField[Field::UNIQUE] ?? false) {
-                $params[SchemaDro::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
+                $params[Schema::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
             }
             if ($dbField[Field::NOT_NULL] ?? false) {
-                $params[SchemaDro::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
+                $params[Schema::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
             }
         }
 
@@ -134,9 +127,9 @@ class PanelService
 
         $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
 
-        $update = Yii::$app->request->get(SchemaDro::SCENARIO_UPDATE);
+        $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
 
-        if ( $update && $update !== $params[SchemaDro::TABLE_NAME] ) {
+        if ( $update && $update !== $params[Schema::TABLE_NAME] ) {
             $this->removeItem($update);
         }
 
@@ -161,7 +154,7 @@ class PanelService
      * Collect list of SchemaDto
      *  from cache files
      *
-     * @return SchemaDro[]
+     * @return Schema[]
      */
     public function getListSchemaDto(): array
     {
@@ -199,12 +192,15 @@ class PanelService
      * Get path for target generate file
      *
      * @param string $generatePath
+     * @param array $replaceList
      *
      * @return string
      */
-    public function constructGeneratePath(string $generatePath): string
+    public function constructGeneratePath(string $generatePath, array $replaceList = []): string
     {
-        return Yii::getAlias("@root/$generatePath");
+        $generatePath = Yii::getAlias("@root/$generatePath");
+
+        return $this->replacing($generatePath, $replaceList);
     }
 
     /**
@@ -212,28 +208,31 @@ class PanelService
      *
      * @param string $sourcePath
      * @param string $ext
+     * @param array $replaceList
      *
      * @return string
      */
-    public function constructSourcePath(string $sourcePath, string $ext): string
+    public function constructSourcePath(string $sourcePath, string $ext, array $replaceList = []): string
     {
         if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) ) {
             $sourcePath .= $ext;
         }
 
-        return $sourcePath;
+        $sourcePath = Yii::getAlias($sourcePath);
+
+        return $this->replacing($sourcePath, $replaceList);
     }
 
     /**
      * Execute bash
      *
-     * @param string $bash
+     * @param Cmd $commandCli
      *
      * @return ?string
      */
-    public function runBash(string $bash): ?string
+    public function runBash(Cmd $commandCli): ?string
     {
-        return shell_exec($bash) ?? null;
+        return shell_exec($commandCli->exec) ?? null;
     }
 
     /**
@@ -270,13 +269,13 @@ class PanelService
     /**
      * Generate the list of parameters for replacing
      *
-     * @param SchemaDro $schemaDto
+     * @param Schema $schemaDto
      *
      * @return array
      */
-    public function getReplaceList(SchemaDro $schemaDto): array
+    public function getReplaceList(Schema $schemaDto): array
     {
-        $tableName = $schemaDto->{SchemaDro::TABLE_NAME};
+        $tableName = $schemaDto->{Schema::TABLE_NAME};
         $tableName = str_replace([' ','-'], '_', $tableName);
 
         $pascalCase = Inflector::id2camel($tableName,'_');
@@ -284,8 +283,8 @@ class PanelService
         $params = [
             '{{PascalCase}}' => $pascalCase,
             '{{camelCase}}' => lcfirst($pascalCase),
-            '{{snake_case}}' => $schemaDto->{SchemaDro::TABLE_NAME},
-            '{{kebab-case}}' => str_replace('_', '-', $schemaDto->{SchemaDro::TABLE_NAME}),
+            '{{snake_case}}' => $schemaDto->{Schema::TABLE_NAME},
+            '{{kebab-case}}' => str_replace('_', '-', $schemaDto->{Schema::TABLE_NAME}),
         ];
 
         $customFields = $schemaDto->getCustomFields();
@@ -321,7 +320,7 @@ class PanelService
      */
     private function removeHandler(): void
     {
-        if ( $remove = Yii::$app->request->get(SchemaDro::SCENARIO_REMOVE) )
+        if ( $remove = Yii::$app->request->get(Schema::SCENARIO_REMOVE) )
         {
             $this->removeModel( $remove );
 

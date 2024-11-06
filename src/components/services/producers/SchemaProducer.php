@@ -2,7 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\services\producers;
 
-use andy87\yii2\file_crafter\components\models\SchemaDro;
+use andy87\yii2\file_crafter\components\models\Schema;
 
 /**
  * SchemaDto creator
@@ -35,11 +35,11 @@ class SchemaProducer
      *
      * @param array $params
      *
-     * @return SchemaDro
+     * @return Schema
      */
-    public function create( array $params = [] ): SchemaDro
+    public function create( array $params = [] ): Schema
     {
-        $schemaDto = new SchemaDro( $this->custom_fields );
+        $schemaDto = new Schema( $this->custom_fields );
 
         $schemaDto->load($params, '');
 

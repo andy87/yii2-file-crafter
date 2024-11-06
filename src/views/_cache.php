@@ -1,8 +1,7 @@
 <?php
 
-use andy87\yii2\file_crafter\components\models\SchemaDro;
 use yii\web\View;
-use andy87\yii2\file_crafter\Crafter;
+use andy87\yii2\file_crafter\{ Crafter, components\models\Schema };
 
 /**
  * @var View $this
@@ -30,7 +29,7 @@ $R = $generator->panelResources;
     </div>
 
     <?php foreach ( $R->listSchemaDto as $schemaDto ):
-        /** @var SchemaDro $schemaDto */
+        /** @var Schema $schemaDto */
         if ( $schemaDto->itIs($R->schemaDto->table_name) ) continue;
     ?>
         <div class="b_cache--item">

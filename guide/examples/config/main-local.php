@@ -22,7 +22,7 @@ if (YII_ENV_DEV)
                     'dir' => '@console/runtime/andy87/yii2-file-crafter/templates/source',
                     'ext' => '.tpl',
                 ],
-                'bash' => [
+                'commands' => [
                     'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\common\components\core\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
                 ],
                 'custom_fields' => [

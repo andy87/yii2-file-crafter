@@ -2,8 +2,13 @@
 
 namespace andy87\yii2\file_crafter\components\core;
 
-use andy87\yii2\file_crafter\components\Log;
 use yii\gii\Generator;
+use andy87\yii2\file_crafter\components\events\{
+    CrafterEvent,
+    CrafterEventGenerate,
+    CrafterEventCommand,
+    CrafterEventRender
+};
 
 /**
  * CoreGenerator
@@ -14,31 +19,45 @@ use yii\gii\Generator;
  */
 abstract class CoreGenerator extends Generator
 {
-
     /** @var string ID on module list */
     public const ID = null;
 
 
     /** @var string Path on root directory */
-    public const SRC = null;
+    public const DIR_SRC = null;
 
     /** @var string Path with view directory */
-    public const VIEWS = null;
+    public const DIR_VIEWS = null;
+
+    /** @var array Mapping event */
+    protected const EVENT_MAPPING = [
+        CrafterEvent::BEFORE_INIT => CrafterEvent::class,
+        CrafterEvent::AFTER_INIT => CrafterEvent::class,
+
+        CrafterEventCommand::BEFORE => CrafterEventCommand::class,
+        CrafterEventCommand::AFTER => CrafterEventCommand::class,
+
+        CrafterEventRender::BEFORE => CrafterEventRender::class,
+        CrafterEventRender::AFTER => CrafterEventRender::class,
+
+        CrafterEventGenerate::BEFORE => CrafterEventGenerate::class,
+        CrafterEventGenerate::AFTER => CrafterEventGenerate::class,
+    ];
 
 
 
     /**
-     * Используется в абстракции
+     * Return extension `formView`
      *
      * @return string
      */
     public function formView(): string
     {
-        return static::VIEWS . '/panel.php';
+        return static::DIR_VIEWS . '/panel.php';
     }
 
     /**
-     * Return extension `name`
+     * Return ext `name`
      *
      * @return string
      */

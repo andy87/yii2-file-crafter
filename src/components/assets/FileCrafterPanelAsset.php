@@ -17,7 +17,7 @@ use andy87\yii2\file_crafter\Crafter;
 class FileCrafterPanelAsset extends AssetBundle
 {
     /** @var string  */
-    public $sourcePath = Crafter::SRC . '/web';
+    public $sourcePath = Crafter::DIR_SRC . '/web';
 
     /** @var string[] library css (using @import) */
     public $css = [ 'css/file-crafter.css' ];

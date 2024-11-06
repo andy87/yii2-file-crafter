@@ -2,7 +2,6 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
-use andy87\yii2\file_crafter\components\Log;
 use Yii;
 use andy87\yii2\file_crafter\Crafter;
 
@@ -15,7 +14,10 @@ use andy87\yii2\file_crafter\Crafter;
  */
 class CacheService
 {
-    public const DEFAULT_CACHE_DIR = Crafter::DEFAULT_RESOURCES_DIR . '/cache';
+    /** @var string Default cache dir */
+    public const DEFAULT_CACHE_DIR = Crafter::DIR_DEFAULT_RESOURCES . '/cache';
+
+    /** @var string Default cache ext */
     public const DEFAULT_CACHE_EXT = '.json';
 
 

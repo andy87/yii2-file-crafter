@@ -2,8 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\resources;
 
-use andy87\yii2\file_crafter\components\Log;
-use andy87\yii2\file_crafter\components\models\SchemaDro;
+use andy87\yii2\file_crafter\components\models\Schema;
 
 /**
  * Class PanelResources
@@ -15,24 +14,24 @@ use andy87\yii2\file_crafter\components\models\SchemaDro;
 class PanelResources
 {
     /**
-     * @var SchemaDro
+     * @var Schema
      */
-    public SchemaDro $schemaDto;
+    public Schema $schemaDto;
 
     /**
-     * @var SchemaDro[]
+     * @var Schema[]
      */
     public array $listSchemaDto = [];
 
 
 
     /**
-     * @param SchemaDro $schemaDto
+     * @param Schema $schemaDto
      * @param array $listSchemaDto
      *
      * @return void
      */
-    public function __construct(SchemaDro $schemaDto, array $listSchemaDto )
+    public function __construct(Schema $schemaDto, array $listSchemaDto )
     {
         $this->schemaDto = $schemaDto;
 
