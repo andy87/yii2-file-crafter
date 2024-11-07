@@ -4,8 +4,6 @@ namespace andy87\yii2\file_crafter\components\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\Inflector;
-use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
 
 /**
  * SchemaDto
@@ -17,31 +15,40 @@ use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
 class Schema extends Model
 {
     // Scenarios
+    /** @var string */
     public const SCENARIO_DEFAULT = self::SCENARIO_CREATE;
+
+    /** @var string */
     public const SCENARIO_CREATE = 'create';
+
+    /** @var string */
     public const SCENARIO_UPDATE = 'update';
+
+    /** @var string */
     public const SCENARIO_REMOVE = 'remove';
 
+
+    /** @var string */
     public const NAME = 'name';
+
+    /** @var string */
     public const TABLE_NAME = 'table_name';
+
+    /** @var string */
     public const CUSTOM_FIELDS = 'custom_fields';
+
+    /** @var string */
     public const DB_FIELDS = 'db_fields';
 
 
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public string $scenario = self::SCENARIO_DEFAULT;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public string $name = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public string $table_name = '';
 
 
@@ -73,10 +80,11 @@ class Schema extends Model
      */
     public array $custom_fields = [];
 
-    /**
-     * @var Field[]
-     */
+    /** @var Field[] */
     public array $db_fields = [];
+
+    /** @var string  */
+    public string $content;
 
 
     /**
@@ -88,7 +96,7 @@ class Schema extends Model
             [ [self::NAME], 'required' ],
             [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
             //[ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
-            [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'safe'],
+            [ [self::CUSTOM_FIELDS, self::DB_FIELDS, 'content'], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
         ];
     }
@@ -498,5 +506,40 @@ Example:
                 'project_change_log'
             ]
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        $html = "<h5>Schema name: $this->name ( $this->table_name )</h5>";
+        $html .= "<h6>Custom fields: </h>";
+        if ( !empty($this->custom_fields) ) {
+            $html .= "<ul>";
+            foreach ($this->custom_fields as $key => $value) {
+                $html .= "<li>$key: $value</li>";
+            }
+            $html .= "</ul>";
+        } else {
+            $html .= "<p>Empty</p>";
+        }
+
+        $tbody = '';
+
+        foreach ($this->db_fields as $field) {
+            $tbody .= "<tr>";
+            $tbody .= "<td>{$field[Field::NAME]}</td>";
+            $tbody .= "<td>{$field[Field::COMMENT]}</td>";
+            $tbody .= "<td>{$field[Field::TYPE]}</td>";
+            $tbody .= "<td>".((isset($field[Field::FOREIGN_KEYS])) ? 'X' : '')."</td>";
+            $tbody .= "<td>".((isset($field[Field::UNIQUE])) ?'X' : '')."</td>";
+            $tbody .= "<td>".((isset($field[Field::NOT_NULL])) ?'X' : '')."</td>";
+            $tbody .= "</tr>";
+        }
+
+        $html .= "<table class=table><thead><tr><th>fieldName</th><th>comment</th><th>type</th><th>FK</th><th>UN</th><th>NN</th></tr></thead><tbody>$tbody</tbody></table>";
+
+        return $html;
     }
 }

@@ -63,7 +63,10 @@ class PanelService
     {
         if ( $tableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE) )
         {
-            $params = $this->cacheService->getContentCacheFile($tableName);
+            $content = $this->cacheService->getContentCacheFile($tableName);
+            $params['content'] = $content;
+
+            $params = json_decode($content, true);
 
             if (count($params))
             {
@@ -130,9 +133,13 @@ class PanelService
         {
             $fileName = pathinfo($cacheFile, PATHINFO_FILENAME);
 
-            $params = $this->cacheService->getContentCacheFile($fileName);
+            $content = $this->cacheService->getContentCacheFile($fileName);
+
+            $params = json_decode($content, true);
+            $params['content'] = $content;
 
             $schema = $this->schemaProducer->create($params);
+
 
             $listSchemaDto[] = $schema;
         }

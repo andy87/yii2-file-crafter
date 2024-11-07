@@ -91,9 +91,9 @@ class CacheService
      *
      * @param mixed $tableName
      *
-     * @return array
+     * @return ?string
      */
-    public function getContentCacheFile(mixed $tableName): array
+    public function getContentCacheFile(mixed $tableName): ?string
     {
         $pathCache = $this->constructPath($tableName);
 
@@ -103,11 +103,11 @@ class CacheService
 
             if (strlen($content))
             {
-                return json_decode($content, true);
+                return $content;
             }
         }
 
-        return [];
+        return null;
     }
 
     /**

@@ -46,6 +46,20 @@ $R = $generator->panelResources;
                 <?= ( $schema->isPreviewGenerate($generator->generateList) ) ? 'checked' : '' ?>>
 
                 <?= $schema->name ?>
+
+                <button class="b_cache--button __info" data-toggle="popover" data-content='<?= $schema->getContent(); ?>'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 32 32">
+                        <g id="Complete">
+                            <g id="info-square">
+                                <g>
+                                    <rect data-name="--Rectangle" fill="none" height="20" id="_--Rectangle" rx="2" ry="2" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" x="2" y="2"/>
+                                    <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"/>
+                                    <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"/>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </button>
             </label>
             <button class="b_cache--button" onclick="app.cache.removeModel('<?=$schema->getTableName()?>')" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#FF0000" width="20px" height="20px" viewBox="0 0 32 32">
