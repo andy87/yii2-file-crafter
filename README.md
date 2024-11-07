@@ -72,12 +72,14 @@ Minimum config
     'generators' => [
         'fileCrafter' => [
             'class' => Crafter::class,
-            'templates' => [
-                'group_name' => [
-                    // 'template' => 'path/to/file.php',
-                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
-                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+            'options' => [
+                'templates' => [
+                    'group_name' => [
+                        // 'template' => 'path/to/file.php',
+                        'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
+                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                    ]
                 ]
             ]
         ]
@@ -92,50 +94,52 @@ Full Config with all options
     'generators' => [
         'fileCrafter' => [
             'class' => Crafter::class,
-            'cache' => [
-                'dir' => '@runtime/yii2-file-crafter/cache',
-                'ext' => '.tpl'
-            ],
-            'source' => [
-                'dir' => '@runtime/yii2-file-crafter/templates/source',
-                'ext' => '.tpl'
-            ],
-            'custom_fields' => [
-                'singular' => 'label - one',
-                'plural' => 'label - many',
-           ],
-            'commands' => [
-                'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\components\models\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
-            ],
-            'eventHandlers' => FileCrafterBehavior::class,
-            'templates' => [
-                'common' => [
-                    'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service.php',
+            'options' => [
+                'cache' => [
+                    'dir' => '@runtime/yii2-file-crafter/cache',
+                    'ext' => '.tpl'
                 ],
-                'backend' => [
-                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                'source' => [
+                    'dir' => '@runtime/yii2-file-crafter/templates/source',
+                    'ext' => '.tpl'
                 ],
-                'frontend' => [
-                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                'custom_fields' => [
+                    'singular' => 'label - one',
+                    'plural' => 'label - many',
+               ],
+                'commands' => [
+                    'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}}' //...
                 ],
-                'all' => [
-                    'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
-                    'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                    'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
-                ]
-            ],
-            'config' => [ // in progress...
-                'isShowPreview' => true,
-                'useAutocomplete' => true,
-                'customAutocomplete' => ['schema_name_one', 'schema_name_two'],
+                'eventHandlers' => FileCrafterBehavior::class,
+                'autoCompleteStatus' => true,
+                'autoCompleteList' => [
+                    'autocomplete name 1',
+                    'autocomplete name 2',
+                ],
+                'previewStatus' => true,
+                'canDelete' => true,
+                'parseDataBase' => ['autocomplete','fakeCache'],
+                'templates' => [
+                    'common' => [
+                        'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service.php',
+                    ],
+                    'backend' => [
+                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                    ],
+                    'frontend' => [
+                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                    ],
+                    'all' => [
+                        'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
+                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
+                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                    ]
+                ],
             ]
         ]
     ],
 ];
 ```
---- 
-
-
 
 <span id="yii2-file-crafter-using"></span>
 <h2>
@@ -145,13 +149,17 @@ Full Config with all options
 - [Marks](#yii2-file-crafter-using-Marks)  
 - [Cache](#yii2-file-crafter-using-Cache)  
 - [Source](#yii2-file-crafter-using-Source)  
-- [Custom](#yii2-file-crafter-using-Custom)  
+- [Custom Fields](#yii2-file-crafter-using-CustomFields)  
+- [Autocomplete status](#yii2-file-crafter-autoCompleteStatus)
+- [Autocomplete list](#yii2-file-crafter-autoCompleteList)
+- [Preview status](#yii2-file-crafter-previewStatus)
+- [Can delete](#yii2-file-crafter-canDelete)
+- [Parse data base](#yii2-file-crafter-parseDataBase)
 - [Commands](#yii2-file-crafter-using-Commands)  
 - [Events](#yii2-file-crafter-using-Events)  
 - [Templates](#yii2-file-crafter-using-Templates)  
 
 --- 
-
 
 <span id="yii2-file-crafter-using-Marks"></span>  
 <h2 align="center">Marks</h2>  
@@ -177,23 +185,116 @@ for schema name `Product Items` replace marks:
 --- 
 
 <span id="yii2-file-crafter-using-Cache"></span>
-<h2 align="center">Cache</h2>  
+<h2 align="center">
+    Cache
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>  
+
+Configuration for the cache folder with schema data.
 
 - `dir` - path to the cache directory with schema data  
 - `ext` - extension of the cache file  
 
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'cache' => [
+                    'dir' => '@runtime/yii2-file-crafter/cache',
+                    'ext' => '.json'
+                ],
+                // ...
+            ],
+        ],
+    ]
+];
+```
+
+
 --- 
 
 <span id="yii2-file-crafter-using-Source"></span>
-<h2 align="center">Source</h2>  
+<h2 align="center">
+    Source
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>  
+
+Configuration for the source folder with templates files.
 
 - `dir` - path to the directory with the templates files source for generation  
 - `ext` - extension of the templates file  
 
---- 
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'source' => [
+                    'dir' => '@runtime/yii2-file-crafter/templates/source',
+                    'ext' => '.tpl'
+                ],
+                // ...
+            ],
+        ],
+    ]
+];
+```
 
-<span id="yii2-file-crafter-using-Custom"></span>
-<h2 align="center">Custom Fields</h2>  
+--- 
+<span id="yii2-file-crafter-using-CustomFields"></span>
+<h2 align="center">
+    Templates
+    <small style="color: #900; font-size:9px">(required)</small>
+</h2>
+
+Array with groups of templates for use on generate files.
+
+Content of the templates file rendered with the `View` method `renderFile`  
+`$this->renderFile($sourcePath)`
+- `$sourcePath` - path to the source file
+
+And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )
+
+And also passed to the render method:
+- `$schema` - schema object
+- `$generator` - module generate object
+
+
+File template will be searched in the `source` folder.  
+Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )
+
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'templates' => [
+                    'all' => [
+                        'templates' => 'app/frontend/views/info--{{snake_case}}.php',
+                    ],
+                ],
+                // ...
+            ],
+        ],
+    ]
+];
+```
+
+---
+
+<span id="yii2-file-crafter-using-CustomFields"></span>
+<h2 align="center">
+    Custom Fields
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>  
+
 Array with custom fields for use custom variables in templates.  
 Using on template key wrapped in square brackets: `{{%key%}}`    
 Example: `{{key_one}}`, `{{key_two}}`...  
@@ -204,19 +305,17 @@ $config['modules']['gii'] = [
     'class' => Module::class,
         'generators' => [
             'fileCrafter' => [
+            'options' => [
+                // ... 
                 'custom_fields' => [
                     'singular' => 'one',
                     'plural' => 'many',
                 ],
-                'templates' => [
-                    'alll' => [
-                        'templates' => 'app/frontend/views/info--{{snake_case}}.php',
-                    ],
-                ],
+                // ...
             ],
         ],
-    ];
-}
+    ]
+];
 ```
 with template:
 ```php
@@ -253,8 +352,141 @@ Value - MANY = (+++categories+++)
 
 --- 
 
+<span id="yii2-file-crafter-using-autoCompleteStatus"></span>
+<h2 align="center">Autocomplete status</h2>
+
+Key `autoCompleteStatus` contain status for autocomplete field `Schema name` in the form.
+  
+Variants: `true` or `false`  
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'autoCompleteStatus' => true,
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
+--- 
+
+<span id="yii2-file-crafter-using-autoCompleteList"></span>
+<h2 align="center">
+    Autocomplete list
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>
+
+Key `autoCompleteList` contain list of autocomplete field `Schema name` in the form.
+  
+Type: `array`  
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'autoCompleteList' => [
+                    'Product Items',
+                    'Category Group',
+                    'User Profile',
+                    // ...
+                ],
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
+--- 
+
+<span id="yii2-file-crafter-using-previewStatus"></span>
+    <h2 align="center">Preview status
+    <small style="color: #009; font-size:9px">(optional)</small> 
+</h2>
+
+Key `previewStatus` contain status for preview file content on hover icon in the form.
+  
+Variants: `true` or `false`  
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'previewStatus' => true,
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
+--- 
+
+<span id="yii2-file-crafter-using-canDelete"></span>
+    <h2 align="center">Can delete
+    <small style="color: #009; font-size:9px">(optional)</small> 
+</h2>
+
+Key `canDelete` contain status for delete schema from the form.
+
+Variants: `true` or `false`
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'canDelete' => true,
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
+--- 
+
+<span id="yii2-file-crafter-using-parseDataBase"></span>
+<h2 align="center">
+    Parse data base
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>
+
+Key `parseDataBase` contain list of target for extend schema name list from database.
+
+Variants: `array` with values: 
+- `autocomplete`
+- `fakeCache`
+```php
+$config['modules']['gii'] = [
+    'class' => Module::class,
+        'generators' => [
+            'fileCrafter' => [
+            'options' => [
+                // ... 
+                'parseDataBase' => ['autocomplete','fakeCache'],
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
 <span id="yii2-file-crafter-using-Commands"></span>
-<h2 align="center">Commands</h2>
+<h2 align="center">
+    Commands
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>
 
 Key `commands` contain list `cli` command for call before generate any file.  
 command make use of the `{{variable}}` in the command string ( see [Marks](#yii2-file-crafter-using-Marks) )
@@ -265,17 +497,23 @@ $config['modules']['gii'] = [
     'class' => Module::class,
         'generators' => [
             'fileCrafter' => [
+            'options' => [
+                // ... 
                 'commands' => [
                     'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}}' // ... 
                 ],
+                // ...
             ],
         ],
-    ];
-}
+    ],
+];
 ```
 
 <span id="yii2-file-crafter-using-Events"></span>
-<h2 align="center">Events</h2>
+<h2 align="center">
+    Events
+    <small style="color: #009; font-size:9px">(optional)</small>
+</h2>
 
 Make use of the `eventHandlers` key to add a behavior to the module.
 
@@ -284,10 +522,14 @@ Example:
 $config['modules']['gii'] = [
     'class' => Module::class,
         'generators' => [
-            'eventHandlers' => FileCrafterBehavior::class,
+        'options' => [
+                // ... 
+                'eventHandlers' => FileCrafterBehavior::class,
+                // ...
+            ],
         ],
-    ];
-}
+    ],
+];
 ```
 
 
@@ -387,21 +629,6 @@ public function afterGenerate(CrafterEventGenerate $crafterEventGenerate): void 
     ]]); 
 }
 ```
-
---- 
-
-<span id="yii2-file-crafter-using-Templates"></span>
-<h2 align="center">Templates</h2>
-
-Content of the templates file rendered with the `View` method `renderFile`  
-`$this->renderFile($sourcePath)`  
- - `$sourcePath` - path to the source file
-
-And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )
-
-And also passed to the render method:  
- - `$schema` - schema object  
- - `$generator` - module generate object
 
 ___
 

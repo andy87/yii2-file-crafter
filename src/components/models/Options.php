@@ -55,7 +55,7 @@ class Options extends Model
     public function rules(): array
     {
         return [
-            [['cache', 'source', 'templates'], 'required'],
+            [['templates'], 'required'],
             [['eventHandler'], 'string'],
             [['eventHandler'], 'trim'],
             [['autoCompleteStatus', 'previewStatus' ], 'boolean'],
