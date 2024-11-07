@@ -10,6 +10,7 @@ use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\models\Dto\Cmd,
     components\models\Schema,
     components\resources\PanelResources,
+    components\services\CacheService,
     components\services\PanelService};
 use Yii;
 use yii\base\InvalidRouteException;
@@ -208,10 +209,7 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-        $this->panelService = new PanelService(
-            $this->cache,
-            array_keys($this->custom_fields)
-        );
+        $this->panelService = new PanelService( $this->source, $this->cache, array_keys($this->custom_fields) );
     }
 
     /**
@@ -285,28 +283,50 @@ class Crafter extends CoreGenerator
     {
         $files = [];
 
-        $this->event(CrafterEventGenerate::BEFORE );
-
-        $listSchemaDto = $this->panelService->getListSchemaDto();
-
-        if ( count($listSchemaDto) )
+        foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
         {
-            $this->generateList = array_keys($this->generateList);
+            $isTemplateExists = $this->panelService->isTemplateExists($sourcePath);
 
-            foreach ($listSchemaDto as $schema)
+            if ( !$isTemplateExists )
             {
-                if ( in_array($schema->getTableName(), $this->generateList) )
-                {
-                    $replaceList = $this->panelService->getReplaceList($schema);
+                $sourceFullPath = $this->panelService->getSourceFullPath($sourcePath);
 
-                    $this->temp = $this->execCommands($replaceList);
+                $sourceFullPath = str_replace(Yii::getAlias('@root'), '', $sourceFullPath);
 
-                    $files = array_merge($files, $this->fileGenerating($schema, $replaceList));
-                }
+                $message = sprintf("Template `%s` Not found.", $sourceFullPath);
+
+                $this->panelResources->schema->addError(Schema::NAME, $message);
+
+                return [];
             }
         }
 
-        $this->event(CrafterEventGenerate::AFTER, $files );
+        if ( count($this->panelResources->schema->errors) === 0 )
+        {
+            $this->event(CrafterEventGenerate::BEFORE );
+
+            $listSchemaDto = $this->panelService->getListSchemaDto();
+
+            if ( count($listSchemaDto) )
+            {
+                $this->generateList = array_keys($this->generateList);
+
+                foreach ($listSchemaDto as $schema)
+                {
+                    if ( in_array($schema->getTableName(), $this->generateList) )
+                    {
+                        $replaceList = $this->panelService->getReplaceList($schema);
+
+                        $this->temp = $this->execCommands($replaceList);
+
+                        $files = array_merge($files, $this->fileGenerating($schema, $replaceList));
+                    }
+                }
+            }
+
+            $this->event(CrafterEventGenerate::AFTER, $files );
+
+        }
 
         return $files;
     }

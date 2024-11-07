@@ -3,11 +3,10 @@
 namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
-use yii\helpers\Inflector;
-use yii\base\InvalidRouteException;
-use andy87\yii2\file_crafter\Crafter;
-use andy87\yii2\file_crafter\components\models\{ Field, Schema, Dto\Cmd };
+use yii\{ helpers\Inflector, base\InvalidRouteException };
+use andy87\yii2\file_crafter\components\models\{ Schema, Dto\Cmd };
 use andy87\yii2\file_crafter\components\{resources\PanelResources,
+    rules\ExistsTemplateValidator,
     rules\UniqueSchemaNameValidator,
     services\producers\SchemaProducer};
 
@@ -20,6 +19,9 @@ use andy87\yii2\file_crafter\components\{resources\PanelResources,
  */
 class PanelService
 {
+    /** @var DirectoryProviderService */
+    private DirectoryProviderService $sourceProviderService;
+
     /** @var CacheService */
     private CacheService $cacheService;
 
@@ -30,13 +32,16 @@ class PanelService
     /**
      * PanelService constructor.
      *
+     * @param array $sourceParams
      * @param array $cacheParams
      * @param array $keyCustomFields
      *
      * @tag #constructor
      */
-    public function __construct( array $cacheParams, array $keyCustomFields )
+    public function __construct( array $sourceParams, array $cacheParams, array $keyCustomFields )
     {
+        $this->sourceProviderService = new DirectoryProviderService($sourceParams);
+
         $this->cacheService = new CacheService($cacheParams);
 
         $this->schemaProducer = new SchemaProducer($this->cacheService, $keyCustomFields );
@@ -80,14 +85,15 @@ class PanelService
         $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
         $isUpdate = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
 
-
         if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
         {
             $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
             if ($isCreate && $schema->name) {
 
-                (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, 'name');
+                (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, Schema::NAME);
+
+                (new ExistsTemplateValidator($this->sourceProviderService))->validateAttribute($schema, Schema::NAME);
             }
 
             if ($schema->hasErrors()) {
@@ -326,5 +332,27 @@ class PanelService
         $dirPath = Yii::getAlias($dirPath);
 
         if ( !is_dir($dirPath) ) mkdir($dirPath, 0777, true);
+    }
+
+    /**
+     * @param string $sourcePath
+     *
+     * @return bool
+     */
+    public function isTemplateExists(string $sourcePath): bool
+    {
+        $sourceFullPath = $this->getSourceFullPath($sourcePath);
+
+        return file_exists($sourceFullPath);
+    }
+
+    /**
+     * @param string $sourcePath
+     *
+     * @return string
+     */
+    public function getSourceFullPath(string $sourcePath): string
+    {
+        return $this->sourceProviderService->constructPath($sourcePath);
     }
 }

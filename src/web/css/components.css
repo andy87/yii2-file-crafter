@@ -60,6 +60,9 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     line-height: 22px;
     padding: 6px;
 }
+.input.is-invalid + .invalid-feedback {
+    display: block;
+}
 
 .__changed,
 .__new INPUT,
