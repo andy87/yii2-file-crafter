@@ -3,21 +3,22 @@
     display: block;
     width: 100%;
 }
+.block__cache * {
+    vertical-align: middle;
+}
 
 .b_cache--item {
     display: block;
     padding-bottom: 10px;
 }
 
-.b_cache--link {
-    display: inline-block;
-}
 
 .b_cache--label {
     display: inline-block;
     margin: 0;
+    padding: 3px 0;
     font-size: 18px;
-    line-height: 28px;
+    line-height: 22px;
     font-family: "Calibri Light", sans-serif;
 }
 
@@ -32,11 +33,14 @@
     margin: 6px 2px;
 }
 
+
+.b_cache--link,
 .b_cache--button {
     display: inline-block;
-    margin: 1px;
-    width: 20px;
-    height: 20px;
+    margin: 3px 1px;
+    padding: 0;
+    width: 22px;
+    height: 24px;
     cursor: pointer;
     border: none;
     background-color: transparent;
@@ -45,6 +49,7 @@
 .b_cache--item .b_cache--button {
     opacity: 0;
     transition: opacity 0.25s linear;
+    vertical-align: top;
 }
 .b_cache--item:hover .b_cache--button {
     opacity: 1;
