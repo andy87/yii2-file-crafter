@@ -2,8 +2,8 @@
 
 namespace andy87\yii2\file_crafter\components\assets;
 
-use yii\web\AssetBundle;
-use andy87\yii2\file_crafter\Crafter;
+use yii\web\YiiAsset;
+use andy87\yii2\file_crafter\components\assets\core\BaseAsset;
 
 /**
  * Asset
@@ -14,11 +14,8 @@ use andy87\yii2\file_crafter\Crafter;
  *
  * @tag: #asset
  */
-class FileCrafterPanelAsset extends AssetBundle
+class FileCrafterPanelAsset extends BaseAsset
 {
-    /** @var string  */
-    public $sourcePath = Crafter::SRC . '/web';
-
     /** @var string[] library css (using @import) */
     public $css = [ 'css/file-crafter.css' ];
 
@@ -27,7 +24,7 @@ class FileCrafterPanelAsset extends AssetBundle
 
     /** @var array depends */
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset',
+        YiiAsset::class,
+        SortableAsset::class,
     ];
 }

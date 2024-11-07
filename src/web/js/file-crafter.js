@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
         init : function (){
 
             this.bind();
+
+            this.sortable.run()
         },
 
         bind : function ()
@@ -33,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         dbFields : {
             targets : {
-
                 table_db_field : "#table_db_field",
                 template_db_field : "#template_db_field",
             },
@@ -218,7 +219,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     checkbox.checked = state;
                 });
             }
-        }
+        },
+
+        sortable : {
+            run : function ()
+            {
+                new Sortable(document.querySelector(app.dbFields.targets.table_db_field), {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost'
+                });
+            }
+        },
     };
 
     app.init();
