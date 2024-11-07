@@ -4,6 +4,7 @@ namespace andy87\yii2\file_crafter\components\models;
 
 use Yii;
 use yii\base\Model;
+use yii\db\Exception;
 
 /**
  * SchemaDto
@@ -26,6 +27,9 @@ class Schema extends Model
 
     /** @var string */
     public const SCENARIO_REMOVE = 'remove';
+
+    /** @var string */
+    public const SCENARIO_PARSE_DB = 'parse_db';
 
 
     /** @var string */
@@ -50,6 +54,243 @@ class Schema extends Model
 
     /** @var string */
     public string $table_name = '';
+
+    private array $autoCompleteData = [
+        Schema::NAME => [
+            'module',
+            'access',
+            'role',
+            'user',
+            'news',
+            'blog',
+            'article',
+            'post',
+            'group',
+            'setting',
+            'config',
+            'user',
+            'order',
+            'product',
+            'category',
+            'payment',
+            'invoice',
+            'customer',
+            'shipment',
+            'address',
+            'cart',
+            'review',
+            'rating',
+            'transaction',
+            'transaction_item',
+            'subscription',
+            'coupon',
+            'discount',
+            'ticket',
+            'support',
+            'message',
+            'notification',
+            'admin',
+            'role',
+            'permission',
+            'user_role',
+            'user_permission',
+            'activity',
+            'event',
+            'log',
+            'audit',
+            'file',
+            'media',
+            'image',
+            'video',
+            'document',
+            'comment',
+            'post',
+            'page',
+            'blog',
+            'tag',
+            'topic',
+            'newsletter',
+            'subscriber',
+            'report',
+            'feedback',
+            'question',
+            'answer',
+            'survey',
+            'quiz',
+            'leaderboard',
+            'score',
+            'award',
+            'achievement',
+            'milestone',
+            'bonus',
+            'payment_method',
+            'bank',
+            'account',
+            'card',
+            'wallet',
+            'transaction_history',
+            'currency',
+            'exchange_rate',
+            'rate',
+            'location',
+            'region',
+            'country',
+            'state',
+            'city',
+            'area',
+            'district',
+            'zone',
+            'facility',
+            'service',
+            'provider',
+            'schedule',
+            'shift',
+            'task',
+            'project',
+            'team',
+            'department',
+            'employee',
+            'contract',
+            'payroll',
+            'salary',
+            'leave',
+            'attendance',
+            'time_off',
+            'holiday',
+            'timesheet',
+            'work_log',
+            'expense',
+            'invoice_item',
+            'payment_schedule',
+            'refund',
+            'refund_request',
+            'claim',
+            'warranty',
+            'return',
+            'exchange',
+            'shipment_tracking',
+            'warehouse',
+            'inventory',
+            'stock',
+            'supplier',
+            'purchase_order',
+            'purchase_item',
+            'sales_order',
+            'sales_item',
+            'receipt',
+            'quotation',
+            'estimate',
+            'contractor',
+            'subcontractor',
+            'budget',
+            'resource',
+            'allocation',
+            'supplier_invoice',
+            'supplier_payment',
+            'delivery',
+            'shipment_item',
+            'shipping_address',
+            'billing_address',
+            'discount_code',
+            'tax',
+            'tax_rate',
+            'invoice_tax',
+            'payment_gateway',
+            'affiliate',
+            'referral',
+            'commission',
+            'reward',
+            'voucher',
+            'gift_card',
+            'transaction_log',
+            'session',
+            'visitor',
+            'user_activity',
+            'login',
+            'logout',
+            'reset_token',
+            'password_reset',
+            'email_verification',
+            'user_verification',
+            'two_factor_auth',
+            'security',
+            'backup',
+            'cron_job',
+            'task_queue',
+            'event_log',
+            'error_log',
+            'notification_log',
+            'feedback_log',
+            'support_ticket',
+            'service_ticket',
+            'issue',
+            'solution',
+            'knowledge_base',
+            'faq',
+            'help_article',
+            'user_feedback',
+            'interaction',
+            'call_record',
+            'call_log',
+            'chat',
+            'chat_message',
+            'live_chat',
+            'webinar',
+            'meeting',
+            'webinar_registration',
+            'attendee',
+            'meeting_schedule',
+            'webinar_session',
+            'conference',
+            'conference_session',
+            'presentation',
+            'speaker',
+            'event_registration',
+            'event_attendee',
+            'event_feedback',
+            'event_ticket',
+            'ticket_sales',
+            'ticket_type',
+            'location_event',
+            'venue',
+            'seat',
+            'seat_reservation',
+            'event_coupon',
+            'event_discount',
+            'event_promotion',
+            'event_sponsor',
+            'sponsor',
+            'charity',
+            'donation',
+            'fundraiser',
+            'volunteer',
+            'project_task',
+            'task_status',
+            'task_comment',
+            'task_assignee',
+            'project_team',
+            'goal',
+            'objective',
+            'project_status',
+            'project_milestone',
+            'resource_allocation',
+            'project_report',
+            'project_budget',
+            'project_expense',
+            'project_invoice',
+            'project_payment',
+            'project_delivery',
+            'project_schedule',
+            'project_risk',
+            'project_issue',
+            'project_document',
+            'project_file',
+            'project_update',
+            'project_change_request',
+            'project_scope',
+            'project_change_log'
+        ]
+    ];
 
 
     /**
@@ -109,6 +350,35 @@ class Schema extends Model
             self::CUSTOM_FIELDS => 'Custom fields',
             self::DB_FIELDS => 'Fields database',
         ];
+    }
+
+    /**
+     * Set auto complete data
+     *
+     * @param string $field
+     * @param array $data
+     *
+     * @return void
+     */
+    public function setAutoCompleteData(string $field, array $data): void
+    {
+        $this->autoCompleteData[ $field ] = $data;
+    }
+
+    /**
+     * Return template for form
+     *
+     * @return string
+     */
+    public function getTemplate(): string
+    {
+        $template = '{label}<br>{svg}{input}{error}{list}';
+
+        if (empty($this->autoCompleteData[Schema::NAME])) {
+            $template = str_replace('{list}', '', $template);
+        }
+
+        return $template;
     }
 
     /**
@@ -184,7 +454,7 @@ class Schema extends Model
      */
     public function itIs(string $tableName): bool
     {
-        return $this->table_name === $tableName;
+        return $this->table_name === $tableName && empty($R->schema->errors);
     }
 
 
@@ -232,7 +502,7 @@ class Schema extends Model
     {
         $this->name = trim($this->name);
 
-        $table_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $this->name);
+        $table_name = preg_replace('/[^a-zA-Z0-9\_\s]/', '', $this->name);
         $table_name = str_replace(' ', '_', $table_name);
         $table_name = trim($table_name, '_');
 
@@ -240,6 +510,8 @@ class Schema extends Model
     }
 
     /**
+     * Sticky attributes
+     *
      * @return array
      */
     public function stickyAttributes(): array
@@ -250,6 +522,8 @@ class Schema extends Model
     }
 
     /**
+     * Hints for schema
+     *
      * @return array
      */
     public function hints(): array
@@ -273,281 +547,95 @@ Example:
     }
 
     /**
+     * Auto complete data
+     *
      * @return array[]
      */
     public function autoCompleteData(): array
     {
-        return [
-            Schema::NAME => [
-                'module',
-                'access',
-                'role',
-                'user',
-                'news',
-                'blog',
-                'article',
-                'post',
-                'group',
-                'setting',
-                'config',
-                'user',
-                'order',
-                'product',
-                'category',
-                'payment',
-                'invoice',
-                'customer',
-                'shipment',
-                'address',
-                'cart',
-                'review',
-                'rating',
-                'transaction',
-                'transaction_item',
-                'subscription',
-                'coupon',
-                'discount',
-                'ticket',
-                'support',
-                'message',
-                'notification',
-                'admin',
-                'role',
-                'permission',
-                'user_role',
-                'user_permission',
-                'activity',
-                'event',
-                'log',
-                'audit',
-                'file',
-                'media',
-                'image',
-                'video',
-                'document',
-                'comment',
-                'post',
-                'page',
-                'blog',
-                'tag',
-                'topic',
-                'newsletter',
-                'subscriber',
-                'report',
-                'feedback',
-                'question',
-                'answer',
-                'survey',
-                'quiz',
-                'leaderboard',
-                'score',
-                'award',
-                'achievement',
-                'milestone',
-                'bonus',
-                'payment_method',
-                'bank',
-                'account',
-                'card',
-                'wallet',
-                'transaction_history',
-                'currency',
-                'exchange_rate',
-                'rate',
-                'location',
-                'region',
-                'country',
-                'state',
-                'city',
-                'area',
-                'district',
-                'zone',
-                'facility',
-                'service',
-                'provider',
-                'schedule',
-                'shift',
-                'task',
-                'project',
-                'team',
-                'department',
-                'employee',
-                'contract',
-                'payroll',
-                'salary',
-                'leave',
-                'attendance',
-                'time_off',
-                'holiday',
-                'timesheet',
-                'work_log',
-                'expense',
-                'invoice_item',
-                'payment_schedule',
-                'refund',
-                'refund_request',
-                'claim',
-                'warranty',
-                'return',
-                'exchange',
-                'shipment_tracking',
-                'warehouse',
-                'inventory',
-                'stock',
-                'supplier',
-                'purchase_order',
-                'purchase_item',
-                'sales_order',
-                'sales_item',
-                'receipt',
-                'quotation',
-                'estimate',
-                'contractor',
-                'subcontractor',
-                'budget',
-                'resource',
-                'allocation',
-                'supplier_invoice',
-                'supplier_payment',
-                'delivery',
-                'shipment_item',
-                'shipping_address',
-                'billing_address',
-                'discount_code',
-                'tax',
-                'tax_rate',
-                'invoice_tax',
-                'payment_gateway',
-                'affiliate',
-                'referral',
-                'commission',
-                'reward',
-                'voucher',
-                'gift_card',
-                'transaction_log',
-                'session',
-                'visitor',
-                'user_activity',
-                'login',
-                'logout',
-                'reset_token',
-                'password_reset',
-                'email_verification',
-                'user_verification',
-                'two_factor_auth',
-                'security',
-                'backup',
-                'cron_job',
-                'task_queue',
-                'event_log',
-                'error_log',
-                'notification_log',
-                'feedback_log',
-                'support_ticket',
-                'service_ticket',
-                'issue',
-                'solution',
-                'knowledge_base',
-                'faq',
-                'help_article',
-                'user_feedback',
-                'interaction',
-                'call_record',
-                'call_log',
-                'chat',
-                'chat_message',
-                'live_chat',
-                'webinar',
-                'meeting',
-                'webinar_registration',
-                'attendee',
-                'meeting_schedule',
-                'webinar_session',
-                'conference',
-                'conference_session',
-                'presentation',
-                'speaker',
-                'event_registration',
-                'event_attendee',
-                'event_feedback',
-                'event_ticket',
-                'ticket_sales',
-                'ticket_type',
-                'location_event',
-                'venue',
-                'seat',
-                'seat_reservation',
-                'event_coupon',
-                'event_discount',
-                'event_promotion',
-                'event_sponsor',
-                'sponsor',
-                'charity',
-                'donation',
-                'fundraiser',
-                'volunteer',
-                'project_task',
-                'task_status',
-                'task_comment',
-                'task_assignee',
-                'project_team',
-                'goal',
-                'objective',
-                'project_status',
-                'project_milestone',
-                'resource_allocation',
-                'project_report',
-                'project_budget',
-                'project_expense',
-                'project_invoice',
-                'project_payment',
-                'project_delivery',
-                'project_schedule',
-                'project_risk',
-                'project_issue',
-                'project_document',
-                'project_file',
-                'project_update',
-                'project_change_request',
-                'project_scope',
-                'project_change_log'
-            ]
-        ];
+        return $this->autoCompleteData;
     }
 
     /**
+     * Get content for preview
+     *
      * @return string
      */
     public function getContent(): string
     {
-        $html = "<h5>Schema name: $this->name ( $this->table_name )</h5>";
-        $html .= "<h6>Custom fields: </h6>";
-        if ( !empty($this->custom_fields) ) {
-            $html .= "<ul>";
-            foreach ($this->custom_fields as $key => $value) {
-                $html .= "<li>$key: $value</li>";
-            }
-            $html .= "</ul>";
-        } else {
-            $html .= "<p>Empty</p>";
+        $params = [ 'schema' => $this ];
+
+        if ($this->scenario === self::SCENARIO_PARSE_DB)
+        {
+          try {
+
+              $params = [
+                  'table_name' => $this->table_name,
+                  'fields' => $this->getSchemaTableFields($this->table_name)
+              ];
+
+          } catch (\Exception $e) {
+
+              Yii::error([ __METHOD__,
+                  'message' => $e->getMessage(),
+                  'position' => $e->getFile() . ':' . $e->getLine(),
+                  'trace' => $e->getTraceAsString()
+              ]);
+          }
         }
 
-        $tbody = '';
+        return Yii::$app->view->renderFile('@vendor/andy87/yii2-file-crafter/src/views/__preview.php', $params );
+    }
 
-        foreach ($this->db_fields as $field) {
-            $tbody .= "<tr>";
-            $tbody .= "<td>{$field[Field::NAME]}</td>";
-            $tbody .= "<td>{$field[Field::COMMENT]}</td>";
-            $tbody .= "<td>{$field[Field::TYPE]}</td>";
-            $tbody .= "<td>{$field[Field::SIZE]}</td>";
-            $tbody .= "<td>".((isset($field[Field::FOREIGN_KEYS])) ? 'X' : '')."</td>";
-            $tbody .= "<td>".((isset($field[Field::UNIQUE])) ?'X' : '')."</td>";
-            $tbody .= "<td>".((isset($field[Field::NOT_NULL])) ?'X' : '')."</td>";
-            $tbody .= "</tr>";
+    /**
+     * Check on can delete
+     *
+     * @param Options $options
+     *
+     * @return bool
+     */
+    public function canDelete(Options $options): bool
+    {
+        return  ( $options->canDelete && $this->scenario !== self::SCENARIO_PARSE_DB );
+    }
+
+    /**
+     * Check on show preview
+     *
+     * @param Options $options
+     *
+     * @return bool
+     */
+    public function isShowPreview(Options $options): bool
+    {
+        return ($options->previewStatus);
+    }
+
+    /**
+     * @param string $tableName
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
+    private function getSchemaTableFields( string $tableName ): array
+    {
+        $fields = Yii::$app->db->createCommand('SHOW FULL COLUMNS FROM ' . $tableName)->queryAll();
+
+        $result = [];
+
+        foreach ($fields as $field) {
+            $result[] = [
+                Field::NAME => $field['Field'],
+                Field::COMMENT => $field['Comment'],
+                Field::TYPE => $field['Type'],
+                Field::SIZE => $field['Type'],
+                Field::FOREIGN_KEYS => $field['Key'] === 'MUL',
+                Field::UNIQUE => $field['Key'] === 'UNI',
+                Field::NOT_NULL => $field['Null'] === 'NO',
+            ];
         }
 
-        $html .= "<table class=table><thead><tr><th>fieldName</th><th>comment</th><th>type</th><th>size</th><th>FK</th><th>UN</th><th>NN</th></tr></thead><tbody>$tbody</tbody></table>";
-
-        return $html;
+        return $result;
     }
 }

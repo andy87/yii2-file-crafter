@@ -4,7 +4,7 @@ namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
 use yii\{ helpers\Inflector, base\InvalidRouteException };
-use andy87\yii2\file_crafter\components\models\{ Schema, Dto\Cmd };
+use andy87\yii2\file_crafter\components\models\{Options, Schema, Dto\Cmd};
 use andy87\yii2\file_crafter\components\{
     resources\PanelResources,
     rules\UniqueSchemaNameValidator,
@@ -156,7 +156,6 @@ class PanelService
             $params = json_decode($content, true);
 
             $schema = $this->schemaProducer->create($params);
-
 
             $listSchemaDto[] = $schema;
         }
@@ -353,5 +352,82 @@ class PanelService
     public function getSourceFullPath(string $sourcePath): string
     {
         return $this->sourceProviderService->constructPath($sourcePath);
+    }
+
+    /**
+     * @param Options $options
+     * @param PanelResources $panelResources
+     *
+     * @return void
+     */
+    public function prepareAutocomplete( Options $options, PanelResources $panelResources): void
+    {
+        if ($options->autoCompleteStatus)
+        {
+            $autocompleteData = $panelResources->schema->autoCompleteData()[Schema::NAME] ?? [];
+
+            if (count($options->autoCompleteList)) {
+                $autocompleteData = $options->autoCompleteList;
+            }
+
+            if (in_array('autocomplete', $options->parseDataBase))
+            {
+                $tableNameList = $this->getDataBaseTables();
+
+                $autocompleteData = array_merge($autocompleteData, $tableNameList);
+
+                foreach ($panelResources->listSchemaDto as $schemaDto)
+                {
+                    if ( in_array($schemaDto->getTableName(), $autocompleteData) )
+                    {
+                        $index = array_search($schemaDto->getTableName(), $autocompleteData);
+
+                        unset($autocompleteData[$index]);
+                    }
+                }
+            }
+
+            $panelResources->schema->setAutoCompleteData(Schema::NAME, $autocompleteData );
+        }
+    }
+
+    /**
+     * @param Options $options
+     * @param PanelResources $panelResources
+     *
+     * @return void
+     */
+    public function prepareResourceSchemaList(Options $options, PanelResources $panelResources): void
+    {
+        foreach ( $panelResources->listSchemaDto as $index => $schemaDto )
+        {
+            if ( $schemaDto->itIs($panelResources->schema->table_name) )
+            {
+                unset($panelResources->listSchemaDto[$index]);
+                break;
+            }
+        }
+
+        if (in_array('fakeCache', $options->parseDataBase))
+        {
+            $tableNameList = $this->getDataBaseTables();
+            foreach ($tableNameList as $tableName)
+            {
+                $schema = $this->schemaProducer->createParseDb([
+                    'name' => Inflector::camel2words($tableName),
+                    'table_name' => $tableName,
+                ]);
+
+                $panelResources->listSchemaDto[] = $schema;
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function getDataBaseTables(): array
+    {
+        return Yii::$app->db->schema->getTableNames();
     }
 }

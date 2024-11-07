@@ -4,13 +4,13 @@ namespace andy87\yii2\file_crafter;
 
 use Yii;
 use yii\{ gii\CodeFile, base\InvalidRouteException };
-use andy87\yii2\file_crafter\{
-    components\core\CoreGenerator,
+use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\events\CrafterEvent,
     components\events\CrafterEventCommand,
     components\events\CrafterEventGenerate,
     components\events\CrafterEventRender,
     components\models\Dto\Cmd,
+    components\models\Options,
     components\models\Schema,
     components\resources\PanelResources,
     components\services\PanelService};
@@ -54,55 +54,25 @@ class Crafter extends CoreGenerator
     public const VIEW_WIDGET_LIST_VIEW = 'list';
 
 
-
-    /** @var array Template groups */
-    private array $templateGroup = [];
-
-
     /** @var PanelService Service handles data processing */
     private PanelService $panelService;
 
     /** @var PanelResources Resources for the view */
     public PanelResources $panelResources;
 
-
-    /** @var array Cache settings */
-    public array $cache = [
-        'dir' => self::DEFAULT_RESOURCES_DIR . '/cache',
-        'ext' => '.json'
-    ];
-
-    /** @var array Source settings */
-    public array $source = [
-        'dir' => self::DEFAULT_RESOURCES_DIR . '/templates/source',
-        'ext' => '.tpl'
-    ];
-
-    /** @var ?string Behavior for event handling */
-    public ?string $eventHandler = null;
-
-    /** @var array list custom fields */
-    public array $custom_fields = [];
+    /** @var Options|array Template */
+    public Options|array $options = [];
 
 
-    /** @var array User CLI commands */
-    public array $commands = [];
+
+    /** @var array Template groups */
+    public array $templateGroup = [];
 
     /** @var array CLI commands result */
     public array $commandResult = [];
 
-
     /** @var array Schema list from request for generate files */
     public array $generateList = [];
-
-    /**
-     * @var array Config
-     */
-    public array $config = [
-        'isShowPreview' => true,
-        'useAutocomplete' => true,
-        'customAutocomplete' => null,
-    ];
 
 
 
@@ -115,8 +85,10 @@ class Crafter extends CoreGenerator
      */
     public function init(): void
     {
-        if ( $this->eventHandler ) {
-            $this->attachBehavior('eventHandler', $this->eventHandler);
+        $this->options = new Options($this->options);
+
+        if ( $this->options->eventHandler ) {
+            $this->attachBehavior('eventHandler', $this->options->eventHandler);
         }
 
         $this->event(CrafterEvent::BEFORE_INIT );
@@ -130,11 +102,13 @@ class Crafter extends CoreGenerator
 
         $this->panelResources = $this->getPanelResources();
 
+
         $this->panelService->handlers($this->panelResources);
 
 
         $this->event(CrafterEvent::AFTER_INIT );
 
+        $this->panelService->prepareResourceSchemaList($this->options, $this->panelResources);
     }
 
     /**
@@ -149,6 +123,21 @@ class Crafter extends CoreGenerator
         $rules[] = [ ['generateList'], 'safe' ];
 
         return $rules;
+    }
+
+
+
+    /**
+     * Return extension `formView`
+     *
+     * @return string
+     */
+    public function formView(): string
+    {
+
+        $this->panelService->prepareAutocomplete($this->options, $this->panelResources);
+
+        return static::VIEWS . '/panel.php';
     }
 
     /**
@@ -182,7 +171,7 @@ class Crafter extends CoreGenerator
      */
     protected function prepareSelectTemplate(): void
     {
-        foreach ( $this->templates as $key => $template )
+        foreach ( $this->options->templates as $key => $template )
         {
             if ( is_array( $template ) )
             {
@@ -201,8 +190,8 @@ class Crafter extends CoreGenerator
     private function checkDirectories(): void
     {
         $directoryList = [
-            $this->source['dir'] ?? null,
-            $this->cache['dir'] ?? null,
+            $this->options->source['dir'] ?? null,
+            $this->options->cache['dir'] ?? null,
         ];
 
         foreach ( $directoryList as $dirPath ) {
@@ -217,7 +206,11 @@ class Crafter extends CoreGenerator
      */
     public function setupServices(): void
     {
-        $this->panelService = new PanelService( $this->source, $this->cache, array_keys($this->custom_fields) );
+        $this->panelService = new PanelService(
+            $this->options->source,
+            $this->options->cache,
+            array_keys($this->options->custom_fields)
+        );
     }
 
     /**
@@ -243,7 +236,7 @@ class Crafter extends CoreGenerator
      */
     public function event($name, mixed $data = [] ): void
     {
-        if ( $this->eventHandler ) {
+        if ( $this->options->eventHandler ) {
             parent::trigger( $name, $this->fabricEvent( $name, $data ) );
         }
     }
@@ -295,7 +288,7 @@ class Crafter extends CoreGenerator
         {
             $this->event(CrafterEventGenerate::BEFORE );
 
-            $listSchemaDto = $this->panelService->getListSchemaDto();
+            $listSchemaDto = $this->panelResources->listSchemaDto;
 
             if ( count($listSchemaDto) )
             {
@@ -331,9 +324,9 @@ class Crafter extends CoreGenerator
     {
         $result = [];
 
-        if ( count($this->commands) )
+        if ( count($this->options->commands) )
         {
-            foreach ( $this->commands as $command )
+            foreach ( $this->options->commands as $command )
             {
                 $commandCli = new Cmd();
                 $commandCli->exec = $this->panelService->replacing($command, $replaceList);
@@ -377,9 +370,18 @@ class Crafter extends CoreGenerator
 
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
+                $eventRender->sourcePath = $this->panelService
+                    ->constructSourcePath(
+                        $sourcePath,
+                        $this->options->source['ext'],
+                        $replaceList
+                    );
 
-                $eventRender->sourcePath = $this->panelService->constructSourcePath($sourcePath, $this->source['ext'], $replaceList);
-                $eventRender->generatePath = $this->panelService->constructGeneratePath($generatePath, $replaceList);
+                $eventRender->generatePath = $this->panelService
+                    ->constructGeneratePath(
+                        $generatePath,
+                        $replaceList
+                    );
 
                 $this->event(CrafterEventRender::BEFORE, $eventRender );
 
@@ -429,7 +431,7 @@ class Crafter extends CoreGenerator
      */
     public function getTemplatePath(): string
     {
-        return Yii::getAlias($this->source['dir']);
+        return Yii::getAlias($this->options->source['dir']);
     }
 
     /**

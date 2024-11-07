@@ -45,18 +45,6 @@ abstract class CoreGenerator extends Generator
         CrafterEventGenerate::AFTER => CrafterEventGenerate::class,
     ];
 
-
-
-    /**
-     * Return extension `formView`
-     *
-     * @return string
-     */
-    public function formView(): string
-    {
-        return static::VIEWS . '/panel.php';
-    }
-
     /**
      * Return ext `name`
      *

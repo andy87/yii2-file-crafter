@@ -12,7 +12,7 @@ use andy87\yii2\file_crafter\components\models\{ Field, Schema };
 
 $R = $generator->panelResources;
 
-$customFields = $generator->custom_fields;
+$customFields = $generator->options->custom_fields;
 $listDbFields = $R->schema->getDbFields();
 
 $SVG[Schema::NAME] = <<<SVG
@@ -21,17 +21,20 @@ $SVG[Schema::NAME] = <<<SVG
 </svg>
 SVG;
 
+
 ?>
 
 <div class="block__form">
     <div class="b_form--wrapper">
         <?= $form->field( $R->schema, Schema::NAME, [
                 'options' => ['class' => 'b_form--label __main form-group field-schema-name required'],
-               'template' => '{label}<br>' . $SVG[Schema::NAME] . '{input}{error}{list}',
+                'template' => $R->schema->getTemplate(),
+                'parts' => [ '{svg}' => $SVG[Schema::NAME] ]
             ])
             ->textInput([
                 'class' => 'input __header',
-                'name' => Schema::NAME
+                'name' => Schema::NAME,
+                'title' => '{{name}}',
             ]);
         ?>
     </div>

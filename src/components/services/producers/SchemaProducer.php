@@ -36,7 +36,7 @@ class SchemaProducer
      *
      * @return Schema
      */
-    public function create( array $params = [] ): Schema
+    public function create( array $params = []): Schema
     {
         $schema = new Schema();
 
@@ -47,6 +47,20 @@ class SchemaProducer
         $schema->load($params, '');
 
         $schema->prepareNaming();
+
+        return $schema;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return Schema
+     */
+    public function createParseDb(array $params = []): Schema
+    {
+        $schema = $this->create($params);
+
+        $schema->scenario = Schema::SCENARIO_PARSE_DB;
 
         return $schema;
     }
