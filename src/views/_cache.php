@@ -30,7 +30,7 @@ $R = $generator->panelResources;
 
     <?php foreach ( $R->listSchemaDto as $schema ):
         /** @var Schema $schema */
-        if ( $schema->itIs($R->schema->table_name) ) continue;
+        if ( $schema->itIs($R->schema->table_name) && empty($R->schema->errors) ) continue;
     ?>
         <div class="b_cache--item">
             <a class="b_cache--link" href="<?= $schema->getUpdateHref(); ?>">

@@ -28,4 +28,4 @@ FileCrafterPanelAsset::register($this);
     <h3>Generate</h3>
 </div>
 
-<?= $this->render('cache/tr', ['generator' => $generator ] );?>
+<?= $this->render('cache'. DIRECTORY_SEPARATOR .'tr', ['generator' => $generator ] );?>

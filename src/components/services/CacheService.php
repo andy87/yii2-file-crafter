@@ -14,7 +14,7 @@ use andy87\yii2\file_crafter\components\{core\CoreGenerator};
 class CacheService extends DirectoryProviderService
 {
     /** @var string Default cache dir */
-    public const DEFAULT_DIR = CoreGenerator::DEFAULT_RESOURCES_DIR . '/cache';
+    public const DEFAULT_DIR = CoreGenerator::DEFAULT_RESOURCES_DIR . DIRECTORY_SEPARATOR . 'cache';
 
     /** @var string Default cache ext */
     public const DEFAULT_EXT = '.json';

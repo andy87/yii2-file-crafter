@@ -291,24 +291,6 @@ class Crafter extends CoreGenerator
     {
         $files = [];
 
-        foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
-        {
-            $isTemplateExists = $this->panelService->isTemplateExists($sourcePath);
-
-            if ( !$isTemplateExists )
-            {
-                $sourceFullPath = $this->panelService->getSourceFullPath($sourcePath);
-
-                $sourceFullPath = str_replace(Yii::getAlias('@root'), '', $sourceFullPath);
-
-                $message = sprintf("Template `%s` Not found.", $sourceFullPath);
-
-                $this->panelResources->schema->addError(Schema::NAME, $message);
-
-                return [];
-            }
-        }
-
         if ( count($this->panelResources->schema->errors) === 0 )
         {
             $this->event(CrafterEventGenerate::BEFORE );
@@ -333,7 +315,6 @@ class Crafter extends CoreGenerator
             }
 
             $this->event(CrafterEventGenerate::AFTER, $files );
-
         }
 
         return $files;
@@ -396,10 +377,22 @@ class Crafter extends CoreGenerator
 
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
+
                 $eventRender->sourcePath = $this->panelService->constructSourcePath($sourcePath, $this->source['ext'], $replaceList);
                 $eventRender->generatePath = $this->panelService->constructGeneratePath($generatePath, $replaceList);
 
                 $this->event(CrafterEventRender::BEFORE, $eventRender );
+
+                $sourceFullPath = $this->getTemplatePath() . DIRECTORY_SEPARATOR . $eventRender->sourcePath;
+
+                if ( file_exists($sourceFullPath) === false )
+                {
+                    $sourceFullPath = str_replace(Yii::getAlias('@root'), '', $sourceFullPath);
+
+                    $this->panelResources->schema->addError(Schema::NAME, sprintf("Template `%s` Not found.", $sourceFullPath));
+
+                    return [];
+                }
 
                 $eventRender->content = $this->renderTemplate( $eventRender );
 

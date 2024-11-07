@@ -15,6 +15,6 @@ use andy87\yii2\file_crafter\Crafter;
 abstract class BaseAsset extends AssetBundle
 {
     /** @var string  */
-    public $sourcePath = Crafter::SRC . '/web';
+    public $sourcePath = Crafter::SRC . DIRECTORY_SEPARATOR . 'web';
 
 }
