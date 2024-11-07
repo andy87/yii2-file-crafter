@@ -7,7 +7,9 @@ use yii\helpers\Inflector;
 use yii\base\InvalidRouteException;
 use andy87\yii2\file_crafter\Crafter;
 use andy87\yii2\file_crafter\components\models\{ Field, Schema, Dto\Cmd };
-use andy87\yii2\file_crafter\components\{ resources\PanelResources, services\producers\SchemaProducer };
+use andy87\yii2\file_crafter\components\{resources\PanelResources,
+    rules\UniqueSchemaNameValidator,
+    services\producers\SchemaProducer};
 
 /**
  * Service for Panel
@@ -37,7 +39,7 @@ class PanelService
     {
         $this->cacheService = new CacheService($cacheParams);
 
-        $this->schemaProducer = new SchemaProducer($keyCustomFields);
+        $this->schemaProducer = new SchemaProducer($this->cacheService, $keyCustomFields );
     }
 
     /**
@@ -83,18 +85,30 @@ class PanelService
         {
             $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
-            $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
+            if ($isCreate && $schema->name) {
 
-            if ( $update && $update !== $schema->getTableName() ) {
-                $this->removeItem($update);
+                (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, 'name');
             }
 
-            $this->cacheService->removeItem($schema->getTableName());
+            if ($schema->hasErrors()) {
 
-            $fileName = $this->cacheService->constructPath($schema->getTableName());
+                $schema->prepareCheckboxItems();
 
-            if ( $schema->save($fileName) ) {
-                $this->goHome();
+            }else{
+
+                $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
+
+                if ( $update && $update !== $schema->getTableName() ) {
+                    $this->removeItem($update);
+                }
+
+                $this->cacheService->removeItem($schema->getTableName());
+
+                $fileName = $this->cacheService->constructPath($schema->getTableName());
+
+                if ( $schema->save($fileName) ) {
+                    $this->goHome();
+                }
             }
         }
 

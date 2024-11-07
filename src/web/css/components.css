@@ -24,8 +24,6 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-.btn { font-size: 15px }
-
 .header {
     font-size: 24px;
     line-height: 32px;
@@ -63,17 +61,6 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     padding: 6px;
 }
 
-
-.popover-body{
-    font-size: 13px;
-    font-family: Arial, sans-serif;
-}
-.popover-body CODE{
-    font-size: 13px;
-    vertical-align: bottom;
-    font-family: "Calibri Light", sans-serif;
-}
-
 .__changed,
 .__new INPUT,
 .__new SELECT {
@@ -88,3 +75,18 @@ INPUT[type="number"]::-webkit-inner-spin-button {
 }
 
 .preview-code { font-size: 14px }
+
+
+BODY .popover {
+    max-width: 520px;
+    width: 520px;
+}
+BODY .popover-body{
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+}
+BODY .popover-body CODE{
+    font-size: 13px;
+    vertical-align: bottom;
+    font-family: "Calibri Light", sans-serif;
+}

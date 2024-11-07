@@ -83,8 +83,6 @@ class Schema extends Model
     /** @var Field[] */
     public array $db_fields = [];
 
-    /** @var string  */
-    public string $content;
 
 
     /**
@@ -95,7 +93,6 @@ class Schema extends Model
         return [
             [ [self::NAME], 'required' ],
             [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
-            //[ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS ], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
         ];
@@ -200,16 +197,9 @@ class Schema extends Model
      */
     public function save(string $fileName): bool
     {
+        $this->prepareCheckboxItems();
+
         $params = $this->attributes;
-
-        foreach ($this->db_fields as $index => $dbField)
-        {
-            if ($dbField[Field::FOREIGN_KEYS] ?? false) $params[Schema::DB_FIELDS][$index][Field::FOREIGN_KEYS] = 'checked';
-
-            if ($dbField[Field::UNIQUE] ?? false) $params[Schema::DB_FIELDS][$index][Field::UNIQUE] = 'checked';
-
-            if ($dbField[Field::NOT_NULL] ?? false) $params[Schema::DB_FIELDS][$index][Field::NOT_NULL] = 'checked';
-        }
 
         unset($params['scenario']);
 
@@ -219,13 +209,30 @@ class Schema extends Model
     }
 
     /**
+     * Prepare checkbox values
+     *
+     * @return void
+     */
+    public function prepareCheckboxItems(): void
+    {
+        foreach ($this->db_fields as $index => $dbField)
+        {
+            if (isset($dbField[Field::FOREIGN_KEYS])) $this->db_fields[$index][Field::FOREIGN_KEYS] = 'checked';
+
+            if (isset($dbField[Field::UNIQUE])) $this->db_fields[$index][Field::UNIQUE] = 'checked';
+
+            if (isset($dbField[Field::NOT_NULL])) $this->db_fields[$index][Field::NOT_NULL] = 'checked';
+        }
+    }
+
+    /**
      * @return void
      */
     public function prepareNaming(): void
     {
         $this->name = trim($this->name);
 
-        $table_name = preg_replace('/[^a-zA-Z\s]/', '', $this->name);
+        $table_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $this->name);
         $table_name = str_replace(' ', '_', $table_name);
         $table_name = trim($table_name, '_');
 
@@ -532,13 +539,14 @@ Example:
             $tbody .= "<td>{$field[Field::NAME]}</td>";
             $tbody .= "<td>{$field[Field::COMMENT]}</td>";
             $tbody .= "<td>{$field[Field::TYPE]}</td>";
+            $tbody .= "<td>{$field[Field::SIZE]}</td>";
             $tbody .= "<td>".((isset($field[Field::FOREIGN_KEYS])) ? 'X' : '')."</td>";
             $tbody .= "<td>".((isset($field[Field::UNIQUE])) ?'X' : '')."</td>";
             $tbody .= "<td>".((isset($field[Field::NOT_NULL])) ?'X' : '')."</td>";
             $tbody .= "</tr>";
         }
 
-        $html .= "<table class=table><thead><tr><th>fieldName</th><th>comment</th><th>type</th><th>FK</th><th>UN</th><th>NN</th></tr></thead><tbody>$tbody</tbody></table>";
+        $html .= "<table class=table><thead><tr><th>fieldName</th><th>comment</th><th>type</th><th>size</th><th>FK</th><th>UN</th><th>NN</th></tr></thead><tbody>$tbody</tbody></table>";
 
         return $html;
     }

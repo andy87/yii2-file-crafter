@@ -3,6 +3,8 @@
 namespace andy87\yii2\file_crafter\components\services\producers;
 
 use andy87\yii2\file_crafter\components\models\Schema;
+use andy87\yii2\file_crafter\components\rules\UniqueSchemaNameValidator;
+use andy87\yii2\file_crafter\components\services\CacheService;
 use Yii;
 
 /**
@@ -14,18 +16,23 @@ use Yii;
  */
 class SchemaProducer
 {
+    /** @var CacheService Service for Cache */
+    private CacheService $cacheService;
+
     /** @var array $custom_fields */
     private array $custom_fields;
 
 
-
     /**
+     * @param CacheService $cacheService
      * @param array $keyCustomFields
      *
      * @tag #constructor
      */
-    public function __construct( array $keyCustomFields )
+    public function __construct( CacheService $cacheService, array $keyCustomFields)
     {
+        $this->cacheService = $cacheService;
+
         foreach ($keyCustomFields as $key ) {
             $this->custom_fields[$key] = '';
         }

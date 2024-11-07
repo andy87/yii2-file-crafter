@@ -2,9 +2,9 @@
 
 namespace andy87\yii2\file_crafter\components\rules;
 
-use Yii;
 use yii\validators\UniqueValidator;
 use andy87\yii2\file_crafter\components\models\Schema;
+use andy87\yii2\file_crafter\components\services\CacheService;
 
 /**
  * Class UniqueTableNameValidator
@@ -15,15 +15,22 @@ use andy87\yii2\file_crafter\components\models\Schema;
  */
 class UniqueSchemaNameValidator extends UniqueValidator
 {
+    private const MESSAGE = 'This name is already in use.';
+
+    /** @var CacheService Service for Cache */
+    private CacheService $cacheService;
+
+
     /**
-     * @var array $cacheParams [
-     *      'cacheDir' => '@runtime/cache/...',
-     *      'ext' => '.json',
-     *  ]
+     * @param CacheService $cacheService
+     * @param array $config
      */
-    public array $cacheParams;
+    public function __construct( CacheService $cacheService, array $config = [] )
+    {
+        $this->cacheService = $cacheService;
 
-
+        parent::__construct($config);
+    }
 
     /**
      * @param Schema $model
@@ -33,28 +40,9 @@ class UniqueSchemaNameValidator extends UniqueValidator
      */
     public function validateAttribute( $model, $attribute ): void
     {
-        $targetAttribute = $this->targetAttribute === null ? $attribute : $this->targetAttribute;
-
-        if ($this->skipOnError) {
-            foreach ((array)$targetAttribute as $k => $v) {
-                if ($model->hasErrors(is_int($k) ? $v : $k)) {
-                    return;
-                }
-            }
-        }
-
-        $cacheDir = Yii::getAlias($this->cacheParams['cacheDir']);
-        $ext = $this->cacheParams['ext'];
-
-        $listFilePath = scandir("$cacheDir/*$ext");
-
-        foreach ($listFilePath as $filePath)
+        if( $this->cacheService->getContentCacheFile($model->table_name) )
         {
-            $fileBaseName = pathinfo($filePath, PATHINFO_BASENAME);
-
-            if ($fileBaseName === $model->$attribute) {
-                $this->addError($model, $attribute, $this->message);
-            }
+            $this->addError($model, Schema::NAME, self::MESSAGE );
         }
     }
 }
