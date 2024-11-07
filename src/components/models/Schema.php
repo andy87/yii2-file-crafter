@@ -96,7 +96,7 @@ class Schema extends Model
             [ [self::NAME], 'required' ],
             [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
             //[ [self::TABLE_NAME], 'unique', 'targetClass' => UniqueSchemaNameValidator::class ],
-            [ [self::CUSTOM_FIELDS, self::DB_FIELDS, 'content'], 'safe'],
+            [ [self::CUSTOM_FIELDS, self::DB_FIELDS ], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
         ];
     }

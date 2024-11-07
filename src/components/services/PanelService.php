@@ -64,7 +64,6 @@ class PanelService
         if ( $tableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE) )
         {
             $content = $this->cacheService->getContentCacheFile($tableName);
-            $params['content'] = $content;
 
             $params = json_decode($content, true);
 
@@ -136,7 +135,6 @@ class PanelService
             $content = $this->cacheService->getContentCacheFile($fileName);
 
             $params = json_decode($content, true);
-            $params['content'] = $content;
 
             $schema = $this->schemaProducer->create($params);
 

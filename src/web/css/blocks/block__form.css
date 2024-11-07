@@ -40,3 +40,11 @@
     height: 18px;
     vertical-align: middle;
 }
+
+.b_form--label .sticky-value {
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 7px;
+    margin-left: 5px;
+}

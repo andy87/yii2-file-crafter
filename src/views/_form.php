@@ -25,20 +25,15 @@ SVG;
 
 <div class="block__form">
     <div class="b_form--wrapper">
-
-        <label class="b_form--label __main">
-
-            <?= $form->field( $R->schema, Schema::NAME, [
-                    'options' => ['class' => 'b_form--label __main form-group field-schema-name required'],
-                   'template' => '{label}<br>' . $SVG[Schema::NAME] . '{input}{error}{list}',
-                ])
-                ->textInput([
-                    'class' => 'input __header',
-                    'name' => Schema::NAME
-                ]);
-            ?>
-        </label>
-
+        <?= $form->field( $R->schema, Schema::NAME, [
+                'options' => ['class' => 'b_form--label __main form-group field-schema-name required'],
+               'template' => '{label}<br>' . $SVG[Schema::NAME] . '{input}{error}{list}',
+            ])
+            ->textInput([
+                'class' => 'input __header',
+                'name' => Schema::NAME
+            ]);
+        ?>
     </div>
 
     <?php if( count($customFields) ): ?>

@@ -5,7 +5,9 @@
     font-family: Calibri, sans-serif;
 }
 
-BUTTON, A { font-size: 20px }
+#fileCrafter-generator BUTTON, A.btn {
+    font-size: 15px
+}
 
 
 SELECT.input { padding-left: 5px }
@@ -61,13 +63,7 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     padding: 6px;
 }
 
-.sticky-value {
-    width: 300px;
-    display: inline-block;
-    vertical-align: middle;
-    padding: 7px;
-    margin-left: 5px;
-}
+
 .popover-body{
     font-size: 13px;
     font-family: Arial, sans-serif;
