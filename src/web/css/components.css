@@ -76,7 +76,12 @@ INPUT[type="number"]::-webkit-inner-spin-button {
     font-size: 13px;
     vertical-align: bottom;
     font-family: "Calibri Light", sans-serif;
+}
 
+.__changed,
+.__new INPUT,
+.__new SELECT {
+    background-color: #cffcff;
 }
 
 .form-group { font-size: 13px }

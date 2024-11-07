@@ -12,9 +12,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const removeRequiredField = function(){
                 document.querySelector('.field-schema-name.required').remove();
             };
-            
+
             document.querySelector('BUTTON[name="preview"]').addEventListener('click', removeRequiredField);
-            document.querySelector('BUTTON[name="generate"]').addEventListener('click', removeRequiredField);
+
+            let btnGenerate = document.querySelector('BUTTON[name="generate"]');
+
+            if (btnGenerate)
+            {
+                btnGenerate.addEventListener('click', removeRequiredField);
+            }
+
+            document.addEventListener('change', function (e)
+            {
+                if ( !e.target.classList.contains('__changed') )
+                {
+                    e.target.classList.add('__changed');
+                }
+            });
         },
 
         dbFields : {
