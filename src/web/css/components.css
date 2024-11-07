@@ -90,3 +90,8 @@ BODY .popover-body CODE{
     vertical-align: bottom;
     font-family: "Calibri Light", sans-serif;
 }
+
+BODY .popover .table td,
+BODY .popover .table th{
+    padding: 2px 3px;
+}

@@ -521,7 +521,7 @@ Example:
     public function getContent(): string
     {
         $html = "<h5>Schema name: $this->name ( $this->table_name )</h5>";
-        $html .= "<h6>Custom fields: </h>";
+        $html .= "<h6>Custom fields: </h6>";
         if ( !empty($this->custom_fields) ) {
             $html .= "<ul>";
             foreach ($this->custom_fields as $key => $value) {
