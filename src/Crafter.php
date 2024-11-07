@@ -88,12 +88,21 @@ class Crafter extends CoreGenerator
     /** @var array User CLI commands */
     public array $commands = [];
 
-    /** @var array CLI commands result / JSON fot templates */
-    public array $temp = [];
+    /** @var array CLI commands result */
+    public array $commandResult = [];
 
 
     /** @var array Schema list from request for generate files */
     public array $generateList = [];
+
+    /**
+     * @var array Config
+     */
+    public array $config = [
+        'isShowPreview' => true,
+        'useAutocomplete' => true,
+        'customAutocomplete' => null,
+    ];
 
 
 
@@ -316,7 +325,7 @@ class Crafter extends CoreGenerator
                     {
                         $replaceList = $this->panelService->getReplaceList($schema);
 
-                        $this->temp = $this->execCommands($replaceList);
+                        $this->commandResult = $this->execCommands($replaceList);
 
                         $files = array_merge($files, $this->fileGenerating($schema, $replaceList));
                     }
@@ -441,11 +450,11 @@ class Crafter extends CoreGenerator
 
         $lines = [];
 
-        if (count($this->temp))
+        if (count($this->commandResult))
         {
             $lines[] = "executing bash commands...";
 
-            foreach ($this->temp as $command => $output)
+            foreach ($this->commandResult as $command => $output)
             {
                 $lines[] = "executing: " . $command;
 

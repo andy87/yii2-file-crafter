@@ -123,6 +123,11 @@ Full Config with all options
                     'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
                     'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
                 ]
+            ],
+            'config' => [ // in progress...
+                'isShowPreview' => true,
+                'useAutocomplete' => true,
+                'customAutocomplete' => ['schema_name_one', 'schema_name_two'],
             ]
         ]
     ],
