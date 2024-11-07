@@ -3,7 +3,7 @@
 
 Yii2 File Crafter - library for generating a many templates with minimal differences
 
-### Содержание:
+### Content
 
 - [Setup](#yii2-file-crafter-setup)
 - [Config](#yii2-file-crafter-config)
