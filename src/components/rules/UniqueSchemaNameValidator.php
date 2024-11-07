@@ -3,8 +3,7 @@
 namespace andy87\yii2\file_crafter\components\rules;
 
 use yii\validators\UniqueValidator;
-use andy87\yii2\file_crafter\components\models\Schema;
-use andy87\yii2\file_crafter\components\services\CacheService;
+use andy87\yii2\file_crafter\components\{ models\Schema, services\CacheService };
 
 /**
  * Class UniqueTableNameValidator

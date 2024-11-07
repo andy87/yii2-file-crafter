@@ -5,10 +5,11 @@ namespace andy87\yii2\file_crafter\components\services;
 use Yii;
 use yii\{ helpers\Inflector, base\InvalidRouteException };
 use andy87\yii2\file_crafter\components\models\{ Schema, Dto\Cmd };
-use andy87\yii2\file_crafter\components\{resources\PanelResources,
-    rules\ExistsTemplateValidator,
+use andy87\yii2\file_crafter\components\{
+    resources\PanelResources,
     rules\UniqueSchemaNameValidator,
-    services\producers\SchemaProducer};
+    services\producers\SchemaProducer
+};
 
 /**
  * Service for Panel
@@ -40,11 +41,11 @@ class PanelService
      */
     public function __construct( array $sourceParams, array $cacheParams, array $keyCustomFields )
     {
-        $this->sourceProviderService = new DirectoryProviderService($sourceParams);
+        $this->sourceProviderService = new DirectoryProviderService( $sourceParams );
 
-        $this->cacheService = new CacheService($cacheParams);
+        $this->cacheService = new CacheService( $cacheParams );
 
-        $this->schemaProducer = new SchemaProducer($this->cacheService, $keyCustomFields );
+        $this->schemaProducer = new SchemaProducer( $keyCustomFields );
     }
 
     /**
@@ -92,8 +93,6 @@ class PanelService
             if ($isCreate && $schema->name) {
 
                 (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, Schema::NAME);
-
-                (new ExistsTemplateValidator($this->sourceProviderService))->validateAttribute($schema, Schema::NAME);
             }
 
             if ($schema->hasErrors()) {

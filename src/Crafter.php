@@ -2,7 +2,10 @@
 
 namespace andy87\yii2\file_crafter;
 
-use andy87\yii2\file_crafter\{components\core\CoreGenerator,
+use Yii;
+use yii\{ gii\CodeFile, base\InvalidRouteException };
+use andy87\yii2\file_crafter\{
+    components\core\CoreGenerator,
     components\events\CrafterEvent,
     components\events\CrafterEventCommand,
     components\events\CrafterEventGenerate,
@@ -10,11 +13,7 @@ use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\models\Dto\Cmd,
     components\models\Schema,
     components\resources\PanelResources,
-    components\services\CacheService,
     components\services\PanelService};
-use Yii;
-use yii\base\InvalidRouteException;
-use yii\gii\CodeFile;
 
 /**
  *  Yii2 Dnk File Crafter - extension for the Gii module in the Yii2 framework that simplifies file generation
