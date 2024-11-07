@@ -195,6 +195,7 @@ Configuration for the cache folder with schema data.
 - `dir` - path to the cache directory with schema data  
 - `ext` - extension of the cache file  
 
+Default configuration:
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -227,6 +228,7 @@ Configuration for the source folder with templates files.
 - `dir` - path to the directory with the templates files source for generation  
 - `ext` - extension of the templates file  
 
+Default configuration:
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -355,9 +357,9 @@ Value - MANY = (+++categories+++)
 <span id="yii2-file-crafter-using-autoCompleteStatus"></span>
 <h2 align="center">Autocomplete status</h2>
 
-Key `autoCompleteStatus` contain status for autocomplete field `Schema name` in the form.
+Key `autoCompleteStatus` contain status for autocomplete field `Schema name` in the form 200 populated values.
   
-Variants: `true` or `false`  
+Variants: `true` or `false`(default)  
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -381,7 +383,7 @@ $config['modules']['gii'] = [
     <small style="color: #009; font-size:9px">(optional)</small>
 </h2>
 
-Key `autoCompleteList` contain list of autocomplete field `Schema name` in the form.
+Key `autoCompleteList` contain list of autocomplete field `Schema name` in the form self custom list.
   
 Type: `array`  
 ```php
@@ -413,7 +415,7 @@ $config['modules']['gii'] = [
 
 Key `previewStatus` contain status for preview file content on hover icon in the form.
   
-Variants: `true` or `false`  
+Variants: `true`(default) or `false`  
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -438,7 +440,7 @@ $config['modules']['gii'] = [
 
 Key `canDelete` contain status for delete schema from the form.
 
-Variants: `true` or `false`
+Variants: `true`(default) or `false`
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -467,6 +469,8 @@ Key `parseDataBase` contain list of target for extend schema name list from data
 Variants: `array` with values: 
 - `autocomplete`
 - `fakeCache`
+
+Default `empty`;
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -492,6 +496,8 @@ Key `commands` contain list `cli` command for call before generate any file.
 command make use of the `{{variable}}` in the command string ( see [Marks](#yii2-file-crafter-using-Marks) )
 
 Example: generate gii model for table name from schema name before generate fileContent
+
+Default `empty`;
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,
@@ -517,7 +523,9 @@ $config['modules']['gii'] = [
 
 Make use of the `eventHandlers` key to add a behavior to the module.
 
-Example:
+Example: add behavior `FileCrafterBehavior` to the module
+
+Default `null`;
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,

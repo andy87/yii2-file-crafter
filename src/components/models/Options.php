@@ -25,14 +25,14 @@ class Options extends Model
     /** @var array  */
     public array $commands = [];
 
-    /** @var string  */
-    public string $eventHandler = '';
+    /** @var ?string  */
+    public ?string $eventHandler = null;
 
     /** @var array  */
     public array $custom_fields = [];
 
     /** @var bool  */
-    public bool $autoCompleteStatus = true;
+    public bool $autoCompleteStatus = false;
 
     /** @var array  */
     public array $autoCompleteList = [];
