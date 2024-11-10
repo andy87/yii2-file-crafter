@@ -3,7 +3,7 @@
 namespace andy87\yii2\file_crafter;
 
 use Yii;
-use yii\{ gii\CodeFile, base\InvalidRouteException };
+use yii\{gii\CodeFile, base\InvalidRouteException, web\View};
 use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\events\CrafterEvent,
     components\events\CrafterEventCommand,
@@ -426,6 +426,17 @@ class Crafter extends CoreGenerator
         ]);
 
         return $this->panelService->replacing( $eventRender->content, $eventRender->replaceList);
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function render($template, $params = []): string
+    {
+        $view = new View();
+        $params['generator'] = $this;
+
+        return $view->renderFile( $template, $params, $this);
     }
 
     /**
