@@ -69,50 +69,54 @@ class PanelService
      */
     public function handlerSchema(Schema $schema): Schema
     {
-        if ( $tableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE) )
+        if ( Yii::$app->request->isPost )
         {
-            $content = $this->cacheService->getContentCacheFile($tableName);
+            $updatedTableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
 
-            $params = json_decode($content, true);
-
-            if (count($params))
+            if ( $updatedTableName )
             {
-                $schema->scenario = Schema::SCENARIO_UPDATE;
+                $content = $this->cacheService->getContentCacheFile($updatedTableName);
 
-                $schema->load($params, '');
-            }
-        }
+                $params = json_decode($content, true);
 
-        $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
-        $isUpdate = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
+                if (count($params))
+                {
+                    $schema->scenario = Schema::SCENARIO_UPDATE;
 
-        if ( Yii::$app->request->isPost && ( $isCreate || $isUpdate ) )
-        {
-            $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
-
-            if ($isCreate && $schema->name) {
-
-                (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, Schema::NAME);
+                    $schema->load($params, '');
+                }
             }
 
-            if ($schema->hasErrors()) {
+            $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
 
-                $schema->prepareCheckboxItems();
+            if ( $isCreate || $updatedTableName )
+            {
+                $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
-            }else{
-
-                $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
-
-                if ( $update && $update !== $schema->getTableName() ) {
-                    $this->removeItem($update);
+                if ($isCreate && $schema->name)
+                {
+                    (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, Schema::NAME);
                 }
 
-                $this->cacheService->removeItem($schema->getTableName());
+                if ($schema->hasErrors())
+                {
+                    $schema->prepareCheckboxItems();
 
-                $fileName = $this->cacheService->constructPath($schema->getTableName());
+                }else{
 
-                if ( $schema->save($fileName) ) {
-                    $this->goHome();
+                    $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
+
+                    if ( $update && $update !== $schema->getTableName() ) {
+                        $this->removeItem($update);
+                    }
+
+                    $this->cacheService->removeItem($schema->getTableName());
+
+                    $fileName = $this->cacheService->constructPath($schema->getTableName());
+
+                    if ( $schema->save($fileName) ) {
+                        $this->goHome();
+                    }
                 }
             }
         }
@@ -185,9 +189,14 @@ class PanelService
      */
     public function constructGeneratePath(string $generatePath, array $replaceList = []): string
     {
-        $generatePath = Yii::getAlias("@root/$generatePath");
 
-        return $this->replacing($generatePath, $replaceList);
+        $generatePath = $this->replacing($generatePath, $replaceList);
+
+        if ( str_contains($generatePath, '@') ) {
+            $generatePath = Yii::getAlias($generatePath);
+        }
+
+        return Yii::getAlias($generatePath);
     }
 
     /**
@@ -201,8 +210,12 @@ class PanelService
      */
     public function constructSourcePath(string $sourcePath, string $ext, array $replaceList = []): string
     {
-        if ( !pathinfo($sourcePath, PATHINFO_EXTENSION) ) {
+        if ( ! pathinfo($sourcePath, PATHINFO_EXTENSION) ) {
             $sourcePath .= $ext;
+        }
+
+        if ( ! str_contains($sourcePath, '@') ) {
+            $sourcePath = $this->sourceProviderService->getDir(false) . '/' . $sourcePath;
         }
 
         $sourcePath = Yii::getAlias($sourcePath);
@@ -223,6 +236,8 @@ class PanelService
     }
 
     /**
+     * Remove cache item
+     *
      * @param string $cacheFileName
      *
      * @return void
@@ -287,7 +302,6 @@ class PanelService
         return $params;
     }
 
-
     /**
      * Common Handler for
      *
@@ -317,7 +331,6 @@ class PanelService
         }
     }
 
-
     /**
      * Check directory and create if not exists
      *
@@ -330,28 +343,6 @@ class PanelService
         $dirPath = Yii::getAlias($dirPath);
 
         if ( !is_dir($dirPath) ) mkdir($dirPath, 0777, true);
-    }
-
-    /**
-     * @param string $sourcePath
-     *
-     * @return bool
-     */
-    public function isTemplateExists(string $sourcePath): bool
-    {
-        $sourceFullPath = $this->getSourceFullPath($sourcePath);
-
-        return file_exists($sourceFullPath);
-    }
-
-    /**
-     * @param string $sourcePath
-     *
-     * @return string
-     */
-    public function getSourceFullPath(string $sourcePath): string
-    {
-        return $this->sourceProviderService->constructPath($sourcePath);
     }
 
     /**

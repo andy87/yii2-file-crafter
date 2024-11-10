@@ -44,13 +44,15 @@ class DirectoryProviderService
     /**
      * Get cache dir
      *
+     * @param bool $useAlias
+     *
      * @return string
      */
-    public function getDir(): string
+    public function getDir(bool $useAlias = true): string
     {
         $alias = $this->params['dir'] ?? static::DEFAULT_DIR;
 
-        return Yii::getAlias($alias);
+        return ( $useAlias ) ? Yii::getAlias($alias) : $alias;
     }
 
     /**

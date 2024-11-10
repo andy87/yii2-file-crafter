@@ -76,9 +76,9 @@ Minimum config
                 'templates' => [
                     'group_name' => [
                         // 'template' => 'path/to/file.php',
-                        'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
-                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                        'common/services/PascalCaseService' => '@app/common/services/items/{PascalCase}Service.php',
+                        'template/test/unit/camelCaseService.tpl' => '@backend/test/unit/{{camelCase}}Service.php',
+                        'templates/view/index.php' => 'custom/dir/{{snake_case}}/index.php',
                     ]
                 ]
             ]
@@ -254,21 +254,38 @@ $config['modules']['gii'] = [
     <small style="color: #900; font-size:9px">(required)</small>
 </h2>
 
-Array with groups of templates for use on generate files.
+Array with groups of templates for use on generate files.  
+```php
+[
+    ['group1'] => [
+        'template1' => 'path/to/resultFile.tpl',
+        'template2.tpl' => 'path/to/resultFile.php',
+        // ...
+    ],
+    ['group2'] => [
+        'template1.php' => '@path/to/resultFile.tpl',
+        '@template2' => 'path/to/resultFile.php',
+        // ...
+    ],
+]
+```
+the path may contain:  
+ - some `@` alias ( `source['dir']` - default container )  
+ - `ext` for generate any file type ( `.php` default )  
 
-Content of the templates file rendered with the `View` method `renderFile`  
-`$this->renderFile($sourcePath)`
-- `$sourcePath` - path to the source file
+Content of the templates file rendered with the `View` method `renderFile`   
+`$this->renderFile($sourcePath)`  
+- `$sourcePath` - path to the source template file  
 
-And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )
+And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )  
 
-And also passed to the render method:
-- `$schema` - schema object
-- `$generator` - module generate object
+And also passed to the render method:  
+- `$schema` - schema object  
+- `$generator` - self generator object  
 
 
 File template will be searched in the `source` folder.  
-Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )
+Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )  
 
 ```php
 $config['modules']['gii'] = [
@@ -279,7 +296,8 @@ $config['modules']['gii'] = [
                 // ... 
                 'templates' => [
                     'all' => [
-                        'templates' => 'app/frontend/views/info--{{snake_case}}.php',
+                        '@backend/dir/by/alias/camelCaseService.tpl' => '@backend/generate/by/alias/{{camelCase}}Service.php',
+                        'dir/on/source/dir/generate_file' => 'custom/dir/on/source/dir/{{snake_case}}/generate_file.tpl',
                     ],
                 ],
                 // ...
@@ -301,7 +319,7 @@ Array with custom fields for use custom variables in templates.
 Using on template key wrapped in square brackets: `{{%key%}}`    
 Example: `{{key_one}}`, `{{key_two}}`...  
 
-Example simple config
+Example simple config  
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,

@@ -370,6 +370,11 @@ class Crafter extends CoreGenerator
 
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
+                $eventRender->sourcePath = $sourcePath;
+                $eventRender->generatePath = $generatePath;
+
+                $this->event(CrafterEventRender::BEFORE, $eventRender );
+
                 $eventRender->sourcePath = $this->panelService
                     ->constructSourcePath(
                         $sourcePath,
@@ -383,24 +388,23 @@ class Crafter extends CoreGenerator
                         $replaceList
                     );
 
-                $this->event(CrafterEventRender::BEFORE, $eventRender );
-
-                $sourceFullPath = $this->getTemplatePath() . DIRECTORY_SEPARATOR . $eventRender->sourcePath;
-
-                if ( file_exists($sourceFullPath) === false )
+                if ( file_exists($eventRender->sourcePath) )
                 {
-                    $sourceFullPath = str_replace(Yii::getAlias('@root'), '', $sourceFullPath);
+                    $eventRender->content = $this->renderTemplate( $eventRender );
 
-                    $this->panelResources->schema->addError(Schema::NAME, sprintf("Template `%s` Not found.", $sourceFullPath));
+                    $this->event(CrafterEventRender::AFTER, $eventRender );
+
+                    $files[] = new CodeFile( $eventRender->generatePath, $eventRender->content );
+
+                } else {
+
+                    $this->panelResources->schema->addError(
+                        Schema::NAME,
+                        "Template `$eventRender->sourcePath` Not found."
+                    );
 
                     return [];
                 }
-
-                $eventRender->content = $this->renderTemplate( $eventRender );
-
-                $this->event(CrafterEventRender::AFTER, $eventRender );
-
-                $files[] = new CodeFile( $eventRender->generatePath, $eventRender->content );
             }
         }
 
