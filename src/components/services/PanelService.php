@@ -189,11 +189,10 @@ class PanelService
      */
     public function constructGeneratePath(string $generatePath, array $replaceList = []): string
     {
-
         $generatePath = $this->replacing($generatePath, $replaceList);
 
-        if ( str_contains($generatePath, '@') ) {
-            $generatePath = Yii::getAlias($generatePath);
+        if ( !str_contains($generatePath, '@') ) {
+            $generatePath = '@app/' . $generatePath;
         }
 
         return Yii::getAlias($generatePath);
