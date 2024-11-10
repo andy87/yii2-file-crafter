@@ -258,34 +258,35 @@ Array with groups of templates for use on generate files.
 ```php
 [
     ['group1'] => [
-        'template1' => 'path/to/resultFile.tpl',
-        'template2.tpl' => 'path/to/resultFile.php',
+        'template1' => 'path/from/project/root/to/resultFile.tpl',
+        'template2.tpl' => 'path/from/project/root/to/resultFile.php',
         // ...
     ],
     ['group2'] => [
-        'template1.php' => '@path/to/resultFile.tpl',
-        '@template2' => 'path/to/resultFile.php',
+        'template1.php' => '@path/alias/to/resultFile.tpl',
+        '@alias/to/template' => 'path/from/project/root/to/resultFile.php',
         // ...
     ],
 ]
 ```
-the path may contain:  
+The source path may contain:  
  - some `@` alias ( `source['dir']` - default container )  
  - `ext` for generate any file type ( `.php` default )  
+ - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
 
-Content of the templates file rendered with the `View` method `renderFile`   
-`$this->renderFile($sourcePath)`  
-- `$sourcePath` - path to the source template file  
-
-And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )  
-
-And also passed to the render method:  
-- `$schema` - schema object  
-- `$generator` - self generator object  
-
-
-File template will be searched in the `source` folder.  
+File source-template will be searched in the `source` folder.  
 Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )  
+
+The resultFile path may contain:  
+ - some `@` alias ( `@app/` - default prefix )  
+ - `ext` for generate any file type ( `.php` default )  
+ - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
+
+Content of the templates file rendered with the `View` method `renderFile`  
+And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )  
+And also passed to the render method:  
+ - `$schema` - schema object  
+ - `$generator` - self generator object
 
 ```php
 $config['modules']['gii'] = [
