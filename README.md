@@ -46,7 +46,7 @@ php composer.phar require andy87/yii2-file-crafter
 <h3>Using: file `composer.json`</h3>
 
 Open file `composer.json`, in section with key `require` add line:  
-`"andy87/yii2-file-crafter": "*"`  
+`"andy87/yii2-file-crafter": "dev-master"`  
 
 dont forget update composer
 ```bash
