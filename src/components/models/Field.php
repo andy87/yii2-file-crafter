@@ -60,4 +60,17 @@ class Field extends Model
     public bool $unique;
 
     public bool $notNull;
+
+    /**
+     * @return array[]
+     */
+    public function rules(): array
+    {
+        return [
+            [[self::NAME, self::TYPE], 'required'],
+            [[self::NAME, self::TYPE, self::COMMENT], 'string'],
+            [[self::SIZE], 'integer'],
+            [[self::FOREIGN_KEYS, self::UNIQUE, self::NOT_NULL], 'boolean'],
+        ];
+    }
 }

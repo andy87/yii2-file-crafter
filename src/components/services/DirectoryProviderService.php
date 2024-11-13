@@ -65,7 +65,6 @@ class DirectoryProviderService
         return $this->params['ext'] ?? static::DEFAULT_EXT;
     }
 
-
     /**
      * @param string $fileName
      *

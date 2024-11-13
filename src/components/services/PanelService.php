@@ -4,7 +4,7 @@ namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
 use yii\{ helpers\Inflector, base\InvalidRouteException };
-use andy87\yii2\file_crafter\components\models\{Options, Schema, Dto\Cmd};
+use andy87\yii2\file_crafter\components\models\{Options, Schema, dto\Cmd};
 use andy87\yii2\file_crafter\components\{
     resources\PanelResources,
     rules\UniqueSchemaNameValidator,
