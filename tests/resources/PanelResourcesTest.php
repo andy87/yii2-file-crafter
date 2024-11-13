@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\resources;
+namespace andy87\yii2\file_crafter\tests\resources;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\models\Schema;
 use andy87\yii2\file_crafter\components\resources\PanelResources;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/resources/PanelResourcesTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\resources
+ * @package andy87\yii2\file_crafter\tests\resources
  *
  * @tag: #test #resource #panel_resources
  */

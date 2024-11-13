@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\models;
+namespace andy87\yii2\file_crafter\tests\models;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\models\Options;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/models/OptionsTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\models
+ * @package andy87\yii2\file_crafter\tests\models
  *
  * @tag: #test #model #options
  */

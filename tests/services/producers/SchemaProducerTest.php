@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\services\producers;
+namespace andy87\yii2\file_crafter\tests\services\producers;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\models\Schema;
 use andy87\yii2\file_crafter\components\services\producers\SchemaProducer;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/services/producers/SchemaProducerTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\services\producers
+ * @package andy87\yii2\file_crafter\tests\services\producers
  *
  * @tag: #test #service #producer #schema_producer
  */

@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\assets;
+namespace andy87\yii2\file_crafter\tests\assets;
 
+use andy87\yii2\file_crafter\components\assets\SortableAsset;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 use Yii;
 use yii\base\InvalidConfigException;
-use andy87\yii2\file_crafter\test\UnitTestCore;
-use andy87\yii2\file_crafter\components\assets\SortableAsset;
 
 /**
  * @cli vendor/bin/phpunit tests/assets/SortableAssetTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\assets
+ * @package andy87\yii2\file_crafter\tests\assets
  *
  * @tag: #test #asset #sortable
  */

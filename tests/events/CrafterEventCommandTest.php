@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\events;
+namespace andy87\yii2\file_crafter\tests\events;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use andy87\yii2\file_crafter\test\UnitTestCore;
-use andy87\yii2\file_crafter\components\{ models\dto\Cmd, events\CrafterEventCommand };
+use andy87\yii2\file_crafter\components\{events\CrafterEventCommand, models\dto\Cmd};
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/events/CrafterEventCommandTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\events
+ * @package andy87\yii2\file_crafter\tests\events
  *
  * @tag: #test #event #crafter_event_command
  *

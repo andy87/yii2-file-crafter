@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\events;
+namespace andy87\yii2\file_crafter\tests\events;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\events\CrafterEvent;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/events/CrafterEventTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\events
+ * @package andy87\yii2\file_crafter\tests\events
  *
  * @tag: #test #event #crafter
  */

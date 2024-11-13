@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\services;
+namespace andy87\yii2\file_crafter\tests\services;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\services\DirectoryProviderService;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\services
+ * @package andy87\yii2\file_crafter\tests\services
  *
  * @tag: #test #service #directory_provider
  */

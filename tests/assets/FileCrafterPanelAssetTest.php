@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\assets;
+namespace andy87\yii2\file_crafter\tests\assets;
 
 use Yii;
 use yii\web\YiiAsset;
 use yii\base\InvalidConfigException;
-use andy87\yii2\file_crafter\test\UnitTestCore;
-use andy87\yii2\file_crafter\components\assets\SortableAsset;
 use andy87\yii2\file_crafter\components\assets\FileCrafterPanelAsset;
+use andy87\yii2\file_crafter\components\assets\SortableAsset;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/assets/FileCrafterPanelAssetTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\assets
+ * @package andy87\yii2\file_crafter\tests\assets
  *
  * @tag: #test #asset #file_crafter
  */

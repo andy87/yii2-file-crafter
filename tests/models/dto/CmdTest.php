@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\test\models\dto;
+namespace andy87\yii2\file_crafter\tests\models\dto;
 
-use andy87\yii2\file_crafter\test\UnitTestCore;
 use andy87\yii2\file_crafter\components\models\dto\Cmd;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 
 /**
  * @cli vendor/bin/phpunit tests/models/dto/CmdTest.php --testdox
  *
- * @package andy87\yii2\file_crafter\test\models\dto
+ * @package andy87\yii2\file_crafter\tests\models\dto
  *
  * @tag: #test #model #dto #cmd
  *
