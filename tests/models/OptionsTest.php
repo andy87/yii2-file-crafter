@@ -32,6 +32,11 @@ class OptionsTest extends UnitTestCore
         'previewStatus' => false,
         'canDelete' => false,
         'parseDataBase' => ['test10'],
+        'templates' => [
+            'group_1' => [
+                'source' => 'target',
+            ]
+        ]
     ];
 
 
@@ -50,7 +55,7 @@ class OptionsTest extends UnitTestCore
         $options->validate();
 
         foreach (self::DATA_OPTIONS as $key => $value) {
-            $this->assertEquals($options->{$key}, $value);
+            $this->assertEquals($options->{$key}, $value , "Error in key: $key");
         }
 
         $this->assertEmpty($options->errors);

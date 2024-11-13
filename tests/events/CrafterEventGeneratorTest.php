@@ -9,7 +9,7 @@ use yii\base\InvalidConfigException;
 use yii\gii\CodeFile;
 
 /**
- * @cli vendor/bin/phpunit tests/events/CrafterEventGenerateTest.php --testdox
+ * @cli vendor/bin/phpunit tests/events/CrafterEventGeneratorTest.php --testdox
  *
  * @package andy87\yii2\file_crafter\tests\events
  *
@@ -18,7 +18,7 @@ use yii\gii\CodeFile;
 class CrafterEventGeneratorTest extends UnitTestCore
 {
     /**
-     * @cli vendor/bin/phpunit tests/events/CrafterEventGenerateTest.php --testdox --filter testCrafterEventGenerate
+     * @cli vendor/bin/phpunit tests/events/CrafterEventGeneratorTest.php --testdox --filter testCrafterEventGenerate
      *
      * @throws InvalidConfigException
      */

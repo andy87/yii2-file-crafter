@@ -67,11 +67,12 @@ class DirectoryProviderService
 
     /**
      * @param string $fileName
+     * @param bool $useAlias
      *
      * @return string
      */
-    public function constructPath( string $fileName ): string
+    public function constructPath( string $fileName, bool $useAlias = true ): string
     {
-        return $this->getDir() . "/$fileName"  . $this->getExt();
+        return $this->getDir($useAlias) . DIRECTORY_SEPARATOR . $fileName  . $this->getExt();
     }
 }

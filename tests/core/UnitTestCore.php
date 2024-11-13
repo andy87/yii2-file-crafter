@@ -13,23 +13,5 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class UnitTestCore extends TestCase
 {
-    /**
-     * UnitTestCore constructor.
-     *
-     * @param string $name
-     */
-    public function __construct(string $name)
-    {
-        $pathAutoload = __DIR__ . '/../../vendor/autoload.php';
 
-        if (file_exists($pathAutoload)) {
-
-            require_once $pathAutoload;
-
-        } else {
-            exit('Error: vendor/autoload.php not found');
-        }
-
-        parent::__construct($name);
-    }
 }

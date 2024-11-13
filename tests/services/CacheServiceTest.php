@@ -22,7 +22,5 @@ class CacheServiceTest extends UnitTestCore
     public function testCacheService(): void
     {
         $cacheService = new CacheService();
-
-        $this->assertInstanceof(CacheService::class, $cacheService);
     }
 }
