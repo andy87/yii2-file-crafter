@@ -2,9 +2,7 @@
 
 namespace andy87\yii2\file_crafter\tests\assets;
 
-use Yii;
 use yii\web\YiiAsset;
-use yii\base\InvalidConfigException;
 use andy87\yii2\file_crafter\components\assets\FileCrafterPanelAsset;
 use andy87\yii2\file_crafter\components\assets\SortableAsset;
 use andy87\yii2\file_crafter\tests\core\UnitTestCore;
@@ -31,13 +29,10 @@ class FileCrafterPanelAssetTest extends UnitTestCore
 
     /**
      * @cli vendor/bin/phpunit tests/assets/FileCrafterPanelAssetTest.php --testdox --filter testFileCrafterPanelAsset
-     *
-     * @throws InvalidConfigException
      */
     public function testFileCrafterPanelAsset(): void
     {
-        /** @var FileCrafterPanelAsset $fileCrafterPanelAsset */
-        $fileCrafterPanelAsset = Yii::createObject(FileCrafterPanelAsset::class);
+        $fileCrafterPanelAsset = new FileCrafterPanelAsset();
 
         foreach (self::DEPENDS as $depend) {
             $this->assertTrue(in_array($depend, $fileCrafterPanelAsset->depends));
