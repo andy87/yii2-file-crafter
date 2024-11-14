@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
  *
  * @tag: #base #resource #template #index
  */
-abstract class BaseIndexResource extends BaseTemplateResource
+abstract class BaseGridViewResource extends BaseTemplateResource
 {
     /** @var ActiveDataProvider */
     public ActiveDataProvider $activeDataProvider;

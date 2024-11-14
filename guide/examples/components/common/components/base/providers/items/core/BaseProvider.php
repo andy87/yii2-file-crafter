@@ -4,7 +4,7 @@ namespace base\providers\items\core;
 
 use base\Logger;
 use base\moels\items\core\BaseModel;
-use base\servcies\items\core\ModelUsability;
+use base\servcies\items\core\ModelUsabilityService;
 use Exception;
 use interfaces\provider\ProviderInterface;
 
@@ -14,11 +14,11 @@ use interfaces\provider\ProviderInterface;
  * @package common\components\base\providers
  *
  * @property ?string $db
- * @property BaseModel $modelClass
+ * @property BaseModel|string $modelClass
  *
  * @tag: #base #provider
  */
-abstract class BaseProvider extends ModelUsability implements ProviderInterface
+abstract class BaseProvider extends ModelUsabilityService implements ProviderInterface
 {
     /** @var array  */
     public array $defaultModelParams = [];

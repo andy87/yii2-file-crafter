@@ -14,6 +14,9 @@ use app\components\common\components\base\resources\BaseResource;
  */
 abstract class BaseTemplateResource extends BaseResource
 {
+    /** @var string Title */
+    public string $title;
+
     /** @var string Template name for rendering */
     public string $template;
 

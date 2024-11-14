@@ -5,7 +5,7 @@ namespace backend\components\controllers\sources;
 use app\common\components\base\controllers\core\BaseWebController;
 
 /**
- * < Backend > `Controlelr`
+ * < Backend > `Controller`
  *
  * @package backend\components\controllers\sources
  *

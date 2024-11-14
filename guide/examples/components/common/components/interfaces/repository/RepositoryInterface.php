@@ -2,7 +2,7 @@
 
 namespace interfaces\repository;
 
-use yii\db\QueryInterface;
+use yii\db\ActiveQuery;
 
 /**
  * Repository Interface
@@ -13,7 +13,7 @@ use yii\db\QueryInterface;
  */
 interface RepositoryInterface
 {
-    public function find( mixed $where = null ): QueryInterface;
+    public function find( mixed $where = null ): ?ActiveQuery;
 
-    public function findActive( ?array $where = null ): QueryInterface;
+    public function findActive( array $where = [] ): ?ActiveQuery;
 }

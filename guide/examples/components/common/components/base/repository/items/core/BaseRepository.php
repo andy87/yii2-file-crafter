@@ -2,26 +2,25 @@
 
 namespace base\repository\items\cote;
 
-use yii\db\QueryInterface;
-use base\moels\items\core\BaseModel;
-use base\servcies\items\core\ModelUsability;
+use yii\db\{ Connection, ActiveQuery };
+use Exception;
 use interfaces\repository\RepositoryInterface;
+use base\servcies\items\core\ModelUsabilityService;
 
 /**
  * Base class for all repositories
  *
  * @package common\components\base\providers
  *
- * @property ?string $db
- * @property BaseModel $modelClass
- *
  * @tag: #base #provider
  */
-abstract class BaseRepository extends ModelUsability implements RepositoryInterface
+abstract class BaseRepository extends ModelUsabilityService implements RepositoryInterface
 {
+    /** @var ?Connection */
+    protected ?Connection $db = null;
+
     /** @var array Criteria for active items */
     protected array $criteriaActive = [];
-
 
 
     /**
@@ -29,32 +28,78 @@ abstract class BaseRepository extends ModelUsability implements RepositoryInterf
      *
      * @param mixed $where
      *
-     * @return QueryInterface
+     * @return ?ActiveQuery
+     *
+     * @throws Exception
      */
-    public function find( mixed $where = null ): QueryInterface
+    public function find( mixed $where = null ): ?ActiveQuery
     {
-        $query = $this->getModelClass()::find();
+        try
+        {
+            $query = $this->getModelClass()::find();
 
-        if ($where) $query->where( $where );
+            if ( $where ) $query->where( $where );
 
-        return $query;
+            return $query;
+
+        } catch (Exception $e) {
+
+            $this->handlerCatch( $e, __METHOD__, 'Catch! on `find` item', [
+                'where' => $where
+            ]);
+        }
+
+        return null;
     }
 
     /**
      * Find active items
      *
-     * @param ?array $where
+     * @param array $where
      *
-     * @return QueryInterface
+     * @return ?ActiveQuery
+     *
+     * @throws Exception
      */
-    public function findActive( ?array $where = null ): QueryInterface
+    public function findActive( array $where = [] ): ?ActiveQuery
     {
-        $query = $this->find( $where );
+        try
+        {
+            $query = $this->find( count($where) ? $where : null );
 
-        if ( count( $this->criteriaActive ) ) {
-            $query->andFilterWhere( $this->criteriaActive );
+            if ( count( $this->criteriaActive ) ) {
+                $query->andFilterWhere( $this->criteriaActive );
+            }
+
+            return $query;
+
+        } catch (Exception $e) {
+
+            $this->handlerCatch( $e, __METHOD__, 'Catch! on `find active` items', [
+                'where' => $where
+            ]);
         }
 
-        return $query;
+        return null;
+    }
+
+    /**
+     * @param Connection $db
+     *
+     * @return static
+     */
+    public function setDb( Connection $db ): static
+    {
+        $this->db = $db;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Connection
+     */
+    public function getDb(): ?Connection
+    {
+        return $this->db;
     }
 }

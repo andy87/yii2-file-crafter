@@ -14,5 +14,5 @@ use yii\base\Model;
 abstract class BaseFormResource extends BaseTemplateResource
 {
     /** @var Model */
-    public Model $model;
+    public Model $form;
 }

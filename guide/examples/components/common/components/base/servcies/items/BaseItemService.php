@@ -2,46 +2,47 @@
 
 namespace base\servcies\items;
 
-use Yii;
-use Exception;
-use yii\db\QueryInterface;
-use interfaces\LoggerInterface;
-use common\components\base\Logger;
 use base\moels\items\core\BaseModel;
-use yii\base\InvalidConfigException;
 use base\providers\items\core\BaseProvider;
 use base\repository\items\cote\BaseRepository;
+use Exception;
+use interfaces\LoggerInterface;
 use interfaces\servcies\ServiceWithProviderInterface;
 use interfaces\servcies\ServiceWithRepositoryInterface;
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\db\{ActiveQuery, Connection, QueryInterface};
 
 /**
  * Base class for all service used BaseModel
  *
  * @package common\components\base\providers
  *
- * @property ?string $db
- * @property BaseModel|string $modelClass
- * @property ?LoggerInterface $logger
- * @property BaseProvider $provider
- * @property BaseRepository $repository
- *
  * @tag: #base #provider
  */
 abstract class BaseItemService extends BaseModelService implements ServiceWithProviderInterface, ServiceWithRepositoryInterface
 {
-    /** @var string BaseModel::class */
-    protected string $modelClass;
-
-    /** @var string BaseProvider::class */
-    protected string $providerClass;
-
-    /** @var string BaseRepository::class */
-    protected string $repositoryClass;
-
-    /** @var string Logger::class */
-    protected string $loggerClass = Logger::class;
+    /** @var LoggerInterface|string Logger::class */
+    protected LoggerInterface|string $loggerClass;
 
 
+
+    /** @var BaseProvider */
+    public BaseProvider $provider;
+
+    /** @var BaseRepository */
+    public BaseRepository $repository;
+
+
+
+    public function __construct(BaseProvider $provider, BaseRepository $repository, array $config = [])
+    {
+        $this->provider = $provider;
+
+        $this->repository = $repository;
+
+        parent::__construct($config);
+    }
 
     /**
      * Initialize
@@ -52,9 +53,10 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
      */
     public function init(): void
     {
-        $this->provider = $this->getProvider( $this->providerClass );
-
-        $this->repository = $this->getRepository( $this->repositoryClass );
+        // logger
+        if( $this->loggerClass ) {
+            $this->logger = $this->getLogger();
+        }
 
         parent::init();
     }
@@ -134,9 +136,9 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
     /**
      * @param array $criteria
      *
-     * @return QueryInterface
+     * @return ActiveQuery
      */
-    public function find( array $criteria ): QueryInterface
+    public function find( array $criteria ): ActiveQuery
     {
         return $this->repository->find( $criteria );
     }
@@ -144,9 +146,9 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
     /**
      * @param array $criteria
      *
-     * @return QueryInterface
+     * @return ActiveQuery
      */
-    public function findActive( array $criteria ): QueryInterface
+    public function findActive( array $criteria ): ActiveQuery
     {
          return $this->repository->findActive( $criteria );
      }
@@ -163,8 +165,7 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
     {
         $query = $this->find( $where );
 
-        /** @var BaseModel $model */
-        $model = $query->one();
+        $model = $this->one($query);
 
         if ( $required && !$model ) {
             $model = $this->create( $where );
@@ -177,41 +178,99 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
      * @param array $where
      *
      * @return array
+     *
+     * @throws Exception
      */
     public function getAll( array $where = [] ): array
     {
         $query = $this->find( $where );
 
-        /** @var BaseModel[] $model */
-        return $query->all();
+        return $this->all($query);
     }
 
     /**
      * @param array $where
      *
      * @return ?BaseModel
+     *
+     * @throws Exception
      */
     public function getActive( array $where ): ?BaseModel
     {
         $query = $this->findActive( $where );
 
-        /** @var BaseModel $model */
-        $model = $query->one();
-
-        return $model;
+        return $this->one($query);
     }
 
 
     /**
      * @param array $where
      *
-     * @return array
+     * @return BaseModel[]
+     *
+     * @throws Exception
      */
     public function getAllActive( array $where = [] ): array
     {
         $query = $this->findActive( $where );
 
-        /** @var BaseModel[] $model */
-        return $query->all();
+        return $this->all($query);
+    }
+
+    /**
+     * @param ActiveQuery $query
+     *
+     * @return BaseModel[]
+     *
+     * @throws Exception
+     */
+    private function all( ActiveQuery $query ): array
+    {
+        try {
+
+            return $query->all($this->getConnection());
+
+        } catch (Exception $e) {
+
+            $this->handlerCatch( $e, __METHOD__, 'Error! on get `all` models', [
+                'query' => $query
+            ]);
+        }
+
+        return [];
+    }
+
+    /**
+     * @param ActiveQuery $query
+     *
+     * @return BaseModel|array|null
+     *
+     * @throws Exception
+     */
+    private function one( ActiveQuery $query ): BaseModel|array|null
+    {
+        try {
+
+            /** @var BaseModel|null $model */
+            $model = $query->one($this->getConnection());
+
+            return $model;
+
+        } catch (Exception $e) {
+
+            $this->handlerCatch( $e, __METHOD__, 'Error! on get `one` model', [
+                'query' => $query
+            ]);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return ?Connection
+     */
+    private function getConnection(): ?Connection
+    {
+        return $this->repository->getDb();
     }
 }

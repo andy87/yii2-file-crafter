@@ -5,7 +5,7 @@ namespace controllers\sources;
 use yii\console\Controller;
 
 /**
- * < Console > Controller
+ * < Console > `Controller`
  *
  * @package backend\components\controllers\sources
  *

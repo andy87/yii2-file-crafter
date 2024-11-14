@@ -3,30 +3,24 @@
 namespace base\servcies\items;
 
 use Yii;
-use interfaces\LoggerInterface;
-use common\components\base\Logger;
-use base\moels\items\core\BaseModel;
 use yii\base\InvalidConfigException;
-use base\servcies\items\core\ModelUsability;
-use interfaces\servcies\core\LoggerUsabilityInterface;
+use base\moels\items\core\BaseModel;
+use base\servcies\items\core\ModelUsabilityService;
+use interfaces\{ LoggerInterface, servcies\core\LoggerUsabilityInterface };
 
 /**
  * Base class for all services
  *
  * @package common\components\base\services
  *
- * @property ?string $db
- * @property BaseModel|string $modelClass
- * @property ?LoggerInterface $logger
- *
  * @tag: #base #service #model
  */
-abstract class BaseModelService extends ModelUsability implements LoggerUsabilityInterface
+abstract class BaseModelService extends ModelUsabilityService implements LoggerUsabilityInterface
 {
-    protected string $modelClass = BaseModel::class;
+    /** @var LoggerInterface|string Logger::class */
+    protected LoggerInterface|string $loggerClass;
 
-    protected string $loggerClass = Logger::class;
-
+    /** @var LoggerInterface */
     protected LoggerInterface $logger;
 
 
@@ -40,7 +34,9 @@ abstract class BaseModelService extends ModelUsability implements LoggerUsabilit
      */
     public function init(): void
     {
-        $this->logger = $this->getLogger();
+        if ( $this->loggerClass ) {
+            $this->logger = $this->getLogger();
+        }
     }
 
     /**
