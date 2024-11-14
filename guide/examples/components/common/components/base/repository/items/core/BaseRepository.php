@@ -2,19 +2,19 @@
 
 namespace base\repository\items\cote;
 
-use yii\db\{ Connection, ActiveQuery };
 use Exception;
+use yii\db\{ActiveQuery, Connection};
+use common\components\base\BaseModelTool;
 use interfaces\repository\RepositoryInterface;
-use base\servcies\items\core\ModelUsabilityService;
 
 /**
- * Base class for all repositories
+ * Родительский класс для всех репозиториев
  *
  * @package common\components\base\providers
  *
  * @tag: #base #provider
  */
-abstract class BaseRepository extends ModelUsabilityService implements RepositoryInterface
+abstract class BaseRepository extends BaseModelTool implements RepositoryInterface
 {
     /** @var ?Connection */
     protected ?Connection $db = null;

@@ -1,20 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace base\servcies\items\core;
+namespace common\components\base;
 
-use Yii;
-use Exception;
 use base\moels\items\core\BaseModel;
-use interfaces\servcies\core\ModelUsabilityInterface;
+use base\services\items\core\BaseService;
+use interfaces\services\core\ModelUsabilityInterface;
 
 /**
- * Model Usability
+ * Родительский класс дающий доступ к базовым методам для работы с моделями
  *
  * @package app\common\components\base
  *
- * @tag: #base #usability #database
+ * @tag: #base #tools #model
  */
-abstract class ModelUsabilityService extends BaseService implements ModelUsabilityInterface
+abstract class BaseModelTool extends BaseService implements ModelUsabilityInterface
 {
     /** @var BaseModel|string  */
     protected BaseModel|string $modelClass;

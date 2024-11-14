@@ -5,7 +5,7 @@ namespace controllers\sources;
 use yii\console\Controller;
 
 /**
- * < Console > `Controller`
+ * < Console > Родительский класс для всех консольных контроллеров
  *
  * @package backend\components\controllers\sources
  *

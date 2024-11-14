@@ -6,8 +6,8 @@ namespace app\common\components\base\controllers\core;
 use yii\web\Controller;
 
 /**
- * Base class for all web controllers
- * - BseFrontendController
+ * Родительский класс для всех контроллеров веб-приложения
+ * - BaseFrontendController
  * - BaseBackendController
  *
  * @package common\components\base\controllers

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace base\servcies\items\core;
+namespace base\services\items\core;
 
 use Yii;
 use Exception;
@@ -18,7 +18,7 @@ use common\components\base\Logger;
 abstract class BaseService extends BaseObject
 {
     /** @var array  */
-    protected array $loggerConfig = [];
+    protected array $loggerConfig;
 
     /** @var LoggerInterface */
     protected LoggerInterface $logger;
@@ -37,7 +37,7 @@ abstract class BaseService extends BaseObject
      */
     private function setupLogger(): void
     {
-        if ( !isset($this->logger) && count($this->loggerConfig) ) {
+        if ( isset($this->loggerConfig) ) {
             $this->logger = $this->getLogger();
         }
     }

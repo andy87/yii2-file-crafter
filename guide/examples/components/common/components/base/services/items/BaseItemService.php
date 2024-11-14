@@ -1,17 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace base\servcies\items;
+namespace base\services\items;
 
+use Exception;
 use base\moels\items\core\BaseModel;
+use yii\db\{ ActiveQuery, Connection };
 use base\providers\items\core\BaseProvider;
 use base\repository\items\cote\BaseRepository;
-use Exception;
-use interfaces\LoggerInterface;
-use interfaces\servcies\ServiceWithProviderInterface;
-use interfaces\servcies\ServiceWithRepositoryInterface;
-use Yii;
-use yii\base\InvalidConfigException;
-use yii\db\{ActiveQuery, Connection, QueryInterface};
 
 /**
  * Base class for all service used BaseModel
@@ -20,13 +15,8 @@ use yii\db\{ActiveQuery, Connection, QueryInterface};
  *
  * @tag: #base #provider
  */
-abstract class BaseItemService extends BaseModelService implements ServiceWithProviderInterface, ServiceWithRepositoryInterface
+abstract class BaseItemService extends BaseBaseModelService
 {
-    /** @var LoggerInterface|string Logger::class */
-    protected LoggerInterface|string $loggerClass;
-
-
-
     /** @var BaseProvider */
     public BaseProvider $provider;
 
@@ -34,7 +24,11 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
     public BaseRepository $repository;
 
 
-
+    /**
+     * @param BaseProvider $provider
+     * @param BaseRepository $repository
+     * @param array $config
+     */
     public function __construct(BaseProvider $provider, BaseRepository $repository, array $config = [])
     {
         $this->provider = $provider;
@@ -42,71 +36,6 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
         $this->repository = $repository;
 
         parent::__construct($config);
-    }
-
-    /**
-     * Initialize
-     *
-     * @throws InvalidConfigException
-     *
-     * @tag: #init
-     */
-    public function init(): void
-    {
-        // logger
-        if( $this->loggerClass ) {
-            $this->logger = $this->getLogger();
-        }
-
-        parent::init();
-    }
-
-    /**
-     * @param string $providerClassName
-     *
-     * @return BaseProvider
-     *
-     * @throws InvalidConfigException
-     */
-    public function getProvider( string $providerClassName ): BaseProvider
-    {
-        $params = $this->constructParams( $providerClassName );
-
-        /** @var BaseProvider $provider */
-        $provider = Yii::createObject( $params );
-
-        return $provider;
-    }
-
-    /**
-     * @param $className
-     *
-     * @return array
-     */
-    private function constructParams( $className ): array
-    {
-        return [
-            'class' => $className,
-            'modelClass' => $this->modelClass,
-            'loggerClass' => $this->loggerClass
-        ];
-    }
-
-    /**
-     * @param string $repositoryClassName
-     *
-     * @return BaseRepository
-     *
-     * @throws InvalidConfigException
-     */
-    public function getRepository( string $repositoryClassName ): BaseRepository
-    {
-        $params = $this->constructParams( $repositoryClassName );
-
-        /** @var BaseRepository $repository */
-        $repository = Yii::createObject( $params );
-
-        return $repository;
     }
 
     /**
@@ -137,6 +66,8 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
      * @param array $criteria
      *
      * @return ActiveQuery
+     *
+     * @throws Exception
      */
     public function find( array $criteria ): ActiveQuery
     {
@@ -147,6 +78,8 @@ abstract class BaseItemService extends BaseModelService implements ServiceWithPr
      * @param array $criteria
      *
      * @return ActiveQuery
+     *
+     * @throws Exception
      */
     public function findActive( array $criteria ): ActiveQuery
     {

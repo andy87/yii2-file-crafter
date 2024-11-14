@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace interfaces\servcies\core;
+namespace interfaces\services\core;
 
 use base\moels\items\core\BaseModel;
 

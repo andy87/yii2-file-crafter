@@ -2,23 +2,21 @@
 
 namespace base\providers\items\core;
 
-use base\Logger;
-use base\moels\items\core\BaseModel;
-use base\servcies\items\core\ModelUsabilityService;
 use Exception;
+use base\moels\items\core\BaseModel;
+use common\components\base\BaseModelTool;
 use interfaces\provider\ProviderInterface;
 
 /**
- * Base class for all providers
+ * Родительский класс для всех провайдеров использующих BaseModel
  *
  * @package common\components\base\providers
  *
- * @property ?string $db
  * @property BaseModel|string $modelClass
  *
  * @tag: #base #provider
  */
-abstract class BaseProvider extends ModelUsabilityService implements ProviderInterface
+abstract class BaseProvider extends BaseModelTool implements ProviderInterface
 {
     /** @var array  */
     public array $defaultModelParams = [];

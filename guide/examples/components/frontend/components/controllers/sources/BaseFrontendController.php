@@ -5,13 +5,13 @@ namespace frontend\components\controllers\sources;
 use app\common\components\base\controllers\core\BaseWebController;
 
 /**
- * < Frontend > `Controller`
+ * < Frontend > Родительский класс для всех контроллеров фронтенда
  *
  * @package backend\components\controllers\sources
  *
  * @tag: #frontend #controller #sources
  */
-abstract class FrontendController extends BaseWebController
+abstract class BaseFrontendController extends BaseWebController
 {
 
 }
