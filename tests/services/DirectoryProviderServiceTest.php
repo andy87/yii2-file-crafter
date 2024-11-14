@@ -2,9 +2,9 @@
 
 namespace andy87\yii2\file_crafter\tests\services;
 
-use andy87\yii2\file_crafter\components\services\DirectoryProviderService;
-use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 use Yii;
+use andy87\yii2\file_crafter\tests\core\UnitTestCore;
+use andy87\yii2\file_crafter\components\services\DirectoryProviderService;
 
 /**
  * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox
@@ -15,50 +15,95 @@ use Yii;
  */
 class DirectoryProviderServiceTest extends UnitTestCore
 {
+    private const TEST_DIR = __DIR__;
+
     private const ALIAS = '@tests';
     private const DIRNAME = 'test_dir';
-    private const PARAMS = [
-        'dir' => self::ALIAS. DIRECTORY_SEPARATOR . self::DIRNAME,
-        'ext' => '.test',
-    ];
+    private array $params = [];
+
+    private DirectoryProviderService $directoryProviderService;
+
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->params = [
+            'dir' => self::ALIAS . '/' . self::DIRNAME,
+            'ext' => '.test',
+        ];
+
+        Yii::setAlias(self::ALIAS, $this->changeSlash(self::TEST_DIR));
+
+        $this->directoryProviderService = new DirectoryProviderService($this->params);
+    }
 
     /**
-     * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox --filter testDirectoryProviderService
+     * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox --filter testGetDir
      *
      * @return void
      */
-    public function testDirectoryProviderService(): void
+    public function testGetDir(): void
     {
-        $directoryProviderService = new DirectoryProviderService(self::PARAMS);
+        $getDir = $this->directoryProviderService->getDir(false);
 
-        $dir = __DIR__;
-        Yii::setAlias(self::ALIAS, $dir);
+        $this->assertEquals(
+             $this->changeSlash($this->params['dir']),
+            $this->changeSlash($getDir)
+        );
 
-        $dirAlias = $directoryProviderService->getDir(false);
+        $fullPath = self::TEST_DIR . DIRECTORY_SEPARATOR . self::DIRNAME;
+        $getDir = $this->directoryProviderService->getDir();
 
-        $this->assertEquals($dir, $dirAlias);
+        $this->assertEquals(
+            $this->changeSlash($fullPath),
+            $this->changeSlash($getDir)
+        );
+    }
 
-        //$fullPath = $directoryProviderService->getDir();
+    /**
+     * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox --filter testGetExt
+     *
+     * @return void
+     */
+    public function testGetExt(): void
+    {
+        $this->assertEquals( $this->params['ext'], $this->directoryProviderService->getExt() );
+    }
 
-        //$this->assertEquals($dir . DIRECTORY_SEPARATOR . self::DIRNAME, $fullPath);
+    /**
+     * @cli vendor/bin/phpunit tests/services/DirectoryProviderServiceTest.php --testdox --filter testConstructPath
+     *
+     * @return void
+     */
+    public function testConstructPath(): void
+    {
+        $fileName = 'testFileName';
 
+        $constructPath = $this->directoryProviderService->constructPath($fileName);
+        $filePath = self::TEST_DIR . DIRECTORY_SEPARATOR . self::DIRNAME . DIRECTORY_SEPARATOR . $fileName . $this->params['ext'];
 
-        //getExt
+        $this->assertEquals(
+            $this->changeSlash($constructPath),
+            $this->changeSlash($filePath)
+        );
 
-        //$ext = $directoryProviderService->getExt();
+        $constructPath = $this->directoryProviderService->constructPath($fileName, false);
+        $filePath = $this->params['dir'] . DIRECTORY_SEPARATOR . $fileName . $this->params['ext'];
 
-        //$this->assertEquals(self::PARAMS['ext'], $ext);
+        $this->assertEquals(
+            $this->changeSlash($constructPath),
+            $this->changeSlash($filePath)
+        );
+    }
 
-        //constructPath
-
-        //$fileName = 'testFileName';
-
-        //$constructPath = $directoryProviderService->constructPath($fileName);
-        //$filePath = $dir . DIRECTORY_SEPARATOR . self::DIRNAME . DIRECTORY_SEPARATOR . $fileName . self::PARAMS['ext'];
-        //$this->assertEquals($filePath, $constructPath);
-
-        //$constructPath = $directoryProviderService->constructPath($fileName, false);
-        //$filePath = self::PARAMS['dir'] . DIRECTORY_SEPARATOR . $fileName . self::PARAMS['ext'];
-        //$this->assertEquals($filePath, $constructPath);
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private function changeSlash(string $path): string
+    {
+        return str_replace(['/','\\'], '/', $path);
     }
 }
