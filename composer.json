@@ -5,8 +5,8 @@
   "homepage": "https://andy87.ru",
   "license": "CC-BY-SA-4.0",
 
-  "version": "1.0.0",
-  "minimum-stability": "stable",
+  "version": "1.1.0",
+  "minimum-stability": "dev",
 
   "prefer-stable": true,
 
