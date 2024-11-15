@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use yii\{ web\View, widgets\ActiveForm };
 use andy87\yii2\file_crafter\{ Crafter, components\assets\FileCrafterPanelAsset };

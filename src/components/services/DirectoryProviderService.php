@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\services;
 
@@ -65,14 +65,14 @@ class DirectoryProviderService
         return $this->params['ext'] ?? static::DEFAULT_EXT;
     }
 
-
     /**
      * @param string $fileName
+     * @param bool $useAlias
      *
      * @return string
      */
-    public function constructPath( string $fileName ): string
+    public function constructPath( string $fileName, bool $useAlias = true ): string
     {
-        return $this->getDir() . "/$fileName"  . $this->getExt();
+        return $this->getDir($useAlias) . DIRECTORY_SEPARATOR . $fileName  . $this->getExt();
     }
 }

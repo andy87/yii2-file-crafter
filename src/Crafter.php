@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter;
 
@@ -9,7 +9,7 @@ use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\events\CrafterEventCommand,
     components\events\CrafterEventGenerate,
     components\events\CrafterEventRender,
-    components\models\Dto\Cmd,
+    components\models\dto\Cmd,
     components\models\Options,
     components\models\Schema,
     components\resources\PanelResources,

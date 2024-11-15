@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use yii\web\View;
 use andy87\yii2\file_crafter\{ Crafter, components\models\Schema };
