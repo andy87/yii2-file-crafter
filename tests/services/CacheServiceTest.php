@@ -4,6 +4,7 @@ namespace andy87\yii2\file_crafter\tests\services;
 
 use andy87\yii2\file_crafter\components\services\CacheService;
 use andy87\yii2\file_crafter\tests\core\UnitTestCore;
+use Yii;
 
 /**
  * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox
@@ -26,23 +27,36 @@ class CacheServiceTest extends UnitTestCore
     private CacheService $cacheService;
 
 
-    /** @return void */
+
+
+    /**
+     * @return void
+     **/
     public function setUp(): void
     {
         parent::setUp();
 
         $this->cacheService = new CacheService(self::PARAMS);
+
+        if ( ! isset(Yii::$aliases['@app']) )
+        {
+            Yii::setAlias('@app', __DIR__ );
+        }
+
+        $dir = $this->cacheService->getDir();
+
+        $this->cacheService->params['isExist'] = is_dir($dir);
+        $this->cacheService->params['isWritable'] = is_writable($dir);
     }
 
     /**
      * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testGetCacheFileList
      *
      * @return void
-     */
+     **/
     public function testGetCacheFileList(): void
     {
-        //проверка прав на запись в runtime
-        if( is_writable( $this->cacheService->getDir() ) )
+        if ( $this->hasDirectoryAccess() )
         {
             foreach (self::FILES as $index => $file)
             {
@@ -68,7 +82,8 @@ class CacheServiceTest extends UnitTestCore
             }
 
         } else {
-            $this->markTestIncomplete('No write permission to runtime');
+
+            $this->infoMessage();
         }
     }
 
@@ -76,41 +91,86 @@ class CacheServiceTest extends UnitTestCore
      * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testGetContentCacheFile
      *
      * @return void
-     */
+     **/
     public function testGetContentCacheFile(): void
     {
-        $fileName = self::FILES[0];
+        if ( $this->hasDirectoryAccess() )
+        {
+            $fileName = self::FILES[0];
 
-        $fielContent = date('Y-m-d H:i:s');
+            $fielContent = date('Y-m-d H:i:s');
 
-        $filePath = $this->cacheService->constructPath($fileName);
+            $filePath = $this->cacheService->constructPath($fileName);
 
-        file_put_contents( $filePath, $fielContent );
+            file_put_contents( $filePath, $fielContent );
 
-        $content = $this->cacheService->getContentCacheFile($fileName);
+            $content = $this->cacheService->getContentCacheFile($fileName);
 
-        $this->assertEquals($content, $fielContent);
+            $this->assertEquals($content, $fielContent);
+
+        } else {
+
+            $this->infoMessage();
+        }
     }
 
     /**
      * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testRemoveItem
      *
      * @return void
-     */
+     **/
     public function testRemoveItem(): void
     {
-        $fileName = self::FILES[0];
+        if ( $this->hasDirectoryAccess() )
+        {
+            $fileName = self::FILES[0];
 
-        $filePath = $this->cacheService->constructPath($fileName);
+            $filePath = $this->cacheService->constructPath($fileName);
 
-        if (file_exists($filePath)) unlink($filePath);
+            if (file_exists($filePath)) unlink($filePath);
 
-        file_put_contents( $filePath, 'test' );
+            file_put_contents( $filePath, 'test' );
 
-        $this->assertTrue(file_exists($filePath));
+            $this->assertTrue(file_exists($filePath));
 
-        $this->cacheService->removeItem($fileName);
+            $this->cacheService->removeItem($fileName);
 
-        $this->assertFalse(file_exists($filePath));
+            $this->assertFalse(file_exists($filePath));
+
+        } else {
+
+            $this->infoMessage();
+        }
+    }
+
+    /**
+     * @return bool
+     **/
+    private function hasDirectoryAccess(): bool
+    {
+        $params = $this->cacheService->params;
+
+        return $params['isExist'] && $params['isWritable'];
+    }
+
+    /**
+     * @return void
+     **/
+    private function infoMessage(): void
+    {
+        $dirNotFound = !$this->cacheService->params['isExist'];
+        $writableAccessDenied = !$this->cacheService->params['isExist'];
+
+        if ( $dirNotFound )
+        {
+            $this->markTestIncomplete('No runtime directory');
+
+        } else {
+
+            if ( $writableAccessDenied )
+            {
+                $this->markTestIncomplete('No write permission to runtime');
+            }
+        }
     }
 }
