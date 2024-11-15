@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\events;
 
+use andy87\yii2\file_crafter\components\models\Options;
 use yii\base\Event;
 use andy87\yii2\file_crafter\Crafter;
 
@@ -39,4 +40,9 @@ class CrafterEvent extends Event
 
     /** @var string  */
     public const AFTER_RENDER = 'afterRender';
+
+
+
+    /** @var Options */
+    public Options $options;
 }

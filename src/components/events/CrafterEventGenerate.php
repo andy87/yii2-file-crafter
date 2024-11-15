@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\events;
 
+use andy87\yii2\file_crafter\components\models\Schema;
 use yii\gii\CodeFile;
 
 /**
@@ -21,8 +22,12 @@ class CrafterEventGenerate extends CrafterEvent
 
 
 
-    /**
-     * @var CodeFile[]
-     */
+    /** @var CodeFile[] */
     public array $files = [];
+
+    /** @var Schema[] */
+    public array $listSchemaDto = [];
+
+    /** @var array */
+    public array $generateList = [];
 }

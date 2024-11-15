@@ -3,7 +3,7 @@
 namespace andy87\yii2\file_crafter;
 
 use Yii;
-use yii\{gii\CodeFile, base\InvalidRouteException, web\View};
+use yii\{base\Event, gii\CodeFile, base\InvalidRouteException, web\View};
 use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\events\CrafterEvent,
     components\events\CrafterEventCommand,
@@ -91,7 +91,7 @@ class Crafter extends CoreGenerator
             $this->attachBehavior('eventHandler', $this->options->eventHandler);
         }
 
-        $this->event(CrafterEvent::BEFORE_INIT );
+        $this->event(CrafterEvent::BEFORE_INIT, $this->options );
 
 
         $this->setupServices();
@@ -106,9 +106,9 @@ class Crafter extends CoreGenerator
         $this->panelService->handlers($this->panelResources);
 
 
-        $this->event(CrafterEvent::AFTER_INIT );
+        $this->event(CrafterEvent::AFTER_INIT, $this->options );
 
-        $this->panelService->prepareResourceSchemaList($this->options, $this->panelResources);
+        $this->panelService->prepareResourceSchemaList($this->options, $this->panelResources );
     }
 
     /**
@@ -232,13 +232,17 @@ class Crafter extends CoreGenerator
      * @param $name
      * @param array $data
      *
-     * @return void
+     * @return ?Event
      */
-    public function event($name, mixed $data = [] ): void
+    public function event( $name, mixed $data = [] ): ?Event
     {
+        $event = $this->fabricEvent( $name, $data );
+
         if ( $this->options->eventHandler ) {
-            parent::trigger( $name, $this->fabricEvent( $name, $data ) );
+            parent::trigger( $name, $event );
         }
+
+        return $event;
     }
 
     /**
@@ -249,7 +253,7 @@ class Crafter extends CoreGenerator
      *
      * @return CrafterEvent
      */
-    private function fabricEvent(string $eventName, mixed $data = []): CrafterEvent
+    private function fabricEvent( string $eventName, mixed $data = [] ): CrafterEvent
     {
         $className = self::EVENT_MAPPING[$eventName];
 
@@ -266,9 +270,24 @@ class Crafter extends CoreGenerator
                 /** @var CrafterEvent|CrafterEventGenerate $event */
                 $event = new $className();
 
-                if ($eventName === CrafterEvent::AFTER_GENERATE)
+                switch ($eventName)
                 {
-                    $event->files = $data;
+                    case CrafterEvent::BEFORE_INIT:
+                    case CrafterEvent::AFTER_INIT:
+                        /** @var CrafterEvent $event */
+                        $event->options = $data;
+                        break;
+
+                    case CrafterEvent::BEFORE_GENERATE:
+                        /** @var CrafterEventGenerate $event */
+                        $event->listSchemaDto = $data['schemaCollection'];
+                        $event->generateList = $data['generateList'];
+                        break;
+
+                    case CrafterEvent::AFTER_GENERATE:
+                        /** @var CrafterEventGenerate $event */
+                        $event->files = $data;
+                        break;
                 }
         }
 
@@ -278,36 +297,40 @@ class Crafter extends CoreGenerator
     /**
      * Generation Core
      *
+     * @param ?array $listSchemaDto
+     *
      * @return array
      */
-    public function generate(): array
+    public function generate( ?array $listSchemaDto = null ): array
     {
         $files = [];
 
-        if ( count($this->panelResources->schema->errors) === 0 )
+        if ( count( $this->panelResources->schema->errors ) === 0 || is_array($listSchemaDto) )
         {
-            $this->event(CrafterEventGenerate::BEFORE );
+            /** @var CrafterEventGenerate $event */
+            $event = $this->event(CrafterEventGenerate::BEFORE, [
+                'listSchemaDto' => $listSchemaDto ?? $this->panelResources->listSchemaDto,
+                'generateList' => ($listSchemaDto === null )
+                    ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
+                    : array_keys($this->generateList)
+            ]);
 
-            $listSchemaDto = $this->panelResources->listSchemaDto;
-
-            if ( count($listSchemaDto) )
+            foreach ($event->listSchemaDto as $schema )
             {
-                $this->generateList = array_keys($this->generateList);
-
-                foreach ($listSchemaDto as $schema)
+                if ( in_array( $schema->getTableName(), $event->generateList ) )
                 {
-                    if ( in_array($schema->getTableName(), $this->generateList) )
-                    {
-                        $replaceList = $this->panelService->getReplaceList($schema);
+                    $replaceList = $this->panelService->getReplaceList( $schema );
 
-                        $this->commandResult = $this->execCommands($replaceList);
+                    $this->commandResult = $this->execCommands( $replaceList );
 
-                        $files = array_merge($files, $this->fileGenerating($schema, $replaceList));
-                    }
+                    $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ) );
                 }
             }
 
-            $this->event(CrafterEventGenerate::AFTER, $files );
+            /** @var CrafterEventGenerate $event */
+            $event = $this->event(CrafterEventGenerate::AFTER, $files );
+
+            $files = $event->files;
         }
 
         return $files;
@@ -320,11 +343,11 @@ class Crafter extends CoreGenerator
      *
      * @return array
      */
-    private function execCommands(array $replaceList): array
+    private function execCommands( array $replaceList ): array
     {
         $result = [];
 
-        if ( count($this->options->commands) )
+        if ( count( $this->options->commands ) )
         {
             foreach ( $this->options->commands as $command )
             {
@@ -333,7 +356,7 @@ class Crafter extends CoreGenerator
                 $commandCli->replaceList = $replaceList;
 
 
-                $this->event(CrafterEventCommand::BEFORE, $commandCli);
+                $this->event(CrafterEventCommand::BEFORE, $commandCli );
 
 
                 $output = $this->panelService->runBash($commandCli);
@@ -341,7 +364,7 @@ class Crafter extends CoreGenerator
                 $commandCli->output = $output;
 
 
-                $this->event(CrafterEventCommand::AFTER, $commandCli);
+                $this->event(CrafterEventCommand::AFTER, $commandCli );
 
 
                 $result[$commandCli->exec] = $commandCli->output;
