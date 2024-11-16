@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\models;
 
@@ -58,8 +58,9 @@ class Options extends Model
             [['templates'], 'required'],
             [['eventHandler'], 'string'],
             [['eventHandler'], 'trim'],
-            [['autoCompleteStatus', 'previewStatus' ], 'boolean'],
-            [['cache', 'source', 'commands', 'custom_fields', 'autoCompleteList', 'templates', 'parseDataBase'], 'each', 'rule' => ['array']],
+            [['autoCompleteStatus', 'previewStatus', 'canDelete'], 'boolean'],
+            [['cache', 'source', 'templates', 'custom_fields'], 'each', 'rule' => ['safe']],
+            [['commands', 'autoCompleteList', 'parseDataBase'], 'each', 'rule' => ['string']],
         ];
     }
 

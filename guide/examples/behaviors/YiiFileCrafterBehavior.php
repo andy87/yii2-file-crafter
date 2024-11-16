@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\common\components\behaviors;
 

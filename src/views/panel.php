@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 use yii\{ web\View, widgets\ActiveForm };
-use andy87\yii2\file_crafter\{ Crafter, components\assets\FileCrafterPanelAsset };
+use andy87\yii2\file_crafter\{components\models\Schema, Crafter, components\assets\FileCrafterPanelAsset};
 
 /**
  * @var View $this
@@ -29,3 +29,12 @@ FileCrafterPanelAsset::register($this);
 </div>
 
 <?= $this->render('cache'. DIRECTORY_SEPARATOR .'tr', ['generator' => $generator ] );?>
+
+<div id="errorWrapper">
+    <?php if (isset($generator->panelResources->schema->errors[Schema::TEMPLATE])): ?>
+        <?= $form->field( $generator->panelResources->schema, Schema::TEMPLATE, [
+            'template' => '{input}{error}',
+        ])->hiddenInput(['class' => 'input is-invalid'])->label(false);
+        ?>
+    <?php endif; ?>
+</div>

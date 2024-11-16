@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace andy87\yii2\file_crafter\components\models\Dto;
+namespace andy87\yii2\file_crafter\components\models\dto;
 
 /**
  * Command

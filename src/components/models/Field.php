@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\models;
 
@@ -60,4 +60,17 @@ class Field extends Model
     public bool $unique;
 
     public bool $notNull;
+
+    /**
+     * @return array[]
+     */
+    public function rules(): array
+    {
+        return [
+            [[self::NAME, self::TYPE], 'required'],
+            [[self::NAME, self::TYPE, self::COMMENT], 'string'],
+            [[self::SIZE], 'integer'],
+            [[self::FOREIGN_KEYS, self::UNIQUE, self::NOT_NULL], 'boolean'],
+        ];
+    }
 }

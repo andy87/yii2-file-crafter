@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 use yii\gii\Module;
 use andy87\yii2\file_crafter\Crafter;

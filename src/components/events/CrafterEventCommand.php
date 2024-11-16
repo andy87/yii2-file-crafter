@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\events;
 
-use andy87\yii2\file_crafter\components\models\Dto\Cmd;
+use andy87\yii2\file_crafter\components\models\dto\Cmd;
 
 /**
  * CrafterEventAfterGenerate

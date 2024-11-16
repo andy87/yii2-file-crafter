@@ -35,18 +35,18 @@ ___
 
 - Composer ( global setup )
 ```bash
-composer require andy87/yii2-file-crafter
+composer require andy87/yii2-file-crafter:dev-master --dev
 ````  
 - Composer.phar ( local setup )
 ```bash
-php composer.phar require andy87/yii2-file-crafter
+php composer.phar require andy87/yii2-file-crafter:dev-master --dev
 ```
 
 <span id="yii2-file-crafter-setup-composer-composer"></span>
 <h3>Using: file `composer.json`</h3>
 
 Open file `composer.json`, in section with key `require` add line:  
-`"andy87/yii2-file-crafter": "*"`  
+`"andy87/yii2-file-crafter": "dev-master"`  
 
 dont forget update composer
 ```bash
@@ -71,14 +71,14 @@ Minimum config
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
-            'class' => Crafter::class,
+            'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
                 'templates' => [
                     'group_name' => [
                         // 'template' => 'path/to/file.php',
-                        'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
-                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
+                        'common/services/PascalCaseService' => '@app/common/services/items/{PascalCase}Service.php',
+                        'template/test/unit/camelCaseService.tpl' => '@backend/test/unit/{{camelCase}}Service.php',
+                        'templates/view/index.php' => 'custom/dir/{{snake_case}}/index.php',
                     ]
                 ]
             ]
@@ -93,7 +93,7 @@ Full Config with all options
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
-            'class' => Crafter::class,
+            'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
                 'cache' => [
                     'dir' => '@runtime/yii2-file-crafter/cache',
@@ -110,7 +110,7 @@ Full Config with all options
                 'commands' => [
                     'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}}' //...
                 ],
-                'eventHandlers' => FileCrafterBehavior::class,
+                'eventHandlers' => app\composents\behavior\FileCrafterBehavior::class,
                 'autoCompleteStatus' => true,
                 'autoCompleteList' => [
                     'autocomplete name 1',
@@ -254,21 +254,39 @@ $config['modules']['gii'] = [
     <small style="color: #900; font-size:9px">(required)</small>
 </h2>
 
-Array with groups of templates for use on generate files.
+Array with groups of templates for use on generate files.  
+```php
+[
+    ['group1'] => [
+        'template1' => 'path/from/project/root/to/resultFile.tpl',
+        'template2.tpl' => 'path/from/project/root/to/resultFile.php',
+        // ...
+    ],
+    ['group2'] => [
+        'template1.php' => '@path/alias/to/resultFile.tpl',
+        '@alias/to/template' => 'path/from/project/root/to/resultFile.php',
+        // ...
+    ],
+]
+```
+The source path may contain:  
+ - some `@` alias ( `source['dir']` - default container )  
+ - `ext` for generate any file type ( `.php` default )  
+ - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
+
+File source-template will be searched in the `source` folder.  
+Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )  
+
+The resultFile path may contain:  
+ - some `@` alias ( `@app/` - default prefix )  
+ - `ext` for generate any file type ( `.php` default )  
+ - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
 
 Content of the templates file rendered with the `View` method `renderFile`  
-`$this->renderFile($sourcePath)`
-- `$sourcePath` - path to the source file
-
-And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )
-
-And also passed to the render method:
-- `$schema` - schema object
-- `$generator` - module generate object
-
-
-File template will be searched in the `source` folder.  
-Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )
+And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )  
+And also passed to the render method:  
+ - `$schema` - schema object  
+ - `$generator` - self generator object
 
 ```php
 $config['modules']['gii'] = [
@@ -279,7 +297,8 @@ $config['modules']['gii'] = [
                 // ... 
                 'templates' => [
                     'all' => [
-                        'templates' => 'app/frontend/views/info--{{snake_case}}.php',
+                        '@backend/dir/by/alias/camelCaseService.tpl' => '@backend/generate/by/alias/{{camelCase}}Service.php',
+                        'dir/on/source/dir/generate_file' => 'custom/dir/on/source/dir/{{snake_case}}/generate_file.tpl',
                     ],
                 ],
                 // ...
@@ -301,7 +320,7 @@ Array with custom fields for use custom variables in templates.
 Using on template key wrapped in square brackets: `{{%key%}}`    
 Example: `{{key_one}}`, `{{key_two}}`...  
 
-Example simple config
+Example simple config  
 ```php
 $config['modules']['gii'] = [
     'class' => Module::class,

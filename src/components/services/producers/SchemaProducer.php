@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\services\producers;
 
-use andy87\yii2\file_crafter\components\{ models\Schema, services\CacheService };
+use andy87\yii2\file_crafter\components\models\Schema;
 
 /**
  * SchemaDto creator
@@ -14,7 +14,7 @@ use andy87\yii2\file_crafter\components\{ models\Schema, services\CacheService }
 class SchemaProducer
 {
     /** @var array $custom_fields */
-    private array $custom_fields;
+    private array $custom_fields = [];
 
 
     /**
@@ -40,7 +40,7 @@ class SchemaProducer
     {
         $schema = new Schema();
 
-        if (empty($schema->custom_fields)){
+        if (empty($schema->custom_fields) && count($this->custom_fields)){
             $schema->custom_fields = $this->custom_fields;
         }
 

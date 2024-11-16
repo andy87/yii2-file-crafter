@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace andy87\yii2\file_crafter\components\core;
 
@@ -20,10 +20,10 @@ use andy87\yii2\file_crafter\components\events\{
 abstract class CoreGenerator extends Generator
 {
     /** @var string ID on module list */
-    public const ID = null;
+    public const ID = 'yii2-file-crafter';
 
-    /** @var string Description on module list */
-    protected const DESCRIPTION = null;
+    /** @var string Description */
+    protected const DESCRIPTION =  'Makes it easier to create a large number of files of the same template.';
 
 
     /** @var string Root directory */
