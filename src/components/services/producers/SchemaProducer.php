@@ -2,7 +2,10 @@
 
 namespace andy87\yii2\file_crafter\components\services\producers;
 
+use andy87\yii2\file_crafter\components\models\Field;
 use andy87\yii2\file_crafter\components\models\Schema;
+use Yii;
+use yii\base\NotSupportedException;
 
 /**
  * SchemaDto creator
@@ -55,12 +58,33 @@ class SchemaProducer
      * @param array $params
      *
      * @return Schema
+     * @throws NotSupportedException
      */
     public function createParseDb(array $params = []): Schema
     {
         $schema = $this->create($params);
 
         $schema->scenario = Schema::SCENARIO_PARSE_DB;
+
+        $tableSchema = Yii::$app->db->schema->getTableSchema($schema->table_name);
+
+        $tableColumns = $tableSchema->columns;
+        $foreignKeys = $tableSchema->foreignKeys;
+        $unique = Yii::$app->db->schema->findUniqueIndexes($tableSchema);
+
+        foreach ($tableColumns as $column)
+        {
+            $fields = new Field();
+            $fields->name = $column->name;
+            $fields->comment = $column->comment;
+            $fields->type = $column->type;
+            $fields->size = $column->size;
+            $fields->foreignKeys = isset($foreignKeys[$column->name]);
+            $fields->unique = isset($unique[$column->name]);
+            $fields->notNull = $column->allowNull;
+
+           $schema->db_fields[] = $fields;
+        }
 
         return $schema;
     }

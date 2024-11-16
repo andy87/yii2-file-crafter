@@ -410,6 +410,7 @@ class PanelService
         if (in_array('fakeCache', $options->parseDataBase))
         {
             $tableNameList = $this->getDataBaseTables();
+
             foreach ($tableNameList as $tableName)
             {
                 $schema = $this->schemaProducer->createParseDb([
