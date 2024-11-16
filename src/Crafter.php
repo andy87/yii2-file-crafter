@@ -27,14 +27,6 @@ use andy87\yii2\file_crafter\{components\core\CoreGenerator,
  */
 class Crafter extends CoreGenerator
 {
-    // Info
-    /** @var string ID  */
-    public const ID = 'yii2-file-crafter';
-
-    /** @var string Description */
-    protected const DESCRIPTION =  'Makes it easier to create a large number of files of the same template.';
-
-
     // Directory paths
     /** @var string Path to the root directory */
     public const ROOT = '@vendor/andy87/' . self::ID;
@@ -278,13 +270,12 @@ class Crafter extends CoreGenerator
                         $event->options = $data;
                         break;
 
-                    case CrafterEvent::BEFORE_GENERATE:
+                    case CrafterEventGenerate::BEFORE:
                         /** @var CrafterEventGenerate $event */
-                        $event->listSchemaDto = $data['schemaCollection'];
-                        $event->generateList = $data['generateList'];
+                        $event->listSchemaDto = $data;
                         break;
 
-                    case CrafterEvent::AFTER_GENERATE:
+                    case CrafterEventGenerate::AFTER:
                         /** @var CrafterEventGenerate $event */
                         $event->files = $data;
                         break;
@@ -308,12 +299,10 @@ class Crafter extends CoreGenerator
         if ( count( $this->panelResources->schema->errors ) === 0 || is_array($listSchemaDto) )
         {
             /** @var CrafterEventGenerate $event */
-            $event = $this->event(CrafterEventGenerate::BEFORE, [
-                'listSchemaDto' => $listSchemaDto ?? $this->panelResources->listSchemaDto,
-                'generateList' => ($listSchemaDto === null )
-                    ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
-                    : array_keys($this->generateList)
-            ]);
+            $event = $this->event(CrafterEventGenerate::BEFORE, $listSchemaDto ?? $this->panelResources->listSchemaDto);
+            $event->generateList = ($listSchemaDto === null )
+                ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
+                : array_keys($this->generateList);
 
             foreach ($event->listSchemaDto as $schema )
             {
@@ -422,7 +411,7 @@ class Crafter extends CoreGenerator
                 } else {
 
                     $this->panelResources->schema->addError(
-                        Schema::NAME,
+                        Schema::TEMPLATE,
                         "Template `$eventRender->sourcePath` Not found."
                     );
 

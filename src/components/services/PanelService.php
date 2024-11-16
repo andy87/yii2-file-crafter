@@ -69,14 +69,14 @@ class PanelService
      */
     public function handlerSchema(Schema $schema): Schema
     {
-        if ( Yii::$app->request->isPost )
+        $updatedTableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
+
+        if ( $updatedTableName )
         {
-            $updatedTableName = Yii::$app->request->get(Schema::SCENARIO_UPDATE, false);
+            $content = $this->cacheService->getContentCacheFile($updatedTableName);
 
-            if ( $updatedTableName )
+            if ($content)
             {
-                $content = $this->cacheService->getContentCacheFile($updatedTableName);
-
                 $params = json_decode($content, true);
 
                 if (count($params))
@@ -86,7 +86,10 @@ class PanelService
                     $schema->load($params, '');
                 }
             }
+        }
 
+        if ( Yii::$app->request->isPost )
+        {
             $isCreate = isset($_POST[Schema::SCENARIO_CREATE]);
 
             if ( $isCreate || $updatedTableName )
@@ -161,9 +164,12 @@ class PanelService
             {
                 $params = json_decode($content, true);
 
-                $schema = $this->schemaProducer->create($params);
+                if ( $params )
+                {
+                    $schema = $this->schemaProducer->create($params);
 
-                $listSchemaDto[] = $schema;
+                    $listSchemaDto[] = $schema;
+                }
             }
         }
 
