@@ -35,11 +35,11 @@ ___
 
 - Composer ( global setup )
 ```bash
-composer require andy87/yii2-file-crafter
+composer require andy87/yii2-file-crafter:dev-master --dev
 ````  
 - Composer.phar ( local setup )
 ```bash
-php composer.phar require andy87/yii2-file-crafter
+php composer.phar require andy87/yii2-file-crafter:dev-master --dev
 ```
 
 <span id="yii2-file-crafter-setup-composer-composer"></span>
