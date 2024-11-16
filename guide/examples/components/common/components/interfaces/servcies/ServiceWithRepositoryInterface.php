@@ -2,7 +2,7 @@
 
 namespace interfaces\servcies;
 
-use base\repository\items\cote\BaseRepository;
+use common\components\base\repository\items\cote\BaseRepository;
 
 /**
  * Logger Interface

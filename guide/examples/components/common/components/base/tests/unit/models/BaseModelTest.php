@@ -2,6 +2,8 @@
 
 namespace common\components\base\tests\unit;
 
+use common\components\base\tests\core\BaseUnitTest;
+
 /**
  * Base Model Test
  *
@@ -11,7 +13,7 @@ namespace common\components\base\tests\unit;
  *
  * @tag: #base #test #model
  */
-class BaseModelTest
+abstract class BaseModelTest extends BaseUnitTest
 {
 
 }

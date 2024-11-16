@@ -1,21 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace base\services\items;
+namespace common\components\base\services\items;
 
 use Exception;
-use base\moels\items\core\BaseModel;
-use yii\db\{ ActiveQuery, Connection };
-use base\providers\items\core\BaseProvider;
-use base\repository\items\cote\BaseRepository;
+use common\components\base\moels\items\core\BaseModel;
+use yii\db\{ Connection, ActiveQuery};
+use common\components\base\providers\items\core\BaseProvider;
+use common\components\base\repository\items\cote\BaseRepository;
+use common\components\base\BaseModelTool;
 
 /**
- * Base class for all service used BaseModel
+ * Базовый абстрактный класс для всех сервисов
+ *      использующих BaseModel
+ *      требует установки провайдера и репозитория
  *
- * @package common\components\base\providers
+ * @package common\components\base\services
  *
- * @tag: #base #provider
+ * @property BaseModel|string $modelClass
+ *
+ * @tag: #base #service #model
  */
-abstract class BaseItemService extends BaseBaseModelService
+abstract class ModelService extends BaseModelTool
 {
     /** @var BaseProvider */
     public BaseProvider $provider;
@@ -24,19 +29,6 @@ abstract class BaseItemService extends BaseBaseModelService
     public BaseRepository $repository;
 
 
-    /**
-     * @param BaseProvider $provider
-     * @param BaseRepository $repository
-     * @param array $config
-     */
-    public function __construct(BaseProvider $provider, BaseRepository $repository, array $config = [])
-    {
-        $this->provider = $provider;
-
-        $this->repository = $repository;
-
-        parent::__construct($config);
-    }
 
     /**
      * @param array $params
@@ -83,8 +75,8 @@ abstract class BaseItemService extends BaseBaseModelService
      */
     public function findActive( array $criteria ): ActiveQuery
     {
-         return $this->repository->findActive( $criteria );
-     }
+        return $this->repository->findActive( $criteria );
+    }
 
     /**
      * @param array $where

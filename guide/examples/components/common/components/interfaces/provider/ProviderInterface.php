@@ -2,7 +2,7 @@
 
 namespace interfaces\provider;
 
-use base\moels\items\core\BaseModel;
+use common\components\base\moels\items\core\BaseModel;
 
 /**
  * Provider Interface

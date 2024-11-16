@@ -2,7 +2,7 @@
 
 namespace interfaces\services\core;
 
-use base\moels\items\core\BaseModel;
+use common\components\base\moels\items\core\BaseModel;
 
 /**
  * ModelUsability Interface

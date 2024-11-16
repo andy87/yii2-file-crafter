@@ -1,32 +1,37 @@
 <?php declare(strict_types=1);
 
-namespace base\repository\items\cote;
+namespace common\components\base\repository\items\cote;
 
 use Exception;
+use common\components\base\moels\items\core\BaseModel;
 use yii\db\{ActiveQuery, Connection};
 use common\components\base\BaseModelTool;
 use interfaces\repository\RepositoryInterface;
 
 /**
- * Родительский класс для всех репозиториев
+ * Родительский абстрактный класс для всех репозиториев
+ *  использующих BaseModel
  *
  * @package common\components\base\providers
+ *
+ * @property BaseModel|string $modelClass
  *
  * @tag: #base #provider
  */
 abstract class BaseRepository extends BaseModelTool implements RepositoryInterface
 {
     /** @var ?Connection */
-    protected ?Connection $db = null;
+    protected ?Connection $connection = null;
 
     /** @var array Criteria for active items */
     protected array $criteriaActive = [];
 
 
+
     /**
      * Create new find query
      *
-     * @param mixed $where
+     * @param ?mixed $where
      *
      * @return ?ActiveQuery
      *
@@ -36,7 +41,9 @@ abstract class BaseRepository extends BaseModelTool implements RepositoryInterfa
     {
         try
         {
-            $query = $this->getModelClass()::find();
+            $modelClass = $this->getModelClass();
+
+            $query = $modelClass::find();
 
             if ( $where ) $query->where( $where );
 
@@ -67,7 +74,8 @@ abstract class BaseRepository extends BaseModelTool implements RepositoryInterfa
         {
             $query = $this->find( count($where) ? $where : null );
 
-            if ( count( $this->criteriaActive ) ) {
+            if ( count( $this->criteriaActive ) )
+            {
                 $query->andFilterWhere( $this->criteriaActive );
             }
 
@@ -84,13 +92,13 @@ abstract class BaseRepository extends BaseModelTool implements RepositoryInterfa
     }
 
     /**
-     * @param Connection $db
+     * @param Connection $connection
      *
      * @return static
      */
-    public function setDb( Connection $db ): static
+    public function setConnection( Connection $connection ): static
     {
-        $this->db = $db;
+        $this->connection = $connection;
 
         return $this;
     }
@@ -98,8 +106,8 @@ abstract class BaseRepository extends BaseModelTool implements RepositoryInterfa
     /**
      * @return ?Connection
      */
-    public function getDb(): ?Connection
+    public function getConnection(): ?Connection
     {
-        return $this->db;
+        return $this->connection;
     }
 }

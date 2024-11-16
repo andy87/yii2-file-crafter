@@ -2,8 +2,8 @@
 
 namespace common\components\base;
 
-use base\moels\items\core\BaseModel;
-use base\services\items\core\BaseService;
+use common\components\base\moels\items\core\BaseModel;
+use common\components\base\services\items\core\BaseService;
 use interfaces\services\core\ModelUsabilityInterface;
 
 /**

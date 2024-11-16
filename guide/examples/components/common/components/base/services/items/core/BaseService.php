@@ -1,27 +1,32 @@
 <?php declare(strict_types=1);
 
-namespace base\services\items\core;
+namespace common\components\base\services\items\core;
 
 use Yii;
 use Exception;
 use yii\base\BaseObject;
 use interfaces\LoggerInterface;
 use common\components\base\Logger;
+use common\components\base\moels\items\core\BaseModel;
 
 /**
- * Base class for all service
+ * Родительский абстрактный класс для всех сервисов
+ *  использующих BaseModel
  *
  * @package common\components\base\providers
+ *
+ * @property BaseModel|string $modelClass
  *
  * @tag: #base #provider
  */
 abstract class BaseService extends BaseObject
 {
-    /** @var array  */
-    protected array $loggerConfig;
+    /** @var array|string */
+    protected array|string $configLogger;
 
     /** @var LoggerInterface */
     protected LoggerInterface $logger;
+
 
 
     /**
@@ -37,22 +42,28 @@ abstract class BaseService extends BaseObject
      */
     private function setupLogger(): void
     {
-        if ( isset($this->loggerConfig) ) {
+        if ( isset($this->configLogger) )
+        {
             $this->logger = $this->getLogger();
         }
     }
 
     /**
-     * @return LoggerInterface
+     * @return ?LoggerInterface
      *
      * @throws Exception
      */
-    private function getLogger(): LoggerInterface
+    private function getLogger(): ?LoggerInterface
     {
-        /** @var LoggerInterface $logger */
-        $logger = Yii::createObject($this->loggerClass);
+        if (isset($this->loggerClass))
+        {
+            /** @var LoggerInterface $logger */
+            $logger = Yii::createObject($this->loggerClass);
 
-        return $logger;
+            return $logger;
+        }
+
+       return null;
     }
 
     /**
@@ -67,8 +78,7 @@ abstract class BaseService extends BaseObject
      */
     public function handlerCatch( Exception $e, string $method, string $message, array $params ): bool
     {
-        return ( isset($this->logger) )
-            ? $this->logger->catcher( ...func_get_args() )
-            : Logger::logCatch( ...func_get_args() );
+        $params = func_get_args();
+        return ( isset($this->logger) ) ? $this->logger->catcher( ...$params ) : Logger::logCatch( ...$params );
     }
 }

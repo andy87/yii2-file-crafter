@@ -2,7 +2,7 @@
 
 namespace interfaces\servcies;
 
-use base\providers\items\core\BaseProvider;
+use common\components\base\providers\items\core\BaseProvider;
 
 /**
  * Logger Interface

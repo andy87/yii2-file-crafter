@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace base\providers\items\core;
+namespace common\components\base\providers\items\core;
 
 use Exception;
-use base\moels\items\core\BaseModel;
+use common\components\base\moels\items\core\BaseModel;
 use common\components\base\BaseModelTool;
 use interfaces\provider\ProviderInterface;
 
 /**
- * Родительский класс для всех провайдеров использующих BaseModel
+ * Родительский абстрактный класс для всех провайдеров
+ *  использующих BaseModel
  *
  * @package common\components\base\providers
  *
@@ -31,7 +32,7 @@ abstract class BaseProvider extends BaseModelTool implements ProviderInterface
      *
      * @throws Exception
      */
-    public function create( array $params, bool $runSave = false ): ?BaseModel
+    public function create( array $params = [], bool $runSave = false ): ?BaseModel
     {
         try
         {

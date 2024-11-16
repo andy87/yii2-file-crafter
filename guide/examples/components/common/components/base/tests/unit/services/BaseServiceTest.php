@@ -2,16 +2,18 @@
 
 namespace common\components\base\tests\unit;
 
+use common\components\base\tests\core\BaseUnitTest;
+
 /**
  * Base Service Test
  *
  * @package common\components\base\tests\unit
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/models/BaseServiceTest
+ * @cli ./vendor/bin/codecept run common/components/base/tests/unit/service/BaseServiceTest
  *
  * @tag: #base #test #service
  */
-class BaseServiceTest
+abstract class BaseServiceTest extends BaseUnitTest
 {
 
 }
