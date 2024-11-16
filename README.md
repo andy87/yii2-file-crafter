@@ -71,7 +71,7 @@ Minimum config
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
-            'class' => Crafter::class,
+            'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
                 'templates' => [
                     'group_name' => [
@@ -93,7 +93,7 @@ Full Config with all options
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
-            'class' => Crafter::class,
+            'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
                 'cache' => [
                     'dir' => '@runtime/yii2-file-crafter/cache',
@@ -110,7 +110,7 @@ Full Config with all options
                 'commands' => [
                     'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}}' //...
                 ],
-                'eventHandlers' => FileCrafterBehavior::class,
+                'eventHandlers' => app\composents\behavior\FileCrafterBehavior::class,
                 'autoCompleteStatus' => true,
                 'autoCompleteList' => [
                     'autocomplete name 1',

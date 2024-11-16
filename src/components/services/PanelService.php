@@ -157,11 +157,14 @@ class PanelService
 
             $content = $this->cacheService->getContentCacheFile($fileName);
 
-            $params = json_decode($content, true);
+            if ($content)
+            {
+                $params = json_decode($content, true);
 
-            $schema = $this->schemaProducer->create($params);
+                $schema = $this->schemaProducer->create($params);
 
-            $listSchemaDto[] = $schema;
+                $listSchemaDto[] = $schema;
+            }
         }
 
         return $listSchemaDto;
