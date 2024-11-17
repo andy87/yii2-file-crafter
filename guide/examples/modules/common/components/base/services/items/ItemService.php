@@ -2,15 +2,11 @@
 
 namespace app\common\components\base\services\items;
 
-use Yii;
-use Exception;
-use Throwable;
-use yii\data\ActiveDataProvider;
-use yii\db\StaleObjectException;
-use interfaces\models\SearchModelInterface;
-use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\base\providers\items\core\BaseProvider;
-use app\common\components\base\repository\items\cote\BaseRepository;
+
+use { Yii, Exception, Throwable };
+use yii\{ db\StaleObjectException, data\ActiveDataProvider };
+use app\backend\models\search\items\BackendSearchPascalCase;
+use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };
 
 /**
  * Базовый абстрактный класс для всех сервисов
@@ -23,7 +19,7 @@ use app\common\components\base\repository\items\cote\BaseRepository;
  * @property BaseProvider $provider
  * @property BaseRepository $repository
  *
- * @tag: #base #provider
+ * @tag: #boilerTemplate #provider
  */
 abstract class ItemService extends ModelService
 {
@@ -33,8 +29,8 @@ abstract class ItemService extends ModelService
     /** @var array */
     protected array $configRepository;
 
-    /** @var SearchModelInterface|string */
-    protected SearchModelInterface|string $searchModelClass;
+    /** @var BackendSearchPascalCase|string */
+    protected BackendSearchPascalCase|string $searchModelClass;
 
     /** @var ActiveDataProvider|string */
     protected ActiveDataProvider|string $dataProviderClass = ActiveDataProvider::class;
@@ -139,29 +135,27 @@ abstract class ItemService extends ModelService
      * @param array $params
      * @param string $formName
      *
-     * @return SearchModelInterface
+     * @return BackendSearchPascalCase
      */
-    public function getSearchModel( array $params = [], string $formName = ''): SearchModelInterface
+    public function getSearchModel( array $params = [], string $formName = ''): BackendSearchPascalCase
     {
         $className = $this->searchModelClass;
 
+        /** @var BackendSearchPascalCase $searchModel */
         $searchModel = new $className();
 
-        if (count($params))
-        {
-            $searchModel->load( $params, $formName );
-        }
+        if (count($params)) $searchModel->load( $params, $formName );
 
         return $searchModel;
     }
 
     /**
-     * @param SearchModelInterface $searchModel
+     * @param BackendSearchPascalCase $searchModel
      * @param array $params
      *
      * @return ActiveDataProvider
      */
-    public function getDataProviderBySearchModel(SearchModelInterface $searchModel, array $params = []): ActiveDataProvider
+    public function getDataProviderBySearchModel(BackendSearchPascalCase $searchModel, array $params = []): ActiveDataProvider
     {
         $className = $this->dataProviderClass;
 
@@ -182,7 +176,9 @@ abstract class ItemService extends ModelService
         /** @var ?BaseModel $model */
         $model = $this->getOne(['id' => $id]);
 
-        return $model;
+        if ($model) return $model;
+
+        return null;
     }
 
     /**

@@ -13,6 +13,6 @@ use app\common\components\base\moels\items\core\BaseModel;
  */
 abstract class BaseViewResource extends BaseTemplateResource
 {
-    /** @var BaseModel */
-    public BaseModel $model;
+    /** @var ?BaseModel */
+    public ?BaseModel $model = null;
 }

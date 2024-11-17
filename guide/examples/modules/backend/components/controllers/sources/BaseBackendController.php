@@ -2,19 +2,10 @@
 
 namespace app\backend\components\controllers\sources;
 
-use Yii;
-use Exception;
-use Throwable;
-use yii\web\Response;
-use yii\db\StaleObjectException;
-use app\common\components\{ Action, Notify };
-use app\common\components\base\services\items\ItemService;
-use app\common\components\base\controllers\core\BaseWebController;
-use app\components\common\components\base\resources\sources\BaseViewResource;
-use app\components\common\components\base\resources\sources\BaseCreateResource;
-use app\components\common\components\base\resources\sources\BaseUpdateResource;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\components\common\components\base\resources\sources\BaseGridViewResource;
+use { Yii, Exception, Throwable };
+use yii\{ db\StaleObjectException, filters\AccessControl, web\Response, web\ErrorAction };
+use app\common\components\{ Action, Notify, base\services\items\ItemService, base\controllers\core\BaseWebController };
+use app\components\common\components\base\resources\sources\{ BaseViewResource, BaseCreateResource, BaseUpdateResource, BaseTemplateResource, BaseGridViewResource };
 
 /**
  * < Backend > Родительский класс для всех контроллеров бэкенда
@@ -33,6 +24,9 @@ abstract class BaseBackendController extends BaseWebController
 
 
 
+    /**
+     * @return void
+     */
     public function init(): void
     {
         parent::init();
@@ -47,7 +41,7 @@ abstract class BaseBackendController extends BaseWebController
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
             ],
         ];
     }
@@ -59,7 +53,7 @@ abstract class BaseBackendController extends BaseWebController
     {
         return [
             'access' => [
-                'class' => \yii\filters\AccessControl::class,
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -145,10 +139,7 @@ abstract class BaseBackendController extends BaseWebController
 
         $R->model = $this->service->getItemById( $id );
 
-        if ( $R->model )
-        {
-            return $this->renderResource( $R );
-        }
+        if ( $R->model ) return $this->renderResource( $R );
 
         $this->sendNotify('Запись не найдена.', Notify::ERROR );
 
@@ -204,7 +195,7 @@ abstract class BaseBackendController extends BaseWebController
 
         $R->model = $this->service->getItemById( $id );
 
-        if ($R->model)
+        if (Yii::$app->request->isPost)
         {
             if ( $this->service->updateModel($R->model, $params) )
             {
@@ -258,7 +249,6 @@ abstract class BaseBackendController extends BaseWebController
     {
         Notify::send( $message, $template );
     }
-
 
     /**
      * @return Response

@@ -3,7 +3,7 @@
 namespace app\backend\resources\items\snake_case;
 
 use app\backend\models\search\items\BackendSearchPascalCase;
-use app\backend\components\data_providers\PascalCaseDataProvider;
+use app\common\components\data_providers\items\PascalCaseDataProvider;
 use app\components\common\components\base\resources\sources\BaseGridViewResource;
 
 /**

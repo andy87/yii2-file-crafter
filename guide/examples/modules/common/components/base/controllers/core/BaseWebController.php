@@ -16,5 +16,6 @@ use yii\web\Controller;
  */
 abstract class BaseWebController extends Controller
 {
-
+    /** @var string */
+    public const ENDPOINT = '';
 }

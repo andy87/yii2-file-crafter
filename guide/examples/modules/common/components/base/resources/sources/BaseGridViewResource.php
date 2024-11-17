@@ -3,7 +3,7 @@
 namespace app\components\common\components\base\resources\sources;
 
 use yii\data\ActiveDataProvider;
-use interfaces\models\SearchModelInterface;
+use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
  * Base class for all resources on index page
@@ -17,5 +17,6 @@ abstract class BaseGridViewResource extends BaseTemplateResource
     /** @var ActiveDataProvider */
     public ActiveDataProvider $activeDataProvider;
 
+    /** @var SearchModelInterface */
     public SearchModelInterface $searchModel;
 }

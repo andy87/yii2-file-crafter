@@ -11,7 +11,6 @@ return [
         'common/services/ItemProvider' => 'app/common/services/providers/{{PascalCase}}Provider.php',
         'common/components/data_providers/ItemDataProvider' => 'app/common/components/data_providers/items/{{PascalCase}}DataProvider.php',
         'common/tests/unit/models/items/ItemTest' => 'app/common/tests/unit/models/{{PascalCase}}Test.php',
-
         'common/tests/unit/services/ItemRepositoryTest' => 'app/common/tests/unit/services/repositories/{{PascalCase}}RepositoryTest.php',
         'common/tests/unit/services/ItemProviderTest' => 'app/common/tests/unit/services/providers/{{PascalCase}}ProviderTest.php',
         'common/tests/unit/services/ItemServiceTest' => 'app/common/tests/unit/services/items/{{PascalCase}}ServiceTest.php',

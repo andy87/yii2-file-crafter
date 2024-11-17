@@ -2,8 +2,9 @@
 
 namespace app\backend\controllers;
 
-use app\backend\components\controllers\sources\BaseBackendController;
+use app\backend\services\items\PascalCaseService;
 use app\common\components\base\services\items\ItemService;
+use app\backend\components\controllers\sources\BaseBackendController;
 
 /**
  * BoilerplateTemplate Контроллер для модели `PascalCase`
@@ -14,6 +15,10 @@ use app\common\components\base\services\items\ItemService;
  */
 class PascalCaseController extends BaseBackendController
 {
+    /** @var string endpoint контроллера */
+    public const ENDPOINT = 'kebab-case';
+
+    /** @var string класс сервиса */
     protected ItemService|string $classnameService = PascalCaseService::class;
 
 }
