@@ -6,7 +6,7 @@ use Yii;
 use app\components\common\components\base\resources\BaseResource;
 
 /**
- * Base class for all resources with template
+ * < Common > Base class for all resources with template
  *
  * @package app\common\components\base\resources
  *

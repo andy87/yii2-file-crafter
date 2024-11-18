@@ -7,7 +7,7 @@ use app\common\components\base\tests\core\BaseUnitTest;
 use yii\base\InvalidConfigException;
 
 /**
- * Base Model Test
+ * < Common > Base Model Test
  *
  * @package app\common\components\base\tests\unit
  *

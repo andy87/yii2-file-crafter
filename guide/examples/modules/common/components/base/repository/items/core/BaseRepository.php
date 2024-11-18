@@ -3,13 +3,13 @@
 namespace app\common\components\base\repository\items\cote;
 
 use Exception;
-use app\common\components\base\moels\items\core\BaseModel;
 use yii\db\{ActiveQuery, Connection};
 use app\common\components\base\BaseModelTool;
-use interfaces\repository\RepositoryInterface;
+use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\interfaces\services\core\RepositoryInterface;
 
 /**
- * Родительский абстрактный класс для всех репозиториев
+ * < Common > Родительский абстрактный класс для всех репозиториев
  *  использующих BaseModel
  *
  * @package app\common\components\base\providers

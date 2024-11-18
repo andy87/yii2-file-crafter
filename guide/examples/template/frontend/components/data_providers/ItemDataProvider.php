@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components\data_providers\items;
+namespace app\frontend\components\data_providers\items;
 
 use app\common\components\data_providers\items\PascalCaseDataProvider;
 

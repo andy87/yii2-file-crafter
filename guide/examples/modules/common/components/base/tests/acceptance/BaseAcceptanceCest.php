@@ -2,20 +2,16 @@
 
 namespace app\common\components\base\tests\acceptance;
 
-use app\frontend\tests\AcceptanceTester;
-
 /**
- * Base Acceptance Test
- *
- * @property AcceptanceTester $I
+ * < Common > Base Acceptance Test
  *
  * @package app\common\components\base\tests\acceptance
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/acceptance/BaseAcceptanceCest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/acceptance/BaseAcceptanceCest
  *
  * @tag: #base #test #acceptance
  */
-class BaseAcceptanceCest
+abstract class BaseAcceptanceCest
 {
 
 }

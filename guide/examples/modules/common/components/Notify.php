@@ -2,12 +2,11 @@
 
 namespace app\common\components;
 
-use app\common\components\base\Logger;
-use app\common\components\base\services\items\core\BaseService;
 use Yii;
+use app\common\components\base\Logger;
 
 /**
- * Class Notify
+ * < Common > Class Notify
  *
  * @package app\common\components
  *

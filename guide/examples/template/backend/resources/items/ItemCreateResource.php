@@ -10,6 +10,8 @@ use app\components\common\components\base\resources\sources\BaseCreateResource;
  *
  * @property {{PascalCase}} $form
  *
+ * @property PascalCase $form
+ *
  * @package app\backend\resources\items
  */
 class PascalCaseCreateResource extends BaseCreateResource

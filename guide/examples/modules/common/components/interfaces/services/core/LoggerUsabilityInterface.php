@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace interfaces\services\core;
+namespace app\common\components\interfaces\services\core;
 
-use interfaces\LoggerInterface;
+use app\common\components\interfaces\LoggerInterface;
 
 /**
  * LoggerUsability Interface
  *
- * @package app\common\components\interfaces
+ * @package app\common\components\interfaces\services\core
  *
  * @tag: #base #interface #usability #logger
  */

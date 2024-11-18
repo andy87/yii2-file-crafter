@@ -10,6 +10,8 @@ use app\components\common\components\base\resources\sources\BaseViewResource;
  *
  * @property {{PascalCase}} $form
  *
+ * @property PascalCase $model
+ *
  * @package app\backend\resources\items\{{snake_case}}
  */
 class PascalCaseViewResource extends BaseViewResource

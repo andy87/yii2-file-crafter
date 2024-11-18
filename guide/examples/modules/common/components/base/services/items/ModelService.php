@@ -10,7 +10,7 @@ use app\common\components\base\repository\items\cote\BaseRepository;
 use app\common\components\base\BaseModelTool;
 
 /**
- * Базовый абстрактный класс для всех сервисов
+ * < Common > Базовый абстрактный класс для всех сервисов
  *      использующих BaseModel
  *      требует установки провайдера и репозитория
  *

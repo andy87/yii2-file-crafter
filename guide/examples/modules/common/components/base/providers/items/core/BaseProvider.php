@@ -3,12 +3,13 @@
 namespace app\common\components\base\providers\items\core;
 
 use Exception;
-use app\common\components\base\moels\items\core\BaseModel;
 use app\common\components\base\BaseModelTool;
-use interfaces\provider\ProviderInterface;
+use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\interfaces\provider\ProviderInterface;
+
 
 /**
- * Родительский абстрактный класс для всех провайдеров
+ * < Common > Родительский абстрактный класс для всех провайдеров
  *  использующих BaseModel
  *
  * @package app\common\components\base\providers

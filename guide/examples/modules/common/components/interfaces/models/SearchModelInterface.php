@@ -7,7 +7,7 @@ use yii\db\ActiveQueryInterface;
 /**
  * Interface SearchModelInterface
  *
- * @package interfaces\models
+ * @package app\common\components\interfaces\models
  *
  * @tag #interface #model #search
  */

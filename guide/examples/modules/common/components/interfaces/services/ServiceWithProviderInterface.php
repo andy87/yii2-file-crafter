@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace interfaces\servcies;
+namespace app\components\interfaces\services;
 
 use app\common\components\base\providers\items\core\BaseProvider;
 
 /**
  * Logger Interface
  *
- * @package app\common\components\interfaces
+ * @package app\components\interfaces\services
  *
  * @tag: #base #interface #logger
  */

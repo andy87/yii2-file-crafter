@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace interfaces;
+namespace app\common\components\interfaces;
 
 use Exception;
 

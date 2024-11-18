@@ -5,7 +5,7 @@ namespace app\common\components\base\moels\items\core;
 use yii\db\ActiveRecord;
 
 /**
- * Родительский класс для всех моделей базы данных
+ * < Common > Родительский класс для всех моделей базы данных
  *
  * @package app\common\components\base\models\items
  *

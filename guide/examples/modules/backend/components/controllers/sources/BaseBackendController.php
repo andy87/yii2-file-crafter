@@ -114,16 +114,7 @@ abstract class BaseBackendController extends BaseWebController
      *
      * @return BaseTemplateResource|string
      */
-    public function resources(string $action): BaseTemplateResource|string
-    {
-        return match ($action){
-            Action::INDEX => BaseGridViewResource::class,
-            Action::VIEW => BaseViewResource::class,
-            Action::CREATE => BaseCreateResource::class,
-            Action::UPDATE => BaseUpdateResource::class,
-            default => BaseTemplateResource::class,
-        };
-    }
+    abstract public function resources(string $action): BaseTemplateResource|string;
 
     /**
      * @param int $id

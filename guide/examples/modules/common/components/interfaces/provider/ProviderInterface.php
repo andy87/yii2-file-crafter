@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace interfaces\provider;
+namespace app\common\components\interfaces\provider;
 
 use app\common\components\base\moels\items\core\BaseModel;
 
 /**
  * Provider Interface
  *
- * @package app\common\components\interfaces
+ * @package app\common\components\interfaces\provider
  *
  * @tag: #base #interface #provider
  */

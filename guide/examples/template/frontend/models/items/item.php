@@ -1,6 +1,6 @@
 <?php
 
-namespace app\frotnend\models\items;
+namespace app\frontend\models\items;
 
 use app\common\models\items\PascalCase as PascalCase_Common;
 

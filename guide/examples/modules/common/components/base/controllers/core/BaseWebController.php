@@ -2,11 +2,10 @@
 
 namespace app\common\components\base\controllers\core;
 
-
 use yii\web\Controller;
 
 /**
- * Родительский класс для всех контроллеров веб-приложения
+ * < Common > Родительский класс для всех контроллеров веб-приложения
  * - BaseFrontendController
  * - BaseBackendController
  *

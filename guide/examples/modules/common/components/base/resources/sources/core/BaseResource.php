@@ -5,7 +5,7 @@ namespace app\components\common\components\base\resources;
 use yii\base\BaseObject;
 
 /**
- * Base class for all resources
+ * < Common > Base class for all resources
  *
  * @package app\common\components\base\resources
  *

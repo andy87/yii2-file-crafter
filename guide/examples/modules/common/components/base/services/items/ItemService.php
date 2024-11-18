@@ -2,14 +2,13 @@
 
 namespace app\common\components\base\services\items;
 
-
 use { Yii, Exception, Throwable };
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
 use app\backend\models\search\items\BackendSearchPascalCase;
 use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };
 
 /**
- * Базовый абстрактный класс для всех сервисов
+ * < Common > Базовый абстрактный класс для всех сервисов
  *     использующих BaseModel
  *      требует установки констант провайдера и репозитория
  *

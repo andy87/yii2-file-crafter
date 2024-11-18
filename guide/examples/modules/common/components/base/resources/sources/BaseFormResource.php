@@ -2,10 +2,10 @@
 
 namespace app\components\common\components\base\resources\sources;
 
-use yii\base\Model;
+use app\common\components\base\moels\items\core\BaseModel;
 
 /**
- * Base class for all resources on page with form
+ * < Common > Base class for all resources on page with form
  *
  * @package app\common\components\base\resources
  *
@@ -13,6 +13,6 @@ use yii\base\Model;
  */
 abstract class BaseFormResource extends BaseTemplateResource
 {
-    /** @var Model */
-    public Model $form;
+    /** @var BaseModel */
+    public BaseModel $form;
 }

@@ -2,12 +2,11 @@
 
 namespace app\common\components\base;
 
-use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\base\services\items\core\BaseService;
-use interfaces\services\core\ModelUsabilityInterface;
+use app\common\components\interfaces\services\core\ModelUsabilityInterface;
+use app\common\components\{ base\moels\items\core\BaseModel, base\services\items\core\BaseService };
 
 /**
- * Родительский класс дающий доступ к базовым методам для работы с моделями
+ * < Common > Родительский класс дающий доступ к базовым методам для работы с моделями
  *
  * @package app\common\components\base
  *

@@ -3,7 +3,7 @@
 namespace app\common\components;
 
 /**
- * Class Action
+ * < Common > Class Action
  *
  * @package app\common\components
  *

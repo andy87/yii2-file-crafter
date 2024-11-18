@@ -2,15 +2,14 @@
 
 namespace app\common\components\base;
 
-use Yii;
-use Exception;
+use { Yii, Exception };
 use yii\console\Controller;
-use interfaces\LoggerInterface;
+use app\common\components\interfaces\LoggerInterface;
 
 /**
- * Logger
+ * < Common > Logger
  *
- * @package app\common\components
+ * @package app\common\components\base
  *
  * @tag: #component #logger
  */

@@ -2,12 +2,9 @@
 
 namespace app\common\components\base\tests\unit;
 
-use app\frontend\tests\AcceptanceTester;
 
 /**
- * Base Controller Test
- *
- * @property AcceptanceTester $I
+ * < Common > Base Controller Test
  *
  * @package app\common\components\base\tests\unit
  *

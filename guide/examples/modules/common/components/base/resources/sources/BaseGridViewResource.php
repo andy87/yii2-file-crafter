@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
- * Base class for all resources on index page
+ * < Common > Base class for all resources on index page
  *
  * @package app\common\components\base\resources
  *
