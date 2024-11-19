@@ -3,7 +3,7 @@
 namespace app\backend\resources\items\snake_case;
 
 use app\backend\models\items\PascalCase;
-use app\components\common\components\base\resources\sources\BaseFormResource;
+use app\components\common\components\base\resources\sources\crud\BaseFormResource;
 
 /**
  * BoilerplateTemplate для ресурса формы `{{PascalCase}}`

@@ -4,7 +4,7 @@ namespace app\frontend\resources\items\snake_case;
 
 use app\frontend\models\search\items\frontendSearchPascalCase;
 use app\common\components\data_providers\items\PascalCaseDataProvider;
-use app\components\common\components\base\resources\sources\BaseGridViewResource;
+use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
 
 /**
  * BoilerplateTemplate для ресурса формы `{{PascalCase}}`

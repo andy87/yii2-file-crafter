@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\components\common\components\base\resources\sources;
+namespace app\components\common\components\base\resources\sources\crud;
 
 use app\common\components\base\moels\items\core\BaseModel;
 

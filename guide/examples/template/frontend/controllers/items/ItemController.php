@@ -3,7 +3,7 @@
 namespace app\frontend\controllers;
 
 use app\common\components\{ Action, base\services\items\ItemService };
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\components\common\components\base\resources\sources\crud\BaseTemplateResource;
 use app\frontend\{ services\items\PascalCaseService, components\controllers\sources\BaseFrontendController };
 use app\frontend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
 
