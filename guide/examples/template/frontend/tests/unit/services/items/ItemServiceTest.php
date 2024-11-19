@@ -1,8 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace app\front\tests\unit\services\items;
+namespace app\frontend\tests\unit\services\items;
 
-class PascalCaseServiceTest
+use app\common\components\base\tests\unit\services\BaseServiceTest;
+
+/**
+ * < Frontend > PascalCaseServiceTest
+ *
+ * @package app\frontend\tests\unit\services\items
+ *
+ * @tag #frontend #test #service
+ */
+class PascalCaseServiceTest extends BaseServiceTest
 {
 
 }

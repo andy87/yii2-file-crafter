@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\base\tests\unit;
+namespace app\common\components\base\tests\unit\providers;
 
 use Yii;
 use Exception;
 use yii\base\InvalidConfigException;
-use app\common\components\base\tests\core\BaseUnitTest;
+use app\common\components\base\tests\unit\core\BaseUnitTest;
 use app\common\components\base\moels\items\core\BaseModel;
 use app\common\components\base\providers\items\core\BaseProvider;
 

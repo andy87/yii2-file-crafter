@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\base\tests\unit;
+namespace app\common\components\base\tests\unit\models;
 
-use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\base\tests\core\BaseUnitTest;
 use yii\base\InvalidConfigException;
+use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\base\tests\unit\core\BaseUnitTest;
 
 /**
  * < Common > Base Model Test

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\tests\unit\services\repository;
+namespace app\console\tests\unit\services\repository;
 
 use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
 
 /**
- * < Backend > PascalCaseProviderTest
+ * < Console > PascalCaseProviderTest
  *
- * @package app\backend\tests\unit\services\repository
+ * @package app\console\tests\unit\services\repository
  *
- * @tag #backend #test #service
+ * @tag #console #test #service
  */
 class PascalCaseRepositoryTest extends BaseRepositoryTest
 {

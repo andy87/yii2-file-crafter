@@ -2,10 +2,16 @@
 
 namespace app\common\tests\unit\services\items;
 
+use app\common\components\base\tests\unit\services\BaseServiceTest;
+
 /**
- * Test for class `PascalCaseService`
+ * < Common > PascalCaseServiceTest
+ *
+ * @package app\common\tests\unit\services\items
+ *
+ * @tag #common #test #service
  */
-class PascalCaseServiceTest extends \app\common\componetns\unit\services\BaseServiceTest
+class PascalCaseServiceTest extends BaseServiceTest
 {
 
 }
