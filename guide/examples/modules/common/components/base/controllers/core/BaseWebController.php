@@ -6,7 +6,6 @@ use { Yii, Throwable, Exception };
 use yii\web\{ ErrorAction, Controller };
 use yii\{ base\Response, filters\AccessControl, db\StaleObjectException };
 use app\common\components\{ Action, Notify, base\services\items\ItemService };
-use app\frontend\resources\items\snake_case\{ PascalCaseCreateResource, PascalCaseGridViewResource, PascalCaseUpdateResource, PascalCaseViewResource };
 use app\components\common\components\base\resources\sources\{ BaseCreateResource, BaseListViewResource, BaseUpdateResource, BaseViewResource, BaseGridViewResource, BaseTemplateResource };
 
 /**
@@ -20,10 +19,10 @@ use app\components\common\components\base\resources\sources\{ BaseCreateResource
  */
 abstract class BaseWebController extends Controller
 {
-    public const INDEX_RESOURCES = PascalCaseGridViewResource::class;
-    public const VIEW_RESOURCES = PascalCaseViewResource::class;
-    public const CREATE_RESOURCES = PascalCaseCreateResource::class;
-    public const UPDATE_RESOURCES = PascalCaseUpdateResource::class;
+    public const INDEX_RESOURCES = BaseGridViewResource::class;
+    public const VIEW_RESOURCES = BaseViewResource::class;
+    public const CREATE_RESOURCES = BaseCreateResource::class;
+    public const UPDATE_RESOURCES = BaseUpdateResource::class;
     public const DEFAULT_RESOURCES = BaseTemplateResource::class;
 
 
