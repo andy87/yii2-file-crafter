@@ -9,7 +9,7 @@ use app\common\models\search\items\PascalCaseSearch as PascalCaseSearch_Common;
  *
  * @package app\backend\models\search\items
  */
-class SearchPascalCase extends PascalCaseSearch_Common
+class PascalCaseSearch extends PascalCaseSearch_Common
 {
     // BoilerplateTemplate
 }
