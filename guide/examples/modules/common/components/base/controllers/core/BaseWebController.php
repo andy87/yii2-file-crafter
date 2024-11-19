@@ -2,7 +2,7 @@
 
 namespace app\common\components\base\controllers\core;
 
-use yii\web\Controller;
+use yii\web\{ ErrorAction, Controller };
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
@@ -17,4 +17,18 @@ abstract class BaseWebController extends Controller
 {
     /** @var string */
     public const ENDPOINT = '';
+
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actions(): array
+    {
+        return [
+            'error' => [
+                'class' => ErrorAction::class,
+            ],
+        ];
+    }
 }
