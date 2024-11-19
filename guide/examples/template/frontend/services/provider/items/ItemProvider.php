@@ -2,7 +2,7 @@
 
 namespace app\frontend\services\provider\items;
 
-use app\common\services\provider\items\PascalCaseProvide as Common_PascalCaseProvider;
+use app\common\services\provider\items\PascalCaseProvider as Common_PascalCaseProvider;
 
 /**
  * < Frontend > provide for model `PascalCase`
@@ -11,7 +11,7 @@ use app\common\services\provider\items\PascalCaseProvide as Common_PascalCasePro
  *
  * @tag #frontend #provider #items #{{snake_case}}
  */
-class PascalCaseProvide extends Common_PascalCaseProvider
+class PascalCaseProvider extends Common_PascalCaseProvider
 {
 
 }

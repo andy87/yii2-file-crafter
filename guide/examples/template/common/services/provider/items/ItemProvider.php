@@ -11,7 +11,7 @@ use app\common\components\base\providers\items\core\BaseProvider;
  *
  * @tag #common #provider #items #{{snake_case}}
  */
-class PascalCaseProvide extends BaseProvider
+class PascalCaseProvider extends BaseProvider
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace app\console\services\provider\items;
 
-use app\common\services\provider\items\PascalCaseProvide as Common_PascalCaseProvider;
+use app\common\services\provider\items\PascalCaseProvider as Common_PascalCaseProvider;
 
 /**
  * < Console > provide for model `PascalCase`
@@ -11,7 +11,7 @@ use app\common\services\provider\items\PascalCaseProvide as Common_PascalCasePro
  *
  * @tag #console #provider #items #{{snake_case}}
  */
-class PascalCaseProvide extends Common_PascalCaseProvider
+class PascalCaseProvider extends Common_PascalCaseProvider
 {
 
 }
