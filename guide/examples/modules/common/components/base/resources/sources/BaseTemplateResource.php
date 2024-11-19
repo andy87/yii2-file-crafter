@@ -12,7 +12,7 @@ use app\components\common\components\base\resources\BaseResource;
  *
  * @tag: #base #resource #template
  */
-abstract class BaseTemplateResource extends BaseResource
+class BaseTemplateResource extends BaseResource
 {
     /** @var string Title */
     public string $title;

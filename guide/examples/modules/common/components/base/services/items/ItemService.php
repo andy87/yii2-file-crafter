@@ -4,7 +4,7 @@ namespace app\common\components\base\services\items;
 
 use { Yii, Exception, Throwable };
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
-use app\backend\models\search\items\BackendSearchPascalCase;
+use app\frontend\models\search\items\PascalCaseSearch;
 use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };
 
 /**
@@ -28,8 +28,8 @@ abstract class ItemService extends ModelService
     /** @var array */
     protected array $configRepository;
 
-    /** @var BackendSearchPascalCase|string */
-    protected BackendSearchPascalCase|string $searchModelClass;
+    /** @var PascalCaseSearch|string */
+    protected PascalCaseSearch|string $searchModelClass;
 
     /** @var ActiveDataProvider|string */
     protected ActiveDataProvider|string $dataProviderClass = ActiveDataProvider::class;
@@ -134,13 +134,13 @@ abstract class ItemService extends ModelService
      * @param array $params
      * @param string $formName
      *
-     * @return BackendSearchPascalCase
+     * @return PascalCaseSearch
      */
-    public function getSearchModel( array $params = [], string $formName = ''): BackendSearchPascalCase
+    public function getSearchModel( array $params = [], string $formName = ''): PascalCaseSearch
     {
         $className = $this->searchModelClass;
 
-        /** @var BackendSearchPascalCase $searchModel */
+        /** @var PascalCaseSearch $searchModel */
         $searchModel = new $className();
 
         if (count($params)) $searchModel->load( $params, $formName );
@@ -149,12 +149,12 @@ abstract class ItemService extends ModelService
     }
 
     /**
-     * @param BackendSearchPascalCase $searchModel
+     * @param PascalCaseSearch $searchModel
      * @param array $params
      *
      * @return ActiveDataProvider
      */
-    public function getDataProviderBySearchModel(BackendSearchPascalCase $searchModel, array $params = []): ActiveDataProvider
+    public function getDataProviderBySearchModel(PascalCaseSearch $searchModel, array $params = []): ActiveDataProvider
     {
         $className = $this->dataProviderClass;
 
