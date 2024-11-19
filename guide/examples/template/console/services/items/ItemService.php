@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\services\items;
+namespace app\console\services\items;
 
 use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 
 /**
- * < Frontend > Сервис для работы с сущностью `{{PascalCase}}`
+ * < Console > Сервис для работы с сущностью `{{PascalCase}}`
  *
  * @package app\console\services\items
  *
- * @tag #frontend #service #items #{{snake_case}}
+ * @tag #console #service #items #{{snake_case}}
  */
 class PascalCaseService extends Common_PascalCaseService
 {
