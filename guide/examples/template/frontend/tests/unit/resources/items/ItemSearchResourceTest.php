@@ -2,16 +2,16 @@
 
 namespace app\frontend\tests\unit\services\providers;
 
-use common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
+use common\components\base\tests\unit\resources\items\BaseSearchResourceTest;
 
 /**
- * < Frontend > ItemIndexResourceTest
+ * < Frontend > ItemSearchResourceTest
  *
  * @package app\frontend\tests\unit\services\providers
  *
  * @tag #frontend #test #service
  */
-class ItemIndexResourceTest extends BaseIndexResourceTest
+class ItemSearchResourceTest extends BaseSearchResourceTest
 {
 
 }
