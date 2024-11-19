@@ -10,6 +10,8 @@ use app\common\components\interfaces\models\SearchModelInterface;
  * < Frontend > BoilerplateTemplate для поисковой модели модели `{{PascalCase}}`
  *
  * @package app\common\models\search\items
+ *
+ * @tag #common #search #{{snake_case}}
  */
 class PascalCaseSearch extends PascalCase implements SearchModelInterface
 {
