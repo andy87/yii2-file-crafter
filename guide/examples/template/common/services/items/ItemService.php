@@ -9,7 +9,7 @@ use app\common\components\base\services\items\ItemService;
  *
  * @package app\common\services\items
  *
- * @tag: #base #service #item
+ * @tag: #common #base #service #item
  */
 class PascalCaseService extends ItemService
 {
