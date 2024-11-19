@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\tests\unit\models\items;
+namespace app\console\tests\unit\models\items;
 
 use app\common\components\base\tests\unit\models\BaseModelTest;
 
 /**
- * < Frontend > PascalCaseServiceTest
+ * < Console > PascalCaseServiceTest
  *
- * @package app\frontend\tests\unit\models\items
+ * @package app\console\tests\unit\models\items
  *
- * @tag #frontend #test #model
+ * @tag #console #test #model
  */
 class PascalCaseTest extends BaseModelTest
 {
