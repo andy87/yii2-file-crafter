@@ -2,33 +2,35 @@
 
 namespace app\backend\tests\functional\items;
 
+use Codeception\Actor;
 use app\backend\tests\FunctionalTester;
+use app\common\components\base\tests\unit\BaseWebControllerCest;
 
 /**
  * < Backend > Тесты контроллера `PascalCaseController`
  *
  * @property  FunctionalTester $I
  *
- * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest
+ * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest
  *
  * @package app\backend\tests\functional\items
  *
  * @tag #backend #tests #functional #ContactCest
  */
-class PascalCaseControllerCest
+class PascalCaseWebControllerCest extends BaseWebControllerCest
 {
     /**
      * Тестирование экшена `index` контроллера `PascalCaseController`
      *
-     * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest:checkIndex
+     * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest:checkIndex
      *
-     * @param  FunctionalTester $I
+     * @param  FunctionalTester|Actor $I
      *
      * @return void
      *
      * @tag #backend #tests #functional #action #index
      */
-    public function checkIndex( FunctionalTester $I ): void
+    public function checkIndex( FunctionalTester|Actor $I ): void
     {
         //$I->see( $this->form::TITLE, 'h1');
     }
@@ -36,15 +38,15 @@ class PascalCaseControllerCest
     /**
      * Тестирование экшена `create` контроллера `PascalCaseController`
      *
-     * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest:checkCreate
+     * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest:checkCreate
      *
-     * @param  FunctionalTester $I
+     * @param  FunctionalTester|Actor $I
      *
      * @return void
      *
      * @tag #backend #tests #functional #action #create
      */
-    public function checkCreate( FunctionalTester $I ): void
+    public function checkCreate( FunctionalTester|Actor $I ): void
     {
         //$I->see($this->form::TITLE, 'h1');
     }
@@ -52,15 +54,15 @@ class PascalCaseControllerCest
     /**
      * Тестирование экшена `update` контроллера `PascalCaseController`
      *
-     * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest:checkUpdate
+     * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest:checkUpdate
      *
-     * @param  FunctionalTester $I
+     * @param  FunctionalTester|Actor $I
      *
      * @return void
      *
      * @tag #backend #tests #functional #action #update
      */
-    public function checkUpdate( FunctionalTester $I ): void
+    public function checkUpdate( FunctionalTester|Actor $I ): void
     {
         //$I->see($this->form::TITLE, 'h1');
     }
@@ -68,15 +70,15 @@ class PascalCaseControllerCest
     /**
      * Тестирование экшена `view` контроллера `PascalCaseController`
      *
-     * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest:checkView
+     * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest:checkView
      *
-     * @param  FunctionalTester $I
+     * @param  FunctionalTester|Actor $I
      *
      * @return void
      *
      * @tag #backend #tests #functional #action #view
      */
-    public function checkView( FunctionalTester $I ): void
+    public function checkView( FunctionalTester|Actor $I ): void
     {
         //$I->see($this->form::TITLE, 'h1');
     }
@@ -84,15 +86,15 @@ class PascalCaseControllerCest
     /**
      * Тестирование экшена `delete` контроллера `PascalCaseController`
      *
-     * @cli ./vendor/bin/codecept run app/backend/tests/functional/PascalCaseControllerCest:checkDelete
+     * @cli ./vendor/bin/codecept run app/backend/tests/functional/items/PascalCaseControllerCest:checkDelete
      *
-     * @param  FunctionalTester $I
+     * @param  FunctionalTester|Actor $I
      *
      * @return void
      *
      * @tag #backend #tests #functional #action #delete
      */
-    public function checkDelete( FunctionalTester $I ): void
+    public function checkDelete( FunctionalTester|Actor $I ): void
     {
         //$I->see($this->form::TITLE, 'h1');
     }

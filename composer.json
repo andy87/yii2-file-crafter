@@ -24,9 +24,16 @@
   "require-dev": {
     "yiisoft/yii2": "~2.0.45",
     "yiisoft/yii2-gii": "~2.2.0",
-    "phpunit/phpunit": "^10.5",
+    "phpunit/phpunit": "~9.5.0",
     "symfony/dom-crawler": "^6.0",
-    "symfony/browser-kit": "^6.0"
+    "symfony/browser-kit": "^6.0",
+    "codeception/codeception": "^5.0.0 || ^4.0",
+    "codeception/lib-innerbrowser": "^4.0 || ^3.0 || ^1.1",
+    "codeception/module-asserts": "^3.0 || ^1.1",
+    "codeception/module-yii2": "^1.1",
+    "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
+    "codeception/verify": "^3.0 || ^2.2",
+    "codeception/module-webdriver": "3.x-dev"
   },
 
   "autoload": {
