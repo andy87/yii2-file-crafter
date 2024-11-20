@@ -2,8 +2,9 @@
 
 namespace app\backend\components\controllers\sources;
 
+use Exception;
 use yii\{ filters\AccessControl, };
-use app\common\components\{ base\services\items\ItemService, base\controllers\core\BaseWebController };
+use app\common\components\{base\Logger, base\services\items\ItemService, base\controllers\core\BaseWebController};
 use app\backend\resources\items\snake_case\{ PascalCaseGridViewResource, PascalCaseCreateResource, PascalCaseUpdateResource, PascalCaseViewResource};
 
 /**
@@ -37,7 +38,26 @@ abstract class BaseBackendController extends BaseWebController
     {
         parent::init();
 
-        $this->service = new $this->classnameService();
+        $this->setupService();
+    }
+
+    /**
+     * @return bool
+     */
+    private function setupService(): bool
+    {
+        try
+        {
+            $this->service = new $this->classnameService();
+
+            return true;
+
+        } catch ( Exception $e ) {
+
+            Logger::logCatch($e,__METHOD__, 'Catch! setupService()');
+        }
+
+        return false;
     }
 
     /**

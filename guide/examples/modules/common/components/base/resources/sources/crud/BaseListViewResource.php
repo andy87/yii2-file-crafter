@@ -2,6 +2,7 @@
 
 namespace app\components\common\components\base\resources\sources\crud;
 
+use app\components\common\components\base\resources\sources\BaseTemplateResource;
 use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
 

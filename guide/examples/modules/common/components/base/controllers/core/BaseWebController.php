@@ -2,11 +2,16 @@
 
 namespace app\common\components\base\controllers\core;
 
-use { Yii, Throwable, Exception };
+use Yii, Throwable, Exception;
 use yii\web\{ ErrorAction, Controller };
 use yii\{ base\Response, filters\AccessControl, db\StaleObjectException };
 use app\common\components\{ Action, Notify, base\services\items\ItemService };
-use app\components\common\components\base\resources\sources\{ BaseCreateResource, BaseListViewResource, BaseUpdateResource, BaseViewResource, BaseGridViewResource, BaseTemplateResource };
+use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\components\common\components\base\resources\sources\crud\{BaseCreateResource,
+    BaseGridViewResource,
+    BaseListViewResource,
+    BaseUpdateResource,
+    BaseViewResource};
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
@@ -19,15 +24,16 @@ use app\components\common\components\base\resources\sources\{ BaseCreateResource
  */
 abstract class BaseWebController extends Controller
 {
+    /** @var string */
+    public const ENDPOINT = '';
+
+
+    // Resources
     public const INDEX_RESOURCES = BaseGridViewResource::class;
     public const VIEW_RESOURCES = BaseViewResource::class;
     public const CREATE_RESOURCES = BaseCreateResource::class;
     public const UPDATE_RESOURCES = BaseUpdateResource::class;
     public const DEFAULT_RESOURCES = BaseTemplateResource::class;
-
-
-    /** @var string */
-    public const ENDPOINT = '';
 
 
 

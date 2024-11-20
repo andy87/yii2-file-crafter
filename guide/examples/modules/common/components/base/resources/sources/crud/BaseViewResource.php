@@ -3,6 +3,7 @@
 namespace app\components\common\components\base\resources\sources\crud;
 
 use app\common\components\base\moels\items\core\BaseModel;
+use app\components\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
  * < Common > Base class for all resources on view page

@@ -2,7 +2,7 @@
 
 namespace app\common\components\base\services\items\core;
 
-use { Yii, Exception };
+use Yii, Exception;
 use yii\base\BaseObject;
 use app\common\components\{ base\Logger, base\moels\items\core\BaseModel, interfaces\LoggerInterface };
 

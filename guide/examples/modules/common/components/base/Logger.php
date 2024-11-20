@@ -2,7 +2,7 @@
 
 namespace app\common\components\base;
 
-use { Yii, Exception };
+use Yii, Exception;
 use yii\console\Controller;
 use app\common\components\interfaces\LoggerInterface;
 
@@ -32,9 +32,7 @@ class Logger implements LoggerInterface
      */
     public function catcher(Exception $e, ?string $method, ?string $message, ?array $data = []): bool
     {
-        $this->logCatch($e, $method, $message, $data );
-
-        return true;
+        return $this->logCatch($e, $method, $message, $data );
     }
 
     /**
@@ -45,7 +43,7 @@ class Logger implements LoggerInterface
      *
      * @return bool
      */
-    public static function logCatch( Exception $e, string $method, string $message, array $params ): bool
+    public static function logCatch( Exception $e, string $method, string $message, array $params = [] ): bool
     {
         $log = self::createLogData( $method, $message, $params, [
             'message' => $e->getMessage(),
@@ -55,11 +53,9 @@ class Logger implements LoggerInterface
 
         if ( YII_ENV_DEV && Yii::$app instanceof \yii\web\Controller )
         {
-            Yii::$app->response?->headers?->add(
-                'catch',
-                json_encode($log, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE
-                )
-            );
+            $json = json_encode( $log, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE );
+
+            Yii::$app->response?->headers?->add( 'catch', $json );
         }
 
         return true;
@@ -75,9 +71,16 @@ class Logger implements LoggerInterface
      */
     public static function logError( string $method, string $message, array $params, ?array $exception = null ): bool
     {
-        $log = self::createLogData( $method, $message, $params, $exception );
+        try
+        {
+            $log = self::createLogData( $method, $message, $params, $exception );
 
-        Yii::error($log);
+            Yii::error($log);
+
+        } catch (Exception $e ) {
+
+            Logger::logCatch($e, __METHOD__, 'Catch! logError()', func_get_args() );
+        }
 
         return true;
     }
@@ -91,9 +94,16 @@ class Logger implements LoggerInterface
      */
     public static function logInfo( string $method, string $message, array $params ): bool
     {
-        $log = self::createLogData( $method, $message, $params );
+        try
+        {
+            $log = self::createLogData( $method, $message, $params );
 
-        Yii::info($log);
+            Yii::info($log);
+
+        } catch (Exception $e ) {
+
+            Logger::logCatch($e, __METHOD__, 'Catch! logInfo()', func_get_args() );
+        }
 
         return true;
     }
@@ -107,9 +117,16 @@ class Logger implements LoggerInterface
      */
     public static function logWarning( string $method, string $message, array $params ): bool
     {
-        $log = self::createLogData( $method, $message, $params );
+        try
+        {
+            $log = self::createLogData( $method, $message, $params );
 
-        Yii::warning($log);
+            Yii::warning($log);
+
+        } catch (Exception $e ) {
+
+            Logger::logCatch($e, __METHOD__, 'Catch! logWarning()', func_get_args() );
+        }
 
         return true;
     }

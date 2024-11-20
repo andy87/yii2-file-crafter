@@ -2,7 +2,7 @@
 
 namespace app\common\components\base\services\items;
 
-use { Yii, Exception, Throwable };
+use Yii, Exception, Throwable;
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
 use app\frontend\models\search\items\PascalCaseSearch;
 use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };

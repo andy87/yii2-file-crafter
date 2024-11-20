@@ -4,6 +4,7 @@ namespace app\components\common\components\base\resources\sources\crud;
 
 use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
+use app\components\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
  * < Common > Base class for all resources on index page
