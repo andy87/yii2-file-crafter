@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\tests\unit\controllers\items;
+namespace app\common\tests\unit\controllers\items;
 
-use Yii;
 use app\common\components\base\services\items\ItemService;
+use Yii;
 use app\common\components\base\tests\unit\models\BaseModelTest;
 use app\common\components\interfaces\controllers\items\ControllerWithServicesInterface;
 
 /**
- * < Frontend > PascalCaseServiceTest
+ * < Common > PascalCaseServiceTest
  *
- * @package app\frontend\tests\unit\models\items
+ * @package app\common\tests\unit\models\items
  *
- * @tag #frontend #test #model
+ * @tag #common #test #model
  */
 class ItemControllerTest extends BaseModelTest
 {
     /**
-     * @cli ./vendor/bin/codecept run app/frontend/tests/unit/controllers/itemsPingTest:testSetupService
+     * @cli ./vendor/bin/codecept run app/common/tests/unit/controllers/itemsPingTest:testSetupService
      *
      * @return void
      *
-     * @tag #frontend #test #service
+     * @tag #common #test #service
      */
     public function testSetupService(): void
     {

@@ -4,7 +4,10 @@ namespace app\frontend\components\controllers\sources;
 
 use Exception;
 use yii\filters\AccessControl;
-use app\common\components\{base\controllers\core\BaseWebController, base\Logger, base\services\items\ItemService};
+use app\common\components\{base\controllers\core\BaseWebController,
+    base\Logger,
+    base\services\items\ItemService,
+    interfaces\controllers\items\ControllerWithServicesInterface};
 use app\frontend\resources\items\snake_case\{ PascalCaseCreateResource, PascalCaseUpdateResource, PascalCaseViewResource, PascalCaseGridViewResource };
 
 /**
@@ -17,7 +20,7 @@ use app\frontend\resources\items\snake_case\{ PascalCaseCreateResource, PascalCa
  *
  * @tag: #frontend #controller #sources
  */
-abstract class BaseFrontendController extends BaseWebController
+abstract class BaseFrontendController extends BaseWebController implements ControllerWithServicesInterface
 {
     public const INDEX_RESOURCES = PascalCaseGridViewResource::class;
     public const VIEW_RESOURCES = PascalCaseViewResource::class;

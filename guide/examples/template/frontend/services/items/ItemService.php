@@ -7,7 +7,7 @@ use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 /**
  * < Frontend > Сервис для работы с сущностью `{{PascalCase}}`
  *
- * @package app\console\services\items
+ * @package app\frontend\services\items
  *
  * @tag #frontend #service #items #{{snake_case}}
  */

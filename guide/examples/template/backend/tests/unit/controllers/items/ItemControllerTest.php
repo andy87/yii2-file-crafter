@@ -2,9 +2,10 @@
 
 namespace app\backend\tests\unit\controllers\items;
 
+use app\common\components\base\services\items\ItemService;
 use Yii;
-use app\backend\components\controllers\sources\BaseBackendController;
 use app\common\components\base\tests\unit\models\BaseModelTest;
+use app\common\components\interfaces\controllers\items\ControllerWithServicesInterface;
 
 /**
  * < Backend > PascalCaseServiceTest
@@ -24,8 +25,12 @@ class ItemControllerTest extends BaseModelTest
      */
     public function testSetupService(): void
     {
-        /** @var BaseBackendController $controller */
+        /** @var ControllerWithServicesInterface $controller */
         $controller = Yii::$app->controller;
+
+        $this->assertInstanceOf(ControllerWithServicesInterface::class, $controller);
+
+        $this->assertInstanceOf( ItemService::class, $controller->service);
 
         $this->assertTrue($controller->setupService());
     }

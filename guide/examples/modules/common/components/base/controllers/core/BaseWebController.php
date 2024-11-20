@@ -3,7 +3,7 @@
 namespace app\common\components\base\controllers\core;
 
 use Yii, Throwable, Exception;
-use yii\web\{ ErrorAction, Controller };
+use yii\web\ErrorAction;
 use yii\{ base\Response, filters\AccessControl, db\StaleObjectException };
 use app\common\components\{ Action, Notify, base\services\items\ItemService };
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
@@ -18,11 +18,13 @@ use app\components\common\components\base\resources\sources\crud\{BaseCreateReso
  * - BaseFrontendController
  * - BaseBackendController
  *
+ * @property ItemService $service
+ *
  * @package app\common\components\base\controllers
  *
  * @tag: #base #controller #web
  */
-abstract class BaseWebController extends Controller
+abstract class BaseWebController extends BaseServiceController
 {
     /** @var string */
     public const ENDPOINT = '';
@@ -34,11 +36,6 @@ abstract class BaseWebController extends Controller
     public const CREATE_RESOURCES = BaseCreateResource::class;
     public const UPDATE_RESOURCES = BaseUpdateResource::class;
     public const DEFAULT_RESOURCES = BaseTemplateResource::class;
-
-
-
-    /** @var ItemService $service */
-    protected ItemService $service;
 
 
 
