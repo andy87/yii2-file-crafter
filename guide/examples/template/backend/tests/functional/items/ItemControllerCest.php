@@ -3,7 +3,9 @@
 namespace app\backend\tests\functional\items;
 
 use Codeception\Actor;
+use app\common\components\Action;
 use app\backend\tests\FunctionalTester;
+use app\backend\controllers\PascalCaseController;
 use app\common\components\base\tests\unit\BaseWebControllerCest;
 
 /**
@@ -19,6 +21,10 @@ use app\common\components\base\tests\unit\BaseWebControllerCest;
  */
 class PascalCaseWebControllerCest extends BaseWebControllerCest
 {
+    private const ENDPOINT = PascalCaseController::ENDPOINT;
+
+
+
     /**
      * Тестирование экшена `index` контроллера `PascalCaseController`
      *
@@ -28,10 +34,14 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
+     * @see PascalCaseController::actionIndex()
+     *
      * @tag #backend #tests #functional #action #index
      */
     public function checkIndex( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::INDEX);
+
         //$I->see( $this->form::TITLE, 'h1');
     }
 
@@ -44,10 +54,14 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
+     * @see PascalCaseController::actionCreate()
+     *
      * @tag #backend #tests #functional #action #create
      */
     public function checkCreate( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::CREATE);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -60,10 +74,14 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
+     * @see PascalCaseController::checkUpdate()
+     *
      * @tag #backend #tests #functional #action #update
      */
     public function checkUpdate( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::UPDATE);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -76,10 +94,14 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
+     * @see PascalCaseController::checkView()
+     *
      * @tag #backend #tests #functional #action #view
      */
     public function checkView( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::VIEW);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -92,10 +114,16 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
+     * @see PascalCaseController::checkDelete()
+     *
      * @tag #backend #tests #functional #action #delete
      */
     public function checkDelete( FunctionalTester|Actor $I ): void
     {
-        //$I->see($this->form::TITLE, 'h1');
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::DELETE);
+        //redirect
+
+        $I->canSeeResponseCodeIs(302);
+
     }
 }

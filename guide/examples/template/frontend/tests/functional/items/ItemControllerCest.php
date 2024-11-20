@@ -3,7 +3,9 @@
 namespace app\frontend\tests\functional\items;
 
 use Codeception\Actor;
+use app\common\components\Action;
 use app\frontend\tests\FunctionalTester;
+use app\frontend\controllers\PascalCaseController;
 use app\common\components\base\tests\unit\BaseWebControllerCest;
 
 /**
@@ -19,6 +21,8 @@ use app\common\components\base\tests\unit\BaseWebControllerCest;
  */
 class PascalCaseWebControllerCest extends BaseWebControllerCest
 {
+    private const ENDPOINT = PascalCaseController::ENDPOINT;
+
     /**
      * Тестирование экшена `index` контроллера `PascalCaseController`
      *
@@ -32,6 +36,8 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      */
     public function checkIndex( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::INDEX);
+
         //$I->see( $this->form::TITLE, 'h1');
     }
 
@@ -48,6 +54,8 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      */
     public function checkCreate( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::CREATE);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -64,6 +72,8 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      */
     public function checkUpdate( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::UPDATE);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -80,6 +90,8 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      */
     public function checkView( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::VIEW);
+
         //$I->see($this->form::TITLE, 'h1');
     }
 
@@ -96,6 +108,10 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      */
     public function checkDelete( FunctionalTester|Actor $I ): void
     {
+        $I->amOnRoute(self::ENDPOINT . '/' . Action::DELETE);
+
         //$I->see($this->form::TITLE, 'h1');
+
+        $I->canSeeResponseCodeIs(302);
     }
 }

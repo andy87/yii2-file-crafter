@@ -44,7 +44,7 @@ abstract class BaseBackendController extends BaseWebController
     /**
      * @return bool
      */
-    private function setupService(): bool
+    public function setupService(): bool
     {
         try
         {
