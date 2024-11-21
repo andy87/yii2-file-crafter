@@ -2,7 +2,9 @@
 
 namespace app\common\components\base;
 
+use app\common\components\models\ModelInfo;
 use Yii, Exception;
+use yii\base\Model;
 use yii\console\Controller;
 use app\common\components\interfaces\LoggerInterface;
 

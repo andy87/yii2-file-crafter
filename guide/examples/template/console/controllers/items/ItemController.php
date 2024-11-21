@@ -2,10 +2,11 @@
 
 namespace app\console\controllers;
 
+use yii\base\Model;
 use Exception, Throwable;
-use yii\helpers\BaseConsole;
+use app\common\components\models\ModelInfo;
 use app\console\services\items\PascalCaseService;
-use app\common\components\base\{ controllers\core\BaseConsoleServiceController, services\items\ItemService };
+use app\common\components\base\{controllers\core\BaseConsoleServiceController, Logger, services\items\ItemService};
 
 /**
  * BoilerplateTemplate Контроллер для модели `PascalCase`
@@ -17,6 +18,7 @@ use app\common\components\base\{ controllers\core\BaseConsoleServiceController, 
  * @tag #console #controller #{{snake_case}}
  *
  * @see PascalCaseController::actionAdd()
+ * @see PascalCaseController::actionView()
  * @see PascalCaseController::actionDelete()
  */
 class PascalCaseController extends BaseConsoleServiceController
@@ -35,33 +37,52 @@ class PascalCaseController extends BaseConsoleServiceController
      */
     public function actionAdd(string $json): void
     {
-        echo PHP_EOL;
+        echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $params = json_decode($json, true);
+        $params = json_decode( $json, true );
 
-        $model = $this->service->provider->add($params);
+        $model = $this->service->provider->add( $params );
 
-        $this->stdout(date('Y-m-d H:i:s') . ' | ');
+        $this->consolePrintLog('Result');
 
-        $log = [
-            '$model' => [
-                'attributes' => $model->attributes,
-            ],
-        ];
+        ( empty($model->id) || $model->isNewRecord )
+            ? $this->consolePrintError('Model NOT added')
+            : $this->consolePrintSuccess("Model added: $model->id");
 
-        if (isset($model->id)) {
-            $this->stdout('Success!', BaseConsole::FG_GREEN);
-            $this->stdout("Model added: $model->id");
+        $this->consolePrintModelInfo($model);
+
+        echo $this->consolePrintFuncCallEnd(__METHOD__);
+    }
+    
+    /**
+     * @CLI php yii pascal-case/view 1
+     *
+     * @param int $id ID модели
+     *
+     * @throws Exception
+     */
+    public function actionView( int $id ): void
+    {
+        echo $this->consolePrintFuncCallStart(__METHOD__);
+
+        $model = $this->service->getItemById( $id );
+
+        $this->consolePrintLog('Result');
+
+        if ($model)
+        {
+            $model->validate();
+
+            $this->consolePrintSuccess("Model found: $model->id");
+
+            $this->consolePrintModelInfo($model);
+
         } else {
-            $this->stdout('Error!', BaseConsole::FG_RED);
-            $this->stdout("Model NOT added");
-            $log['$model']['errors'] = $model->errors;
+
+            $this->consolePrintError('Model NOT found');
         }
-        echo PHP_EOL;
 
-        print_r($log);
-
-        echo PHP_EOL;
+        echo $this->consolePrintFuncCallEnd(__METHOD__);
     }
 
     /**
@@ -73,36 +94,39 @@ class PascalCaseController extends BaseConsoleServiceController
      */
     public function actionDelete(int $id): void
     {
-        echo PHP_EOL;
+        echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->service->getItemById($id);
-
+        $model = $this->service->getItemById($id, true);
 
         if ($model)
         {
             $this->stdout(date('Y-m-d H:i:s') . ' | ');
 
-            print_r([
-                '$model' => [
-                    'action' => 'delete',
-                    'attributes' => $model->attributes,
-                ],
-            ]);
+            $this->consolePrintModelInfo($model);
 
-            echo PHP_EOL;
+            $this->consolePrintLog('Result');
 
-            $this->stdout(date('Y-m-d H:i:s') . ' | ');
-
-            if ($model->delete())
-            {
-                $this->stdout('Success!', BaseConsole::FG_GREEN);
-                $this->stdout("Model deleted: $model->id");
-            } else {
-                $this->stdout('Error!', BaseConsole::FG_RED);
-                $this->stdout("Model NOT deleted");
-            }
+            ($model->delete())
+                ? $this->consolePrintSuccess("Model deleted: $model->id")
+                : $this->consolePrintError('Model NOT deleted');
         }
 
+        echo $this->consolePrintFuncCallEnd(__METHOD__);
+    }
+
+    /**
+     * Display model info
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    private function consolePrintModelInfo( Model $model ): void
+    {
         echo PHP_EOL;
+
+        $modelInfo = new ModelInfo($model);
+
+        print_r($modelInfo);
     }
 }

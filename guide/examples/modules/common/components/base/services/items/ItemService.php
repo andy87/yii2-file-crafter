@@ -165,17 +165,23 @@ abstract class ItemService extends ModelService
 
     /**
      * @param int $id
+     * @param bool $runValidation
      *
-     * @return BaseModel|null
+     * @return ?BaseModel
      *
      * @throws Exception
      */
-    public function getItemById( int $id ): ?BaseModel
+    public function getItemById( int $id, bool $runValidation = false ): ?BaseModel
     {
         /** @var ?BaseModel $model */
         $model = $this->getOne(['id' => $id]);
 
-        if ($model) return $model;
+        if ($model)
+        {
+            if ($runValidation) $model->validate();
+
+            return $model;
+        }
 
         return null;
     }

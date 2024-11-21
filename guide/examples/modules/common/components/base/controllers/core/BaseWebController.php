@@ -79,7 +79,6 @@ abstract class BaseWebController extends BaseServiceController
         return $R->render();
     }
 
-
     /**
      * @return array
      */
@@ -131,8 +130,6 @@ abstract class BaseWebController extends BaseServiceController
 
         return $this->renderResource( $R );
     }
-
-
 
     /**
      * @param int $id
