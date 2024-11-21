@@ -2,10 +2,12 @@
 
 namespace app\common\tests\unit\controllers\items;
 
+use app\backend\controllers\PascalCaseController;
 use app\common\components\base\services\items\ItemService;
 use Yii;
 use app\common\components\base\tests\unit\models\BaseModelTest;
 use app\common\components\interfaces\controllers\items\ControllerWithServicesInterface;
+use yii\base\InvalidConfigException;
 
 /**
  * < Common > PascalCaseServiceTest
@@ -22,11 +24,14 @@ class ItemControllerTest extends BaseModelTest
      * @return void
      *
      * @tag #common #test #service
+     *
+     * @throws InvalidConfigException
      */
     public function testSetupService(): void
     {
-        /** @var ControllerWithServicesInterface $controller */
-        $controller = Yii::$app->controller;
+        $controller = Yii::createObject([
+            'class' => PascalCaseController::class
+        ]);
 
         $this->assertInstanceOf(ControllerWithServicesInterface::class, $controller);
 
