@@ -18,5 +18,5 @@ use app\common\components\dataProviders\items\PascalCaseDataProvider as Common_P
  */
 class PascalCaseDataProvider extends Common_PascalCaseDataProvider
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

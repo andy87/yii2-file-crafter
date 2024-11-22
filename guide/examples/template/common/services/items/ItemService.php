@@ -13,5 +13,5 @@ use app\common\components\base\services\items\ItemService;
  */
 class PascalCaseService extends ItemService
 {
-
+    // {{boilerplate}}
 }

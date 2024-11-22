@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseGridViewRes
  */
 class PascalCaseGridViewResource extends BaseGridViewResource
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

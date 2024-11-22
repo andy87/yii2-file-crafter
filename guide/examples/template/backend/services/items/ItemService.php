@@ -2,7 +2,8 @@
 
 namespace app\backend\services\items;
 
-use app\backend\models\items\PascalCase;
+use app\common\components\interfaces\models\SearchModelInterface;
+use app\backend\models\{ search\items\PascalCaseSearch, items\PascalCase };
 use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 
 /**
@@ -17,5 +18,8 @@ class PascalCaseService extends Common_PascalCaseService
     /** @var PascalCase|string $modelClass класс модели */
     protected PascalCase|string $modelClass = PascalCase::class;
 
-    // Boilerplate
+    /** @var SearchModelInterface|string */
+    protected SearchModelInterface|string $searchModelClass = PascalCaseSearch::class;
+
+    // {{boilerplate}}
 }

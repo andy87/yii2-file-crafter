@@ -13,5 +13,5 @@ use app\frontend\models\items\PascalCase;
  */
 class PascalCaseForm extends PascalCase
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

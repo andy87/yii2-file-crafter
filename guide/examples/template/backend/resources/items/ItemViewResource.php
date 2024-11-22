@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseViewResourc
  */
 class PascalCaseViewResource extends BaseViewResource
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

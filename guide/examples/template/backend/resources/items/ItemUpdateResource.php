@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseUpdateResou
  */
 class PascalCaseUpdateResource extends BaseUpdateResource
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

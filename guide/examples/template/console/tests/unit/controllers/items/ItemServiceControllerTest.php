@@ -18,5 +18,5 @@ use app\common\components\base\tests\unit\controllers\BaseServiceControllerTest;
  */
 class PascalCaseControllerTest extends BaseServiceControllerTest
 {
-    // Boilerplate code here
+    // {{boilerplate}}
 }

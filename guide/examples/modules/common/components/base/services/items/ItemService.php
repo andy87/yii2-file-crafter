@@ -4,7 +4,7 @@ namespace app\common\components\base\services\items;
 
 use Yii, Exception, Throwable;
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
-use app\frontend\models\search\items\PascalCaseSearch;
+use app\common\components\interfaces\models\SearchModelInterface;
 use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };
 
 /**
@@ -28,8 +28,8 @@ abstract class ItemService extends ModelService
     /** @var array */
     protected array $configRepository;
 
-    /** @var PascalCaseSearch|string */
-    protected PascalCaseSearch|string $searchModelClass;
+    /** @var SearchModelInterface|string */
+    protected SearchModelInterface|string $searchModelClass;
 
     /** @var ActiveDataProvider|string */
     protected ActiveDataProvider|string $dataProviderClass = ActiveDataProvider::class;

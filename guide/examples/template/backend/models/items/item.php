@@ -13,5 +13,5 @@ use app\common\models\items\PascalCase as Common_PascalCase;
  */
 class PascalCase extends Common_PascalCase
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

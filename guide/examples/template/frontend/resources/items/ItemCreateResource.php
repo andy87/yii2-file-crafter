@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseCreateResou
  */
 class PascalCaseCreateResource extends BaseCreateResource
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

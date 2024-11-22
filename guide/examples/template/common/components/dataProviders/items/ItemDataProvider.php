@@ -18,5 +18,5 @@ use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
  */
 class PascalCaseDataProvider extends BaseActiveDataProvide
 {
-    // Boilerplate
+    // {{boilerplate}}
 }

@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseFormResourc
  */
 class PascalCaseFormResource extends BaseFormResource
 {
-    // Boilerplate
+    // {{boilerplate}}
 }
