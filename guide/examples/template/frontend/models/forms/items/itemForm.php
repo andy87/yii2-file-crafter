@@ -5,7 +5,7 @@ namespace app\frontend\models\forms\items;
 use app\frontend\models\items\PascalCase;
 
 /**
- * < Frontend > BoilerplateTemplate для формы модели `{{PascalCase}}`
+ * < Frontend > Boilerplate для формы модели `{{PascalCase}}`
  *
  * @package app\frontend\models\forms\items
  *
@@ -13,5 +13,5 @@ use app\frontend\models\items\PascalCase;
  */
 class PascalCaseForm extends PascalCase
 {
-    // BoilerplateTemplate
+    // Boilerplate
 }

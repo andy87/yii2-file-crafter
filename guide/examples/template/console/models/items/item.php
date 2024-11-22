@@ -5,7 +5,7 @@ namespace app\console\models\items;
 use app\common\models\items\PascalCase as Common_PascalCase;
 
 /**
- * < Console > BoilerplateTemplate для модели `{{PascalCase}}`
+ * < Console > Boilerplate для модели `{{PascalCase}}`
  *
  * @package app\console\models\items
  *
@@ -13,5 +13,5 @@ use app\common\models\items\PascalCase as Common_PascalCase;
  */
 class PascalCase extends Common_PascalCase
 {
-    // BoilerplateTemplate
+    // Boilerplate
 }

@@ -2,15 +2,15 @@
 
 namespace app\common\components\base\controllers\core;
 
-use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\models\ModelInfo;
-use app\console\services\items\PascalCaseService;
-use app\common\components\base\services\items\ItemService;
 use Exception;
-use yii\base\Model;
+use app\common\components\traits\ApplyServiceTrait;
+use app\common\components\base\{ moels\items\core\BaseModel, services\items\ItemService };
 
 /**
  * < Common > Родительский класс для всех консольных контроллеров
+ *
+ * @property ItemService $service
+ * @property ItemService|string $classnameService
  *
  * @package app\common\components\base\controllers
  *
@@ -18,13 +18,10 @@ use yii\base\Model;
  */
 class BaseConsoleServiceController extends BaseConsoleController
 {
-    /** @var ItemService $service */
-    protected ItemService $service;
-
-    /** @var ItemService|string класс сервиса */
-    protected ItemService|string $classnameService;
-
-
+    /**
+     * Трейт для применения сервиса
+     */
+    use ApplyServiceTrait;
 
     /**
      * @return void
@@ -34,19 +31,6 @@ class BaseConsoleServiceController extends BaseConsoleController
         parent::init();
 
         $this->setupService();
-    }
-
-    /**
-     * @return void
-     */
-    private function setupService(): void
-    {
-        $className = $this->classnameService;
-
-        /** @var PascalCaseService $service */
-        $service = new $className();
-
-        $this->service = $service;
     }
 
     /**

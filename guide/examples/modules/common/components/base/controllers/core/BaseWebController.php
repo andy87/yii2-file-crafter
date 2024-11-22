@@ -4,7 +4,7 @@ namespace app\common\components\base\controllers\core;
 
 use Yii, Throwable, Exception;
 use yii\web\ErrorAction;
-use yii\{ base\Response, filters\AccessControl, db\StaleObjectException };
+use yii\{base\Response, filters\AccessControl, db\StaleObjectException, filters\VerbFilter};
 use app\common\components\{ Action, Notify, base\services\items\ItemService };
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
 use app\components\common\components\base\resources\sources\crud\{BaseCreateResource,
@@ -26,21 +26,60 @@ use app\components\common\components\base\resources\sources\crud\{BaseCreateReso
  */
 abstract class BaseWebController extends BaseServiceController
 {
-    /** @var string */
+    /**
+     * Первый сегмент URL для обращения к контроллеру
+     *
+     * Обычно совпадает с именем контроллера в кебаб-кейсе
+     *
+     * @example Для контроллера `UserGroupController` будет `user-group`
+     *
+     * @var string
+     */
     public const ENDPOINT = '';
 
+    /**
+     * Массив с ресурсами для контроллера
+     *
+     * Переопределяются в дочерних контроллерах согласно имени модели с которой работает контроллер
+     *
+     * @example Для модели `UserRole` работающей с таблицей `user_role`
+     * ```php
+     * public const RESOURCES = [
+     *      Action::INDEX => UserRoleGridViewResource::class,
+     *      Action::VIEW => UserRoleViewResource::class,
+     *      Action::CREATE => UserRoleCreateResource::class,
+     *      Action::UPDATE => UserRoleUpdateResource::class,
+     * ];
+     *
+     * @var array
+     */
+    public const RESOURCES = [
+        Action::INDEX => BaseGridViewResource::class,
+        Action::VIEW => BaseViewResource::class,
+        Action::CREATE => BaseCreateResource::class,
+        Action::UPDATE => BaseUpdateResource::class,
+        null => BaseTemplateResource::class,
+    ];
 
-    // Resources
-    public const INDEX_RESOURCES = BaseGridViewResource::class;
-    public const VIEW_RESOURCES = BaseViewResource::class;
-    public const CREATE_RESOURCES = BaseCreateResource::class;
-    public const UPDATE_RESOURCES = BaseUpdateResource::class;
-    public const DEFAULT_RESOURCES = BaseTemplateResource::class;
-
-
+    /**
+     * Массив с доступными действиями и методами для них
+     *
+     * Переопределяются в дочерних контроллерах согласно необходимым методам
+     *
+     * @var array
+     */
+    public const VERBS = [
+        Action::INDEX => ['GET'],
+        Action::VIEW => ['GET'],
+        Action::CREATE => ['GET', 'POST'],
+        Action::UPDATE => ['GET', 'POST'],
+        Action::DELETE => ['DELETE'],
+    ];
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function actions(): array
     {
@@ -52,21 +91,47 @@ abstract class BaseWebController extends BaseServiceController
     }
 
     /**
-     * @param string $action
+     * {@inheritdoc}
      *
-     * @return BaseTemplateResource|string
+     * @return array
      */
-    public function resources( string $action ): BaseTemplateResource|string
+    public function behaviors(): array
     {
-        {
-            return match ($action){
-                Action::INDEX => static::INDEX_RESOURCES,
-                Action::VIEW => static::VIEW_RESOURCES,
-                Action::CREATE => static::CREATE_RESOURCES,
-                Action::UPDATE => static::UPDATE_RESOURCES,
-                default => static::DEFAULT_RESOURCES,
-            };
-        }
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        // @ - Authorized
+                        // ? - Guest
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => static::VERBS,
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function actionIndex(): string
+    {
+        /** @var BaseGridViewResource|BaseListViewResource $R */
+        $R = static::RESOURCES[ Action::INDEX ];
+
+        $R->searchModel = $this->service->getSearchModel();
+
+        $R->activeDataProvider = $this->service->getDataProviderBySearchModel(
+            $R->searchModel,
+            Yii::$app->request->bodyParams
+        );
+
+        return $this->renderResource( $R );
     }
 
     /**
@@ -80,58 +145,6 @@ abstract class BaseWebController extends BaseServiceController
     }
 
     /**
-     * @return array
-     */
-    public function behaviors(): array
-    {
-        $behaviors = parent::behaviors();
-
-        $behaviors['access'] = [
-            'class' => AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['?'], // @ - user ? - unAuth
-                ],
-            ],
-        ];
-
-        return $behaviors;
-    }
-
-    /**
-     * @return array
-     */
-    public function verbs(): array
-    {
-        return [
-            Action::INDEX => ['GET'],
-            Action::VIEW => ['GET'],
-            Action::CREATE => ['GET', 'POST'],
-            Action::UPDATE => ['GET', 'POST'],
-            Action::DELETE => ['POST'],
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function actionIndex(): string
-    {
-        /** @var BaseGridViewResource|BaseListViewResource $R */
-        $R = $this->resources(Action::INDEX);
-
-        $R->searchModel = $this->service->getSearchModel();
-
-        $R->activeDataProvider = $this->service->getDataProviderBySearchModel(
-            $R->searchModel,
-            Yii::$app->request->bodyParams
-        );
-
-        return $this->renderResource( $R );
-    }
-
-    /**
      * @param int $id
      *
      * @return Response|string
@@ -141,7 +154,7 @@ abstract class BaseWebController extends BaseServiceController
     public function actionView( int $id ): Response|string
     {
         /** @var BaseViewResource $R */
-        $R = $this->resources(Action::VIEW);
+        $R = static::RESOURCES[ Action::VIEW ];
 
         $R->model = $this->service->getItemById( $id );
 
@@ -160,7 +173,7 @@ abstract class BaseWebController extends BaseServiceController
     public function actionCreate(): Response|string
     {
         /** @var BaseCreateResource $R */
-        $R = $this->resources(Action::CREATE);
+        $R = static::RESOURCES[ Action::CREATE ];
 
         $R->form = $this->service->getModel();
 
@@ -195,7 +208,7 @@ abstract class BaseWebController extends BaseServiceController
     public function actionUpdate( int $id ): Response|string
     {
         /** @var BaseUpdateResource $R */
-        $R = $this->resources(Action::UPDATE);
+        $R = static::RESOURCES[ Action::UPDATE ];
 
         $params = Yii::$app->request->bodyParams;
 

@@ -6,7 +6,7 @@ use yii\db\{ Connection, QueryInterface };
 use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
 
 /**
- * < Common > BoilerplateTemplate для DataProvider'а модели `{{PascalCase}}`
+ * < Common > Boilerplate для DataProvider'а модели `{{PascalCase}}`
  *
  * @property ?QueryInterface $query
  * @property ?callable|string $key
@@ -18,5 +18,5 @@ use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
  */
 class PascalCaseDataProvider extends BaseActiveDataProvide
 {
-    // BoilerplateTemplate
+    // Boilerplate
 }

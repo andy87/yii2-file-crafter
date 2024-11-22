@@ -7,7 +7,7 @@ use app\common\models\items\PascalCase;
 use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
- * < Common > BoilerplateTemplate для поисковой модели модели `{{PascalCase}}`
+ * < Common > Boilerplate для поисковой модели модели `{{PascalCase}}`
  *
  * @package app\common\models\search\items
  *
@@ -15,7 +15,7 @@ use app\common\components\interfaces\models\SearchModelInterface;
  */
 class PascalCaseSearch extends PascalCase implements SearchModelInterface
 {
-    // BoilerplateTemplate
+    // Boilerplate
     public function search(array $params): ActiveQueryInterface
     {
         // TODO: Implement search() method.

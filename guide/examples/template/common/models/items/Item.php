@@ -13,5 +13,5 @@ use app\common\components\base\moels\items\core\BaseModel;
  */
 class PascalCase extends BaseModel
 {
-    // BoilerplateTemplate
+    // Boilerplate
 }

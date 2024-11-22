@@ -2,8 +2,8 @@
 
 namespace app\backend\services\items;
 
-use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 use app\backend\models\items\PascalCase;
+use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 
 /**
  * < Backend > Сервис для работы с сущностью `{{PascalCase}}`
@@ -17,5 +17,5 @@ class PascalCaseService extends Common_PascalCaseService
     /** @var PascalCase|string $modelClass класс модели */
     protected PascalCase|string $modelClass = PascalCase::class;
 
-    // BoilerplateTemplate
+    // Boilerplate
 }

@@ -25,4 +25,18 @@ class Action
 
     /** @var string $DELETE */
     public const DELETE = 'delete';
+
+    /**
+     * Список действий к которым устанавливается доступ по методам
+     * для проверки в тестах
+     *
+     * @var array
+     */
+    const VERB = [
+        self::INDEX,
+        self::VIEW,
+        self::CREATE,
+        self::UPDATE,
+        self::DELETE,
+    ];
 }

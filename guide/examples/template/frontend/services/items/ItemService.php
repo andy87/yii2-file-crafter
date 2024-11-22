@@ -17,5 +17,5 @@ class PascalCaseService extends Common_PascalCaseService
     /** @var PascalCase|string $modelClass класс модели */
     protected PascalCase|string $modelClass = PascalCase::class;
 
-    // BoilerplateTemplate
+    // Boilerplate
 }

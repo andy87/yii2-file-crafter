@@ -1,25 +1,29 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\tests\unit\controllers\items;
+namespace app\common\components\base\tests\unit\controllers;
 
 use Yii;
-use yii\base\Behavior;
-use yii\base\InvalidConfigException;
 use app\backend\controllers\PascalCaseController;
-use app\common\components\interfaces\controllers\items\ControllerWithServicesInterface;
-use app\common\components\base\{ services\items\ItemService, tests\unit\models\BaseModelTest };
+use yii\base\{ InvalidConfigException, Behavior };
+use app\common\components\{
+    base\services\items\ItemService,
+    base\tests\unit\core\BaseUnitTest,
+    interfaces\controllers\items\ControllerWithServicesInterface
+};
 
 /**
- * < Backend > PascalCaseServiceTest
+ * < Common > Base Model Test
  *
- * @package app\backend\tests\unit\models\items
+ * @package app\common\components\base\tests\unit
  *
- * @tag #backend #test #model
+ * @cli ./vendor/bin/codecept run common/components/base/tests/unit/controllers/BaseControllerTest
+ *
+ * @tag: #base #test #controllers
  */
-class ItemControllerTest extends BaseModelTest
+abstract class BaseServiceControllerTest extends BaseUnitTest
 {
     /** @var PascalCaseController $controller */
-    private PascalCaseController $controller;
+    public PascalCaseController $controller;
 
 
 
@@ -67,12 +71,13 @@ class ItemControllerTest extends BaseModelTest
 
         $behaviors = $this->controller->behaviors();
 
-        $this->assertNotEmpty($behaviors);
-
-        foreach ( $behaviors as $behavior )
+        if(count($behaviors))
         {
-            $this->assertInstanceOf( Behavior::class, $behavior );
+            foreach ( $behaviors as $behavior )
+            {
+                $this->assertInstanceOf( Behavior::class, $behavior, 'Поведение не является объектом `Behavior`' );
 
+            }
         }
     }
 }

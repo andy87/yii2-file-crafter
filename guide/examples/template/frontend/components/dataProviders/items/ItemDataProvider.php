@@ -3,10 +3,10 @@
 namespace app\frontend\components\dataProviders\items;
 
 use yii\db\{ Connection, QueryInterface };
-use app\common\components\dataProviders\items\PascalCaseDataProvider as PascalCaseDataProvider_Common;
+use app\common\components\dataProviders\items\PascalCaseDataProvider as Common_PascalCaseDataProvider;
 
 /**
- * < Frontend > BoilerplateTemplate для DataProvider'а модели `{{PascalCase}}`
+ * < Frontend > Boilerplate для DataProvider'а модели `{{PascalCase}}`
  *
  * @property ?QueryInterface $query
  * @property ?callable|string $key
@@ -16,7 +16,7 @@ use app\common\components\dataProviders\items\PascalCaseDataProvider as PascalCa
  *
  * @tag #frontend #dataProvider #{{snake_case}}
  */
-class PascalCaseDataProvider extends PascalCaseDataProvider_Common
+class PascalCaseDataProvider extends Common_PascalCaseDataProvider
 {
-    // BoilerplateTemplate
+    // Boilerplate
 }

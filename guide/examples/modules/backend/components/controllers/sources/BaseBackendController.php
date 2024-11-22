@@ -4,7 +4,8 @@ namespace app\backend\components\controllers\sources;
 
 use Exception;
 use yii\{ filters\AccessControl, };
-use app\common\components\{base\Logger,
+use app\common\components\{
+    base\Logger,
     base\services\items\ItemService,
     base\controllers\core\BaseWebController,
     interfaces\controllers\items\ControllerWithServicesInterface};
@@ -29,7 +30,7 @@ abstract class BaseBackendController extends BaseWebController implements Contro
 
 
 
-    /** @var ItemService|string $classnameService */
+    /** @var ItemService|string */
     protected ItemService|string $classnameService;
 
 

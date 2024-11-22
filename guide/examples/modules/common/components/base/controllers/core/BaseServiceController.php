@@ -3,10 +3,13 @@
 namespace app\common\components\base\controllers\core;
 
 use yii\web\Controller;
-use app\common\components\base\services\items\ItemService;
+use app\common\components\{ traits\ApplyServiceTrait, base\services\items\ItemService };
 
 /**
  * < Common > Родительский класс для всех контроллеров с сервисом
+ *
+ * @property ItemService $service
+ * @property ItemService|string $classnameService
  *
  * @package app\common\components\base\controllers
  *
@@ -14,6 +17,18 @@ use app\common\components\base\services\items\ItemService;
  */
 abstract class BaseServiceController extends Controller
 {
-    /** @var ItemService $service */
-    protected ItemService $service;
+    /**
+     * Трейт для применения сервиса
+     */
+    use ApplyServiceTrait;
+
+    /**
+     * @return void
+     */
+    public function init(): void
+    {
+        parent::init();
+
+        $this->setupService();
+    }
 }

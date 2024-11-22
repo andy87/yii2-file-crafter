@@ -2,13 +2,13 @@
 
 namespace app\backend\controllers;
 
-use app\common\components\{ Action, base\services\items\ItemService };
+use app\common\components\Action;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
 use app\backend\{ services\items\PascalCaseService, components\controllers\sources\BaseBackendController };
 use app\backend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
 
 /**
- * BoilerplateTemplate Контроллер для модели `PascalCase`
+ * Boilerplate Контроллер для модели `PascalCase`
  *
  * @property PascalCaseService $service
  *
@@ -19,8 +19,8 @@ class PascalCaseController extends BaseBackendController
     /** @var string endpoint контроллера */
     public const ENDPOINT = 'kebab-case';
 
-    /** @var ItemService|string класс сервиса */
-    protected ItemService|string $classnameService = PascalCaseService::class;
+    /** @var PascalCaseService|string класс сервиса */
+    protected PascalCaseService|string $classnameService = PascalCaseService::class;
 
 
 
