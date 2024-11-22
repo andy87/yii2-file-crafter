@@ -10,7 +10,7 @@ use app\common\components\base\tests\unit\models\BaseModelTest;
 use app\common\components\interfaces\controllers\items\ControllerWithServicesInterface;
 
 /**
- * < Common > PascalCaseServiceTest
+ * < Console > PascalCaseServiceTest
  *
  * @package app\common\tests\unit\models\items
  *
