@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components\base\data_providers\items\core;
+namespace app\common\components\base\dataProviders\items\core;
 
 use yii\data\ActiveDataProvider;
 

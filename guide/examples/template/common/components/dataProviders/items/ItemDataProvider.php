@@ -1,8 +1,9 @@
 <?php
 
-namespace app\common\components\data_providers\items;
+namespace app\common\components\dataProviders\items;
 
-use app\common\components\base\data_providers\items\core\BaseActiveDataProvide;
+
+use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
 
 /**
  * < Common > BoilerplateTemplate для DataProvider'а модели `{{PascalCase}}`

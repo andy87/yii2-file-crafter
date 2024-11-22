@@ -1,8 +1,8 @@
 <?php
 
-namespace app\backend\components\data_providers\items;
+namespace app\backend\components\dataProviders\items;
 
-use app\common\components\data_providers\items\PascalCaseDataProvider;
+use app\common\components\dataProviders\items\PascalCaseDataProvider as PascalCaseDataProvider_Common;
 
 /**
  * BoilerplateTemplate для DataProvider'а модели `{{PascalCase}}`
@@ -11,7 +11,7 @@ use app\common\components\data_providers\items\PascalCaseDataProvider;
  *
  * @tag #backend #dataProvider #{{snake_case}}
  */
-class BackendPascalCaseDataProvider extends PascalCaseDataProvider
+class PascalCaseDataProvider extends PascalCaseDataProvider_Common
 {
     // BoilerplateTemplate
 }
