@@ -14,10 +14,6 @@ use app\common\components\{ base\controllers\core\BaseConsoleServiceController, 
  * @package app\backend\controllers
  *
  * @tag #console #controller #{{snake_case}}
- *
- * @see PascalCaseController::actionAdd()
- * @see PascalCaseController::actionView()
- * @see PascalCaseController::actionDelete()
  */
 class PascalCaseController extends BaseConsoleServiceController
 {
@@ -64,7 +60,7 @@ class PascalCaseController extends BaseConsoleServiceController
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->feyByID( $id );
+        $model = $this->findByID( $id );
 
         $this->stdout(date('Y-m-d H:i:s') . ' | ');
 
@@ -86,6 +82,40 @@ class PascalCaseController extends BaseConsoleServiceController
     }
 
     /**
+     * @cli php yii pascal-case/update 1 '{"name": "value"}'
+     *
+     * @param int $id ID модели
+     * @param string $json JSON-строка с параметрами
+     *
+     * @throws Exception
+     */
+    public function actionUpdate(int $id, string $json): void
+    {
+        echo $this->consolePrintFuncCallStart(__METHOD__);
+
+        $params = json_decode( $json, true );
+
+        $model = $this->findByID( $id );
+
+        if ($model)
+        {
+            $this->stdout(date('Y-m-d H:i:s') . ' | ');
+
+            print_r(new ModelInfo($model));
+
+            $this->consolePrintLog('Result');
+
+            $model->load( $params, '' );
+
+            ($model->save())
+                ? $this->consolePrintSuccess("Model updated: $model->id")
+                : $this->consolePrintError('Model NOT updated');
+        }
+
+        echo $this->consolePrintFuncCallEnd(__METHOD__);
+    }
+
+    /**
      * @cli php yii pascal-case/delete 1
      *
      * @param int $id ID модели
@@ -96,7 +126,7 @@ class PascalCaseController extends BaseConsoleServiceController
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->feyByID( $id, false );
+        $model = $this->findByID( $id, false );
 
         if ($model)
         {

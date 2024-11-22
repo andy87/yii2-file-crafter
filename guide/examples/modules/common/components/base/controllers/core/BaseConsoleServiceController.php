@@ -41,7 +41,7 @@ class BaseConsoleServiceController extends BaseConsoleController
      *
      * @throws Exception
      */
-    public function feyByID( int $id, bool $runValidation = true  ): ?BaseModel
+    public function findByID(int $id, bool $runValidation = true  ): ?BaseModel
     {
         return $this->service->getItemById( $id, $runValidation );
     }
