@@ -7,13 +7,13 @@ use app\common\components\base\tests\unit\core\BaseUnitTest;
 /**
  * < Common > Base Repository Test
  *
- * @package app\common\components\base\tests\unit
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/repository/BaseRepositoryTest
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/repository/BaseRepositoryTest
+ * @package app\common\components\base\tests\unit
  *
  * @tag: #base #test #repository
  */
 abstract class BaseRepositoryTest extends BaseUnitTest
 {
-
+    // {{Parent}}
 }

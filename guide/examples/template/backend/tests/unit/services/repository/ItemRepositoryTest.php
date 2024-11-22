@@ -5,13 +5,15 @@ namespace app\backend\tests\unit\services\repository;
 use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
 
 /**
- * < Backend > PascalCaseProviderTest
+ * < Backend > PascalCaseRepositoryTest
+ *
+ * @cli ./vendor/bin/codecept run app/backend/tests/unit/services/repository/PascalCaseRepositoryTest
  *
  * @package app\backend\tests\unit\services\repository
  *
- * @tag #backend #test #service
+ * @tag #backend #test #repository
  */
 class PascalCaseRepositoryTest extends BaseRepositoryTest
 {
-
+    // {{Boilerplate}}
 }

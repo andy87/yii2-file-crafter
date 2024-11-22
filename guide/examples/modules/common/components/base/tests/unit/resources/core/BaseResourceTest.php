@@ -9,11 +9,11 @@ use app\common\components\base\tests\unit\core\BaseUnitTest;
  *
  * @package common\components\base\tests\unit\resources\core
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/resources/core/BaseResourceTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/resources/core/BaseResourceTest
  *
  * @tag: #base #test #resource
  */
 abstract class BaseResourceTest extends BaseUnitTest
 {
-
+    // {{Parent}}
 }

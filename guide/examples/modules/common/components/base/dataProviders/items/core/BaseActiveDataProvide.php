@@ -16,5 +16,5 @@ use yii\db\{ Connection, QueryInterface };
  */
 class BaseActiveDataProvide extends ActiveDataProvider
 {
-
+    // {{Parent}}
 }

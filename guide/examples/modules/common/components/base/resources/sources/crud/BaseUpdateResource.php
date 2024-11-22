@@ -15,5 +15,5 @@ use yii\base\Model;
  */
 abstract class BaseUpdateResource extends BaseFormResource
 {
-
+    // {{Parent}}
 }

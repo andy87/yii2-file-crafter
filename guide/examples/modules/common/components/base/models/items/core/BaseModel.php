@@ -17,5 +17,5 @@ use yii\db\ActiveRecord;
  */
 abstract class BaseModel extends ActiveRecord
 {
-
+    // {{Parent}}
 }

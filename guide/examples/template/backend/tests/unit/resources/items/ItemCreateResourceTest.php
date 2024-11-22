@@ -9,7 +9,7 @@ use common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
  *
  * @package app\backend\tests\unit\resources\items
  *
- * @cli ./vendor/bin/codecept run backend/resources/items/ItemCreateResourceTest
+ * @cli ./vendor/bin/codecept run app/backend/resources/items/ItemCreateResourceTest
  *
  * @tag: #backend #resource #{{snake_case}} #create
  */

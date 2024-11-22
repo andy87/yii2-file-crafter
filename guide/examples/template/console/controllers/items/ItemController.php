@@ -27,7 +27,7 @@ class PascalCaseController extends BaseConsoleServiceController
 
 
     /**
-     * @CLI php yii pascal-case/add '{"name": "value"}'
+     * @cli php yii pascal-case/add '{"name": "value"}'
      *
      * @param string $json JSON-строка с параметрами
      *
@@ -54,7 +54,7 @@ class PascalCaseController extends BaseConsoleServiceController
     }
     
     /**
-     * @CLI php yii pascal-case/view 1
+     * @cli php yii pascal-case/view 1
      *
      * @param int $id ID модели
      *
@@ -86,7 +86,7 @@ class PascalCaseController extends BaseConsoleServiceController
     }
 
     /**
-     * @CLI php yii pascal-case/delete 1
+     * @cli php yii pascal-case/delete 1
      *
      * @param int $id ID модели
      *

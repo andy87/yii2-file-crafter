@@ -11,7 +11,7 @@ use app\common\components\base\tests\unit\core\BaseUnitTest;
  *
  * @package app\common\components\base\tests\unit
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/models/BaseModelTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/models/BaseModelTest
  *
  * @tag: #base #test #model
  */
@@ -25,7 +25,7 @@ abstract class BaseModelTest extends BaseUnitTest
     /**
      * Проверка соответствия атрибутов модели и колонок таблицы
      *
-     * @cli ./vendor/bin/codecept run common/components/base/tests/unit/models/BaseModelTest:testInspectAttributes
+     * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/models/BaseModelTest:testInspectAttributes
      *
      * @return bool
      *

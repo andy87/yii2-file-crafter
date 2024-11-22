@@ -13,7 +13,7 @@ use app\common\components\{Action,
 /**
  * < Common > Base Model Test
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/controllers/BaseControllerTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/controllers/BaseControllerTest
  *
  * @property PascalCaseController $controller
  *

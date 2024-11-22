@@ -14,7 +14,7 @@ use app\common\components\base\providers\items\core\BaseProvider;
  *
  * @package app\common\components\base\tests\unit
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/provider/BaseProviderTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/provider/BaseProviderTest
  *
  * @tag: #base #test #provider
  */

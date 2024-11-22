@@ -9,11 +9,11 @@ use common\components\base\tests\unit\resources\core\BaseResourceTest;
  *
  * @package common\components\base\tests\unit\resources\items
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/resources/items/BaseIndexResourceTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/resources/items/BaseIndexResourceTest
  *
  * @tag: #base #test #resource #index
  */
 abstract class BaseIndexResourceTest extends BaseResourceTest
 {
-
+    // {{Parent}}
 }

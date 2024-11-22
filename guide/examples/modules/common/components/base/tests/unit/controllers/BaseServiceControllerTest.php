@@ -16,7 +16,7 @@ use app\common\components\{
  *
  * @package app\common\components\base\tests\unit
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/unit/controllers/BaseControllerTest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/controllers/BaseControllerTest
  *
  * @tag: #base #test #controllers
  */

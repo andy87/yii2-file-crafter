@@ -4,12 +4,16 @@ namespace app\backend\components\controllers\sources;
 
 use Exception;
 use yii\{ filters\AccessControl, };
-use app\common\components\{
+use app\common\components\{Action,
     base\Logger,
     base\services\items\ItemService,
     base\controllers\core\BaseWebController,
     interfaces\controllers\items\ControllerWithServicesInterface};
-use app\backend\resources\items\snake_case\{ PascalCaseGridViewResource, PascalCaseCreateResource, PascalCaseUpdateResource, PascalCaseViewResource};
+use app\backend\resources\items\snake_case\{PascalCaseGridViewResource,
+    PascalCaseCreateResource,
+    PascalCaseIndexResource,
+    PascalCaseUpdateResource,
+    PascalCaseViewResource};
 
 /**
  * < Backend > Родительский класс для всех контроллеров бэкенда
@@ -23,11 +27,13 @@ use app\backend\resources\items\snake_case\{ PascalCaseGridViewResource, PascalC
  */
 abstract class BaseBackendController extends BaseWebController implements ControllerWithServicesInterface
 {
-    public const INDEX_RESOURCES = PascalCaseGridViewResource::class;
-    public const VIEW_RESOURCES = PascalCaseViewResource::class;
-    public const CREATE_RESOURCES = PascalCaseCreateResource::class;
-    public const UPDATE_RESOURCES = PascalCaseUpdateResource::class;
-
+    /** @var array Ресурсы для действий */
+    public const RESOURCES = [
+        Action::INDEX => PascalCaseIndexResource::class,
+        Action::VIEW => PascalCaseViewResource::class,
+        Action::CREATE => PascalCaseCreateResource::class,
+        Action::UPDATE => PascalCaseUpdateResource::class,
+    ];
 
 
     /** @var ItemService|string */

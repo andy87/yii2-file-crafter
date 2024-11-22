@@ -9,7 +9,7 @@ use Codeception\Actor;
  *
  * @package app\common\components\base\tests\unit
  *
- * @cli ./vendor/bin/codecept run common/components/base/tests/acceptance/BaseAcceptanceCest
+ * @cli ./vendor/bin/codecept run app/common/components/base/tests/acceptance/BaseAcceptanceCest
  *
  * @tag: #base #test #controller
  */

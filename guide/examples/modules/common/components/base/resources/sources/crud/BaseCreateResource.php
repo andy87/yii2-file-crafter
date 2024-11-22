@@ -15,5 +15,5 @@ use yii\base\Model;
  */
 abstract class BaseCreateResource extends BaseFormResource
 {
-
+    // {{Parent}}
 }

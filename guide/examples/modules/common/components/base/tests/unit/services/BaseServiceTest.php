@@ -20,4 +20,6 @@ use app\common\components\base\{ tests\unit\core\BaseUnitTest, services\items\It
 abstract class BaseServiceTest extends BaseUnitTest
 {
     use ApplyServiceTrait;
+
+    // {{Parent}}
 }
