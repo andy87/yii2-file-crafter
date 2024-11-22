@@ -3,10 +3,10 @@
 namespace app\backend\resources\items\snake_case;
 
 use app\backend\models\items\PascalCase;
-use app\components\common\components\base\resources\sources\crud\BaseUpdateResource;
+use app\components\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
- * < Backend > Boilerplate для ресурса обновления модели `{{PascalCase}}`
+ * < Backend > Boilerplate для ресурса search шаблона модели `{{PascalCase}}`
  *
  * @property {{PascalCase}} $form
  *
@@ -14,7 +14,7 @@ use app\components\common\components\base\resources\sources\crud\BaseUpdateResou
  *
  * @package app\backend\resources\items\{{snake_case}}
  */
-class PascalCaseUpdateResource extends BaseUpdateResource
+class PascalCaseSearchResource extends BaseTemplateResource
 {
     // {{Boilerplate}}
 }

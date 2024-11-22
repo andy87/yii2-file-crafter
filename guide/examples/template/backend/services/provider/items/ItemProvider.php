@@ -17,5 +17,5 @@ use app\common\services\provider\items\PascalCaseProvider as Common_PascalCasePr
  */
 class PascalCaseProvider extends Common_PascalCaseProvider
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

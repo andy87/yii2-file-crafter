@@ -2,14 +2,14 @@
 
 use yii\web\View;
 use yii\bootstrap5\{ Html, ActiveForm };
-use app\frontend\resources\items\snake_case\PascalCaseViewResource;
+use app\frontend\resources\items\snake_case\PascalCaseUpdateResource;
 
 /**
- * < Frontend > view.php
+ * < Frontend > update.php
  *
  * @var View $this
  * @var ActiveForm $form
- * @var PascalCaseViewResource $R
+ * @var PascalCaseUpdateResource $R
  */
 
 // {{Boilerplate}}

@@ -2,14 +2,14 @@
 
 use yii\web\View;
 use yii\bootstrap5\{ Html, ActiveForm };
-use app\frontend\resources\items\snake_case\PascalCaseViewResource;
+use app\backend\resources\items\snake_case\PascalCaseSearchResource;
 
 /**
- * < Frontend > view.php
+ * < Backend > _search.php
  *
  * @var View $this
  * @var ActiveForm $form
- * @var PascalCaseViewResource $R
+ * @var PascalCaseSearchResource $R
  */
 
 // {{Boilerplate}}

@@ -6,7 +6,7 @@ use app\backend\models\items\PascalCase;
 use app\components\common\components\base\resources\sources\crud\BaseViewResource;
 
 /**
- * Boilerplate для ресурса обновления модели `{{PascalCase}}`
+ * < Backend > Boilerplate для ресурса обновления модели `{{PascalCase}}`
  *
  * @property {{PascalCase}} $form
  *
@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseViewResourc
  */
 class PascalCaseViewResource extends BaseViewResource
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

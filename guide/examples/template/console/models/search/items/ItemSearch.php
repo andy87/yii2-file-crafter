@@ -13,5 +13,5 @@ use app\console\models\items\PascalCase;
  */
 class PascalCaseSearch extends PascalCase
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

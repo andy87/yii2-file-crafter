@@ -21,5 +21,5 @@ class PascalCaseService extends Common_PascalCaseService
     /** @var SearchModelInterface|string */
     protected SearchModelInterface|string $searchModelClass = PascalCaseSearch::class;
 
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

@@ -5,7 +5,7 @@ namespace app\common\models\items;
 use app\common\components\base\moels\items\core\BaseModel;
 
 /**
- * < Common > model for item `{{PascalCase}}`
+ * < Common > model for item `// {{Boilerplate}}{PascalCase}}`
  *
  * @package app\common\models\items
  *
@@ -13,5 +13,5 @@ use app\common\components\base\moels\items\core\BaseModel;
  */
 class PascalCase extends BaseModel
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

@@ -17,5 +17,5 @@ use app\common\components\base\providers\items\core\BaseProvider;
  */
 class PascalCaseProvider extends BaseProvider
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

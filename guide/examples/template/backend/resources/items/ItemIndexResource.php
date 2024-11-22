@@ -7,14 +7,14 @@ use app\backend\models\search\items\PascalCaseSearch;
 use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
 
 /**
- * Boilerplate для ресурса формы `{{PascalCase}}`
+ * < Backend > Boilerplate для ресурса формы `{{PascalCase}}`
  *
  * @property PascalCaseSearch $searchModel;
  * @property PascalCaseDataProvider $activeDataProvider;
  *
  * @package app\backend\resources\items\{{snake_case}};
  */
-class PascalCaseGridViewResource extends BaseGridViewResource
+class PascalCaseIndexResource extends BaseGridViewResource
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

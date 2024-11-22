@@ -7,7 +7,7 @@ use app\frontend\components\dataProviders\items\PascalCaseDataProvider;
 use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
 
 /**
- * Boilerplate для ресурса формы `{{PascalCase}}`
+ * < Frontend > Boilerplate для ресурса формы `{{PascalCase}}`
  *
  * @property PascalCaseSearch $searchModel;
  * @property PascalCaseDataProvider $activeDataProvider;
@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseGridViewRes
  */
 class PascalCaseGridViewResource extends BaseGridViewResource
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }

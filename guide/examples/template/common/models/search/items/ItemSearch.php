@@ -15,7 +15,7 @@ use app\common\components\interfaces\models\SearchModelInterface;
  */
 class PascalCaseSearch extends PascalCase implements SearchModelInterface
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
     public function search(array $params): ActiveQueryInterface
     {
         // TODO: Implement search() method.

@@ -6,7 +6,7 @@ use app\backend\models\items\PascalCase;
 use app\components\common\components\base\resources\sources\crud\BaseCreateResource;
 
 /**
- * Boilerplate для ресурса создания модели `{{PascalCase}}`
+ * < Backend > Boilerplate для ресурса создания модели `{{PascalCase}}`
  *
  * @property {{PascalCase}} $form
  *
@@ -16,5 +16,5 @@ use app\components\common\components\base\resources\sources\crud\BaseCreateResou
  */
 class PascalCaseCreateResource extends BaseCreateResource
 {
-    // {{boilerplate}}
+    // {{Boilerplate}}
 }
