@@ -2,10 +2,16 @@
 
 namespace app\console\tests\unit\models\items;
 
-use app\common\components\base\tests\unit\models\BaseModelTest;
+use app\console\models\items\PascalCase;
+use app\common\components\base\{ tests\unit\models\BaseModelTest, moels\items\core\BaseModel };
 
 /**
  * < Console > PascalCaseServiceTest
+ *
+ * @cli ./vendor/bin/codecept run app/console/tests/unit/models/items/PascalCaseTest
+ *
+ * @cli ./vendor/bin/codecept run app/console/tests/unit/models/items/PascalCaseTest:testInspectAttributes
+ * @method PascalCase testInspectAttributes()
  *
  * @package app\console\tests\unit\models\items
  *
@@ -13,5 +19,8 @@ use app\common\components\base\tests\unit\models\BaseModelTest;
  */
 class PascalCaseTest extends BaseModelTest
 {
-    // Boiler Template
+    /** @var BaseModel|string $modelClass */
+    protected BaseModel|string $modelClass = PascalCase::class;
+
+    // {{Boilerplate}}
 }

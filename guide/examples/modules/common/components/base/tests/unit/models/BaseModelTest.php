@@ -25,6 +25,8 @@ abstract class BaseModelTest extends BaseUnitTest
     /**
      * Проверка соответствия атрибутов модели и колонок таблицы
      *
+     * @cli ./vendor/bin/codecept run common/components/base/tests/unit/models/BaseModelTest:testInspectAttributes
+     *
      * @return bool
      *
      * @throws InvalidConfigException
