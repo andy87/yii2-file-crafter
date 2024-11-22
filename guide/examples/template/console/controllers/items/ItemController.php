@@ -2,11 +2,10 @@
 
 namespace app\console\controllers;
 
-use yii\base\Model;
 use Exception, Throwable;
 use app\common\components\models\ModelInfo;
 use app\console\services\items\PascalCaseService;
-use app\common\components\base\{controllers\core\BaseConsoleServiceController, Logger, services\items\ItemService};
+use app\common\components\base\{ controllers\core\BaseConsoleServiceController, services\items\ItemService };
 
 /**
  * BoilerplateTemplate Контроллер для модели `PascalCase`
@@ -49,7 +48,8 @@ class PascalCaseController extends BaseConsoleServiceController
             ? $this->consolePrintError('Model NOT added')
             : $this->consolePrintSuccess("Model added: $model->id");
 
-        $this->consolePrintModelInfo($model);
+        echo PHP_EOL;
+        print_r(new ModelInfo($model));
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
     }
@@ -65,17 +65,18 @@ class PascalCaseController extends BaseConsoleServiceController
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->service->getItemById( $id );
+        $model = $this->feyByID( $id );
+
+        $this->stdout(date('Y-m-d H:i:s') . ' | ');
 
         $this->consolePrintLog('Result');
 
         if ($model)
         {
-            $model->validate();
-
             $this->consolePrintSuccess("Model found: $model->id");
 
-            $this->consolePrintModelInfo($model);
+            echo PHP_EOL;
+            print_r(new ModelInfo($model));
 
         } else {
 
@@ -96,13 +97,13 @@ class PascalCaseController extends BaseConsoleServiceController
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->service->getItemById($id, true);
+        $model = $this->feyByID( $id, false );
 
         if ($model)
         {
             $this->stdout(date('Y-m-d H:i:s') . ' | ');
 
-            $this->consolePrintModelInfo($model);
+            print_r(new ModelInfo($model));
 
             $this->consolePrintLog('Result');
 
@@ -112,21 +113,5 @@ class PascalCaseController extends BaseConsoleServiceController
         }
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
-    }
-
-    /**
-     * Display model info
-     *
-     * @param Model $model
-     *
-     * @return void
-     */
-    private function consolePrintModelInfo( Model $model ): void
-    {
-        echo PHP_EOL;
-
-        $modelInfo = new ModelInfo($model);
-
-        print_r($modelInfo);
     }
 }

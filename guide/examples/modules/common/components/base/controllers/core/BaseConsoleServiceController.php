@@ -2,8 +2,12 @@
 
 namespace app\common\components\base\controllers\core;
 
+use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\models\ModelInfo;
 use app\console\services\items\PascalCaseService;
 use app\common\components\base\services\items\ItemService;
+use Exception;
+use yii\base\Model;
 
 /**
  * < Common > Родительский класс для всех консольных контроллеров
@@ -45,4 +49,16 @@ class BaseConsoleServiceController extends BaseConsoleController
         $this->service = $service;
     }
 
+    /**
+     * @param int $id
+     * @param bool $runValidation
+     *
+     * @return ?BaseModel
+     *
+     * @throws Exception
+     */
+    public function feyByID( int $id, bool $runValidation = true  ): ?BaseModel
+    {
+        return $this->service->getItemById( $id, $runValidation );
+    }
 }
