@@ -5,7 +5,7 @@ namespace app\backend\services\provider\items;
 use app\common\services\provider\items\PascalCaseProvider as Common_PascalCaseProvider;
 
 /**
- * < Backend > provide for model `PascalCase`
+ * < Backend > provide for model `{{PascalCase}}`
  *
  * @package app\backend\services\provider\items
  *

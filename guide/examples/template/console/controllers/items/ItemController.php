@@ -3,12 +3,11 @@
 namespace app\console\controllers;
 
 use Exception, Throwable;
-use app\common\components\models\ModelInfo;
 use app\console\services\items\PascalCaseService;
-use app\common\components\base\{ controllers\core\BaseConsoleServiceController, services\items\ItemService };
+use app\common\components\{ base\controllers\core\BaseConsoleServiceController, models\ModelInfo };
 
 /**
- * Boilerplate Контроллер для модели `PascalCase`
+ * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
  * @property PascalCaseService $service
  *

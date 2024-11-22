@@ -8,37 +8,30 @@ use app\backend\{ services\items\PascalCaseService, components\controllers\sourc
 use app\backend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
 
 /**
- * Boilerplate Контроллер для модели `PascalCase`
+ * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
  * @property PascalCaseService $service
  *
  * @package app\backend\controllers
+ *
+ * @tag #backend #controller #{{snake_case}}
  */
 class PascalCaseController extends BaseBackendController
 {
     /** @var string endpoint контроллера */
-    public const ENDPOINT = 'kebab-case';
+    public const ENDPOINT = '{{kebab-case}}';
+
+    /** @var array ресурсы контроллера */
+    public const RESOURCES = [
+        Action::INDEX => PascalCaseGridViewResource::class,
+        Action::VIEW => PascalCaseViewResource::class,
+        Action::CREATE => PascalCaseCreateResource::class,
+        Action::UPDATE => PascalCaseUpdateResource::class,
+        null => BaseTemplateResource::class,
+    ];
+
+
 
     /** @var PascalCaseService|string класс сервиса */
     protected PascalCaseService|string $classnameService = PascalCaseService::class;
-
-
-
-    /**
-     * @param string $action
-     *
-     * @return BaseTemplateResource|string
-     */
-    public function resources( string $action ): BaseTemplateResource|string
-    {
-        {
-            return match ($action){
-                Action::INDEX => PascalCaseGridViewResource::class,
-                Action::VIEW => PascalCaseViewResource::class,
-                Action::CREATE => PascalCaseCreateResource::class,
-                Action::UPDATE => PascalCaseUpdateResource::class,
-                default => BaseTemplateResource::class,
-            };
-        }
-    }
 }
