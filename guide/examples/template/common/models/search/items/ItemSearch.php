@@ -7,7 +7,7 @@ use app\common\models\items\PascalCase;
 use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
- * < Frontend > BoilerplateTemplate для поисковой модели модели `{{PascalCase}}`
+ * < Common > BoilerplateTemplate для поисковой модели модели `{{PascalCase}}`
  *
  * @package app\common\models\search\items
  *
