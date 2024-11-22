@@ -20,7 +20,6 @@ use app\common\components\base\providers\items\core\BaseProvider;
  */
 abstract class BaseProviderTest extends BaseUnitTest
 {
-
     /** @var array  */
     protected array $configProvider;
 
@@ -30,7 +29,6 @@ abstract class BaseProviderTest extends BaseUnitTest
     protected array $testParams = [
         'testCreateSuccess' => [],
     ];
-
 
 
 
