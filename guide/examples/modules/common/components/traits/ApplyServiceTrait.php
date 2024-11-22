@@ -3,7 +3,6 @@
 namespace app\common\components\traits;
 
 use Exception;
-use app\console\services\items\PascalCaseService;
 use app\common\components\{ base\services\items\ItemService, base\Logger };
 
 /**
@@ -19,7 +18,7 @@ trait ApplyServiceTrait
     public ItemService $service;
 
     /** @var ItemService|string класс сервиса */
-    public ItemService|string $classnameService = PascalCaseService::class;
+    public ItemService|string $classnameService;
 
 
 
