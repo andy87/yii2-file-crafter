@@ -2,7 +2,7 @@
 
 namespace app\frontend\models\search\items;
 
-use app\common\models\search\items\PascalCaseSearch as Common_PascalCaseSearch;
+use app\frontend\models\items\PascalCase;
 
 /**
  * < Frontend > Boilerplate для поисковой модели модели `{{PascalCase}}`
@@ -11,7 +11,7 @@ use app\common\models\search\items\PascalCaseSearch as Common_PascalCaseSearch;
  *
  * @tag #frontend #search #{{snake_case}}
  */
-class PascalCaseSearch extends Common_PascalCaseSearch
+class PascalCaseSearch extends PascalCase
 {
     // Boilerplate
 }

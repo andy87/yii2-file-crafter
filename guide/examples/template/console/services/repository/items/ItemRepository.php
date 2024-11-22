@@ -9,7 +9,7 @@ use app\common\services\repository\items\PascalCaseRepository as Common_PascalCa
  *
  * @package app\console\services\items
  *
- * @tag #console #service #items #{{snake_case}}
+ * @tag #console #service #{{snake_case}}
  */
 class PascalCaseRepository extends Common_PascalCaseRepository
 {

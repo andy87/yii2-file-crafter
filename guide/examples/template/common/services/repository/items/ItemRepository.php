@@ -9,7 +9,7 @@ use app\common\components\base\repository\items\cote\BaseRepository;
  *
  * @package app\common\services\items
  *
- * @tag #common #service #items #{{snake_case}}
+ * @tag #common #service #{{snake_case}}
  */
 class PascalCaseRepository extends BaseRepository
 {

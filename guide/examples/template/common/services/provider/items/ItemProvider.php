@@ -9,7 +9,7 @@ use app\common\components\base\providers\items\core\BaseProvider;
  *
  * @package app\common\services\provider\items
  *
- * @tag #common #provider #items #{{snake_case}}
+ * @tag #common #provider #{{snake_case}}
  */
 class PascalCaseProvider extends BaseProvider
 {

@@ -10,7 +10,7 @@ use app\frontend\models\items\PascalCase;
  *
  * @package app\frontend\services\items
  *
- * @tag #frontend #service #items #{{snake_case}}
+ * @tag #frontend #service #{{snake_case}}
  */
 class PascalCaseService extends Common_PascalCaseService
 {

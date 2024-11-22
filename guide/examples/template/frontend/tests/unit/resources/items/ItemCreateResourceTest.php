@@ -11,7 +11,7 @@ use common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
  *
  * @cli ./vendor/bin/codecept run frontend/resources/items/ItemCreateResourceTest
  *
- * @tag: #frontend #resource #item #create
+ * @tag: #frontend #resource #{{snake_case}} #create
  */
 class ItemCreateResourceTest extends BaseCreateResourceTest
 {

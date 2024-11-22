@@ -9,7 +9,7 @@ use app\common\services\provider\items\PascalCaseProvider as Common_PascalCasePr
  *
  * @package app\backend\services\provider\items
  *
- * @tag #backend #provider #items #{{snake_case}}
+ * @tag #backend #provider #{{snake_case}}
  */
 class PascalCaseProvider extends Common_PascalCaseProvider
 {
