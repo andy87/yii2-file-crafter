@@ -6,7 +6,7 @@ use yii\db\{ Connection, QueryInterface };
 use app\common\components\dataProviders\items\PascalCaseDataProvider as Common_PascalCaseDataProvider;
 
 /**
- * Boilerplate для DataProvider'а модели `{{PascalCase}}`
+ * < Backend > Проводник к данным для модели `{{PascalCase}}` в окружении `backend`
  *
  * @property ?QueryInterface $query
  * @property ?callable|string $key
