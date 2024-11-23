@@ -5,7 +5,7 @@ namespace app\frontend\models\forms\items;
 use app\frontend\models\items\PascalCase;
 
 /**
- * < Frontend > Boilerplate для формы модели `{{PascalCase}}`
+ * < Frontend > Форма создания модели `{{PascalCase}}` в окружении `frontend`
  *
  * @package app\frontend\models\forms\items
  *

@@ -5,7 +5,7 @@ namespace app\console\models\search\items;
 use app\console\models\items\PascalCase;
 
 /**
- * < Console > Boilerplate для поисковой модели модели `{{PascalCase}}`
+ * < Console > Модель с логикой поиска в `{{PascalCase}}` для окружения: console
  *
  * @package app\console\models\search\items
  *
