@@ -16,10 +16,10 @@ use app\common\services\items\PascalCaseService as Common_PascalCaseService;
 class PascalCaseService extends Common_PascalCaseService
 {
     /** @var PascalCase|string $modelClass класс модели */
-    protected PascalCase|string $modelClass = PascalCase::class;
+    public PascalCase|string $modelClass = PascalCase::class;
 
     /** @var SearchModelInterface|string */
-    protected SearchModelInterface|string $searchModelClass = PascalCaseSearch::class;
+    public SearchModelInterface|string $searchModelClass = PascalCaseSearch::class;
 
     // {{Boilerplate}}
 }

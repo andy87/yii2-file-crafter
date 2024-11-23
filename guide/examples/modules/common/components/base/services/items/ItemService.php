@@ -29,7 +29,7 @@ abstract class ItemService extends ModelService
     protected array $configRepository;
 
     /** @var SearchModelInterface|string */
-    protected SearchModelInterface|string $searchModelClass;
+    public SearchModelInterface|string $searchModelClass;
 
     /** @var ActiveDataProvider|string */
     protected ActiveDataProvider|string $dataProviderClass = ActiveDataProvider::class;

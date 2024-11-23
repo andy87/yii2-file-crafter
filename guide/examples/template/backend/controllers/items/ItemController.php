@@ -18,7 +18,7 @@ use app\backend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseU
  */
 class PascalCaseController extends BaseBackendController
 {
-    /** @var string endpoint контроллера */
+    /** @var string Для контроллера `UserGroupController` будет `user-group` */
     public const ENDPOINT = '{{kebab-case}}';
 
     /** @var array ресурсы контроллера */

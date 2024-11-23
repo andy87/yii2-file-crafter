@@ -5,6 +5,7 @@ namespace app\console\tests\unit\controllers\items;
 use Yii, Exception, Throwable;
 use app\console\controllers\PascalCaseController;
 use app\common\components\{ base\tests\unit\controllers\BaseServiceControllerTest, Action };
+use yii\base\InvalidConfigException;
 
 /**
  * < Console > PascalCaseServiceTest
@@ -19,35 +20,43 @@ use app\common\components\{ base\tests\unit\controllers\BaseServiceControllerTes
  */
 class PascalCaseControllerTest extends BaseServiceControllerTest
 {
-    /** @var array */
+    /** @var array Пути к файлам с данными для тестирования */
     private const PARAMS = [
         Action::CREATE => '@app/console/runtime/unit/{{kebab-case}}/create--{{snake_case}}.php',
         Action::UPDATE => '@app/console/runtime/unit/{{kebab-case}}/update--{{snake_case}}.php',
     ];
 
-
+    /** @var array Сами данные для тестирования */
+    private array $params = [
+        Action::CREATE => [],
+        Action::UPDATE => [],
+    ];
 
     /**
-     * Получение параметров для тестирования
-     * 
-     * @cli ./vendor/bin/codecept run app/console/tests/unit/controllers/items/PascalCaseControllerTest:checkGetParams
-     * 
-     * @param string $action
-     * 
-     * @return array
+     * Тут мы загружаем данные для тестов в свойство `$params`
+     *
+     * @return void
+     *
+     * @throws InvalidConfigException
      */
-    private function getParams(string $action ): array
+    public function _before(): void
     {
-        $path = Yii::getAlias(self::PARAMS[$action]);
-        
-        $this->assertTrue(file_exists($path), "Файл `$path` не найден");
-        
-        $params = require $path;
-        
-        $this->assertIsArray($params, "Файл `$path` не содержит массива");
-        
-        return $params;
+        parent::_before();
+
+        foreach (self::PARAMS as $action => $path)
+        {
+            $path = Yii::getAlias($path);
+
+            $this->assertTrue($path, "Не найден файл с данными для Unit тестирования\n - `$path` ");
+
+            $params = require $path;
+
+            $this->assertIsArray($params, "Файл с данными для Unit тестирования\n - `$path`\n не вернул массив");
+
+            $this->params[$action] = $params;
+        }
     }
+
     
     /**
      * Тестирование метода добавления модели консольного контроллера
@@ -60,17 +69,19 @@ class PascalCaseControllerTest extends BaseServiceControllerTest
      */
     public function checkActionAdd(): void
     {
-        $params = $this->getParams(Action::CREATE);
-        
+        $params = $this->params[Action::CREATE];
+
         $json = json_encode($params);
 
         $this->controller->actionAdd($json);
 
         $model = $this->controller->service->getOne($params);
 
-        $this->assertNotNull($model,"Модель не создана");
+        $modelClass = $this->controller->service->modelClass;
 
-        $this->assertIsInt($model->id,"Модель не создана");
+        $this->assertNotNull($model,"Модель `$modelClass` не создана\n - `model` вернул `null`");
+
+        $this->assertIsInt($model->id,"Модель `$modelClass` не создана \n - Не обнаружено свойство `id` ");
 
         foreach ($params as $key => $value) {
             $this->assertEquals($value, $model->$key, "Поле $key не совпадает");
@@ -88,7 +99,7 @@ class PascalCaseControllerTest extends BaseServiceControllerTest
      */
     public function checkActionView(): void
     {
-        $params = $this->getParams(Action::CREATE);
+        $params = $this->params[Action::CREATE];
         
         $model = $this->controller->service->addModel($params);
 
@@ -110,7 +121,7 @@ class PascalCaseControllerTest extends BaseServiceControllerTest
      */
     public function checkActionUpdate(): void
     {
-        $params = $this->getParams(Action::CREATE);
+        $params = $this->params[Action::CREATE];
         
         $model = $this->controller->service->addModel($params);
 
@@ -118,7 +129,7 @@ class PascalCaseControllerTest extends BaseServiceControllerTest
 
         $this->assertIsInt($model->id,"Модель не создана");
 
-        $updateParams = $this->getParams(Action::UPDATE);
+        $updateParams = $this->params[Action::UPDATE];
         $this->controller->actionUpdate($model->id, json_encode($updateParams));
 
         $model = $this->controller->service->getOne($updateParams);
@@ -141,7 +152,7 @@ class PascalCaseControllerTest extends BaseServiceControllerTest
      */
     public function checkActionDelete(): void
     {
-        $params = $this->getParams(Action::CREATE);
+        $params = $this->params[Action::CREATE];
         
         $model = $this->controller->service->addModel($params);
 

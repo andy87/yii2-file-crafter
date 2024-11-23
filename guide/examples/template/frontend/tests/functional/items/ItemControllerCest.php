@@ -21,7 +21,8 @@ use app\common\components\base\tests\unit\BaseWebControllerCest;
  */
 class PascalCaseWebControllerCest extends BaseWebControllerCest
 {
-    private const ENDPOINT = PascalCaseController::ENDPOINT;
+    /** @var string Для контроллера `UserGroupController` будет `user-group` */
+    public const ENDPOINT = PascalCaseController::ENDPOINT;
 
     /**
      * Тестирование экшена `index` контроллера `PascalCaseController`
