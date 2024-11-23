@@ -134,13 +134,13 @@ abstract class ItemService extends ModelService
      * @param array $params
      * @param string $formName
      *
-     * @return PascalCaseSearch
+     * @return SearchModelInterface
      */
-    public function getSearchModel( array $params = [], string $formName = ''): PascalCaseSearch
+    public function getSearchModel( array $params = [], string $formName = ''): SearchModelInterface
     {
         $className = $this->searchModelClass;
 
-        /** @var PascalCaseSearch $searchModel */
+        /** @var SearchModelInterface $searchModel */
         $searchModel = new $className();
 
         if (count($params)) $searchModel->load( $params, $formName );
@@ -149,12 +149,12 @@ abstract class ItemService extends ModelService
     }
 
     /**
-     * @param PascalCaseSearch $searchModel
+     * @param SearchModelInterface $searchModel
      * @param array $params
      *
      * @return ActiveDataProvider
      */
-    public function getDataProviderBySearchModel(PascalCaseSearch $searchModel, array $params = []): ActiveDataProvider
+    public function getDataProviderBySearchModel(SearchModelInterface $searchModel, array $params = []): ActiveDataProvider
     {
         $className = $this->dataProviderClass;
 
