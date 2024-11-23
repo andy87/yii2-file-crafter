@@ -3,6 +3,7 @@
 namespace app\common\components\base\services\items;
 
 use Yii, Exception, Throwable;
+use app\components\interfaces\services\ServiceInterface;
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
 use app\common\components\interfaces\models\SearchModelInterface;
 use app\common\components\base\{ moels\items\core\BaseModel, providers\items\core\BaseProvider, repository\items\cote\BaseRepository };
@@ -20,7 +21,7 @@ use app\common\components\base\{ moels\items\core\BaseModel, providers\items\cor
  *
  * @tag: #boilerTemplate #provider
  */
-abstract class ItemService extends ModelService
+abstract class BaseHandler extends ModelService implements ServiceInterface
 {
     /** @var array */
     protected array $configProvider;

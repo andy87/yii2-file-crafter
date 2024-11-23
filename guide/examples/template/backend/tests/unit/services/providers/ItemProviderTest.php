@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\tests\unit\services\providers;
+namespace app\backend\tests\unit\providers;
 
 use app\common\components\base\{ tests\unit\providers\BaseProviderTest, providers\items\core\BaseProvider };
 
@@ -13,7 +13,7 @@ use app\common\components\base\{ tests\unit\providers\BaseProviderTest, provider
  *
  * @method bool testCreateSuccess()
  * @method bool testCreateSuccessWithSave()
- * @package app\backend\tests\unit\services\providers
+ * @package app\backend\tests\unit\providers
  *
  * @tag #backend #test #service
  */

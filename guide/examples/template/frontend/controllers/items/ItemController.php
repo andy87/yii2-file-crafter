@@ -4,7 +4,7 @@ namespace app\frontend\controllers;
 
 use app\common\components\Action;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\frontend\{ services\items\PascalCaseService, components\controllers\sources\BaseFrontendController };
+use app\frontend\{ services\items\PascalCaseService, components\controllers\sources\FrontendController };
 use app\frontend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
 
 /**
@@ -16,7 +16,7 @@ use app\frontend\resources\items\snake_case\{ PascalCaseViewResource, PascalCase
  *
  * @tag #frontend #controller #{{snake_case}}
  */
-class PascalCaseController extends BaseFrontendController
+class PascalCaseController extends FrontendController
 {
     /** @var string Для контроллера `UserGroupController` будет `user-group` */
     public const ENDPOINT = '{{kebab-case}}';

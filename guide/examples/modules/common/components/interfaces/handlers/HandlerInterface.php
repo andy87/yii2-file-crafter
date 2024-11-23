@@ -4,11 +4,11 @@ namespace app\common\components\interfaces\handlers;
 
 
 /**
- * Repository Interface
+ * < Common > Handler Interface
  *
  * @package app\common\components\interfaces\handlers
  *
- * @tag: #base #interface #repository
+ * @tag: #base #interface #handlers
  */
 interface HandlerInterface
 {

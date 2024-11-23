@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\resources\items\snake_case;
+namespace app\backend\components\resources\items\snake_case;
 
 use app\backend\models\items\PascalCase;
 use app\components\common\components\base\resources\sources\crud\BaseViewResource;
@@ -12,7 +12,7 @@ use app\components\common\components\base\resources\sources\crud\BaseViewResourc
  *
  * @property PascalCase $model
  *
- * @package app\backend\resources\items\{{snake_case}}
+ * @package app\backend\components\resources\items\{{snake_case}}
  */
 class PascalCaseViewResource extends BaseViewResource
 {

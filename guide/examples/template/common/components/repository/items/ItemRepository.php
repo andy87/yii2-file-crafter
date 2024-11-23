@@ -16,7 +16,7 @@ use app\common\components\base\repository\items\cote\BaseRepository;
  * @method self setConnection( Connection $connection )
  * @method Connection|null getConnection()
  *
- * @package app\common\services\items
+ * @package app\common\components\services\items
  *
  * @tag #common #repository #{{snake_case}}
  */

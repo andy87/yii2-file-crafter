@@ -3,13 +3,13 @@
 namespace app\common\components\base\tests\unit\services;
 
 use app\common\components\traits\ApplyServiceTrait;
-use app\common\components\base\{ tests\unit\core\BaseUnitTest, services\items\ItemService };
+use app\common\components\base\{ tests\unit\core\BaseUnitTest, services\items\BaseHandler };
 
 /**
  * < Common > Base Service Test
  *
- * @property ItemService $service
- * @property ItemService|string $classnameService
+ * @property BaseHandler $service
+ * @property BaseHandler|string $classnameService
  *
  * @package app\common\components\base\tests\unit
  *

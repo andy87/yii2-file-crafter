@@ -1,30 +1,31 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\base\controllers\core;
 
-use Yii, Throwable, Exception;
-use yii\web\ErrorAction;
-use yii\{base\Response, filters\AccessControl, db\StaleObjectException, filters\VerbFilter};
-use app\common\components\{ Action, Notify, base\services\items\ItemService };
+use app\common\components\{Action,
+    base\controllers\core\BaseHandlerController,
+    base\services\items\BaseHandler,
+    Notify};
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
 use app\components\common\components\base\resources\sources\crud\{BaseCreateResource,
     BaseGridViewResource,
     BaseListViewResource,
     BaseUpdateResource,
     BaseViewResource};
+use yii\{base\Response, db\StaleObjectException, filters\AccessControl, filters\VerbFilter};
+use yii\web\ErrorAction;
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
  * - BaseFrontendController
  * - BaseBackendController
  *
- * @property ItemService $service
+ * @property BaseHandler $service
  *
  * @package app\common\components\base\controllers
  *
  * @tag: #base #controller #web
  */
-abstract class BaseWebController extends BaseServiceController
+abstract class WebController extends BaseHandlerController
 {
     /**
      * Первый сегмент URL для обращения к контроллеру

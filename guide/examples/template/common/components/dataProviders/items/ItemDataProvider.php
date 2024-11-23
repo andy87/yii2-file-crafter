@@ -2,8 +2,8 @@
 
 namespace app\common\components\dataProviders\items;
 
-use yii\db\{ Connection, QueryInterface };
-use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
+use BaseActiveDataProvide;
+use yii\db\{Connection, QueryInterface};
 
 /**
  * < Common > Родительский класс проводников данных: frontend/backend

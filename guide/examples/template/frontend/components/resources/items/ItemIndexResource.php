@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\resources\items\snake_case;
+namespace app\frontend\components\resources\items\snake_case;
 
 use app\frontend\models\search\items\PascalCaseSearch;
 use app\frontend\components\dataProviders\items\PascalCaseDataProvider;

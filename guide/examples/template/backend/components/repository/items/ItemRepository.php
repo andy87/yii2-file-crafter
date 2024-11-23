@@ -15,7 +15,7 @@ use yii\db\{ActiveQuery, Connection};
  * @method self setConnection(Connection $connection)
  * @method Connection|null getConnection()
  *
- * @package app\backend\services\items
+ * @package app\backend\components\services\items
  *
  * @tag #backend #service #{{snake_case}}
  */

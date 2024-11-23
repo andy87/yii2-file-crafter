@@ -2,8 +2,9 @@
 
 namespace app\common\components\traits;
 
-use Exception;
-use app\common\components\{ base\services\items\ItemService, base\Logger };
+use Yii;
+use yii\base\InvalidConfigException;
+use app\common\components\interfaces\services\ServiceInterface;
 
 /**
  * < Common > Трейт для применения сервиса
@@ -14,40 +15,21 @@ use app\common\components\{ base\services\items\ItemService, base\Logger };
  */
 trait ApplyServiceTrait
 {
-    /** @var ItemService $service */
-    public ItemService $service;
-
-    /** @var ItemService|string класс сервиса */
-    public ItemService|string $classnameService;
+    /** @var array класс сервиса */
+    public array $configService;
 
 
 
     /**
-     * @return ItemService
+     * @return ServiceInterface
+     *
+     * @throws InvalidConfigException
      */
-    public function getService(): ItemService
+    public function getService(): ServiceInterface
     {
-        $className = $this->classnameService;
+        /** @var ServiceInterface $service */
+        $service = Yii::createObject($this->configService);
 
-        return new $className();
-    }
-
-    /**
-     * @return bool
-     */
-    public function setupService(): bool
-    {
-        try
-        {
-            $this->service = $this->getService();
-
-            return true;
-
-        } catch ( Exception $e ) {
-
-            Logger::logCatch($e,__METHOD__, 'Catch! setupService()');
-        }
-
-        return false;
+        return $service;
     }
 }

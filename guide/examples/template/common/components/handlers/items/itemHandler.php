@@ -7,7 +7,7 @@ use app\common\components\base\handlers\items\core\BaseHandler;
 /**
  * < Common > Родительский класс для обработчиков: console/frontend/backend
  *
- * @package app\common\services\handlers\items
+ * @package app\app\common\services\components\handlers\items
  *
  * @tag #common #service #{{snake_case}}
  */

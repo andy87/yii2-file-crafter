@@ -3,22 +3,25 @@
 namespace app\console\controllers;
 
 use Exception, Throwable;
-use app\console\services\items\PascalCaseService;
-use app\common\components\{ base\controllers\core\BaseConsoleServiceController, models\ModelInfo };
+use ConsoleHandlerController;
+use app\common\components\models\ModelInfo;
+use app\console\handlers\items\PascalCaseHandler;
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
- * @property PascalCaseService $service
+ * @property PascalCaseHandler $handler
  *
  * @package app\backend\controllers
  *
  * @tag #console #controller #{{snake_case}}
  */
-class PascalCaseController extends BaseConsoleServiceController
+class PascalCaseController extends ConsoleHandlerController
 {
-    /** @var PascalCaseService|string класс сервиса */
-    protected PascalCaseService|string $classnameService = PascalCaseService::class;
+    /** @var array Конфигурация обработчика */
+    public array $handlerConfig = [
+        'class' => PascalCaseHandler::class,
+    ];
 
 
 
@@ -35,7 +38,7 @@ class PascalCaseController extends BaseConsoleServiceController
 
         $params = json_decode( $json, true );
 
-        $model = $this->service->provider->add( $params );
+        $model = $this->handler->add( $params );
 
         $this->consolePrintLog('Result');
 

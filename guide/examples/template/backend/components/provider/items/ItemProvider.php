@@ -10,7 +10,7 @@ use app\backend\models\items\PascalCase;
  * @method PascalCase create(array $params = [], bool $runSave = false)
  * @method PascalCase add(array $params)
  *
- * @package app\backend\services\provider\items
+ * @package app\backend\components\services\provider\items
  *
  * @tag #backend #provider #{{snake_case}}
  */

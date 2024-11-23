@@ -6,7 +6,7 @@ use Yii;
 use app\backend\controllers\PascalCaseController;
 use yii\base\{ InvalidConfigException, Behavior };
 use app\common\components\{Action,
-    base\services\items\ItemService,
+    base\services\items\BaseHandler,
     base\tests\unit\core\BaseUnitTest,
     interfaces\controllers\items\ControllerWithServicesInterface};
 

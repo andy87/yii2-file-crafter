@@ -2,7 +2,7 @@
 
 use yii\web\View;
 use yii\bootstrap5\{ Html, ActiveForm };
-use app\backend\resources\items\snake_case\PascalCaseIndexResource;
+use app\backend\components\resources\items\snake_case\PascalCaseIndexResource;
 
 /**
  * < Backend > index.php

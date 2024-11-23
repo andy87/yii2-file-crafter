@@ -11,7 +11,7 @@ use provider\items\PascalCaseProvider as Common_PascalCaseProvider;
  * @method PascalCase create(array $params = [], bool $runSave = false)
  * @method PascalCase add(array $params)
  *
- * @package app\console\services\provider\items
+ * @package app\console\components\services\provider\items
  *
  * @tag #console #provider #{{snake_case}}
  */

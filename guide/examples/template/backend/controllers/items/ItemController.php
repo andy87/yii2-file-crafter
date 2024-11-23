@@ -4,8 +4,8 @@ namespace app\backend\controllers;
 
 use app\common\components\Action;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\backend\{ services\items\PascalCaseService, components\controllers\sources\BaseBackendController };
-use app\backend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
+use app\backend\{ services\items\PascalCaseService, components\controllers\sources\BackendController };
+use app\backend\components\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseGridViewResource, PascalCaseCreateResource};
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
@@ -16,7 +16,7 @@ use app\backend\resources\items\snake_case\{ PascalCaseViewResource, PascalCaseU
  *
  * @tag #backend #controller #{{snake_case}}
  */
-class PascalCaseController extends BaseBackendController
+class PascalCaseController extends BackendController
 {
     /** @var string Для контроллера `UserGroupController` будет `user-group` */
     public const ENDPOINT = '{{kebab-case}}';

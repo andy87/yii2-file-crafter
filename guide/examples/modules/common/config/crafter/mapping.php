@@ -16,7 +16,7 @@ return [
     'all' => array_merge($relationStyle,[
         'app/common/services/ItemRepository' => 'app/common/services/repositories/{{PascalCase}}Repository.php',
         'app/common/services/ItemProvider' => 'app/common/services/providers/{{PascalCase}}Provider.php',
-        'app/common/components/data_providers/ItemDataProvider' => 'app/common/components/data_providers/items/{{PascalCase}}DataProvider.php',
+        'app/common/components/dataProviders/ItemDataProvider' => 'app/common/components/dataProviders/items/{{PascalCase}}DataProvider.php',
         'app/common/tests/unit/models/items/ItemTest' => 'app/common/tests/unit/models/{{PascalCase}}Test.php',
         'app/common/tests/unit/services/ItemRepositoryTest' => 'app/common/tests/unit/services/repositories/{{PascalCase}}RepositoryTest.php',
         'app/common/tests/unit/services/ItemProviderTest' => 'app/common/tests/unit/services/providers/{{PascalCase}}ProviderTest.php',

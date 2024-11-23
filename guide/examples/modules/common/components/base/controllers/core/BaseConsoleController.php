@@ -10,9 +10,9 @@ use yii\helpers\BaseConsole;
  *
  * @package app\common\components\base\controllers
  *
- * @tag: #base #controller #console
+ * @tag: #abstract #base #controller #console
  */
-class BaseConsoleController extends Controller
+abstract class BaseConsoleController extends Controller
 {
     protected const MESSAGE_SUCCESS = 'Success!';
 

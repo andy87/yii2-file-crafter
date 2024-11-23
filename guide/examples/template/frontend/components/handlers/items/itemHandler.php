@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\handlers\items;
+namespace app\frontend\components\handlers\items;
 
-use app\common\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
+use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
  *
- * @package app\frontend\services\handlers\items
+ * @package app\frontend\components\handlers\items
  *
  * @tag #frontend #service #{{snake_case}}
  */

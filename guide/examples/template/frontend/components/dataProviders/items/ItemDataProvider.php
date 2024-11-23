@@ -3,7 +3,7 @@
 namespace app\frontend\components\dataProviders\items;
 
 use yii\db\{ Connection, QueryInterface };
-use app\common\components\dataProviders\items\PascalCaseDataProvider as Common_PascalCaseDataProvider;
+use app\frontend\components\dataProviders\sources\FrontendActiveDataProvide;
 
 /**
  * < Frontend > Проводник к данным для модели `{{PascalCase}}` в окружении `frontend`
@@ -16,7 +16,7 @@ use app\common\components\dataProviders\items\PascalCaseDataProvider as Common_P
  *
  * @tag #frontend #dataProvider #{{snake_case}}
  */
-class PascalCaseDataProvider extends Common_PascalCaseDataProvider
+class PascalCaseDataProvider extends FrontendActiveDataProvide
 {
     // {{Boilerplate}}
 }

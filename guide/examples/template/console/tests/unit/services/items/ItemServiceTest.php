@@ -2,13 +2,13 @@
 
 namespace app\console\tests\unit\services\items;
 
-use app\console\services\items\PascalCaseService;
-use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\items\ItemService };
+use app\console\components\services\items\PascalCaseService;
+use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\items\BaseHandler };
 
 /**
  * < Console > PascalCaseServiceTest
  *
- * @property ItemService $service
+ * @property BaseHandler $service
  *
  * @package app\console\tests\unit\services\items
  *
@@ -16,8 +16,8 @@ use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\i
  */
 class PascalCaseServiceTest extends BaseServiceTest
 {
-    /** @var ItemService|string класс сервиса */
-    public ItemService|string $classnameService = PascalCaseService::class;
+    /** @var BaseHandler|string класс сервиса */
+    public BaseHandler|string $classnameService = PascalCaseService::class;
 
     // {{Boilerplate}}
 }

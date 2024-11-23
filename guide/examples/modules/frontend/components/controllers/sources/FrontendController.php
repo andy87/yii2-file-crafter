@@ -3,26 +3,28 @@
 namespace app\frontend\components\controllers\sources;
 
 use app\backend\resources\items\snake_case\PascalCaseIndexResource;
+use app\common\components\{Action,
+    base\Logger,
+    base\services\items\BaseHandler,
+    interfaces\controllers\items\ControllerWithServicesInterface};
+use app\frontend\resources\items\snake_case\{PascalCaseCreateResource,
+    PascalCaseUpdateResource,
+    PascalCaseViewResource};
+use WebController;
 use Exception;
 use yii\filters\AccessControl;
-use app\common\components\{Action,
-    base\controllers\core\BaseWebController,
-    base\Logger,
-    base\services\items\ItemService,
-    interfaces\controllers\items\ControllerWithServicesInterface};
-use app\frontend\resources\items\snake_case\{ PascalCaseCreateResource, PascalCaseUpdateResource, PascalCaseViewResource };
 
 /**
  * < Frontend > Родительский класс для всех контроллеров фронтенда
  *
- * @property ItemService $service
- * @property ItemService|string $classnameService
+ * @property BaseHandler $service
+ * @property BaseHandler|string $classnameService
  *
  * @package app\frontend\components\controllers\sources
  *
  * @tag: #frontend #controller #sources
  */
-abstract class BaseFrontendController extends BaseWebController implements ControllerWithServicesInterface
+abstract class FrontendController extends WebController implements ControllerWithServicesInterface
 {
     /** @var array Ресурсы для действий */
     public const RESOURCES = [
@@ -33,8 +35,8 @@ abstract class BaseFrontendController extends BaseWebController implements Contr
     ];
 
 
-    /** @var ItemService|string $classnameService */
-    protected ItemService|string $classnameService;
+    /** @var BaseHandler|string $classnameService */
+    protected BaseHandler|string $classnameService;
 
 
 

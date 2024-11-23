@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\services\items;
+namespace app\backend\components\services\items;
 
 use app\common\components\interfaces\models\SearchModelInterface;
 use app\backend\models\{ search\items\PascalCaseSearch, items\PascalCase };
-use app\common\services\items\PascalCaseService as Common_PascalCaseService;
+use app\common\components\services\items\PascalCaseService as Common_PascalCaseService;
 
 /**
  * < Backend > Сервис для работы с сущностью `{{PascalCase}}`
  *
- * @package app\backend\services\items
+ * @package app\backend\components\services\items
  *
  * @tag #backend #service #{{snake_case}}
  */

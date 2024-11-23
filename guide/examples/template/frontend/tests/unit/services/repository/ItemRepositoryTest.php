@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\frontend\tests\unit\services\repository;
+namespace app\frontend\tests\unit\repository;
 
 use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
 
@@ -9,7 +9,7 @@ use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
  *
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/services/repository/PascalCaseRepositoryTest
  *
- * @package app\frontend\tests\unit\services\repository
+ * @package app\frontend\tests\unit\repository
  *
  * @tag #frontend #test #repository
  */

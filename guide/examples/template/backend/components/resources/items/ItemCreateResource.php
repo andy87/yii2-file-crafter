@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\backend\resources\items\snake_case;
+namespace app\backend\components\resources\items\snake_case;
 
 use app\backend\models\items\PascalCase;
 use app\components\common\components\base\resources\sources\crud\BaseCreateResource;
@@ -12,7 +12,7 @@ use app\components\common\components\base\resources\sources\crud\BaseCreateResou
  *
  * @property PascalCase $form
  *
- * @package app\backend\resources\items
+ * @package app\backend\components\resources\items
  */
 class PascalCaseCreateResource extends BaseCreateResource
 {
