@@ -5,7 +5,7 @@ namespace app\common\components\base\providers\items\core;
 use Exception;
 use app\common\components\base\BaseModelTool;
 use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\interfaces\provider\ProviderInterface;
+use app\common\components\interfaces\providers\ProviderInterface;
 
 
 /**

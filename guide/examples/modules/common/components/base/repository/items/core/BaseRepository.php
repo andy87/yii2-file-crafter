@@ -6,7 +6,7 @@ use Exception;
 use yii\db\{ActiveQuery, Connection};
 use app\common\components\base\BaseModelTool;
 use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\interfaces\services\core\RepositoryInterface;
+use app\common\components\interfaces\services\core\HandlerInterface;
 
 /**
  * < Common > Родительский абстрактный класс для всех репозиториев
@@ -18,7 +18,7 @@ use app\common\components\interfaces\services\core\RepositoryInterface;
  *
  * @tag: #base #provider
  */
-abstract class BaseRepository extends BaseModelTool implements RepositoryInterface
+abstract class BaseRepository extends BaseModelTool implements HandlerInterface
 {
     /** @var ?Connection */
     protected ?Connection $connection = null;

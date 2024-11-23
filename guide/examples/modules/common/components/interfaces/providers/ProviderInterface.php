@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\interfaces\provider;
+namespace app\common\components\interfaces\providers;
 
 use app\common\components\base\moels\items\core\BaseModel;
 

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\interfaces\services\core;
+namespace app\common\components\interfaces\repository;
 
 use yii\db\ActiveQuery;
 
 /**
  * Repository Interface
  *
- * @package app\common\components\interfaces\services\core
+ * @package app\common\components\interfaces\repository
  *
  * @tag: #base #interface #repository
  */

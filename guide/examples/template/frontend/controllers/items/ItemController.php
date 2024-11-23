@@ -34,4 +34,9 @@ class PascalCaseController extends BaseFrontendController
 
     /** @var PascalCaseService|string класс сервиса */
     protected PascalCaseService|string $classnameService = PascalCaseService::class;
+
+    public function actionView()
+    {
+
+    }
 }
