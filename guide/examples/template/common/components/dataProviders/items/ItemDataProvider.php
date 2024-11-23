@@ -6,7 +6,7 @@ use yii\db\{ Connection, QueryInterface };
 use app\common\components\base\dataProviders\items\core\BaseActiveDataProvide;
 
 /**
- * < Common > Boilerplate для DataProvider'а модели `{{PascalCase}}`
+ * < Common > Родительский класс для провайдеров данных: console/frontend/backend
  *
  * @property ?QueryInterface $query
  * @property ?callable|string $key

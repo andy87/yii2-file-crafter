@@ -5,7 +5,7 @@ namespace app\common\models\items;
 use app\common\components\base\moels\items\core\BaseModel;
 
 /**
- * < Common > model for item `// {{Boilerplate}}{PascalCase}}`
+ * < Common > Родительский класс для моделей: console/frontend/backend
  *
  * @package app\common\models\items
  *
