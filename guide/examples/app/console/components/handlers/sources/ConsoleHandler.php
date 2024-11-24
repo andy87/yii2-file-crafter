@@ -2,7 +2,6 @@
 
 namespace app\console\components\handlers\sources;
 
-
 use app\common\components\base\handlers\items\core\BaseHandler;
 
 /**
@@ -10,10 +9,11 @@ use app\common\components\base\handlers\items\core\BaseHandler;
  *
  * @package app\console\components\handlers\sources
  *
- * @tag #console #handler #{{snake_case}}
+ * @tag #console #source #handler
  */
 class ConsoleHandler extends BaseHandler
 {
+    //TODO: Доделать обработчик
     public function index()
     {
 

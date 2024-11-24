@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace controllers\sources;
+namespace app\console\controllers\sources;
 
-use ConsoleHandlerController;
+use app\common\components\base\controllers\ConsoleHandlerController;
 
 /**
  * < Console > Родительский класс для всех консольных контроллеров
  *
  * @package app\backend\components\controllers\sources
  *
- * @tag: #abstract #console #controller #sources
+ * @tag: #console #source #controller
  */
 abstract class ConsoleController extends ConsoleHandlerController
 {
