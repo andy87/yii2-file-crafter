@@ -3,7 +3,7 @@
 namespace app\backend\components\controllers\sources;
 
 use yii\filters\AccessControl;
-use app\common\components\base\controllers\WebController};
+use app\common\components\base\controllers\WebController;
 use app\backend\components\handlers\sources\BackendHandler;
 
 /**

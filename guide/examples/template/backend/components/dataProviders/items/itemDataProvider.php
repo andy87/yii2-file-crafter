@@ -3,7 +3,7 @@
 namespace app\backend\components\dataProviders\items;
 
 use yii\db\{ Connection, QueryInterface };
-use app\backend\components\base\dataProviders\sources\BackendActiveDataProvide;
+use app\backend\components\dataProviders\sources\BackendActiveDataProvide;
 
 /**
  * < Backend > Проводник к данным для модели `{{PascalCase}}` в окружении `backend`

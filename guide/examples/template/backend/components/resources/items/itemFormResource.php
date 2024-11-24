@@ -12,7 +12,9 @@ use app\backend\components\resources\crud\BackendFormResource;
  *
  * @property ?PascalCase $form
  *
- * @package app\backend\components\resources\items\{{snake_case}};
+ * @package app\backend\components\resources\items\{{snake_case}}
+ *
+ * @tag: #backend #resource #template #form
  */
 class PascalCaseFormResource extends BackendFormResource
 {

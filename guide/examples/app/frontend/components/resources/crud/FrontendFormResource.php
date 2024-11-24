@@ -6,10 +6,11 @@ use app\common\components\base\moels\items\core\BaseModel;
 use app\components\common\components\base\resources\sources\crud\BaseFormResource;
 
 /**
- * < Frontend> class for all resources on page with form
+ * < Frontend> Родительский класс для ресурса с формой в окружении `frontend`
  *
  * @property ?BaseModel $form
- * @package app\common\components\base\resources
+ *
+ * @package app\frontend\components\resources\crud
  *
  * @tag: #frontend #parent #resource #form
  */

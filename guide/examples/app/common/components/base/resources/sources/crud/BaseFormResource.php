@@ -6,11 +6,11 @@ use app\common\components\base\moels\items\core\BaseModel;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
- * < Common > Base class for all resources on page with form
+ * < Common > Базовый класс для ресурса с формой в окружениях: `frontend`, `backend`
  *
  * @package app\common\components\base\resources
  *
- * @tag: #base #resource #template #form
+ * @tag: #common #base #resource #form
  */
 abstract class BaseFormResource extends BaseTemplateResource
 {

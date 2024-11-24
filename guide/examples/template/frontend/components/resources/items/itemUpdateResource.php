@@ -13,6 +13,8 @@ use app\frontend\components\resources\crud\FrontendUpdateResource;
  * @property PascalCase $form
  *
  * @package app\frontend\resources\items\{{snake_case}}
+ *
+ * @tag: #frontend #resource #template #update
  */
 class PascalCaseUpdateResource extends FrontendUpdateResource
 {

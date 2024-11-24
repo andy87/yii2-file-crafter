@@ -6,11 +6,11 @@ use app\common\components\base\moels\items\core\BaseModel;
 use app\components\common\components\base\resources\sources\crud\BaseViewResource;
 
 /**
- * < Frontend> class for all resources on view page
+ * < Frontend> Родительский класс для ресурса просмотра модели в окружении `frontend`
  *
  * @property ?BaseModel $model
  *
- * @package app\common\components\base\resources
+ * @package app\frontend\components\resources\crud
  *
  * @tag: #frontend #parent #resource #view
  */

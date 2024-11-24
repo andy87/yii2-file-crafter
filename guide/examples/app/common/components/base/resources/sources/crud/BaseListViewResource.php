@@ -7,11 +7,11 @@ use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
- * < Common > Base class for all resources on index page
+ * < Common > Базовый родительский класс для ресурса индекса
  *
  * @package app\common\components\base\resources
  *
- * @tag: #base #resource #template #index
+ * @tag: #common #base #resource #index
  */
 abstract class BaseListViewResource extends BaseTemplateResource
 {

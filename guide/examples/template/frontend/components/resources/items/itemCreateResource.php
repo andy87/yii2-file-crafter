@@ -13,6 +13,8 @@ use app\frontend\components\resources\crud\FrontendCreateResource;
  * @property PascalCase $form
  *
  * @package app\frontend\resources\items
+ *
+ * @tag: #frontend #resource #template #create
  */
 class PascalCaseCreateResource extends FrontendCreateResource
 {

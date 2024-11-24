@@ -5,9 +5,9 @@ namespace app\backend\components\resources\crud;
 use app\common\components\base\moels\items\core\BaseModel;
 
 /**
- * < Common > Base class for all resources on update page
+ * < Backend > Родительский класс для ресурса создания модели в окружении `backend`
  *
- * @package app\common\components\base\resources
+ * @package app\backend\components\resources\crud
  *
  * @property ?BaseModel $form
  *

@@ -13,6 +13,8 @@ use app\backend\components\resources\crud\BackendViewResource;
  * @property ?PascalCase $model
  *
  * @package app\backend\components\resources\items\{{snake_case}}
+ *
+ * @tag: #backend #resource #template #view
  */
 class PascalCaseViewResource extends BackendViewResource
 {

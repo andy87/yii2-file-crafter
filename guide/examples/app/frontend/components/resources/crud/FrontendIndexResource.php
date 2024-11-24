@@ -7,12 +7,12 @@ use app\common\components\interfaces\models\SearchModelInterface;
 use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
 
 /**
- * < Frontend> class for all resources on index page
+ * < Frontend> Родительский класс для ресурса индекса в окружении `frontend`
  *
  * @property ActiveDataProvider $activeDataProvider
  * @property SearchModelInterface $searchModel
  *
- * @package app\common\components\base\resources
+ * @package app\frontend\components\resources\crud
  *
  * @tag: #frontend #parent #resource #index
  */

@@ -12,7 +12,9 @@ use app\frontend\components\dataProviders\items\PascalCaseDataProvider;
  * @property PascalCaseSearch $searchModel;
  * @property PascalCaseDataProvider $activeDataProvider;
  *
- * @package app\frontend\resources\items\{{snake_case}};
+ * @package app\frontend\resources\items\{{snake_case}}
+ *
+ * @tag: #frontend #resource #template #index
  */
 class PascalCaseIndexResource extends FrontendIndexResource
 {

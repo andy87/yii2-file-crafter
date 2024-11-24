@@ -12,7 +12,9 @@ use app\backend\components\resources\crud\BackendCreateResource;
  *
  * @property ?PascalCase $form
  *
- * @package app\backend\components\resources\items
+ * @package app\backend\components\resources\items\{{snake_case}}
+ *
+ * @tag: #backend #resource #template #create
  */
 class PascalCaseCreateResource extends BackendCreateResource
 {

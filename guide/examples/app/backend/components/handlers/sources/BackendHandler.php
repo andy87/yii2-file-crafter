@@ -7,17 +7,12 @@ use app\backend\components\resources\crud\BackendCreateResource;
 use app\backend\components\resources\crud\BackendIndexResource;
 use app\backend\components\resources\crud\BackendUpdateResource;
 use app\backend\components\resources\crud\BackendViewResource;
-use app\common\components\Notify;
-use Exception, Throwable;
 use app\common\components\Action;
 use app\common\components\base\handlers\items\WebHandler;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\components\common\components\base\resources\sources\crud\BaseCreateResource;
-use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
-use app\components\common\components\base\resources\sources\crud\BaseIndexResource;
-use app\components\common\components\base\resources\sources\crud\BaseUpdateResource;
 use app\components\common\components\base\resources\sources\crud\BaseViewResource;
-use Yii;
+use Exception;
+use Throwable;
 
 /**
  * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
@@ -116,7 +111,7 @@ class BackendHandler extends WebHandler
 
         $R->form = $this->service->getItemById( $id );
 
-
+        //TODO: остановился с Handler тут
 
         return $R;
     }
@@ -130,7 +125,6 @@ class BackendHandler extends WebHandler
      */
     public function processView( int $id ): BackendViewResource
     {
-        /** @var BaseViewResource $R */
         $R = $this->getResources(Action::VIEW);
 
         $R->model = $this->service->getOne(['id' => $id]);

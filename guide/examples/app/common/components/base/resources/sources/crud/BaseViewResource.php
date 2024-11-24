@@ -6,11 +6,11 @@ use app\common\components\base\moels\items\core\BaseModel;
 use app\components\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
- * < Common > Base class for all resources on view page
+ * < Common > Базовый родительский класс для ресурса представления в окружениях: `frontend`, `backend`
  *
  * @package app\common\components\base\resources
  *
- * @tag: #base #resource #template #view
+ * @tag: #common #base #resource #view
  */
 abstract class BaseViewResource extends BaseTemplateResource
 {
