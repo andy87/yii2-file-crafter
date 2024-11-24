@@ -3,7 +3,7 @@
 namespace app\frontend\controllers;
 
 use app\common\components\Action;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
 use app\frontend\{components\controllers\sources\FrontendController,
     components\resources\items\snake_case\PascalCaseCreateResource,
     components\resources\items\snake_case\PascalCaseIndexResource,

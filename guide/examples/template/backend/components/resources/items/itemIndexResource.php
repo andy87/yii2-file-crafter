@@ -13,7 +13,7 @@ use app\backend\components\dataProviders\items\PascalCaseDataProvider;
  * @property PascalCaseDataProvider $activeDataProvider;
  *
  * @package app\backend\components\resources\items\{{snake_case}}
- * 
+ *
  * @tag: #backend #resource #template #index
  */
 class PascalCaseIndexResource extends BackendIndexResource

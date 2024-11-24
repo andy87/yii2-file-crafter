@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\components\common\components\base\resources\sources\crud;
+namespace app\common\components\base\resources\sources\crud;
 
 use yii\base\Model;
 

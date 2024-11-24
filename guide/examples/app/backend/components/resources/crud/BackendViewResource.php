@@ -3,7 +3,7 @@
 namespace app\backend\components\resources\crud;
 
 use app\common\components\base\moels\items\core\BaseModel;
-use app\components\common\components\base\resources\sources\crud\BaseViewResource;
+use app\common\components\base\resources\sources\crud\BaseViewResource;
 
 /**
  * < Backend > Родительский класс для ресурса просмотра модели в окружении `backend`

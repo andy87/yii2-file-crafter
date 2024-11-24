@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace app\components\common\components\base\resources\sources;
+namespace app\common\components\base\resources\sources;
 
-use app\components\common\components\base\resources\BaseResource;
+use app\common\components\base\resources\BaseResource;
 
 /**
  * < Common > Base class for all resources with template

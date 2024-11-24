@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace app\components\common\components\base\resources\sources\crud;
+namespace app\common\components\base\resources\sources\crud;
 
 use app\common\components\base\moels\items\core\BaseModel;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
  * < Common > Базовый класс для ресурса с формой в окружениях: `frontend`, `backend`

@@ -9,12 +9,12 @@ use app\backend\components\resources\crud\FrontendUpdateResource;
 use app\backend\components\resources\crud\FrontendViewResource;
 use app\common\components\Action;
 use app\common\components\base\handlers\items\core\BaseHandler;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\components\common\components\base\resources\sources\crud\BaseCreateResource;
-use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
-use app\components\common\components\base\resources\sources\crud\BaseIndexResource;
-use app\components\common\components\base\resources\sources\crud\BaseUpdateResource;
-use app\components\common\components\base\resources\sources\crud\BaseViewResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\crud\BaseCreateResource;
+use app\common\components\base\resources\sources\crud\BaseGridViewResource;
+use app\common\components\base\resources\sources\crud\BaseIndexResource;
+use app\common\components\base\resources\sources\crud\BaseUpdateResource;
+use app\common\components\base\resources\sources\crud\BaseViewResource;
 use Exception;
 use Throwable;
 

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace app\components\common\components\base\resources\sources\crud;
+namespace app\common\components\base\resources\sources\crud;
 
 use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
 
 /**
  * < Common > Базовый родительский класс для ресурса индекса

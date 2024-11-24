@@ -6,10 +6,10 @@ namespace app\common\components\base\controllers;
 use Yii, Exception, Throwable;
 use app\backend\components\handlers\sources\BackendHandler;
 use app\frontend\components\handlers\sources\FrontendHandler;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
 use yii\{ web\ErrorAction, base\Response, filters\AccessControl, filters\VerbFilter };
 use app\common\components\{ Notify, Action, base\controllers\core\BaseHandlerController };
-use app\components\common\components\base\resources\sources\crud\{ BaseViewResource, BaseCreateResource, BaseUpdateResource, BaseGridViewResource };
+use app\common\components\base\resources\sources\crud\{ BaseViewResource, BaseCreateResource, BaseUpdateResource, BaseGridViewResource };
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения

@@ -9,8 +9,8 @@ use app\backend\components\resources\crud\BackendUpdateResource;
 use app\backend\components\resources\crud\BackendViewResource;
 use app\common\components\Action;
 use app\common\components\base\handlers\items\WebHandler;
-use app\components\common\components\base\resources\sources\BaseTemplateResource;
-use app\components\common\components\base\resources\sources\crud\BaseViewResource;
+use app\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\base\resources\sources\crud\BaseViewResource;
 use Exception;
 use Throwable;
 

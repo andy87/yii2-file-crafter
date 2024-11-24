@@ -3,7 +3,7 @@
 namespace app\frontend\components\resources\crud;
 
 use app\common\components\base\moels\items\core\BaseModel;
-use app\components\common\components\base\resources\sources\crud\BaseFormResource;
+use app\common\components\base\resources\sources\crud\BaseFormResource;
 
 /**
  * < Frontend> Родительский класс для ресурса с формой в окружении `frontend`
