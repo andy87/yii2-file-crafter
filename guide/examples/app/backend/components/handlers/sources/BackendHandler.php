@@ -11,6 +11,8 @@ use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexR
 /**
  * < Backend > Родительский класс для обработчиков контроллеров в окружения: `backend`
  *
+ * @method BaseTemplateResource|BackendIndexResource|BackendViewResource|BackendCreateResource|BackendUpdateResource|string getResources(string $action)
+ *
  * @package app\backend\components\handlers\sources
  *
  * @tag #backend #source #handler
@@ -58,16 +60,6 @@ class BackendHandler extends WebHandler
         );
 
         return $R;
-    }
-
-    /**
-     * @param string $action
-     *
-     * @return BaseTemplateResource|BackendIndexResource|BackendCreateResource|BackendUpdateResource|BackendViewResource
-     */
-    private function getResources( string $action ): BaseTemplateResource|BackendIndexResource|BackendCreateResource|BackendUpdateResource|BackendViewResource
-    {
-        return  $this->resources[$action] ?? $this->resources[null];
     }
 
     /**

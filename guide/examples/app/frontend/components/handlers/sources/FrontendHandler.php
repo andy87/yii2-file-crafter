@@ -2,24 +2,19 @@
 
 namespace app\frontend\components\handlers\sources;
 
-
-use app\backend\components\resources\crud\FrontendCreateResource;
-use app\backend\components\resources\crud\FrontendIndexResource;
-use app\backend\components\resources\crud\FrontendUpdateResource;
-use app\backend\components\resources\crud\FrontendViewResource;
+use Exception, Throwable;
 use app\common\components\Action;
-use app\common\components\base\handlers\items\core\BaseHandler;
-use app\common\components\base\resources\sources\BaseTemplateResource;
-use app\common\components\base\resources\sources\crud\BaseCreateResource;
-use app\common\components\base\resources\sources\crud\BaseGridViewResource;
-use app\common\components\base\resources\sources\crud\BaseIndexResource;
-use app\common\components\base\resources\sources\crud\BaseUpdateResource;
-use app\common\components\base\resources\sources\crud\BaseViewResource;
-use Exception;
-use Throwable;
+use app\common\components\base\{ handlers\items\core\BaseHandler, resources\sources\BaseTemplateResource };
+use app\frontend\components\resources\crud\{FrontendCreateResource,
+    FrontendFormResource,
+    FrontendIndexResource,
+    FrontendUpdateResource,
+    FrontendViewResource};
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
+ *
+ * @method BaseTemplateResource|FrontendIndexResource|FrontendViewResource|FrontendCreateResource|FrontendUpdateResource|string getResources( string $action )
  *
  * @package app\frontend\components\handlers\sources
  *
@@ -52,12 +47,12 @@ class FrontendHandler extends BaseHandler
     ];
 
     /**
-     * @param BaseIndexResource $R
+     * @param FrontendIndexResource $R
      * @param array $params
      *
-     * @return BaseIndexResource
+     * @return FrontendIndexResource
      */
-    public function index( BaseIndexResource $R, array $params ): BaseIndexResource
+    public function index( FrontendIndexResource $R, array $params ): FrontendIndexResource
     {
         $R->searchModel = $this->service->getSearchModel();
 
@@ -76,45 +71,32 @@ class FrontendHandler extends BaseHandler
     }
 
     /**
-     * @throws Exception
-     */
-    private function getResources( string $action )
-    {
-        if ( isset(self::RESOURCES[$action]) )
-        {
-            return self::RESOURCES[$action];
-        }
-
-        throw new Exception("Действие `$action` не существует");
-    }
-
-    /**
-     * @param BaseCreateResource $R
+     * @param FrontendCreateResource $R
      *
-     * @return BaseCreateResource
+     * @return FrontendCreateResource
      */
-    public function create(BaseCreateResource $R): BaseCreateResource
+    public function create(FrontendCreateResource $R): FrontendCreateResource
     {
         return $R;
     }
 
     /**
-     * @param BaseUpdateResource $R
+     * @param FrontendUpdateResource $R
      *
-     * @return BaseUpdateResource
+     * @return FrontendUpdateResource
      */
-    public function update(BaseUpdateResource $R): BaseUpdateResource
+    public function update(FrontendUpdateResource $R): FrontendUpdateResource
     {
         return $R;
     }
 
     /**
-     * @param BaseViewResource $R
+     * @param FrontendViewResource $R
      * @param int $id
      *
-     * @return BaseViewResource
+     * @return FrontendViewResource
      */
-    public function view( BaseViewResource $R, int $id ): BaseViewResource
+    public function view( FrontendViewResource $R, int $id ): FrontendViewResource
     {
         $R->model = $this->service->getItemById( $id );
 

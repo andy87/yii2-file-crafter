@@ -9,14 +9,14 @@ use app\common\components\base\{ Logger, controllers\WebHandlerController, servi
 use app\frontend\components\resources\items\snake_case\{ PascalCaseCreateResource, PascalCaseIndexResource, PascalCaseUpdateResource, PascalCaseViewResource };
 
 /**
- * < Frontend > Родительский класс для всех контроллеров фронтенда
+ * < Frontend > Родительский класс для контроллеров в окружении: `frontend`
  *
  * @property BaseService $service
  * @property BaseService|string $classnameService
  *
  * @package app\frontend\components\controllers\sources
  *
- * @tag: #frontend #source #controller #sources
+ * @tag: #frontend #source #controller
  */
 abstract class FrontendControllerController extends WebHandlerController implements ControllerWithHandlerInterface
 {
