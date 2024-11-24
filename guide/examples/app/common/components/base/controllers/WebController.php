@@ -2,28 +2,22 @@
 
 namespace app\common\components\base\controllers;
 
-
 use Yii, Exception, Throwable;
-use app\backend\components\handlers\sources\BackendHandler;
-use app\frontend\components\handlers\sources\FrontendHandler;
 use app\common\components\base\resources\sources\BaseTemplateResource;
-use yii\{ web\ErrorAction, base\Response, filters\AccessControl, filters\VerbFilter };
-use app\common\components\{ Notify, Action, base\controllers\core\BaseHandlerController };
-use app\common\components\base\resources\sources\crud\{ BaseViewResource, BaseCreateResource, BaseUpdateResource, BaseGridViewResource };
+use app\common\components\{ Action, Notify, base\controllers\core\BaseWebController };
+use yii\{ base\Response, filters\AccessControl, filters\VerbFilter, web\ErrorAction };
+use app\common\components\base\resources\sources\crud\{ BaseCreateResource, BaseGridViewResource, BaseUpdateResource, BaseViewResource };
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
  * - BaseFrontendController
  * - BaseBackendController
  *
- * @property BackendHandler|FrontendHandler $handler
- * @property array $configHandler
- *
  * @package app\common\components\base\controllers
  *
  * @tag: #base #controller #web
  */
-abstract class WebController extends BaseHandlerController
+abstract class WebController extends BaseWebController
 {
     /**
      * Первый сегмент URL для обращения к контроллеру

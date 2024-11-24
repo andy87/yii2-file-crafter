@@ -3,8 +3,8 @@
 namespace app\backend\components\controllers\sources;
 
 use yii\filters\AccessControl;
-use app\common\components\base\controllers\WebController;
 use app\backend\components\handlers\sources\BackendHandler;
+use app\common\components\base\controllers\WebHandlerController;
 
 /**
  * < Backend > Родительский класс для всех контроллеров бэкенда
@@ -16,7 +16,7 @@ use app\backend\components\handlers\sources\BackendHandler;
  *
  * @tag: #backend #controller #sources
  */
-abstract class BackendController extends WebController
+abstract class BackendControllerController extends WebHandlerController
 {
     /**
     * @return array

@@ -2,7 +2,7 @@
 
 namespace app\backend\components\handlers\sources;
 
-use app\backend\components\controllers\sources\BackendController;
+use app\backend\components\controllers\sources\BackendControllerController;
 use app\backend\components\resources\crud\BackendCreateResource;
 use app\backend\components\resources\crud\BackendIndexResource;
 use app\backend\components\resources\crud\BackendUpdateResource;
@@ -42,7 +42,7 @@ class BackendHandler extends WebHandler
     public array $resources = [
         Action::INDEX => BackendIndexResource::class,
         Action::VIEW => BackendViewResource::class,
-        Action::CREATE => BackendController::class,
+        Action::CREATE => BackendControllerController::class,
         Action::UPDATE => BackendUpdateResource::class,
         null => BaseTemplateResource::class,
     ];

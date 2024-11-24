@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\base\controllers\core;
+namespace app\common\components\base\controllers;
 
-use yii\web\Controller;
 use app\common\components\traits\ApplyHandlerTrait;
 use app\common\components\base\handlers\items\core\BaseHandler;
 use app\common\components\interfaces\controllers\items\ControllerWithHandlerInterface;
@@ -17,7 +16,7 @@ use app\common\components\interfaces\controllers\items\ControllerWithHandlerInte
  *
  * @tag: #base #controller #web
  */
-abstract class BaseHandlerController extends Controller implements ControllerWithHandlerInterface
+abstract class WebHandlerController extends WebController implements ControllerWithHandlerInterface
 {
     /**
      * Трейт для применения сервиса

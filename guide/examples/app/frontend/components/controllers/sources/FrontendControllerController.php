@@ -5,8 +5,8 @@ namespace app\frontend\components\controllers\sources;
 use Exception;
 use yii\filters\AccessControl;
 use app\common\components\{ Action, interfaces\controllers\items\ControllerWithHandlerInterface };
-use app\common\components\base\{ Logger, controllers\WebController, services\items\core\BaseService };
-use app\frontend\components\resources\items\snake_case\{PascalCaseCreateResource,PascalCaseIndexResource,PascalCaseUpdateResource,PascalCaseViewResource};
+use app\common\components\base\{ Logger, controllers\WebHandlerController, services\items\core\BaseService };
+use app\frontend\components\resources\items\snake_case\{ PascalCaseCreateResource, PascalCaseIndexResource, PascalCaseUpdateResource, PascalCaseViewResource };
 
 /**
  * < Frontend > Родительский класс для всех контроллеров фронтенда
@@ -18,7 +18,7 @@ use app\frontend\components\resources\items\snake_case\{PascalCaseCreateResource
  *
  * @tag: #frontend #controller #sources
  */
-abstract class FrontendController extends WebController implements ControllerWithHandlerInterface
+abstract class FrontendControllerController extends WebHandlerController implements ControllerWithHandlerInterface
 {
     /** @var array Ресурсы для действий */
     public const RESOURCES = [

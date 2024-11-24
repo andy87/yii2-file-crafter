@@ -2,11 +2,7 @@
 
 namespace app\common\components\base\controllers;
 
-use app\common\components\{
-    traits\ApplyHandlerTrait,
-    base\handlers\items\core\BaseHandler,
-    base\controllers\core\BaseConsoleController,
-};
+use app\common\components\{base\handlers\items\core\BaseHandler, traits\ApplyHandlerTrait,};
 
 /**
  * < Common > Родительский класс для всех консольных контроллеров
@@ -15,7 +11,7 @@ use app\common\components\{
  *
  * @tag: #abstract #base #controller #console
  */
-abstract class ConsoleHandlerController extends BaseConsoleController
+abstract class ConsoleHandlerController extends ConsoleController
 {
     /**
      * Трейт для применения сервиса

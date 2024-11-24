@@ -5,7 +5,7 @@ namespace app\backend\controllers;
 use app\common\components\Action;
 use app\common\components\base\resources\sources\BaseTemplateResource;
 use app\backend\{components\handlers\items\PascalCaseHandler,
-    components\controllers\sources\BackendController};
+    components\controllers\sources\BackendControllerController};
 use app\backend\components\resources\items\snake_case\{PascalCaseIndexResource,
     PascalCaseViewResource,
     PascalCaseUpdateResource,
@@ -20,7 +20,7 @@ use app\backend\components\resources\items\snake_case\{PascalCaseIndexResource,
  *
  * @tag #backend #controller #{{snake_case}}
  */
-class PascalCaseController extends BackendController
+class PascalCaseController extends BackendControllerController
 {
     /** @var string Для контроллера `UserGroupController` будет `user-group` */
     public const ENDPOINT = '{{kebab-case}}';
