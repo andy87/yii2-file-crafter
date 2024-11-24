@@ -5,11 +5,7 @@ namespace app\frontend\components\handlers\sources;
 use Exception, Throwable;
 use app\common\components\Action;
 use app\common\components\base\{ handlers\items\core\BaseHandler, resources\sources\BaseTemplateResource };
-use app\frontend\components\resources\crud\{FrontendCreateResource,
-    FrontendFormResource,
-    FrontendIndexResource,
-    FrontendUpdateResource,
-    FrontendViewResource};
+use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendIndexResource, FrontendUpdateResource, FrontendViewResource };
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
@@ -18,7 +14,7 @@ use app\frontend\components\resources\crud\{FrontendCreateResource,
  *
  * @package app\frontend\components\handlers\sources
  *
- * @tag #frontend #handler #{{snake_case}}
+ * @tag #frontend #source #handler
  */
 class FrontendHandler extends BaseHandler
 {

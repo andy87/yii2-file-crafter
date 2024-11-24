@@ -14,7 +14,7 @@ use app\common\components\base\resources\sources\crud\BaseGridViewResource;
  *
  * @package app\frontend\components\resources\crud
  *
- * @tag: #frontend #parent #resource #index
+ * @tag: #frontend #source #resource #index
  */
 abstract class FrontendIndexResource extends BaseGridViewResource
 {

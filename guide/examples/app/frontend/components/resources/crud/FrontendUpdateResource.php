@@ -11,7 +11,7 @@ use app\common\components\base\moels\items\core\BaseModel;
  *
  * @property ?BaseModel $form
  *
- * @tag: #frontend #parent #resource #update
+ * @tag: #frontend #source #resource #update
  */
 abstract class FrontendUpdateResource extends FrontendFormResource
 {
