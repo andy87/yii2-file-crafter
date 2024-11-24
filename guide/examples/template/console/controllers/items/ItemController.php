@@ -63,7 +63,7 @@ class PascalCaseController extends ConsoleHandlerController
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->findByID( $id );
+        $model = $model = $this->handler->view( $id );
 
         $this->stdout(date('Y-m-d H:i:s') . ' | ');
 

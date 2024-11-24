@@ -3,18 +3,18 @@
 namespace app\backend\components\resources\items\snake_case;
 
 use app\backend\models\items\PascalCase;
-use app\components\common\components\base\resources\sources\crud\BaseCreateResource;
+use app\backend\components\resources\crud\BackendCreateResource;
 
 /**
  * < Backend > Boilerplate для ресурса создания модели `{{PascalCase}}`
  *
  * @property {{PascalCase}} $form
  *
- * @property PascalCase $form
+ * @property ?PascalCase $form
  *
  * @package app\backend\components\resources\items
  */
-class PascalCaseCreateResource extends BaseCreateResource
+class PascalCaseCreateResource extends BackendCreateResource
 {
     // {{Boilerplate}}
 }

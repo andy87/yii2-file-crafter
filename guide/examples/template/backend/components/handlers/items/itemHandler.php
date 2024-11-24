@@ -2,7 +2,7 @@
 
 namespace app\backend\components\handlers\items;
 
-use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
+use app\backend\components\handlers\sources\BackendHandler;
 
 /**
  * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
@@ -11,7 +11,7 @@ use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseH
  *
  * @tag #backend #service #{{snake_case}}
  */
-class PascalCaseHandler extends Common_PascalCaseHandler
+class PascalCaseHandler extends BackendHandler
 {
     // {{Boilerplate}}
 }

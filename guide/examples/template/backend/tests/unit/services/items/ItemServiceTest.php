@@ -3,12 +3,12 @@
 namespace app\backend\tests\unit\services\items;
 
 use app\backend\components\services\items\PascalCaseService;
-use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\items\BaseHandler };
+use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\items\BaseService };
 
 /**
  * < Backend > PascalCaseServiceTest
  *
- * @property BaseHandler $service
+ * @property BaseService $service
  *
  * @package app\backend\tests\unit\services\items
  *
@@ -16,8 +16,8 @@ use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\i
  */
 class PascalCaseServiceTest extends BaseServiceTest
 {
-    /** @var BaseHandler|string класс сервиса */
-    public BaseHandler|string $classnameService = PascalCaseService::class;
+    /** @var BaseService|string класс сервиса */
+    public BaseService|string $classnameService = PascalCaseService::class;
 
     // {{Boilerplate}}
 }

@@ -2,9 +2,9 @@
 
 namespace app\backend\components\resources\items\snake_case;
 
-use app\backend\components\dataProviders\items\PascalCaseDataProvider;
 use app\backend\models\search\items\PascalCaseSearch;
-use app\components\common\components\base\resources\sources\crud\BaseGridViewResource;
+use app\backend\components\resources\crud\BackendIndexResource;
+use app\backend\components\dataProviders\items\PascalCaseDataProvider;
 
 /**
  * < Backend > Boilerplate для ресурса формы `{{PascalCase}}`
@@ -14,7 +14,7 @@ use app\components\common\components\base\resources\sources\crud\BaseGridViewRes
  *
  * @package app\backend\components\resources\items\{{snake_case}};
  */
-class PascalCaseIndexResource extends BaseGridViewResource
+class PascalCaseIndexResource extends BackendIndexResource
 {
     // {{Boilerplate}}
 }

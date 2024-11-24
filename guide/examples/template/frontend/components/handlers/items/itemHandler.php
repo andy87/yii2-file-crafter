@@ -2,7 +2,7 @@
 
 namespace app\frontend\components\handlers\items;
 
-use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
+use app\frontend\components\handlers\sources\FrontendHandler;
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
@@ -11,7 +11,7 @@ use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseH
  *
  * @tag #frontend #service #{{snake_case}}
  */
-class PascalCaseHandler extends Common_PascalCaseHandler
+class PascalCaseHandler extends FrontendHandler
 {
     // {{Boilerplate}}
 }
