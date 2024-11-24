@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\providers;
 
-use common\components\base\tests\unit\resources\items\BaseSearchResourceTest;
+use app\common\components\base\tests\unit\resources\items\BaseSearchResourceTest;
 
 /**
  * < Frontend > ItemSearchResourceTest

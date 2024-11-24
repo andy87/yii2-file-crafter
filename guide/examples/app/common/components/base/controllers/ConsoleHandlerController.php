@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
+namespace app\common\components\base\controllers;
 
 use app\common\components\{
     traits\ApplyHandlerTrait,

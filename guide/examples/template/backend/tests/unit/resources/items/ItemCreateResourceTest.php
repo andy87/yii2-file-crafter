@@ -2,7 +2,7 @@
 
 namespace app\backend\tests\unit\resources\items;
 
-use common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
+use app\common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
 
 /**
  * < Backend > ItemCreateResourceTest

@@ -3,9 +3,8 @@
 namespace app\console\controllers;
 
 use Exception, Throwable;
-use ConsoleHandlerController;
-use app\common\components\models\ModelInfo;
 use app\console\handlers\items\PascalCaseHandler;
+use app\common\components\{ base\controllers\ConsoleHandlerController, models\ModelInfo };
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`

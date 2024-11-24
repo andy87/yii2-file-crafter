@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace provider\items;
+namespace app\frontend\components\provider\items;
 
 use app\frontend\models\items\PascalCase;
 use provider\items\PascalCaseProvider as Common_PascalCaseProvider;
