@@ -2,13 +2,13 @@
 
 namespace app\common\tests\unit\providers;
 
-use app\common\components\base\{ tests\unit\providers\BaseProviderTest, providers\items\core\BaseProvider };
+use app\common\components\core\{providers\items\base\CoreProvider, tests\base\unit\providers\BaseProviderTest};
 
 /**
  * < Common > PascalCaseProviderTest
  *
  * @property array $configProvider
- * @property BaseProvider $provider
+ * @property CoreProvider $provider
  * @property array $testParams
  *
  * @method bool testCreateSuccess()

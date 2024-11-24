@@ -2,16 +2,30 @@
 
 namespace app\backend\components\handlers\items;
 
-use app\backend\components\handlers\sources\BackendHandler;
+use app\common\components\Action;
+use app\backend\components\handlers\parents\BackendHandler;
+use app\common\components\core\services\items\CoreModelService;
+use app\common\components\core\resources\sources\CoreTemplateResource;
+use app\backend\components\resources\items\snake_case\PascalCaseCreateResource;
+use app\backend\components\resources\items\snake_case\PascalCaseIndexResource;
+use app\backend\components\resources\items\snake_case\PascalCaseUpdateResource;
 
 /**
  * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
  *
+ * @property CoreModelService $service;
  * @package app\backend\components\handlers\items
  *
  * @tag #backend #service #{{snake_case}}
  */
 class PascalCaseHandler extends BackendHandler
 {
-    // {{Boilerplate}}
+    /** @var array */
+    public array $resources = [
+        Action::INDEX => PascalCaseIndexResource::class,
+        Action::VIEW => PascalCaseIndexResource::class,
+        Action::CREATE => PascalCaseCreateResource::class,
+        Action::UPDATE => PascalCaseUpdateResource::class,
+        null => CoreTemplateResource::class,
+    ];
 }

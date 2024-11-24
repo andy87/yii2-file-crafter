@@ -3,7 +3,7 @@
 namespace app\backend\tests\unit\providers;
 
 
-use common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
+use app\common\components\core\tests\base\unit\resources\items\BaseIndexResourceTest;
 
 /**
  * < Backend > ItemIndexResourceTest

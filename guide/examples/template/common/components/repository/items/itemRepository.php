@@ -3,7 +3,7 @@
 namespace app\common\components\repository\items;
 
 use yii\db\{ActiveQuery, Connection};
-use app\common\components\base\repository\items\cote\BaseRepository;
+use app\common\components\core\repository\items\cote\CoreRepository;
 
 /**
  * < Common > Родительский класс для репозиториев: console/frontend/backend
@@ -20,7 +20,7 @@ use app\common\components\base\repository\items\cote\BaseRepository;
  *
  * @tag #common #repository #{{snake_case}}
  */
-class PascalCaseRepository extends BaseRepository
+class PascalCaseRepository extends CoreRepository
 {
     // {{Boilerplate}}
 }

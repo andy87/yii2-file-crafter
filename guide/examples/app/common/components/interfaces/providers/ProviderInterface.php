@@ -2,14 +2,14 @@
 
 namespace app\common\components\interfaces\providers;
 
-use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\core\moels\items\base\BaseModel;
 
 /**
  * Provider Interface
  *
  * @package app\common\components\interfaces\provider
  *
- * @tag: #base #interface #provider
+ * @tag: #common #interface #provider
  */
 interface ProviderInterface
 {

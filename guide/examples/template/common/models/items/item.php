@@ -2,7 +2,7 @@
 
 namespace app\common\models\items;
 
-use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\core\moels\items\base\BaseModel;
 
 /**
  * < Common > Родительский класс для моделей: console/frontend/backend

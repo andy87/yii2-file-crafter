@@ -7,7 +7,7 @@ namespace app\common\components\interfaces\controllers\items;
  *
  * @package app\common\components\interfaces\controllers\items
  *
- * @tag #interface #controller #handler
+ * @tag #common #interface #controller #handler
  */
 interface ControllerWithHandlerInterface
 {

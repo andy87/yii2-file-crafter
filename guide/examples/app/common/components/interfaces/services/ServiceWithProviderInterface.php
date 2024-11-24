@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace app\components\interfaces\services;
+namespace app\common\components\interfaces\services;
 
-use app\common\components\base\providers\items\core\BaseProvider;
+use app\common\components\core\providers\items\base\CoreProvider;
 
 /**
  * Logger Interface
  *
  * @package app\components\interfaces\services
  *
- * @tag: #base #interface #logger
+ * @tag: #common #interface #logger
  */
 interface ServiceWithProviderInterface
 {
-    public function getProvider( string $providerClassName ): BaseProvider;
+    public function getProvider( string $providerClassName ): CoreProvider;
 }

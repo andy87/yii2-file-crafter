@@ -2,8 +2,8 @@
 
 namespace app\console\tests\unit\models\items;
 
+use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
 use app\console\models\items\PascalCase;
-use app\common\components\base\{ tests\unit\models\BaseModelTest, moels\items\core\BaseModel };
 
 /**
  * < Console > PascalCaseServiceTest

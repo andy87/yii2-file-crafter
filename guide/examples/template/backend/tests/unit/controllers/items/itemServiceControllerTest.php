@@ -3,7 +3,7 @@
 namespace app\backend\tests\unit\controllers\items;
 
 use app\backend\controllers\PascalCaseController;
-use app\common\components\base\tests\unit\controllers\BaseWebControllerTest;
+use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest;
 
 /**
  * < Backend > PascalCaseServiceTest

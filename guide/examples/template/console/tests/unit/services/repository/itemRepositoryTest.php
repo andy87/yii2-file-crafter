@@ -2,8 +2,6 @@
 
 namespace app\console\tests\unit\repository;
 
-use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
-
 /**
  * < Console > PascalCaseRepositoryTest
  *
@@ -13,7 +11,7 @@ use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
  *
  * @tag #console #test #repository
  */
-class PascalCaseRepositoryTest extends BaseRepositoryTest
+class PascalCaseRepositoryTest extends \app\common\components\core\tests\base\unit\repository\BaseRepositoryTest
 {
     // {{Boilerplate}}
 }

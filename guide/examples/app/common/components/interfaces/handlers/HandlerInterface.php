@@ -2,13 +2,12 @@
 
 namespace app\common\components\interfaces\handlers;
 
-
 /**
  * < Common > Handler Interface
  *
  * @package app\common\components\interfaces\handlers
  *
- * @tag: #base #interface #handlers
+ * @tag: #common #interface #handlers
  */
 interface HandlerInterface
 {

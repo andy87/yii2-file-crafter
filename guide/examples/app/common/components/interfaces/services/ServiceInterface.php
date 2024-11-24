@@ -7,7 +7,7 @@ namespace app\common\components\interfaces\services;
  *
  * @package app\common\components\interfaces\handlers
  *
- * @tag: #base #interface #services
+ * @tag: #common #interface #services
  */
 interface ServiceInterface
 {

@@ -2,7 +2,7 @@
 
 namespace app\common\components\services\items;
 
-use app\common\components\base\services\items\core\BaseService;
+use app\common\components\core\services\items\base\BaseService;
 
 /**
  * < Common > Родительский класс для сервисов: console/frontend/backend

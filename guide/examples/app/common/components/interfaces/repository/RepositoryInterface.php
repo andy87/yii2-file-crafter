@@ -9,7 +9,7 @@ use yii\db\ActiveQuery;
  *
  * @package app\common\components\interfaces\repository
  *
- * @tag: #base #interface #repository
+ * @tag: #common #interface #repository
  */
 interface RepositoryInterface
 {

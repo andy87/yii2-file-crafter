@@ -2,8 +2,8 @@
 
 namespace app\frontend\components\resources\crud;
 
-use app\common\components\base\moels\items\core\BaseModel;
-use app\common\components\base\resources\sources\crud\BaseViewResource;
+use app\common\components\core\moels\items\base\BaseModel;
+use app\common\components\core\resources\sources\crud\CoreViewResource;
 
 /**
  * < Frontend> Родительский класс для ресурса просмотра модели в окружении `frontend`
@@ -12,9 +12,9 @@ use app\common\components\base\resources\sources\crud\BaseViewResource;
  *
  * @package app\frontend\components\resources\crud
  *
- * @tag: #frontend #source #resource #view
+ * @tag: #parent #abstract #frontend #resource #view
  */
-abstract class FrontendViewResource extends BaseViewResource
+abstract class FrontendViewResource extends CoreViewResource
 {
     // {{Boilerplate}}
 }

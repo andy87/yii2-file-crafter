@@ -2,8 +2,8 @@
 
 namespace app\common\components;
 
-use Yii;
-use app\common\components\base\Logger;
+use Yii, Exception;
+use app\common\components\core\Logger;
 
 /**
  * < Common > Class Notify
@@ -37,7 +37,7 @@ class Notify
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             Logger::logCatch($e, __METHOD__, 'Catch! Notify::send()',[
                 'message' => $message,

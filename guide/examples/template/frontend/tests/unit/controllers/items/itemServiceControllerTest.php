@@ -2,8 +2,8 @@
 
 namespace app\frontend\tests\unit\controllers\items;
 
+use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest;
 use app\frontend\controllers\PascalCaseController;
-use app\common\components\base\tests\unit\controllers\BaseWebControllerTest;
 
 /**
  * < Frontend > PascalCaseServiceTest

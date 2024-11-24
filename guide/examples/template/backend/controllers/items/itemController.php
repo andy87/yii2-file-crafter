@@ -2,14 +2,9 @@
 
 namespace app\backend\controllers;
 
-use app\common\components\Action;
-use app\common\components\base\resources\sources\BaseTemplateResource;
-use app\backend\{components\handlers\items\PascalCaseHandler,
-    components\controllers\sources\BackendControllerController};
-use app\backend\components\resources\items\snake_case\{PascalCaseIndexResource,
-    PascalCaseViewResource,
-    PascalCaseUpdateResource,
-    PascalCaseCreateResource};
+use app\common\components\{ Action, core\resources\sources\CoreTemplateResource };
+use app\backend\components\{ controllers\parents\BackendControllerController, handlers\items\PascalCaseHandler };
+use app\backend\components\resources\items\snake_case\{ PascalCaseIndexResource, PascalCaseViewResource, PascalCaseUpdateResource, PascalCaseCreateResource };
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
@@ -18,7 +13,7 @@ use app\backend\components\resources\items\snake_case\{PascalCaseIndexResource,
  *
  * @package app\backend\controllers
  *
- * @tag #backend #controller #{{snake_case}}
+ * @tag #pascalCase #backend #controller #{{snake_case}}
  */
 class PascalCaseController extends BackendControllerController
 {
@@ -33,7 +28,7 @@ class PascalCaseController extends BackendControllerController
             Action::VIEW => PascalCaseViewResource::class,
             Action::CREATE => PascalCaseCreateResource::class,
             Action::UPDATE => PascalCaseUpdateResource::class,
-            null => BaseTemplateResource::class,
+            null => CoreTemplateResource::class,
         ]
     ];
 }

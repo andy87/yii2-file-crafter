@@ -2,8 +2,8 @@
 
 namespace app\common\tests\unit\services\items;
 
+use app\common\components\core\{services\items\base\BaseService, tests\base\unit\services\BaseServiceTest};
 use app\common\components\services\items\PascalCaseService;
-use app\common\components\base\{ services\items\core\BaseService, tests\unit\services\BaseServiceTest};
 
 /**
  * < Common > PascalCaseServiceTest

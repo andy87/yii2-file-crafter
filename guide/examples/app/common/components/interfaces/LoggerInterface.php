@@ -9,7 +9,7 @@ use Exception;
  *
  * @package app\common\components\interfaces
  *
- * @tag: #base #interface #logger
+ * @tag: #common #interface #logger
  */
 interface LoggerInterface
 {

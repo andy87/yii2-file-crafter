@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\providers;
 
-use common\components\base\tests\unit\resources\items\BaseViewResourceTest;
+use app\common\components\core\tests\base\unit\resources\items\BaseViewResourceTest;
 
 /**
  * < Frontend > ItemViewResourceTest

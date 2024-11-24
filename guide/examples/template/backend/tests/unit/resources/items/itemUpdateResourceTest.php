@@ -2,7 +2,7 @@
 
 namespace app\backend\tests\unit\providers;
 
-use common\components\base\tests\unit\resources\items\BaseUpdateResourceTest;
+use app\common\components\core\tests\base\unit\resources\items\BaseUpdateResourceTest;
 
 /**
  * < Backend > ItemUpdateResourceTest

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\interfaces\services\core;
+namespace app\common\components\interfaces\services\base;
 
-use app\common\components\base\moels\items\core\BaseModel;
+use app\common\components\core\moels\items\base\BaseModel;
 
 /**
  * ModelUsability Interface
  *
  * @package app\common\components\interfaces\services\core
  *
- * @tag: #base #interface #usability #model
+ * @tag: #common #interface #usability #model
  */
 interface ModelUsabilityInterface
 {

@@ -4,7 +4,7 @@ namespace app\backend\components\resources\crud;
 
 use yii\data\ActiveDataProvider;
 use app\common\components\interfaces\models\SearchModelInterface;
-use app\common\components\base\resources\sources\crud\BaseGridViewResource;
+use app\common\components\core\resources\sources\crud\CoreGridViewResource;
 
 /**
  * < Backend > Родительский класс для ресурса индекса в окружении `backend`
@@ -14,9 +14,9 @@ use app\common\components\base\resources\sources\crud\BaseGridViewResource;
  *
  * @package app\backend\components\resources\crud
  *
- * @tag: #backend #source #resource #index
+ * @tag: #parent #abstract #backend  #resource #index
  */
-abstract class BackendIndexResource extends BaseGridViewResource
+abstract class BackendIndexResource extends CoreGridViewResource
 {
     // {{Boilerplate}}
 }

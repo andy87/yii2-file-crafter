@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\interfaces\services\core;
+namespace app\common\components\interfaces\services\base;
 
 use app\common\components\interfaces\LoggerInterface;
 
@@ -9,7 +9,7 @@ use app\common\components\interfaces\LoggerInterface;
  *
  * @package app\common\components\interfaces\services\core
  *
- * @tag: #base #interface #usability #logger
+ * @tag: #common #interface #usability #logger
  */
 interface LoggerUsabilityInterface
 {

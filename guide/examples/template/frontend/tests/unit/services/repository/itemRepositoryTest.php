@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\repository;
 
-use app\common\components\base\tests\unit\repository\BaseRepositoryTest;
+use app\common\components\core\tests\base\unit\repository\BaseRepositoryTest;
 
 /**
  * < Frontend > PascalCaseRepositoryTest

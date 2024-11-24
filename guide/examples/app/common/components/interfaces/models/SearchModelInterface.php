@@ -9,7 +9,7 @@ use yii\db\ActiveQueryInterface;
  *
  * @package app\common\components\interfaces\models
  *
- * @tag #interface #model #search
+ * @tag: #common #interface #model #search
  */
 interface SearchModelInterface
 {

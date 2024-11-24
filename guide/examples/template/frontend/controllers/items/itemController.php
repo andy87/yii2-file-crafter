@@ -3,7 +3,7 @@
 namespace app\frontend\controllers;
 
 use app\common\components\Action;
-use app\common\components\base\resources\sources\BaseTemplateResource;
+use app\common\components\core\resources\sources\CoreTemplateResource;
 use app\frontend\{components\controllers\sources\FrontendControllerController,
     components\resources\items\snake_case\PascalCaseCreateResource,
     components\resources\items\snake_case\PascalCaseIndexResource,
@@ -31,7 +31,7 @@ class PascalCaseController extends FrontendControllerController
         Action::VIEW => PascalCaseViewResource::class,
         Action::CREATE => PascalCaseCreateResource::class,
         Action::UPDATE => PascalCaseUpdateResource::class,
-        null => BaseTemplateResource::class,
+        null => CoreTemplateResource::class,
     ];
 
 

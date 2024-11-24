@@ -2,11 +2,11 @@
 
 namespace app\frontend\tests\functional\items;
 
-use Codeception\Actor;
 use app\common\components\Action;
-use app\frontend\tests\FunctionalTester;
+use app\common\components\core\tests\base\functional\BaseWebControllerCest;
 use app\frontend\controllers\PascalCaseController;
-use app\common\components\base\tests\unit\BaseWebControllerCest;
+use app\frontend\tests\FunctionalTester;
+use Codeception\Actor;
 
 /**
  * < Frontend > Тесты контроллера `PascalCaseController`

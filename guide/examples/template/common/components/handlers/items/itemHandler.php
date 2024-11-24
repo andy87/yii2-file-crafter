@@ -2,7 +2,7 @@
 
 namespace app\common\components\handlers\items;
 
-use app\common\components\base\handlers\items\core\BaseHandler;
+use app\common\components\core\handlers\items\base\BaseHandler;
 
 /**
  * < Common > Родительский класс для обработчиков: console/frontend/backend

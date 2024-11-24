@@ -24,7 +24,7 @@ if (YII_ENV_DEV)
                     'ext' => '.tpl',
                 ],
                 'commands' => [
-                    'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\common\components\core\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
+                    'php ../../yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="app\common\models\sources" --baseClass="app\common\components\base\BaseModel" --generateRelations --useClassConstant --generateLabelsFromComments'
                 ],
                 'eventHandler' => FileCrafterBehavior::class,
                 'custom_fields' => [

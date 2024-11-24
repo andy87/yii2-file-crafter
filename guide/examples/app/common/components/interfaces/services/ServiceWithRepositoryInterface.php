@@ -2,16 +2,16 @@
 
 namespace app\common\components\interfaces\services;
 
-use app\common\components\base\repository\items\cote\BaseRepository;
+use app\common\components\core\repository\items\cote\CoreRepository;
 
 /**
  * Logger Interface
  *
  * @package app\common\components\interfaces\services
  *
- * @tag: #base #interface #logger
+ * @tag: #common #interface #logger
  */
 interface ServiceWithRepositoryInterface
 {
-    public function getRepository(string $repositoryClassName):BaseRepository;
+    public function getRepository(string $repositoryClassName):CoreRepository;
 }

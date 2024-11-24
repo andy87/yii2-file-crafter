@@ -3,7 +3,7 @@
 namespace app\common\components\providers\items;
 
 use app\common\models\items\PascalCase;
-use app\common\components\base\providers\items\core\BaseProvider;
+use app\common\components\core\providers\items\base\CoreProvider;
 
 /**
  * < Common > Родительский класс для провайдеров: console/frontend/backend
@@ -15,7 +15,7 @@ use app\common\components\base\providers\items\core\BaseProvider;
  *
  * @tag #common #provider #{{snake_case}}
  */
-class PascalCaseProvider extends BaseProvider
+class PascalCaseProvider extends CoreProvider
 {
     // {{Boilerplate}}
 }
