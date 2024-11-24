@@ -10,7 +10,7 @@ use app\common\components\base\controllers\core\BaseConsoleController;
  *
  * @package app\common\components\base\controllers
  *
- * @tag: #abstract #base #controller #console
+ * @tag: #abstract #parent #controller #console
  */
 abstract class ConsoleController extends BaseConsoleController
 {

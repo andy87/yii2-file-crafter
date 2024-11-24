@@ -2,24 +2,18 @@
 
 namespace app\backend\components\handlers\sources;
 
-use app\backend\components\controllers\sources\BackendControllerController;
-use app\backend\components\resources\crud\BackendCreateResource;
-use app\backend\components\resources\crud\BackendIndexResource;
-use app\backend\components\resources\crud\BackendUpdateResource;
-use app\backend\components\resources\crud\BackendViewResource;
+use Exception, Throwable;
 use app\common\components\Action;
-use app\common\components\base\handlers\items\WebHandler;
-use app\common\components\base\resources\sources\BaseTemplateResource;
-use app\common\components\base\resources\sources\crud\BaseViewResource;
-use Exception;
-use Throwable;
+use app\backend\components\controllers\sources\BackendControllerController;
+use app\common\components\base\{ handlers\items\WebHandler, resources\sources\BaseTemplateResource };
+use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexResource, BackendUpdateResource, BackendViewResource };
 
 /**
- * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
+ * < Backend > Родительский класс для обработчиков контроллеров в окружения: `backend`
  *
  * @package app\backend\components\handlers\sources
  *
- * @tag #backend #handler #{{snake_case}}
+ * @tag #backend #source #handler
  */
 class BackendHandler extends WebHandler
 {

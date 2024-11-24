@@ -12,7 +12,7 @@ use app\common\components\base\resources\sources\crud\BaseFormResource;
  *
  * @package app\backend\components\resources\crud
  *
- * @tag: #backend #parent #resource #form
+ * @tag: #backend #source #resource #form
  */
 abstract class BackendFormResource extends BaseFormResource
 {

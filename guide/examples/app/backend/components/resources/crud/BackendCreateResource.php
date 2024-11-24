@@ -11,7 +11,7 @@ use app\common\components\base\moels\items\core\BaseModel;
  *
  * @property ?BaseModel $form
  *
- * @tag: #backend #parent #resource #create
+ * @tag: #backend #source #resource #create
  */
 abstract class BackendCreateResource extends BackendFormResource
 {

@@ -9,7 +9,7 @@ use app\common\components\{base\handlers\items\core\BaseHandler, traits\ApplyHan
  *
  * @package app\common\components\base\controllers
  *
- * @tag: #abstract #base #controller #console
+ * @tag: #abstract #parent #controller #console
  */
 abstract class ConsoleHandlerController extends ConsoleController
 {

@@ -12,7 +12,7 @@ use app\common\components\base\resources\sources\crud\BaseViewResource;
  *
  * @package app\backend\components\resources\crud
  *
- * @tag: #backend #parent #resource #view
+ * @tag: #backend #source #resource #view
  */
 abstract class BackendViewResource extends BaseViewResource
 {

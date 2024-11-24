@@ -15,7 +15,7 @@ use app\common\components\base\resources\sources\crud\{ BaseCreateResource, Base
  *
  * @package app\common\components\base\controllers
  *
- * @tag: #base #controller #web
+ * @tag: #abstract #parent #controller #web
  */
 abstract class WebController extends BaseWebController
 {

@@ -7,14 +7,14 @@ use app\backend\components\handlers\sources\BackendHandler;
 use app\common\components\base\controllers\WebHandlerController;
 
 /**
- * < Backend > Родительский класс для всех контроллеров бэкенда
+ * < Backend > Родительский класс для контроллеров в окружении: `backend`
  *
  * @property BackendHandler $handler
  * @property array $configHandler
  *
  * @package app\backend\components\controllers\sources
  *
- * @tag: #backend #controller #sources
+ * @tag: #backend #source #controller
  */
 abstract class BackendControllerController extends WebHandlerController
 {

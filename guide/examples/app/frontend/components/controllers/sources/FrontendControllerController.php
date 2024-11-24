@@ -16,7 +16,7 @@ use app\frontend\components\resources\items\snake_case\{ PascalCaseCreateResourc
  *
  * @package app\frontend\components\controllers\sources
  *
- * @tag: #frontend #controller #sources
+ * @tag: #frontend #source #controller #sources
  */
 abstract class FrontendControllerController extends WebHandlerController implements ControllerWithHandlerInterface
 {

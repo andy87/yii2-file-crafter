@@ -14,7 +14,7 @@ use app\common\components\interfaces\controllers\items\ControllerWithHandlerInte
  *
  * @package app\common\components\base\controllers
  *
- * @tag: #base #controller #web
+ * @tag: #abstract #parent #controller #web
  */
 abstract class WebHandlerController extends WebController implements ControllerWithHandlerInterface
 {
