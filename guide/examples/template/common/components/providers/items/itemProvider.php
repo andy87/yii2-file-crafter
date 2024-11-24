@@ -11,7 +11,7 @@ use app\common\components\base\providers\items\core\BaseProvider;
  * @method PascalCase create(array $params = [], bool $runSave = false)
  * @method PascalCase add(array $params)
  *
- * @package app\app\common\services\components\services\provider\items
+ * @package app\app\common\services\components\services\providers\items
  *
  * @tag #common #provider #{{snake_case}}
  */

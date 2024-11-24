@@ -2,7 +2,7 @@
 
 namespace app\backend\tests\unit\providers;
 
-use app\common\components\base\tests\unit\resources\items\BaseSearchResourceTest;
+use common\components\base\tests\unit\resources\items\BaseSearchResourceTest;
 
 /**
  * < Backend > ItemSearchResourceTest
@@ -11,7 +11,7 @@ use app\common\components\base\tests\unit\resources\items\BaseSearchResourceTest
  *
  * @tag #backend #test #service
  */
-class ItemSearchResourceTest extends BaseSearchResourceTest
+class BackendSearchResourceTest extends BaseSearchResourceTest
 {
 
 }

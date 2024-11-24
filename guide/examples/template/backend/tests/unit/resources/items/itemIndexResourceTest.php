@@ -2,7 +2,8 @@
 
 namespace app\backend\tests\unit\providers;
 
-use app\common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
+
+use common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
 
 /**
  * < Backend > ItemIndexResourceTest
@@ -11,7 +12,7 @@ use app\common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
  *
  * @tag #backend #test #service
  */
-class ItemIndexResourceTest extends BaseIndexResourceTest
+class BackendIndexResourceTest extends BaseIndexResourceTest
 {
 
 }

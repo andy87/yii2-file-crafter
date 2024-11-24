@@ -2,17 +2,11 @@
 
 namespace app\frontend\components\controllers\sources;
 
-use app\backend\resources\items\snake_case\PascalCaseIndexResource;
-use app\common\components\{Action,
-    base\Logger,
-    base\services\items\BaseService,
-    interfaces\controllers\items\ControllerWithHandlerInterface};
-use app\frontend\resources\items\snake_case\{PascalCaseCreateResource,
-    PascalCaseUpdateResource,
-    PascalCaseViewResource};
-use WebController;
 use Exception;
 use yii\filters\AccessControl;
+use app\common\components\{ Action, interfaces\controllers\items\ControllerWithHandlerInterface };
+use app\common\components\base\{ Logger, controllers\WebController, services\items\core\BaseService };
+use app\frontend\components\resources\items\snake_case\{PascalCaseCreateResource,PascalCaseIndexResource,PascalCaseUpdateResource,PascalCaseViewResource};
 
 /**
  * < Frontend > Родительский класс для всех контроллеров фронтенда

@@ -3,7 +3,7 @@
 namespace app\frontend\components\resources\items\snake_case;
 
 use app\frontend\models\items\PascalCase;
-use app\components\common\components\base\resources\sources\crud\BaseFormResource;
+use app\frontend\components\resources\crud\FrontendFormResource;
 
 /**
  * < Frontend > Boilerplate для ресурса формы `{{PascalCase}}`
@@ -14,7 +14,7 @@ use app\components\common\components\base\resources\sources\crud\BaseFormResourc
  *
  * @package app\frontend\resources\items\{{snake_case}};
  */
-class PascalCaseFormResource extends BaseFormResource
+class PascalCaseFormResource extends FrontendFormResource
 {
     // {{Boilerplate}}
 }

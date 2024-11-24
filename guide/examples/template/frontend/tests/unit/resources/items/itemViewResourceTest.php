@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\providers;
 
-use appcommon\components\base\tests\unit\resources\items\BaseViewResourceTest;
+use common\components\base\tests\unit\resources\items\BaseViewResourceTest;
 
 /**
  * < Frontend > ItemViewResourceTest
@@ -11,7 +11,7 @@ use appcommon\components\base\tests\unit\resources\items\BaseViewResourceTest;
  *
  * @tag #frontend #test #service
  */
-class ItemViewResourceTest extends BaseViewResourceTest
+class PascalCaseViewResourceTest extends BaseViewResourceTest
 {
 
 }

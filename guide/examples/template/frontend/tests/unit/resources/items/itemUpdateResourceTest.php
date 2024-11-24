@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\providers;
 
-use appcommon\components\base\tests\unit\resources\items\BaseUpdateResourceTest;
+use common\components\base\tests\unit\resources\items\BaseUpdateResourceTest;
 
 /**
  * < Frontend > ItemUpdateResourceTest
@@ -11,7 +11,7 @@ use appcommon\components\base\tests\unit\resources\items\BaseUpdateResourceTest;
  *
  * @tag #frontend #test #service
  */
-class ItemUpdateResourceTest extends BaseUpdateResourceTest
+class PascalCaseUpdateResourceTest extends BaseUpdateResourceTest
 {
 
 }

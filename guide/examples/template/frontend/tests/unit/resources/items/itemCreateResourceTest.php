@@ -2,7 +2,8 @@
 
 namespace app\frontend\tests\unit\resources\items;
 
-use app\common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
+
+use common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
 
 /**
  * < Frontend > ItemCreateResourceTest
@@ -13,7 +14,7 @@ use app\common\components\base\tests\unit\resources\items\BaseCreateResourceTest
  *
  * @tag: #frontend #resource #{{snake_case}} #create
  */
-class ItemCreateResourceTest extends BaseCreateResourceTest
+class PascalCaseCreateResourceTest extends BaseCreateResourceTest
 {
 
 }

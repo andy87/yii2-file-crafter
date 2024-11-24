@@ -3,7 +3,7 @@
 namespace app\frontend\tests\unit\services\items;
 
 use app\frontend\components\services\items\PascalCaseService;
-use app\common\components\base\{ tests\unit\services\BaseServiceTest, services\items\BaseService };
+use app\common\components\base\{ services\items\core\BaseService, tests\unit\services\BaseServiceTest};
 
 /**
  * < Frontend > PascalCaseServiceTest

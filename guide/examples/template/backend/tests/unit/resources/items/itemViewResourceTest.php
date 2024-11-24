@@ -11,7 +11,7 @@ use app\common\components\base\tests\unit\resources\items\BaseViewResourceTest;
  *
  * @tag #backend #test #service
  */
-class ItemViewResourceTest extends BaseViewResourceTest
+class BackendViewResourceTest extends BaseViewResourceTest
 {
 
 }

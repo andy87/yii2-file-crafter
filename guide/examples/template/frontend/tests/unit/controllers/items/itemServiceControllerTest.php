@@ -16,7 +16,7 @@ use app\common\components\base\tests\unit\controllers\BaseWebControllerTest;
  *
  * @tag #frontend #test #model
  */
-class ItemServiceControllerTest extends BaseWebControllerTest
+class PascalCaseServiceControllerTest extends BaseWebControllerTest
 {
 
 }

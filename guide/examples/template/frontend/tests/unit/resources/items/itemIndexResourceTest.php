@@ -2,7 +2,7 @@
 
 namespace app\frontend\tests\unit\providers;
 
-use appcommon\components\base\tests\unit\resources\items\BaseIndexResourceTest;
+use common\components\base\tests\unit\resources\items\BaseIndexResourceTest;
 
 /**
  * < Frontend > ItemIndexResourceTest
@@ -11,7 +11,7 @@ use appcommon\components\base\tests\unit\resources\items\BaseIndexResourceTest;
  *
  * @tag #frontend #test #service
  */
-class ItemIndexResourceTest extends BaseIndexResourceTest
+class PascalCaseIndexResourceTest extends BaseIndexResourceTest
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace app\backend\tests\unit\resources\items;
 
-use app\common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
+use common\components\base\tests\unit\resources\items\BaseCreateResourceTest;
 
 /**
  * < Backend > ItemCreateResourceTest
@@ -13,7 +13,7 @@ use app\common\components\base\tests\unit\resources\items\BaseCreateResourceTest
  *
  * @tag: #backend #resource #{{snake_case}} #create
  */
-class ItemCreateResourceTest extends BaseCreateResourceTest
+class BackendCreateResourceTest extends BaseCreateResourceTest
 {
 
 }

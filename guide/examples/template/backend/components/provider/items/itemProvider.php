@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace provider\items;
+namespace app\backend\components\providers\items;
 
 use app\backend\models\items\PascalCase;
 
@@ -10,7 +10,7 @@ use app\backend\models\items\PascalCase;
  * @method PascalCase create(array $params = [], bool $runSave = false)
  * @method PascalCase add(array $params)
  *
- * @package app\backend\components\services\provider\items
+ * @package app\backend\components\services\providers\items
  *
  * @tag #backend #provider #{{snake_case}}
  */

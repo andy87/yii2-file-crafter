@@ -3,18 +3,18 @@
 namespace app\frontend\components\resources\items\snake_case;
 
 use app\frontend\models\items\PascalCase;
-use app\components\common\components\base\resources\sources\crud\BaseUpdateResource;
+use app\frontend\components\resources\crud\FrontendViewResource;
 
 /**
  * < Frontend > Boilerplate для ресурса обновления модели `{{PascalCase}}`
  *
  * @property {{PascalCase}} $form
  *
- * @property PascalCase $form
+ * @property PascalCase $model
  *
  * @package app\frontend\resources\items\{{snake_case}}
  */
-class PascalCaseUpdateResource extends BaseUpdateResource
+class PascalCaseViewResource extends FrontendViewResource
 {
     // {{Boilerplate}}
 }
