@@ -2,12 +2,12 @@
 
 namespace app\common\components\core\controllers;
 
+use app\common\components\traits\ApplyHandlerTrait;
 use app\common\components\core\handlers\items\WebHandler;
 use app\common\components\core\moels\items\base\BaseModel;
+use app\common\components\core\handlers\items\base\BaseHandler;
 use app\common\components\core\providers\items\base\CoreProvider;
 use app\common\components\core\repository\items\base\CoreRepository;
-use app\common\components\traits\ApplyHandlerTrait;
-use app\common\components\core\handlers\items\base\BaseHandler;
 use app\common\components\interfaces\controllers\items\ControllerWithHandlerInterface;
 
 /**

@@ -2,11 +2,11 @@
 
 namespace app\common\components\services\items;
 
-use app\common\components\core\moels\items\base\BaseModel;
-use app\common\components\interfaces\models\SearchModelInterface;
 use app\common\models\items\PascalCase;
 use app\common\models\search\items\PascalCaseSearch;
+use app\common\components\core\moels\items\base\BaseModel;
 use app\common\components\core\services\items\CoreItemService;
+use app\common\components\interfaces\models\SearchModelInterface;
 use app\common\components\dataProviders\items\PascalCaseDataProvider;
 
 /**

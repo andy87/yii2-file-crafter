@@ -2,22 +2,20 @@
 
 namespace app\common\components\core\controllers;
 
-use app\common\components\{core\controllers\base\BaseWebController,
-    core\moels\items\base\BaseModel,
-    enums\Action,
-    Notify};
+use Yii, Exception, Throwable;
+use app\backend\components\handlers\parents\BackendHandler;
+use app\frontend\components\handlers\parents\FrontendHandler;
 use app\common\components\core\resources\sources\CoreTemplateResource;
-use app\common\components\core\resources\sources\crud\{CoreFormResource, CoreGridViewResource, CoreViewResource};
-use Exception;
-use Throwable;
-use yii\{base\Response, filters\AccessControl, filters\VerbFilter, web\ErrorAction};
-use Yii;
+use yii\{ base\Response, filters\AccessControl, filters\VerbFilter, web\ErrorAction };
+use app\common\components\core\resources\sources\crud\{ CoreFormResource, CoreGridViewResource, CoreViewResource };
+use app\common\components\{ core\controllers\base\BaseWebController, core\moels\items\base\BaseModel, enums\Action, Notify };
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
  * - BaseFrontendController
  * - BaseBackendController
  *
+ * @property BackendHandler|FrontendHandler $handler
  * @package app\common\components\core\controllers
  *
  * @tag: #abstract #core #controller
@@ -136,7 +134,7 @@ abstract class WebController extends BaseWebController
      *
      * @return string
      */
-    protected function renderResource(CoreTemplateResource $R ): string
+    protected function renderResource( CoreTemplateResource $R ): string
     {
         return $this->render(
             $R->template,
@@ -196,7 +194,7 @@ abstract class WebController extends BaseWebController
      *
      * @return Response|string
      *
-     * @throws \yii\db\Exception|Exception
+     * @throws Exception
      */
     public function actionUpdate( int $id ): Response|string
     {

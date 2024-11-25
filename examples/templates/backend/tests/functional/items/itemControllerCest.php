@@ -95,7 +95,7 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
-     * @see PascalCaseController::checkView()
+     * @see PascalCaseController::actionView()
      *
      * @tag #backend #tests #functional #action #view
      */
