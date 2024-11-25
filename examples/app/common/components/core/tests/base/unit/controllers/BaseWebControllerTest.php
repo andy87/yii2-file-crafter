@@ -2,14 +2,15 @@
 
 namespace app\common\components\core\tests\base\unit\controllers;
 
-use app\common\components\{Action, base\services\items\BaseService, base\tests\unit\base\BaseUnitTest};
+use app\common\components\enums\Action;
+use app\backend\controllers\items\PascalCaseController;
 
 /**
  * < Common > Base Model Test
  *
  * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/controllers/BaseControllerTest
  *
- * @property \app\backend\controllers\items\PascalCaseController $controller
+ * @property PascalCaseController $controller
  *
  * @package app\common\components\core\tests\unit
  *

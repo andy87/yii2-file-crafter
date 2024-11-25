@@ -4,7 +4,7 @@ namespace app\common\components\core\services\items;
 
 use Exception;
 use yii\db\{ Connection, ActiveQuery};
-use app\common\components\{ base\CoreModelTool,core\moels\items\base\BaseModel, core\providers\items\base\CoreProvider, core\repository\items\cote\CoreRepository };
+use app\common\components\{ base\CoreModelTool,core\moels\items\base\BaseModel, core\providers\items\base\CoreProvider, core\repository\items\base\CoreRepository };
 
 /**
  * < Common > Базовый абстрактный класс для всех сервисов
@@ -20,10 +20,10 @@ use app\common\components\{ base\CoreModelTool,core\moels\items\base\BaseModel, 
 abstract class CoreModelService extends CoreModelTool
 {
     /** @var CoreProvider */
-    public CoreProvider $provider;
+    protected CoreProvider $provider;
 
     /** @var CoreRepository */
-    public CoreRepository $repository;
+    protected CoreRepository $repository;
 
 
 

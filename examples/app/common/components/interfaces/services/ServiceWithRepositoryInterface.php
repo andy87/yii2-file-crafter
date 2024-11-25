@@ -2,7 +2,7 @@
 
 namespace app\common\components\interfaces\services;
 
-use app\common\components\core\repository\items\cote\CoreRepository;
+use app\common\components\core\repository\items\base\CoreRepository;
 
 /**
  * Logger Interface

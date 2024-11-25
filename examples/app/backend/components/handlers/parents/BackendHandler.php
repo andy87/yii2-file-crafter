@@ -2,10 +2,16 @@
 
 namespace app\backend\components\handlers\parents;
 
-use Exception, Throwable;
-use app\common\components\Action;
-use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreModelService };
-use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexResource, BackendUpdateResource, BackendViewResource };
+use app\backend\components\resources\crud\{BackendCreateResource,
+    BackendIndexResource,
+    BackendUpdateResource,
+    BackendViewResource};
+use app\common\components\core\{handlers\items\WebHandler,
+    resources\sources\CoreTemplateResource,
+    services\items\CoreModelService};
+use app\common\components\enums\Action;
+use Exception;
+use Throwable;
 
 /**
  * < Backend > Родительский класс для обработчиков контроллеров в окружения: `backend`
@@ -80,6 +86,8 @@ abstract class BackendHandler extends WebHandler
      * @param array $params
      *
      * @return BackendUpdateResource
+     *
+     * @throws Exception
      */
     public function processUpdate( int $id, array $params ): BackendUpdateResource
     {

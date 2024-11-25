@@ -2,10 +2,16 @@
 
 namespace app\frontend\components\handlers\parents;
 
-use Exception, Throwable;
-use app\common\components\Action;
-use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreModelService };
-use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendIndexResource, FrontendUpdateResource, FrontendViewResource };
+use app\common\components\core\{handlers\items\WebHandler,
+    resources\sources\CoreTemplateResource,
+    services\items\CoreModelService};
+use app\common\components\enums\Action;
+use app\frontend\components\resources\crud\{FrontendCreateResource,
+    FrontendIndexResource,
+    FrontendUpdateResource,
+    FrontendViewResource};
+use Exception;
+use Throwable;
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace app\common\components\core\repository\items\cote;
+namespace app\common\components\core\repository\items\base;
 
 use Exception;
 use yii\db\{ActiveQuery, Connection};

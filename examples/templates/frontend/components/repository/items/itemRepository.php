@@ -2,7 +2,6 @@
 
 namespace app\frontend\components\repository\items;
 
-use app\common\components\repository\items\PascalCaseRepository as Common_PascalCaseRepository;
 use yii\db\{ActiveQuery, Connection};
 
 /**
@@ -20,7 +19,7 @@ use yii\db\{ActiveQuery, Connection};
  *
  * @tag #frontend #service #{{snake_case}}
  */
-class PascalCaseRepository extends Common_PascalCaseRepository
+class PascalCaseRepository extends \app\common\components\repository\items\PascalCaseRepository
 {
     // {{Boilerplate}}
 }

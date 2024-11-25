@@ -2,7 +2,8 @@
 
 namespace app\common\components\core\handlers\items\base;
 
-use app\common\components\{ core\services\items\CoreModelService, interfaces\handlers\HandlerInterface };
+use app\common\components\core\moels\items\base\BaseModel;
+use app\common\components\interfaces\handlers\HandlerInterface;
 
 /**
  * < Common > Родительский абстрактный класс для всех обработчиков
@@ -13,6 +14,6 @@ use app\common\components\{ core\services\items\CoreModelService, interfaces\han
  */
 abstract class BaseHandler implements HandlerInterface
 {
-    /** @var CoreModelService */
-    public CoreModelService $service;
+    /** @var BaseModel|string */
+    public const MODEL_CLASS = BaseModel::class;
 }

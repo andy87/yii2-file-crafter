@@ -2,25 +2,50 @@
 
 namespace app\console\controllers\items;
 
-use app\common\components\{base\controllers\ConsoleHandlerController, models\ModelInfo};
+use Exception, Throwable;
+use yii\console\ExitCode;
+use app\console\models\items\PascalCase;
+use app\common\components\models\dto\ModelInfo;
+use app\console\components\services\items\PascalCaseService;
 use app\console\components\handlers\items\PascalCaseHandler;
-use Exception;
-use Throwable;
+use app\console\components\provider\items\PascalCaseProvider;
+use app\console\components\repository\items\PascalCaseRepository;
+use app\common\components\core\controllers\ConsoleHandlerController;
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
- * @property \app\console\components\handlers\items\PascalCaseHandler $handler
+ * @property PascalCaseHandler $handler
  *
- * @package app\backend\controllers
+ * @package app\console\controllers\items
  *
  * @tag #console #controller #{{snake_case}}
  */
 class PascalCaseController extends ConsoleHandlerController
 {
+    public const MODEL_CLASS = PascalCase::class;
+
     /** @var array Конфигурация обработчика */
     public array $handlerConfig = [
         'class' => PascalCaseHandler::class,
+    ];
+
+
+    /** @var array ресурсы контроллера */
+    public array $configHandler = [
+        'class' => PascalCaseHandler::class,
+        'service' => [
+            'class' => PascalCaseService::class,
+            'modelClass' => self::MODEL_CLASS,
+            'configProvider' => [
+                'class' => PascalCaseProvider::class,
+                'modelClass' => self::MODEL_CLASS
+            ],
+            'configRepository' => [
+                'class' => PascalCaseRepository::class,
+                'modelClass' => self::MODEL_CLASS
+            ]
+        ]
     ];
 
 
@@ -30,17 +55,19 @@ class PascalCaseController extends ConsoleHandlerController
      *
      * @param string $json JSON-строка с параметрами
      *
+     * @return int
+     *
      * @throws Exception
      */
-    public function actionAdd(string $json): void
+    public function actionAdd(string $json): int
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
         $params = json_decode( $json, true );
 
-        $model = $this->handler->add( $params );
+        $model = $this->handler->processAdd( $params );
 
-        $this->consolePrintLog('Result');
+        $this->consolePrintRN('Result');
 
         ( empty($model->id) || $model->isNewRecord )
             ? $this->consolePrintError('Model NOT added')
@@ -50,6 +77,8 @@ class PascalCaseController extends ConsoleHandlerController
         print_r(new ModelInfo($model));
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
+
+        return ExitCode::OK;
     }
     
     /**
@@ -57,17 +86,19 @@ class PascalCaseController extends ConsoleHandlerController
      *
      * @param int $id ID модели
      *
+     * @return int
+     *
      * @throws Exception
      */
-    public function actionView( int $id ): void
+    public function actionView( int $id ): int
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $model = $this->handler->view( $id );
+        $model = $this->handler->processView( $id );
 
         $this->stdout(date('Y-m-d H:i:s') . ' | ');
 
-        $this->consolePrintLog('Result');
+        $this->consolePrintRN('Result');
 
         if ($model)
         {
@@ -82,6 +113,8 @@ class PascalCaseController extends ConsoleHandlerController
         }
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
+
+        return ExitCode::OK;
     }
 
     /**
@@ -90,15 +123,17 @@ class PascalCaseController extends ConsoleHandlerController
      * @param int $id ID модели
      * @param string $json JSON-строка с параметрами
      *
+     * @return int
+     *
      * @throws Exception
      */
-    public function actionUpdate(int $id, string $json): void
+    public function actionUpdate( int $id, string $json ): int
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
         $params = json_decode( $json, true );
 
-        $model = $this->findByID( $id );
+        $model = $this->handler->processUpdate( $id, $params );
 
         if ($model)
         {
@@ -106,7 +141,7 @@ class PascalCaseController extends ConsoleHandlerController
 
             print_r(new ModelInfo($model));
 
-            $this->consolePrintLog('Result');
+            $this->consolePrintRN('Result');
 
             $model->load( $params, '' );
 
@@ -116,6 +151,9 @@ class PascalCaseController extends ConsoleHandlerController
         }
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
+
+        return ExitCode::OK;
+
     }
 
     /**
@@ -123,21 +161,23 @@ class PascalCaseController extends ConsoleHandlerController
      *
      * @param int $id ID модели
      *
+     * @return int
+     *
      * @throws Exception|Throwable
      */
-    public function actionDelete(int $id): void
+    public function actionDelete(int $id): int
     {
         echo $this->consolePrintFuncCallStart(__METHOD__);
 
-        $model = $this->findByID( $id, false );
+        $model = $this->handler->processDelete( $id );
 
         if ($model)
         {
-            $this->stdout(date('Y-m-d H:i:s') . ' | ');
+            $this->consolePrintRN('Model after delete: ');
 
             print_r(new ModelInfo($model));
 
-            $this->consolePrintLog('Result');
+            $this->consolePrintRN('Result');
 
             ($model->delete())
                 ? $this->consolePrintSuccess("Model deleted: $model->id")
@@ -145,5 +185,7 @@ class PascalCaseController extends ConsoleHandlerController
         }
 
         echo $this->consolePrintFuncCallEnd(__METHOD__);
+
+        return ExitCode::OK;
     }
 }

@@ -4,19 +4,31 @@ namespace app\frontend\components\controllers\parents;
 
 use yii\filters\AccessControl;
 use app\frontend\components\handlers\parents\FrontendHandler;
-use app\common\components\{ interfaces\controllers\items\ControllerWithHandlerInterface, core\controllers\WebHandlerController };
+use app\common\components\core\controllers\WebHandlerController;
+use app\common\components\core\providers\items\base\CoreProvider;
+use app\common\components\core\repository\items\base\CoreRepository;
 
 /**
  * < Frontend > Родительский класс для контроллеров в окружении: `frontend`
  *
  * @property FrontendHandler $handler
+ * @property array $configHandler
  *
  * @package app\frontend\components\controllers\parents
  *
  * @tag: #parent #abstract #frontend #controller
  */
-abstract class FrontendControllerController extends WebHandlerController implements ControllerWithHandlerInterface
+abstract class FrontendController extends WebHandlerController
 {
+    /** @var array Настройки для Обработчика */
+    public array $configHandler = [
+        'class' => FrontendHandler::class,
+        'provider' => CoreProvider::class,
+        'repository' => CoreRepository::class,
+    ];
+
+
+
     /**
      * @return array
      */

@@ -5,7 +5,7 @@ namespace app\common\components\core\services\items;
 use Yii, Exception, Throwable;
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
 use app\common\components\interfaces\{ models\SearchModelInterface, services\ServiceInterface };
-use app\common\components\core\{ moels\items\base\BaseModel, providers\items\base\CoreProvider, repository\items\cote\CoreRepository };
+use app\common\components\core\{ moels\items\base\BaseModel, providers\items\base\CoreProvider, repository\items\base\CoreRepository };
 
 /**
  * < Common > Базовый абстрактный класс для всех сервисов
@@ -20,7 +20,7 @@ use app\common\components\core\{ moels\items\base\BaseModel, providers\items\bas
  *
  * @tag: #abstract #core #provider
  */
-abstract class CoreItemServiceCore extends CoreModelService implements ServiceInterface
+abstract class CoreItemService extends CoreModelService implements ServiceInterface
 {
     /** @var array */
     protected array $configProvider;
@@ -29,7 +29,7 @@ abstract class CoreItemServiceCore extends CoreModelService implements ServiceIn
     protected array $configRepository;
 
     /** @var SearchModelInterface|string */
-    public SearchModelInterface|string $searchModelClass;
+    protected SearchModelInterface|string $searchModelClass;
 
     /** @var ActiveDataProvider|string */
     protected ActiveDataProvider|string $dataProviderClass = ActiveDataProvider::class;
@@ -218,15 +218,15 @@ abstract class CoreItemServiceCore extends CoreModelService implements ServiceIn
     /**
      * @param array $criteria
      *
-     * @return bool|int|null
+     * @return int
      *
      * @throws StaleObjectException|Throwable
      */
-    public function deleteItemByCriteria( array $criteria ): bool|int|null
+    public function deleteItemByCriteria( array $criteria ): int
     {
         /** @var ?BaseModel $model */
         $model = $this->getOne($criteria);
 
-        return $model?->delete();
+        return (int) $model?->delete();
     }
 }

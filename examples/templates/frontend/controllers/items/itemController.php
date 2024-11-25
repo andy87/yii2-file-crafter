@@ -2,9 +2,12 @@
 
 namespace app\frontend\controllers\items;
 
-use app\common\components\Action;
 use app\common\components\core\resources\sources\CoreTemplateResource;
-use app\frontend\{components\controllers\sources\FrontendControllerController};
+use app\common\components\enums\Action;
+use app\frontend\components\controllers\parents\FrontendController;
+use app\frontend\components\handlers\items\PascalCaseHandler;
+use app\frontend\components\provider\items\PascalCaseProvider;
+use app\frontend\components\repository\items\PascalCaseRepository;
 use app\frontend\components\resources\items\PascalCaseCreateResource;
 use app\frontend\components\resources\items\PascalCaseIndexResource;
 use app\frontend\components\resources\items\PascalCaseUpdateResource;
@@ -14,13 +17,13 @@ use app\frontend\components\services\items\PascalCaseService;
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
- * @property \app\frontend\components\services\items\PascalCaseService $service
+ * @property PascalCaseService $service
  *
- * @package app\frontend\controllers
+ * @package app\frontend\controllers\items
  *
  * @tag #frontend #controller #{{snake_case}}
  */
-class PascalCaseController extends FrontendControllerController
+class PascalCaseController extends FrontendController
 {
     /** @var string Для контроллера `UserGroupController` будет `user-group` */
     public const ENDPOINT = '{{kebab-case}}';
@@ -36,6 +39,14 @@ class PascalCaseController extends FrontendControllerController
 
 
 
-    /** @var PascalCaseService|string класс сервиса */
-    protected PascalCaseService|string $classnameService = PascalCaseService::class;
+    /** @var array ресурсы контроллера */
+    public array $configHandler = [
+        'class' => PascalCaseHandler::class,
+        'resources' => self::RESOURCES,
+        'service' => [
+            'class' => PascalCaseService::class,
+            'provider' => PascalCaseProvider::class,
+            'repository' => PascalCaseRepository::class
+        ]
+    ];
 }

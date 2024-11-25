@@ -4,7 +4,7 @@ namespace app\common\components\traits;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use app\common\components\core\services\items\CoreItemServiceCore;
+use app\common\components\core\services\items\CoreItemService;
 
 /**
  * < Common > Трейт для применения сервиса
@@ -21,13 +21,13 @@ trait ApplyServiceTrait
 
 
     /**
-     * @return CoreItemServiceCore
+     * @return CoreItemService
      *
      * @throws InvalidConfigException
      */
-    public function getService(): CoreItemServiceCore
+    public function getService(): CoreItemService
     {
-        /** @var CoreItemServiceCore $service */
+        /** @var CoreItemService $service */
         $service = Yii::createObject($this->configService);
 
         return $service;

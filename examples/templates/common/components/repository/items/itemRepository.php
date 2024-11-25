@@ -2,8 +2,8 @@
 
 namespace app\common\components\repository\items;
 
-use app\common\components\core\repository\items\cote\CoreRepository;
 use yii\db\{ActiveQuery, Connection};
+use app\common\components\core\repository\items\base\CoreRepository;
 
 /**
  * < Common > Родительский класс для репозиториев: console/frontend/backend

@@ -2,7 +2,7 @@
 
 namespace app\console\tests\unit\controllers\items;
 
-use app\common\components\{Action, base\tests\unit\controllers\BaseServiceControllerTest};
+use app\common\components\{base\tests\unit\controllers\BaseServiceControllerTest, enums\Action};
 use Exception;
 use Throwable;
 use Yii;

@@ -3,12 +3,12 @@
 namespace app\backend\components\handlers\items;
 
 use app\backend\components\handlers\parents\BackendHandler;
-use app\common\components\Action;
-use app\common\components\core\resources\sources\CoreTemplateResource;
-use app\common\components\core\services\items\CoreModelService;
 use app\backend\components\resources\items\PascalCaseCreateResource;
 use app\backend\components\resources\items\PascalCaseIndexResource;
 use app\backend\components\resources\items\PascalCaseUpdateResource;
+use app\common\components\core\resources\sources\CoreTemplateResource;
+use app\common\components\core\services\items\CoreModelService;
+use app\common\components\enums\Action;
 
 /**
  * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`

@@ -27,7 +27,7 @@ abstract class ConsoleController extends BaseConsoleController
      */
     protected function consolePrintFuncCallStart(string $__METHOD__ ): string
     {
-        return $this->consolePrintLog($__METHOD__);
+        return $this->consolePrintRN($__METHOD__);
     }
 
     /**
@@ -37,7 +37,7 @@ abstract class ConsoleController extends BaseConsoleController
      */
     protected function consolePrintFuncCallEnd(string $__METHOD__ ): string
     {
-        return $this->consolePrintLog($__METHOD__);
+        return $this->consolePrintRN($__METHOD__);
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class ConsoleController extends BaseConsoleController
      *
      * @return string
      */
-    protected function consolePrintLog(string $message ): string
+    protected function consolePrintRN(string $message ): string
     {
         return PHP_EOL . date(static::DATETIME_FORMAT) . ' | ' . $message;
     }

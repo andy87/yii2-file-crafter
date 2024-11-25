@@ -2,6 +2,8 @@
 
 namespace app\common\components\handlers\items;
 
+use app\common\models\items\PascalCase;
+use app\common\components\core\moels\items\base\BaseModel;
 use app\common\components\core\handlers\items\base\BaseHandler;
 
 /**
@@ -13,5 +15,8 @@ use app\common\components\core\handlers\items\base\BaseHandler;
  */
 class PascalCaseHandler extends BaseHandler
 {
+    /** @var BaseModel|string */
+    public const MODEL_CLASS = PascalCase::class;
+
     // {{Boilerplate}}
 }

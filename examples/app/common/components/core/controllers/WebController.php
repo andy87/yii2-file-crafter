@@ -2,11 +2,16 @@
 
 namespace app\common\components\core\controllers;
 
-use Yii, Exception, Throwable;
+use app\common\components\{core\controllers\base\BaseWebController,
+    core\moels\items\base\BaseModel,
+    enums\Action,
+    Notify};
 use app\common\components\core\resources\sources\CoreTemplateResource;
-use app\common\components\{Action, core\controllers\base\BaseWebController, core\moels\items\base\BaseModel, Notify};
-use yii\{ base\Response, filters\AccessControl, filters\VerbFilter, web\ErrorAction };
 use app\common\components\core\resources\sources\crud\{CoreFormResource, CoreGridViewResource, CoreViewResource};
+use Exception;
+use Throwable;
+use yii\{base\Response, filters\AccessControl, filters\VerbFilter, web\ErrorAction};
+use Yii;
 
 /**
  * < Common > Родительский класс для всех контроллеров веб-приложения
@@ -34,7 +39,6 @@ abstract class WebController extends BaseWebController
      * @var BaseModel|string
      */
     public BaseModel|string $model;
-
 
     /**
      * Массив с ресурсами для контроллера

@@ -3,8 +3,8 @@
 namespace app\common\components\core\handlers\items;
 
 use app\common\components\core\handlers\items\base\BaseHandler;
-use app\common\components\core\resources\sources\CoreTemplateResource;
 use app\common\components\core\services\items\CoreModelService;
+use app\common\components\core\resources\sources\CoreTemplateResource;
 
 /**
  * < Common > Родительский абстрактный класс для всех Web обработчиков
