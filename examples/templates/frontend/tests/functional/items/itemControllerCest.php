@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace frontend\tests\functional\items;
+namespace app\frontend\tests\functional\items;
 
 use app\common\components\Action;
 use app\common\components\core\tests\base\functional\BaseWebControllerCest;
 use app\frontend\tests\FunctionalTester;
 use Codeception\Actor;
-use frontend\controllers\items\PascalCaseController;
+use app\frontend\controllers\items\PascalCaseController;
 
 /**
  * < Frontend > Тесты контроллера `PascalCaseController`

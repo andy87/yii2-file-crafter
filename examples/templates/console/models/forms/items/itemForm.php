@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace console\models\forms\items;
+namespace app\console\models\forms\items;
+
+use app\console\models\items\PascalCase;
 
 /**
  * < Console > Форма создания модели `{{PascalCase}}` в окружении `console`
@@ -9,7 +11,7 @@ namespace console\models\forms\items;
  *
  * @tag #console #form #{{snake_case}}
  */
-class PascalCaseForm extends \console\models\items\PascalCase
+class PascalCaseForm extends PascalCase
 {
     // {{Boilerplate}}
 }

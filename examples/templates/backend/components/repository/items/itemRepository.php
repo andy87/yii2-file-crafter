@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\repository\items;
+namespace app\backend\components\repository\items;
 
 use yii\db\{ActiveQuery, Connection};
 
@@ -19,7 +19,7 @@ use yii\db\{ActiveQuery, Connection};
  *
  * @tag #backend #service #{{snake_case}}
  */
-class PascalCaseRepository extends \console\components\repository\items\PascalCaseRepository
+class PascalCaseRepository extends \app\console\components\repository\items\PascalCaseRepository
 {
     // {{Boilerplate}}
 }

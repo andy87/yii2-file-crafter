@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace console\tests\unit\controllers\items;
+namespace app\console\tests\unit\controllers\items;
 
 use app\common\components\{Action, base\tests\unit\controllers\BaseServiceControllerTest};
 use Exception;
@@ -13,7 +13,7 @@ use yii\base\InvalidConfigException;
  *
  * @cli ./vendor/bin/codecept run app/console/tests/unit/controllers/items/PascalCaseControllerTest
  *
- * @property \console\controllers\items\PascalCaseController $controller
+ * @property \app\console\controllers\items\PascalCaseController $controller
  *
  * @package app\console\tests\unit\models\items
  *

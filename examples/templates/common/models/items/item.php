@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\models\items;
+namespace app\common\models\items;
 
 use app\common\components\core\moels\items\base\BaseModel;
 

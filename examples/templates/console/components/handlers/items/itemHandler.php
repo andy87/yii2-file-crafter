@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace console\components\handlers\items;
+namespace app\console\components\handlers\items;
 
 use app\common\components\{traits\ApplyServiceTrait};
-use common\components\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
-use console\components\services\items\PascalCaseService;
-use console\models\items\PascalCase;
+use app\common\components\handlers\items\PascalCaseHandler as Common_PascalCaseHandler;
+use app\console\components\services\items\PascalCaseService;
+use app\console\models\items\PascalCase;
 use Exception;
 use yii\base\InvalidConfigException;
 
@@ -25,7 +25,7 @@ class PascalCaseHandler extends Common_PascalCaseHandler
      */
     public array $configService = [
         'class' => PascalCaseService::class,
-        'modelClass' => \console\models\items\PascalCase::class
+        'modelClass' => \app\console\models\items\PascalCase::class
     ];
 
 

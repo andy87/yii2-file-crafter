@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace console\components\provider\items;
+namespace app\console\components\provider\items;
 
-use common\components\providers\items\PascalCaseProvider as Common_PascalCaseProvider;
+use app\common\components\providers\items\PascalCaseProvider as Common_PascalCaseProvider;
 
 /**
  * < Console > provide for model `{{PascalCase}}`
  *
- * @method \console\models\items\PascalCase create(array $params = [], bool $runSave = false)
- * @method \console\models\items\PascalCase add(array $params)
+ * @method \app\console\models\items\PascalCase create(array $params = [], bool $runSave = false)
+ * @method \app\console\models\items\PascalCase add(array $params)
  *
  * @package app\console\components\services\providers\items
  *

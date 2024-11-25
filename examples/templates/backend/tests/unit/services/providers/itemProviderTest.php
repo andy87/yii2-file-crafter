@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\tests\unit\services\providers;
+namespace app\backend\tests\unit\services\providers;
 
 use app\common\components\core\{providers\items\base\CoreProvider};
 

@@ -4,7 +4,7 @@ namespace app\common\components\core\tests\base\unit\controllers;
 
 use app\common\components\{core\tests\base\unit\BaseUnitTest,
     interfaces\controllers\items\ControllerWithHandlerInterface};
-use backend\controllers\items\PascalCaseController;
+use app\backend\controllers\items\PascalCaseController;
 use Yii;
 use yii\base\{Behavior, InvalidConfigException};
 
@@ -19,8 +19,8 @@ use yii\base\{Behavior, InvalidConfigException};
  */
 abstract class BaseServiceControllerTest extends BaseUnitTest
 {
-    /** @var \backend\controllers\items\PascalCaseController $controller */
-    public \backend\controllers\items\PascalCaseController $controller;
+    /** @var \app\backend\controllers\items\PascalCaseController $controller */
+    public \app\backend\controllers\items\PascalCaseController $controller;
 
 
 
@@ -31,9 +31,9 @@ abstract class BaseServiceControllerTest extends BaseUnitTest
      */
     public function _before(): void
     {
-        /** @var \backend\controllers\items\PascalCaseController $controller */
+        /** @var \app\backend\controllers\items\PascalCaseController $controller */
         $controller = Yii::createObject([
-            'class' => \backend\controllers\items\PascalCaseController::class
+            'class' => \app\backend\controllers\items\PascalCaseController::class
         ]);
 
         $this->controller = $controller;

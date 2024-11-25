@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace console\controllers\items;
+namespace app\console\controllers\items;
 
 use app\common\components\{base\controllers\ConsoleHandlerController, models\ModelInfo};
-use console\components\handlers\items\PascalCaseHandler;
+use app\console\components\handlers\items\PascalCaseHandler;
 use Exception;
 use Throwable;
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
- * @property \console\components\handlers\items\PascalCaseHandler $handler
+ * @property \app\console\components\handlers\items\PascalCaseHandler $handler
  *
  * @package app\backend\controllers
  *

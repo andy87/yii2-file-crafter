@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\provider\items;
+namespace app\backend\components\provider\items;
 
-use backend\models\items\PascalCase;
+use app\backend\models\items\PascalCase;
 
 /**
  * < Backend > provide for model `{{PascalCase}}`

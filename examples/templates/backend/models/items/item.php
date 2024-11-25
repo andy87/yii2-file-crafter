@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\models\items;
-
-use common\models\items\PascalCase as Common_PascalCase;
+namespace app\backend\models\items;
 
 /**
  * < Backend > Boilerplate для модели `{{PascalCase}}`
@@ -11,7 +9,7 @@ use common\models\items\PascalCase as Common_PascalCase;
  *
  * @tag #backend #model #{{snake_case}}
  */
-class PascalCase extends Common_PascalCase
+class PascalCase extends \app\common\models\items\PascalCase
 {
     // {{Boilerplate}}
 }

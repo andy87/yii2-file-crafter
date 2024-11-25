@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace backend\models\forms\items;
+namespace app\backend\models\forms\items;
+
+use app\backend\models\items\PascalCase;
 
 /**
  * < Backend > Форма создания модели `{{PascalCase}}` в окружении `backend`
@@ -9,7 +11,7 @@ namespace backend\models\forms\items;
  *
  * @tag #backend #form #{{snake_case}}
  */
-class PascalCaseForm extends \backend\models\items\PascalCase
+class PascalCaseForm extends PascalCase
 {
     // {{Boilerplate}}
 }

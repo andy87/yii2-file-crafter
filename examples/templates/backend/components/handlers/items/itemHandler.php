@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\handlers\items;
+namespace app\backend\components\handlers\items;
 
 use app\backend\components\handlers\parents\BackendHandler;
 use app\common\components\Action;
 use app\common\components\core\resources\sources\CoreTemplateResource;
 use app\common\components\core\services\items\CoreModelService;
-use backend\components\resources\items\PascalCaseCreateResource;
-use backend\components\resources\items\PascalCaseIndexResource;
-use backend\components\resources\items\PascalCaseUpdateResource;
+use app\backend\components\resources\items\PascalCaseCreateResource;
+use app\backend\components\resources\items\PascalCaseIndexResource;
+use app\backend\components\resources\items\PascalCaseUpdateResource;
 
 /**
  * < Backend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`

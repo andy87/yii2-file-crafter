@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\resources\items;
+namespace app\backend\components\resources\items;
 
 use app\backend\components\resources\crud\BackendIndexResource;
-use backend\components\dataProviders\items\PascalCaseDataProvider;
+use app\backend\components\dataProviders\items\PascalCaseDataProvider;
 
 /**
  * < Backend > Boilerplate для ресурса формы `{{PascalCase}}`
  *
- * @property \backend\models\search\items\PascalCaseSearch $searchModel;
+ * @property \app\backend\models\search\items\PascalCaseSearch $searchModel;
  * @property PascalCaseDataProvider $activeDataProvider;
  *
  * @package app\backend\components\resources\items\{{snake_case}}

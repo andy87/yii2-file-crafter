@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace backend\tests\unit\services\items;
+namespace app\backend\tests\unit\services\items;
 
 use app\common\components\core\{services\items\base\BaseService, tests\base\unit\services\BaseServiceTest};
-use backend\components\services\items\PascalCaseService;
+use app\backend\components\services\items\PascalCaseService;
 
 /**
  * < Backend > PascalCaseServiceTest

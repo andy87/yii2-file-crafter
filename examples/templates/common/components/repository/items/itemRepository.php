@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\components\repository\items;
+namespace app\common\components\repository\items;
 
 use app\common\components\core\repository\items\cote\CoreRepository;
 use yii\db\{ActiveQuery, Connection};

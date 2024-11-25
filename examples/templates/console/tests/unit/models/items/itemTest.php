@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace console\tests\unit\models\items;
+namespace app\console\tests\unit\models\items;
 
 use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
-use console\models\items\PascalCase;
+use app\console\models\items\PascalCase;
 
 /**
  * < Console > PascalCaseServiceTest

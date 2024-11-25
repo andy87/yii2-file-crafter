@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\components\services\items;
+namespace app\common\components\services\items;
 
 use app\common\components\core\services\items\base\BaseService;
 

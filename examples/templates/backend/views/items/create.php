@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use backend\components\resources\items\PascalCaseCreateResource;
+use app\backend\components\resources\items\PascalCaseCreateResource;
 use yii\bootstrap5\{ActiveForm, Html};
 use yii\web\View;
 

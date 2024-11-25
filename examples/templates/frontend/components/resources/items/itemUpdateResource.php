@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace frontend\components\resources\items;
+namespace app\frontend\components\resources\items;
 
 use app\frontend\components\resources\crud\FrontendUpdateResource;
 
@@ -9,7 +9,7 @@ use app\frontend\components\resources\crud\FrontendUpdateResource;
  *
  * @property {{PascalCase}} $form
  *
- * @property \frontend\models\items\PascalCase $form
+ * @property \app\frontend\models\items\PascalCase $form
  *
  * @package app\frontend\resources\items\{{snake_case}}
  *

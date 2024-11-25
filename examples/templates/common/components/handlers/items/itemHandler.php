@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\components\handlers\items;
+namespace app\common\components\handlers\items;
 
 use app\common\components\core\handlers\items\base\BaseHandler;
 

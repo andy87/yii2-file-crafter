@@ -8,7 +8,7 @@ use yii\web\View;
  *
  * @var View $this
  * @var ActiveForm $form
- * @var \backend\components\resources\items\PascalCaseIndexResource $R
+ * @var \app\backend\components\resources\items\PascalCaseIndexResource $R
  */
 
 // {{Boilerplate}}

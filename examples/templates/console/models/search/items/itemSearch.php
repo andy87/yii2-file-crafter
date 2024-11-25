@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace console\models\search\items;
+namespace app\console\models\search\items;
 
-use console\models\items\PascalCase;
+use app\console\models\items\PascalCase;
 
 /**
  * < Console > Модель с логикой поиска в `{{PascalCase}}` для окружения: console

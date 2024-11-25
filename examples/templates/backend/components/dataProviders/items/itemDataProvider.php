@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\dataProviders\items;
+namespace app\backend\components\dataProviders\items;
 
 use app\backend\components\dataProviders\sources\BackendActiveDataProvide;
 use yii\db\{Connection, QueryInterface};

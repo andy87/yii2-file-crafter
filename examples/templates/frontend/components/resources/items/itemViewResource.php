@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace frontend\components\resources\items;
+namespace app\frontend\components\resources\items;
 
 use app\frontend\components\resources\crud\FrontendViewResource;
-use frontend\models\items\PascalCase;
+use app\frontend\models\items\PascalCase;
 
 /**
  * < Frontend > Boilerplate для ресурса обновления модели `{{PascalCase}}`

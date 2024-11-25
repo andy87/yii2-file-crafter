@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\tests\unit\models\items;
+namespace app\common\tests\unit\models\items;
 
 use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
 
@@ -10,7 +10,7 @@ use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\mode
  * @cli ./vendor/bin/codecept run app/common/tests/unit/models/items/PascalCaseTest
  *
  * @cli ./vendor/bin/codecept run app/common/tests/unit/models/items/PascalCaseTest:testInspectAttributes
- * @method \common\models\items\PascalCase testInspectAttributes()
+ * @method \app\common\models\items\PascalCase testInspectAttributes()
  *
  * @package app\common\tests\unit\models\items
  *
@@ -19,7 +19,7 @@ use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\mode
 class PascalCaseTest extends BaseModelTest
 {
     /** @var BaseModel|string $modelClass */
-    protected BaseModel|string $modelClass = \common\models\items\PascalCase::class;
+    protected BaseModel|string $modelClass = \app\common\models\items\PascalCase::class;
 
     // {{Boilerplate}}
 }

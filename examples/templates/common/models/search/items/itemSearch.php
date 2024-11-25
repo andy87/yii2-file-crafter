@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace common\models\search\items;
+namespace app\common\models\search\items;
 
-use app\common\components\interfaces\models\SearchModelInterface;
 use yii\db\ActiveQueryInterface;
+use app\common\models\items\PascalCase;
+use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
  * < Common > Модель с логикой поиска в `{{PascalCase}}` для окружения: common
@@ -12,7 +13,7 @@ use yii\db\ActiveQueryInterface;
  *
  * @tag #common #search #{{snake_case}}
  */
-class PascalCaseSearch extends \common\models\items\PascalCase implements SearchModelInterface
+class PascalCaseSearch extends PascalCase implements SearchModelInterface
 {
     // {{Boilerplate}}
     public function search(array $params): ActiveQueryInterface

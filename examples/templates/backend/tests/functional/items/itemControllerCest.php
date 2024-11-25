@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace backend\tests\functional\items;
+namespace app\backend\tests\functional\items;
 
 use app\backend\tests\FunctionalTester;
 use app\common\components\Action;
 use app\common\components\core\tests\base\functional\BaseWebControllerCest;
-use backend\controllers\items\PascalCaseController;
+use app\backend\controllers\items\PascalCaseController;
 use Codeception\Actor;
 
 /**
@@ -35,7 +35,7 @@ class PascalCaseWebControllerCest extends BaseWebControllerCest
      *
      * @return void
      *
-     * @see \backend\controllers\items\PascalCaseController::actionIndex()
+     * @see \app\backend\controllers\items\PascalCaseController::actionIndex()
      *
      * @tag #backend #tests #functional #action #index
      */

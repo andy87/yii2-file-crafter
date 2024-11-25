@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace console\tests\unit\services\repository;
+namespace app\console\tests\unit\services\repository;
 
 /**
  * < Console > PascalCaseRepositoryTest

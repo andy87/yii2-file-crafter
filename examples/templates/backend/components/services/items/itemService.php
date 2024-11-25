@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\services\items;
+namespace app\backend\components\services\items;
 
 use app\common\components\interfaces\models\SearchModelInterface;
-use backend\models\{items\PascalCase};
-use backend\models\search\items\PascalCaseSearch;
-use common\components\services\items\PascalCaseService as Common_PascalCaseService;
+use app\backend\models\{items\PascalCase};
+use app\backend\models\search\items\PascalCaseSearch;
+use app\common\components\services\items\PascalCaseService as Common_PascalCaseService;
 
 /**
  * < Backend > Сервис для работы с сущностью `{{PascalCase}}`
@@ -16,7 +16,7 @@ use common\components\services\items\PascalCaseService as Common_PascalCaseServi
  */
 class PascalCaseService extends Common_PascalCaseService
 {
-    /** @var \backend\models\items\PascalCase|string $modelClass класс модели */
+    /** @var \app\backend\models\items\PascalCase|string $modelClass класс модели */
     protected PascalCase|string $modelClass = PascalCase::class;
 
     /** @var SearchModelInterface|string */

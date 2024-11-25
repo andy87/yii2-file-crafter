@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\resources\items;
+namespace app\backend\components\resources\items;
 
 use app\backend\components\resources\crud\BackendViewResource;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\tests\unit\services\items;
+namespace app\common\tests\unit\services\items;
 
 use app\common\components\core\{services\items\base\BaseService, tests\base\unit\services\BaseServiceTest};
 
@@ -14,7 +14,7 @@ use app\common\components\core\{services\items\base\BaseService, tests\base\unit
 class PascalCaseServiceTest extends BaseServiceTest
 {
     /** @var BaseService|string класс сервиса */
-    public BaseService|string $classnameService = \common\components\services\items\PascalCaseService::class;
+    public BaseService|string $classnameService = \app\common\components\services\items\PascalCaseService::class;
 
     // {{Boilerplate}}
 }

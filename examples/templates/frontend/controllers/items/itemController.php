@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace frontend\controllers\items;
+namespace app\frontend\controllers\items;
 
 use app\common\components\Action;
 use app\common\components\core\resources\sources\CoreTemplateResource;
 use app\frontend\{components\controllers\sources\FrontendControllerController};
-use frontend\components\resources\items\PascalCaseCreateResource;
-use frontend\components\resources\items\PascalCaseIndexResource;
-use frontend\components\resources\items\PascalCaseUpdateResource;
-use frontend\components\resources\items\PascalCaseViewResource;
-use frontend\components\services\items\PascalCaseService;
+use app\frontend\components\resources\items\PascalCaseCreateResource;
+use app\frontend\components\resources\items\PascalCaseIndexResource;
+use app\frontend\components\resources\items\PascalCaseUpdateResource;
+use app\frontend\components\resources\items\PascalCaseViewResource;
+use app\frontend\components\services\items\PascalCaseService;
 
 /**
  * Boilerplate Контроллер для модели `{{PascalCase}}`
  *
- * @property \frontend\components\services\items\PascalCaseService $service
+ * @property \app\frontend\components\services\items\PascalCaseService $service
  *
  * @package app\frontend\controllers
  *

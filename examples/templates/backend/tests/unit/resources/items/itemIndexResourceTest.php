@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\tests\unit\resources\items;
+namespace app\backend\tests\unit\resources\items;
 
 
 use app\common\components\core\tests\base\unit\resources\items\BaseIndexResourceTest;

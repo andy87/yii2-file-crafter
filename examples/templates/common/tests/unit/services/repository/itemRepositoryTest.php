@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace common\tests\unit\services\repository;
+namespace app\common\tests\unit\services\repository;
 
 use app\common\components\core\tests\base\unit\repository\BaseRepositoryTest;
 

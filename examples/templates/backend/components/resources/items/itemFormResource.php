@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace backend\components\resources\items;
+namespace app\backend\components\resources\items;
 
 use app\backend\components\resources\crud\BackendFormResource;
-use backend\models\items\PascalCase;
+use app\backend\models\items\PascalCase;
 
 /**
  * < Backend > Boilerplate для ресурса формы `{{PascalCase}}`

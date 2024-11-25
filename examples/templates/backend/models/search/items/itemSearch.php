@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace backend\models\search\items;
+namespace app\backend\models\search\items;
 
-use backend\models\items\PascalCase;
+use app\backend\models\items\PascalCase;
 
 /**
  * < Backend > Модель с логикой поиска в `{{PascalCase}}` для окружения: backend

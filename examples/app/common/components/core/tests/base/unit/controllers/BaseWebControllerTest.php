@@ -9,7 +9,7 @@ use app\common\components\{Action, base\services\items\BaseService, base\tests\u
  *
  * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/controllers/BaseControllerTest
  *
- * @property \backend\controllers\items\PascalCaseController $controller
+ * @property \app\backend\controllers\items\PascalCaseController $controller
  *
  * @package app\common\components\core\tests\unit
  *

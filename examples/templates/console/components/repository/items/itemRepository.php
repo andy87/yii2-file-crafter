@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace console\components\repository\items;
+namespace app\console\components\repository\items;
 
-use common\components\repository\items\PascalCaseRepository as Common_PascalCaseRepository;
+use app\common\components\repository\items\PascalCaseRepository as Common_PascalCaseRepository;
 use yii\db\{ActiveQuery, Connection};
 
 /**

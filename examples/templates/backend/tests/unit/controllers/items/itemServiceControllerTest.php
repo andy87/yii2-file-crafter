@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace backend\tests\unit\controllers\items;
+namespace app\backend\tests\unit\controllers\items;
 
 use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest;
 
@@ -9,7 +9,7 @@ use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest
  *
  * @cli ./vendor/bin/codecept run app/backend/tests/unit/controllers/items/ItemServiceControllerTest
  *
- * @property \backend\controllers\items\PascalCaseController $controller
+ * @property \app\backend\controllers\items\PascalCaseController $controller
  *
  * @package app\backend\tests\unit\models\items
  *

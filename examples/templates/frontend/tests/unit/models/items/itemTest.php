@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace frontend\tests\unit\models\items;
+namespace app\frontend\tests\unit\models\items;
 
 use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
-use frontend\models\items\PascalCase;
+use app\frontend\models\items\PascalCase;
 
 /**
  * < Frontend > PascalCaseServiceTest
@@ -11,7 +11,7 @@ use frontend\models\items\PascalCase;
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/models/items/PascalCaseTest
  *
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/models/items/PascalCaseTest:testInspectAttributes
- * @method \frontend\models\items\PascalCase testInspectAttributes()
+ * @method \app\frontend\models\items\PascalCase testInspectAttributes()
  *
  * @package app\frontend\tests\unit\models\items
  *
