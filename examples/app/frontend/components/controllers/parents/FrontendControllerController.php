@@ -4,8 +4,7 @@ namespace app\frontend\components\controllers\parents;
 
 use yii\filters\AccessControl;
 use app\frontend\components\handlers\parents\FrontendHandler;
-use app\common\components\core\controllers\WebHandlerController;
-use app\common\components\{interfaces\controllers\items\ControllerWithHandlerInterface};
+use app\common\components\{ interfaces\controllers\items\ControllerWithHandlerInterface, core\controllers\WebHandlerController };
 
 /**
  * < Frontend > Родительский класс для контроллеров в окружении: `frontend`

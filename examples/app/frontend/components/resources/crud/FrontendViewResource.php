@@ -2,8 +2,7 @@
 
 namespace app\frontend\components\resources\crud;
 
-use app\common\components\core\moels\items\base\BaseModel;
-use app\common\components\core\resources\sources\crud\CoreViewResource;
+use app\common\components\core\{ resources\sources\crud\CoreViewResource, moels\items\base\BaseModel };
 
 /**
  * < Frontend> Родительский класс для ресурса просмотра модели в окружении `frontend`

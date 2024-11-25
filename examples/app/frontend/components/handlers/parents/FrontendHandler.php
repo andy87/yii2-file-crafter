@@ -4,9 +4,7 @@ namespace app\frontend\components\handlers\parents;
 
 use Exception, Throwable;
 use app\common\components\Action;
-use app\common\components\core\{handlers\items\WebHandler,
-    resources\sources\CoreTemplateResource,
-    services\items\CoreModelService};
+use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreModelService };
 use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendIndexResource, FrontendUpdateResource, FrontendViewResource };
 
 /**
@@ -18,7 +16,7 @@ use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendInd
  *
  * @package app\frontend\components\handlers\parents
  *
- * @tag #abstract #frontend #handler
+ * @tag #parent #abstract #frontend #handler
  */
 abstract class FrontendHandler extends WebHandler
 {
@@ -41,14 +39,8 @@ abstract class FrontendHandler extends WebHandler
      *
      * @return FrontendIndexResource
      */
-    public function index( FrontendIndexResource $R, array $params ): FrontendIndexResource
+    public function processIndex( FrontendIndexResource $R, array $params ): FrontendIndexResource
     {
-        $R->searchModel = $this->service->getSearchModel();
-
-        $R->activeDataProvider = $this->service->getDataProviderBySearchModel(
-            $R->searchModel,
-            $params
-        );
         $R->searchModel = $this->service->getSearchModel();
 
         $R->activeDataProvider = $this->service->getDataProviderBySearchModel(
@@ -60,34 +52,57 @@ abstract class FrontendHandler extends WebHandler
     }
 
     /**
-     * @param FrontendCreateResource $R
+     * @param array $params
+     * @param string $key
      *
      * @return FrontendCreateResource
+     *
+     * @throws \yii\db\Exception
      */
-    public function create(FrontendCreateResource $R): FrontendCreateResource
+    public function processCreate( array $params = [], string $key = '' ): FrontendCreateResource
     {
+        $R = $this->getResources(Action::CREATE);
+
+        $R->form = $this->service->getModel();
+
+        if ( count($params) ) {
+            if($R->form->load($params, $key)) {
+                $R->form->save();
+            }
+        }
+
         return $R;
     }
 
     /**
-     * @param FrontendUpdateResource $R
+     * @param int $id
+     * @param array $params
      *
      * @return FrontendUpdateResource
      */
-    public function update(FrontendUpdateResource $R): FrontendUpdateResource
+    public function processUpdate( int $id, array $params ): FrontendUpdateResource
     {
+        $R = $this->getResources(Action::UPDATE);
+
+        $R->form = $this->service->getItemById( $id );
+
+        //TODO: остановился с Handler тут
+
         return $R;
     }
 
     /**
-     * @param FrontendViewResource $R
      * @param int $id
      *
      * @return FrontendViewResource
+     *
+     * @throws Exception
      */
-    public function view( FrontendViewResource $R, int $id ): FrontendViewResource
+    public function processView( int $id ): FrontendViewResource
     {
-        $R->model = $this->service->getItemById( $id );
+        $R = $this->getResources(Action::VIEW);
+
+        $R->model = $this->service->getOne(['id' => $id]);
 
         return $R;
     }
@@ -99,7 +114,7 @@ abstract class FrontendHandler extends WebHandler
      *
      * @throws Exception|Throwable
      */
-    public function delete( int $id ): bool
+    public function processDelete( int $id ): bool
     {
         $model = $this->service->getOne(['id' => $id]);
 

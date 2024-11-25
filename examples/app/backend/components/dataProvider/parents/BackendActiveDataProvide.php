@@ -2,7 +2,7 @@
 
 namespace app\backend\components\dataProviders\parents;
 
-use yii\db\{Connection, QueryInterface};
+use yii\db\{ QueryInterface, Connection };
 use app\common\components\core\dataProviders\items\base\BaseActiveDataProvide;
 
 /**

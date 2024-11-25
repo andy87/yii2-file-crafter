@@ -3,8 +3,7 @@
 namespace app\frontend\components\resources\crud;
 
 use yii\data\ActiveDataProvider;
-use app\common\components\interfaces\models\SearchModelInterface;
-use app\common\components\core\resources\sources\crud\CoreGridViewResource;
+use app\common\components\{ core\resources\sources\crud\CoreGridViewResource, interfaces\models\SearchModelInterface };
 
 /**
  * < Frontend> Родительский класс для ресурса индекса в окружении `frontend`

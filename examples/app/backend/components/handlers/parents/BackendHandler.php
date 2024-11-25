@@ -4,7 +4,6 @@ namespace app\backend\components\handlers\parents;
 
 use Exception, Throwable;
 use app\common\components\Action;
-use app\backend\components\controllers\parents\BackendControllerController;
 use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreModelService };
 use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexResource, BackendUpdateResource, BackendViewResource };
 
@@ -29,7 +28,7 @@ abstract class BackendHandler extends WebHandler
     public array $resources = [
         Action::INDEX => BackendIndexResource::class,
         Action::VIEW => BackendViewResource::class,
-        Action::CREATE => BackendControllerController::class,
+        Action::CREATE => BackendCreateResource::class,
         Action::UPDATE => BackendUpdateResource::class,
         null => CoreTemplateResource::class,
     ];
