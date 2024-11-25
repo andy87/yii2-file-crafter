@@ -1,0 +1,17 @@
+<?php declare(strict_types=1);
+
+namespace backend\tests\unit\resources\items;
+
+use app\common\components\core\tests\unit\resources\items\BaseViewResourceTest;
+
+/**
+ * < Backend > ItemViewResourceTest
+ *
+ * @package app\backend\tests\unit\providers
+ *
+ * @tag #backend #test #service
+ */
+class BackendViewResourceTest extends BaseViewResourceTest
+{
+
+}
