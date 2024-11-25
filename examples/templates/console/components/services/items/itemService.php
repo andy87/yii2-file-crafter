@@ -29,6 +29,4 @@ class PascalCaseService extends \app\common\components\services\items\PascalCase
 
     /** @var SearchModelInterface|string */
     protected SearchModelInterface|string $searchModelClass = PascalCaseSearch::class;
-
-    // {{Boilerplate}}
 }

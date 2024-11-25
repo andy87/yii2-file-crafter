@@ -43,7 +43,7 @@ class PascalCaseController extends FrontendController
     public array $configHandler = [
         'class' => PascalCaseHandler::class,
         'resources' => self::RESOURCES,
-        'service' => [
+        'configService' => [
             'class' => PascalCaseService::class,
             'provider' => PascalCaseProvider::class,
             'repository' => PascalCaseRepository::class

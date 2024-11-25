@@ -34,7 +34,7 @@ class PascalCaseController extends ConsoleHandlerController
     /** @var array ресурсы контроллера */
     public array $configHandler = [
         'class' => PascalCaseHandler::class,
-        'service' => [
+        'configService' => [
             'class' => PascalCaseService::class,
             'modelClass' => self::MODEL_CLASS,
             'configProvider' => [

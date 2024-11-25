@@ -2,18 +2,20 @@
 
 namespace app\frontend\components\handlers\items;
 
-use app\common\components\core\resources\sources\CoreTemplateResource;
-use app\common\components\core\services\items\CoreModelService;
 use app\common\components\enums\Action;
 use app\frontend\components\handlers\parents\FrontendHandler;
-use app\frontend\components\resources\items\PascalCaseCreateResource;
+use app\frontend\components\services\items\PascalCaseService;
 use app\frontend\components\resources\items\PascalCaseIndexResource;
+use app\frontend\components\resources\items\PascalCaseCreateResource;
 use app\frontend\components\resources\items\PascalCaseUpdateResource;
+use app\common\components\core\resources\sources\CoreTemplateResource;
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
  *
- * @property CoreModelService $service;
+ * @property array configService;
+ * @method PascalCaseService getService()
+ *
  * @package app\frontend\components\handlers\items
  *
  * @tag #frontend #service #{{snake_case}}

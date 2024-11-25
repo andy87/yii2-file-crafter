@@ -2,6 +2,7 @@
 
 namespace app\console\components\handlers\items;
 
+use Exception;
 use yii\base\InvalidConfigException;
 use app\console\models\items\PascalCase;
 use app\common\components\traits\ApplyServiceTrait;
@@ -23,6 +24,8 @@ class PascalCaseHandler extends \app\common\components\handlers\items\PascalCase
     use ApplyServiceTrait;
 
 
+
+    /** @var string  */
     public const MODEL_CLASS = PascalCase::class;
 
 
@@ -86,7 +89,7 @@ class PascalCaseHandler extends \app\common\components\handlers\items\PascalCase
     }
 
     /**
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     private function findByID( int $id ): ?PascalCase
     {
