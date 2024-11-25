@@ -77,6 +77,8 @@ abstract class WebController extends BaseWebController
         Action::DELETE => ['DELETE'],
     ];
 
+
+
     /**
      * {@inheritdoc}
      *
@@ -151,7 +153,6 @@ abstract class WebController extends BaseWebController
      */
     public function actionView( int $id ): Response|string
     {
-        /** @var CoreViewResource $R */
         $R = $this->handler->processView( $id );
 
         if ( $R->model ) return $this->renderResource( $R );

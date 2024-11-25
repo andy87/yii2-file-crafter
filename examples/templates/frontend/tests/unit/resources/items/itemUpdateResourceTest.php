@@ -7,7 +7,7 @@ use app\common\components\core\tests\base\unit\resources\items\BaseUpdateResourc
 /**
  * < Frontend > ItemUpdateResourceTest
  *
- * @package app\frontend\tests\unit\providers
+ * @package app\frontend\tests\unit\producers
  *
  * @tag #frontend #test #service
  */

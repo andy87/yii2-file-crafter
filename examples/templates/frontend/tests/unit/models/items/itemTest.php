@@ -2,8 +2,8 @@
 
 namespace app\frontend\tests\unit\models\items;
 
-use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
 use app\frontend\models\items\PascalCase;
+use app\common\components\core\{moels\items\base\BaseModel, tests\base\unit\models\BaseModelTest};
 
 /**
  * < Frontend > PascalCaseServiceTest
@@ -11,7 +11,7 @@ use app\frontend\models\items\PascalCase;
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/models/items/PascalCaseTest
  *
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/models/items/PascalCaseTest:testInspectAttributes
- * @method \app\frontend\models\items\PascalCase testInspectAttributes()
+ * @method PascalCase testInspectAttributes()
  *
  * @package app\frontend\tests\unit\models\items
  *

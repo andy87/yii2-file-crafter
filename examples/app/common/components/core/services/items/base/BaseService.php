@@ -4,12 +4,7 @@ namespace app\common\components\core\services\items\base;
 
 use Yii, Exception;
 use yii\base\BaseObject;
-use app\common\components\{
-    base\Logger,
-    interfaces\LoggerInterface,
-    core\moels\items\base\BaseModel,
-    interfaces\services\ServiceInterface
-};
+use app\common\components\{ base\Logger, interfaces\LoggerInterface, core\moels\items\base\BaseModel, interfaces\services\ServiceInterface };
 
 /**
  * < Common > Родительский абстрактный класс для всех сервисов

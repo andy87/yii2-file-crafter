@@ -2,11 +2,13 @@
 
 namespace app\common\components\core\tests\base\unit\controllers;
 
-use app\common\components\{core\tests\base\unit\BaseUnitTest,
-    interfaces\controllers\items\ControllerWithHandlerInterface};
 use app\backend\controllers\items\PascalCaseController;
+use app\common\components\{core\handlers\items\base\BaseHandler,
+    core\tests\base\unit\source\BaseUnitTest,
+    interfaces\controllers\items\ControllerWithHandlerInterface};
 use Yii;
 use yii\base\{Behavior, InvalidConfigException};
+use yii\console\ExitCode;
 
 /**
  * < Common > Base Model Test
@@ -19,8 +21,8 @@ use yii\base\{Behavior, InvalidConfigException};
  */
 abstract class BaseServiceControllerTest extends BaseUnitTest
 {
-    /** @var \app\backend\controllers\items\PascalCaseController $controller */
-    public \app\backend\controllers\items\PascalCaseController $controller;
+    /** @var PascalCaseController $controller */
+    public PascalCaseController $controller;
 
 
 
@@ -31,38 +33,40 @@ abstract class BaseServiceControllerTest extends BaseUnitTest
      */
     public function _before(): void
     {
-        /** @var \app\backend\controllers\items\PascalCaseController $controller */
+        /** @var PascalCaseController $controller */
         $controller = Yii::createObject([
-            'class' => \app\backend\controllers\items\PascalCaseController::class
+            'class' => PascalCaseController::class
         ]);
 
         $this->controller = $controller;
     }
 
     /**
-     * @cli ./vendor/bin/codecept run app/backend/tests/unit/controllers/itemsPingTest:testSetupService
+     * @cli ./vendor/bin/codecept run app/backend/tests/unit/controllers/itemsPingTest:testSetupHandler
      *
-     * @return void
+     * @return int
      *
      * @tag #backend #test #service
      */
-    public function testSetupService(): void
+    public function testSetupHandler(): int
     {
         $this->assertInstanceOf(ControllerWithHandlerInterface::class, $this->controller);
 
-        $this->assertInstanceOf( BaseService::class, $this->controller->service);
+        $this->assertInstanceOf( BaseHandler::class, $this->controller->handler);
 
-        $this->assertTrue($this->controller->setupService());
+        $this->assertTrue($this->controller->setupHandler());
+
+        return ExitCode::OK;
     }
 
     /**
      * @cli ./vendor/bin/codecept run app/backend/tests/unit/controllers/itemsPingTest:testBehavior
      *
-     * @return void
+     * @return int
      *
      * @tag #backend #test #behavior
      */
-    public function testBehavior()
+    public function testBehavior(): int
     {
         $this->assertInstanceOf(ControllerWithHandlerInterface::class, $this->controller);
 
@@ -76,5 +80,7 @@ abstract class BaseServiceControllerTest extends BaseUnitTest
 
             }
         }
+
+        return ExitCode::OK;
     }
 }

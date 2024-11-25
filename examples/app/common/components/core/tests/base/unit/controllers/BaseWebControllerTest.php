@@ -2,6 +2,7 @@
 
 namespace app\common\components\core\tests\base\unit\controllers;
 
+use yii\console\ExitCode;
 use app\common\components\enums\Action;
 use app\backend\controllers\items\PascalCaseController;
 
@@ -21,11 +22,11 @@ abstract class BaseWebControllerTest extends BaseServiceControllerTest
     /**
      * @cli ./vendor/bin/codecept run app/backend/tests/unit/controllers/itemsPingTest:testVerb
      *
-     * @return void
+     * @return int
      *
      * @tag #backend #test #verb
      */
-    public function testVerb()
+    public function testVerb(): int
     {
         $verbList = $this->controller::VERBS;
 
@@ -44,5 +45,7 @@ abstract class BaseWebControllerTest extends BaseServiceControllerTest
                 );
             }
         }
+
+        return ExitCode::OK;
     }
 }

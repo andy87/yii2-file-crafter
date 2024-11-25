@@ -11,6 +11,9 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @see BaseModel::SINGULAR
+ * @see BaseModel::PLURAL
+ *
  * @package app\common\components\core\models\items
  *
  * @tag: #abstract #base #model

@@ -5,7 +5,7 @@ namespace app\common\components\core\services\items;
 use Yii, Exception, Throwable;
 use yii\{ db\StaleObjectException, data\ActiveDataProvider };
 use app\common\components\interfaces\{ models\SearchModelInterface, services\ServiceInterface };
-use app\common\components\core\{ moels\items\base\BaseModel, providers\items\base\CoreProvider, repository\items\base\CoreRepository };
+use app\common\components\core\{ moels\items\base\BaseModel, providers\items\base\CoreProducer, repository\items\base\CoreRepository };
 
 /**
  * < Common > Базовый абстрактный класс для всех сервисов
@@ -15,7 +15,7 @@ use app\common\components\core\{ moels\items\base\BaseModel, providers\items\bas
  * @package app\common\components\core\services\items
  *
  * @property BaseModel|string $modelClass
- * @property CoreProvider $provider
+ * @property CoreProducer $provider
  * @property CoreRepository $repository
  *
  * @tag: #abstract #core #provider
@@ -65,15 +65,15 @@ abstract class CoreItemService extends CoreModelService implements ServiceInterf
     /**
      * Возвращает объект провайдера
      *
-     * @return CoreProvider
+     * @return CoreProducer
      *
      * @throws Exception
      */
-    private function getProvider(): CoreProvider
+    private function getProvider(): CoreProducer
     {
         $config = $this->getConfigProvider($this->configProvider);
 
-        /** @var CoreProvider $provider */
+        /** @var CoreProducer $provider */
         $provider = Yii::createObject($config);
 
         return $provider;

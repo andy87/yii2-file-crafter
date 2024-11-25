@@ -2,8 +2,8 @@
 
 namespace app\frontend\components\dataProviders\items;
 
-use app\frontend\components\dataProviders\sources\FrontendActiveDataProvide;
 use yii\db\{Connection, QueryInterface};
+use app\frontend\components\dataProviders\parents\FrontendActiveDataProvide;
 
 /**
  * < Frontend > Проводник к данным для модели `{{PascalCase}}` в окружении `frontend`

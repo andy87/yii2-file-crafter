@@ -3,7 +3,6 @@
 namespace app\common\components;
 
 use Yii, Exception;
-use app\common\components\core\Logger;
 
 /**
  * < Common > Class Notify

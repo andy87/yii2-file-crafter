@@ -2,8 +2,8 @@
 
 namespace app\backend\components\resources\items;
 
-use app\backend\components\resources\crud\BackendUpdateResource;
 use app\backend\models\items\PascalCase;
+use app\backend\components\resources\crud\BackendUpdateResource;
 
 /**
  * < Backend > Boilerplate для ресурса обновления модели `{{PascalCase}}`

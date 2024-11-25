@@ -2,7 +2,7 @@
 
 namespace app\common\components\core\tests\base\unit\repository;
 
-use app\common\components\core\tests\base\unit\BaseUnitTest;
+use app\common\components\core\tests\base\unit\source\BaseUnitTest;
 
 /**
  * < Common > Base Repository Test

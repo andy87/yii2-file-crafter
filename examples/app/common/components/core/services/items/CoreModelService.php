@@ -4,23 +4,28 @@ namespace app\common\components\core\services\items;
 
 use Exception;
 use yii\db\{ Connection, ActiveQuery};
-use app\common\components\{ base\CoreModelTool,core\moels\items\base\BaseModel, core\providers\items\base\CoreProvider, core\repository\items\base\CoreRepository };
+use app\common\components\{ base\CoreModelTool,core\moels\items\base\BaseModel, core\providers\items\base\CoreProducer, core\repository\items\base\CoreRepository };
 
 /**
  * < Common > Базовый абстрактный класс для всех сервисов
  *      использующих BaseModel
  *      требует установки провайдера и репозитория
  *
+ * @property BaseModel|string $modelClass
+ *
  * @package app\common\components\core\services
  *
- * @property BaseModel|string $modelClass
+ * @see self::addModel()
+ * @see self::getAll()
+ * @see self::getActive()
+ * @see self::getAllActive()
  *
  * @tag: #abstract #core #service
  */
 abstract class CoreModelService extends CoreModelTool
 {
-    /** @var CoreProvider */
-    protected CoreProvider $provider;
+    /** @var CoreProducer */
+    protected CoreProducer $provider;
 
     /** @var CoreRepository */
     protected CoreRepository $repository;
@@ -193,6 +198,6 @@ abstract class CoreModelService extends CoreModelTool
      */
     private function getConnection(): ?Connection
     {
-        return $this->repository->getDb();
+        return $this->repository->getConnection();
     }
 }

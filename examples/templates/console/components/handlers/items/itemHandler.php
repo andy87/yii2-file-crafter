@@ -7,7 +7,7 @@ use yii\base\InvalidConfigException;
 use app\console\models\items\PascalCase;
 use app\common\components\traits\ApplyServiceTrait;
 use app\console\components\services\items\PascalCaseService;
-use app\console\components\provider\items\PascalCaseProvider;
+use app\console\components\producers\items\PascalCaseProducer;
 use app\console\components\repository\items\PascalCaseRepository;
 
 /**
@@ -36,8 +36,8 @@ class PascalCaseHandler extends \app\common\components\handlers\items\PascalCase
     public array $configService = [
         'class' => PascalCaseService::class,
         'modelClass' => self::MODEL_CLASS,
-        'configProvider' => [
-            'class' => PascalCaseProvider::class,
+        'configProducer' => [
+            'class' => PascalCaseProducer::class,
             'modelClass' => self::MODEL_CLASS,
         ],
         'configRepository' => [

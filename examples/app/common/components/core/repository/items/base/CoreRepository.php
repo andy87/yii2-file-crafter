@@ -4,7 +4,7 @@ namespace app\common\components\core\repository\items\base;
 
 use Exception;
 use yii\db\{ActiveQuery, Connection};
-use app\common\components\{ base\CoreModelTool, core\moels\items\base\BaseModel, interfaces\handlers\HandlerInterface };
+use app\common\components\{ base\CoreModelTool, core\moels\items\base\BaseModel, interfaces\repository\RepositoryInterface };
 
 /**
  * < Common > Родительский абстрактный класс для всех репозиториев
@@ -16,7 +16,7 @@ use app\common\components\{ base\CoreModelTool, core\moels\items\base\BaseModel,
  *
  * @tag: #abstract #base #repository
  */
-abstract class CoreRepository extends CoreModelTool implements HandlerInterface
+abstract class CoreRepository extends CoreModelTool implements RepositoryInterface
 {
     /** @var ?Connection */
     protected ?Connection $connection = null;

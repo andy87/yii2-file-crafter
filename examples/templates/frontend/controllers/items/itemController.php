@@ -6,7 +6,7 @@ use app\common\components\core\resources\sources\CoreTemplateResource;
 use app\common\components\enums\Action;
 use app\frontend\components\controllers\parents\FrontendController;
 use app\frontend\components\handlers\items\PascalCaseHandler;
-use app\frontend\components\provider\items\PascalCaseProvider;
+use app\frontend\components\producers\items\PascalCaseProducer;
 use app\frontend\components\repository\items\PascalCaseRepository;
 use app\frontend\components\resources\items\PascalCaseCreateResource;
 use app\frontend\components\resources\items\PascalCaseIndexResource;
@@ -45,7 +45,7 @@ class PascalCaseController extends FrontendController
         'resources' => self::RESOURCES,
         'configService' => [
             'class' => PascalCaseService::class,
-            'provider' => PascalCaseProvider::class,
+            'provider' => PascalCaseProducer::class,
             'repository' => PascalCaseRepository::class
         ]
     ];

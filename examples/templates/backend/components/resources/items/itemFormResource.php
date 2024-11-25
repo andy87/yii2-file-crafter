@@ -2,8 +2,8 @@
 
 namespace app\backend\components\resources\items;
 
-use app\backend\components\resources\crud\BackendFormResource;
 use app\backend\models\items\PascalCase;
+use app\backend\components\resources\crud\BackendFormResource;
 
 /**
  * < Backend > Boilerplate для ресурса формы `{{PascalCase}}`

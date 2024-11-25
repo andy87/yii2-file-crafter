@@ -2,6 +2,7 @@
 
 namespace app\backend\components\resources\items;
 
+use app\backend\models\items\PascalCase;
 use app\backend\components\resources\crud\BackendCreateResource;
 
 /**
@@ -9,7 +10,7 @@ use app\backend\components\resources\crud\BackendCreateResource;
  *
  * @property {{PascalCase}} $form
  *
- * @property ?\backend\models\items\PascalCase $form
+ * @property ?PascalCase $form
  *
  * @package app\backend\components\resources\items\{{snake_case}}
  *

@@ -2,7 +2,7 @@
 
 namespace app\common\components\interfaces\services;
 
-use app\common\components\core\providers\items\base\CoreProvider;
+use app\common\components\core\providers\items\base\CoreProducer;
 
 /**
  * Logger Interface
@@ -13,5 +13,5 @@ use app\common\components\core\providers\items\base\CoreProvider;
  */
 interface ServiceWithProviderInterface
 {
-    public function getProvider( string $providerClassName ): CoreProvider;
+    public function getProvider( string $providerClassName ): CoreProducer;
 }

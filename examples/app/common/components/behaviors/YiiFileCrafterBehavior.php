@@ -4,17 +4,23 @@ namespace app\common\components\behaviors;
 
 use Yii;
 use yii\base\Behavior;
-use andy87\yii2\file_crafter\components\events\{
-    CrafterEvent,
-    CrafterEventCommand,
-    CrafterEventRender,
-    CrafterEventGenerate,
-};
+use andy87\yii2\file_crafter\components\events\{ CrafterEvent, CrafterEventCommand, CrafterEventRender, CrafterEventGenerate };
 
 /**
  * < Common > YiiFileCrafterBehavior
  *
+ * @see YiiFileCrafterBehavior::beforeInit()
+ * @see YiiFileCrafterBehavior::afterInit()
+ * @see YiiFileCrafterBehavior::beforeGenerate()
+ * @see YiiFileCrafterBehavior::beforeCommand()
+ * @see YiiFileCrafterBehavior::afterCommand()
+ * @see YiiFileCrafterBehavior::beforeRender()
+ * @see YiiFileCrafterBehavior::afterRender()
+ * @see YiiFileCrafterBehavior::afterGenerate()
+ *
  * @package app\common\components\behaviors
+ *
+ * @tag: #behavior #yii2 #file_crafter
  */
 class YiiFileCrafterBehavior extends Behavior
 {

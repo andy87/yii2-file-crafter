@@ -2,7 +2,7 @@
 
 namespace app\common\components\core\tests\base\unit\resources\items;
 
-use app\common\components\core\tests\base\unit\resources\BaseResourceTest;
+use app\common\components\core\tests\base\unit\resources\items\source\BaseResourceTest;
 
 /**
  * < Common > Base Search Resource Test

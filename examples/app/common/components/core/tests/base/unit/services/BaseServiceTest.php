@@ -2,14 +2,15 @@
 
 namespace app\common\components\core\tests\base\unit\services;
 
-use app\common\components\core\{services\items\BaseService, tests\base\unit\BaseUnitTest};
+use app\common\components\core\services\items\CoreItemService;
+use app\common\components\core\tests\base\unit\source\BaseUnitTest;
 use app\common\components\traits\ApplyServiceTrait;
 
 /**
  * < Common > Base Service Test
  *
- * @property BaseService $service
- * @property BaseService|string $classnameService
+ * @property CoreItemService $service
+ * @property CoreItemService|string $classnameService
  *
  * @package app\common\components\core\tests\unit
  *

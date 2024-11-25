@@ -2,11 +2,11 @@
 
 namespace app\backend\controllers\items;
 
+use app\backend\components\producers\items\PascalCaseProducer;
 use app\common\components\enums\Action;
 use app\backend\models\items\PascalCase;
 use app\backend\components\services\items\PascalCaseService;
 use app\backend\components\handlers\items\PascalCaseHandler;
-use app\backend\components\provider\items\PascalCaseProvider;
 use app\backend\components\repository\items\PascalCaseRepository;
 use app\backend\components\controllers\parents\BackendController;
 use app\backend\components\resources\items\PascalCaseViewResource;
@@ -50,8 +50,8 @@ class PascalCaseController extends BackendController
         'configService' => [
             'class' => PascalCaseService::class,
             'modelClass' => self::MODEL_CLASS,
-            'configProvider' => [
-                'class' => PascalCaseProvider::class,
+            'configProducer' => [
+                'class' => PascalCaseProducer::class,
                 'modelClass' => self::MODEL_CLASS
             ],
             'configRepository' => [

@@ -8,7 +8,7 @@ use app\console\models\items\PascalCase;
 use app\common\components\models\dto\ModelInfo;
 use app\console\components\services\items\PascalCaseService;
 use app\console\components\handlers\items\PascalCaseHandler;
-use app\console\components\provider\items\PascalCaseProvider;
+use app\console\components\producers\items\PascalCaseProducer;
 use app\console\components\repository\items\PascalCaseRepository;
 use app\common\components\core\controllers\ConsoleHandlerController;
 
@@ -37,8 +37,8 @@ class PascalCaseController extends ConsoleHandlerController
         'configService' => [
             'class' => PascalCaseService::class,
             'modelClass' => self::MODEL_CLASS,
-            'configProvider' => [
-                'class' => PascalCaseProvider::class,
+            'configProducer' => [
+                'class' => PascalCaseProducer::class,
                 'modelClass' => self::MODEL_CLASS
             ],
             'configRepository' => [

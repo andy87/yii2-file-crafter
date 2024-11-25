@@ -2,6 +2,7 @@
 
 namespace app\console\components\handlers\parents;
 
+use app\common\components\core\moels\items\base\BaseModel;
 use app\common\components\core\handlers\items\base\BaseHandler;
 
 /**
@@ -14,27 +15,31 @@ use app\common\components\core\handlers\items\base\BaseHandler;
 abstract class ConsoleHandler extends BaseHandler
 {
     //TODO: Доделать обработчик
-    public function index()
+    public function processIndex(): array
     {
 
     }
 
-    public function create()
+    //TODO: Доделать обработчик
+    public function processCreate(): ?BaseModel
     {
 
     }
 
-    public function update()
+    //TODO: Доделать обработчик
+    public function processUpdate(): ?BaseModel
     {
 
     }
 
-    public function view()
+    //TODO: Доделать обработчик
+    public function processView(): ?BaseModel
     {
 
     }
 
-    public function delete()
+    //TODO: Доделать обработчик
+    public function processDelete(): int
     {
 
     }

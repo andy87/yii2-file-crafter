@@ -7,7 +7,7 @@ use app\common\components\core\tests\unit\resources\items\BaseViewResourceTest;
 /**
  * < Backend > ItemViewResourceTest
  *
- * @package app\backend\tests\unit\providers
+ * @package app\backend\tests\unit\producers
  *
  * @tag #backend #test #service
  */

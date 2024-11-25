@@ -2,9 +2,10 @@
 
 namespace app\common\components\core\tests\base\unit\models;
 
-use yii\base\InvalidConfigException;
 use app\common\components\core\moels\items\base\BaseModel;
-use app\common\components\core\tests\base\unit\BaseUnitTest;
+use app\common\components\core\tests\base\unit\source\BaseUnitTest;
+use yii\base\InvalidConfigException;
+use yii\console\ExitCode;
 
 /**
  * < Common > Base Model Test
@@ -27,11 +28,11 @@ abstract class BaseModelTest extends BaseUnitTest
      *
      * @cli ./vendor/bin/codecept run app/common/components/base/tests/unit/models/BaseModelTest:testInspectAttributes
      *
-     * @return bool
+     * @return int
      *
      * @throws InvalidConfigException
      */
-    public function testInspectAttributes(): bool
+    public function testInspectAttributes(): int
     {
         $modelClass = $this->modelClass;
 
@@ -55,7 +56,7 @@ abstract class BaseModelTest extends BaseUnitTest
             $this->assertContains($columnName, $requiredAttributes);
         }
 
-        return true;
+        return ExitCode::OK;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace app\frontend\tests\unit\controllers\items;
 
+use app\frontend\controllers\items\PascalCaseController;
 use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest;
 
 /**
@@ -9,7 +10,7 @@ use app\common\components\core\tests\base\unit\controllers\BaseWebControllerTest
  *
  * @cli ./vendor/bin/codecept run app/frontend/tests/unit/controllers/items/ItemServiceControllerTest
  *
- * @property \app\frontend\controllers\items\PascalCaseController $controller
+ * @property PascalCaseController $controller
  *
  * @package app\frontend\tests\unit\models\items
  *
