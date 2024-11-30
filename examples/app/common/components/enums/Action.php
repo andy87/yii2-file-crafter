@@ -7,7 +7,7 @@ namespace app\common\components\enums;
  *
  * @package app\common\components
  *
- * @tag: #enum #action
+ * @tag: #abstract #enum #action
  */
 enum Action: string
 {
@@ -51,7 +51,7 @@ enum Action: string
      *
      * @var array
      */
-    const VERB = [
+    public const VERB = [
         self::INDEX,
         self::VIEW,
         self::CREATE,

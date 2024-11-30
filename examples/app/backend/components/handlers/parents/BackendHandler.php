@@ -3,16 +3,21 @@
 namespace app\backend\components\handlers\parents;
 
 use app\common\components\enums\Action;
-use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreItemService };
-use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexResource, BackendUpdateResource, BackendViewResource };
+use app\common\components\base\handlers\items\BaseWebHandler;
+use app\common\components\base\services\items\BaseService;
+use app\common\components\base\resources\items\BaseTemplateResource;
+use app\backend\components\resources\parents\crud\BackendViewResource;
+use app\backend\components\resources\parents\crud\BackendIndexResource;
+use app\backend\components\resources\parents\crud\BackendUpdateResource;
+use app\backend\components\resources\parents\crud\BackendCreateResource;
 
 /**
  * < Backend > Родительский класс для обработчиков контроллеров в окружения: `backend`
  *
  * @property array configService;
- * @method CoreItemService getService()
+ * @method BaseService getService()
  *
- * @method CoreTemplateResource|BackendIndexResource|BackendViewResource|BackendCreateResource|BackendUpdateResource|string getResources(string $action)
+ * @method BaseTemplateResource|BackendIndexResource|BackendViewResource|BackendCreateResource|BackendUpdateResource|string getResources(string $action)
  * @method BackendIndexResource processIndex(array $params)
  * @method BackendViewResource processView(int $id)
  * @method BackendCreateResource processCreate(array $params = [], string $key = '')
@@ -21,9 +26,9 @@ use app\backend\components\resources\crud\{ BackendCreateResource, BackendIndexR
  *
  * @package app\backend\components\handlers\parents
  *
- * @tag: #parent #abstract #backend #handler
+ * @tag: #abstract #backend #parent #handler
  */
-abstract class BackendHandler extends WebHandler
+abstract class BackendHandler extends BaseWebHandler
 {
     /**
      * {@inheritDoc}
@@ -35,6 +40,6 @@ abstract class BackendHandler extends WebHandler
         Action::VIEW => BackendViewResource::class,
         Action::CREATE => BackendCreateResource::class,
         Action::UPDATE => BackendUpdateResource::class,
-        null => CoreTemplateResource::class,
+        null => BaseTemplateResource::class,
     ];
 }

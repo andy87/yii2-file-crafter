@@ -5,15 +5,15 @@ namespace app\common\components\interfaces\repository;
 use yii\db\ActiveQuery;
 
 /**
- * Repository Interface
+ * < Common >
  *
  * @package app\common\components\interfaces\repository
  *
- * @tag: #common #interface #repository
+ * @tag: #abstract #common #interface #repository
  */
 interface RepositoryInterface
 {
-    public function find( mixed $where = null ): ?ActiveQuery;
+    public function find( array|string|int|null $criteria = null ): ?ActiveQuery;
 
-    public function findActive( array $where = [] ): ?ActiveQuery;
+    public function findActive( array|string|int|null $criteria = null ): ?ActiveQuery;
 }

@@ -25,8 +25,6 @@ class FunctionalTester extends \Codeception\Actor
      * @param $message
      *
      * @return void
-     *
-     * @tag #frontend #tests #functional #seeValidationError
      */
     public function seeValidationError($message): void
     {
@@ -37,8 +35,6 @@ class FunctionalTester extends \Codeception\Actor
      * @param $message
      *
      * @return void
-     *
-     * @tag #frontend #tests #functional #seeValidationError
      */
     public function dontSeeValidationError($message): void
     {

@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
 
-use yii\bootstrap5\{ActiveForm, Html};
 use yii\web\View;
+use yii\bootstrap5\{ActiveForm, Html};
+use app\backend\components\resources\items\PascalCaseFormResource;
 
 /**
  * < Backend > _form.php
  *
  * @var View $this
  * @var ActiveForm $form
- * @var \app\backend\components\resources\items\PascalCaseFormResource $R
+ * @var PascalCaseFormResource $R
  */
 
 // {{Boilerplate}}

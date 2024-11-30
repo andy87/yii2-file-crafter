@@ -5,11 +5,11 @@ namespace app\common\components\interfaces\models;
 use yii\db\ActiveQueryInterface;
 
 /**
- * Interface SearchModelInterface
+ * < Common >
  *
  * @package app\common\components\interfaces\models
  *
- * @tag: #common #interface #model #search
+ * @tag: #abstract #common #interface #searchModel
  */
 interface SearchModelInterface
 {
@@ -19,4 +19,12 @@ interface SearchModelInterface
      * @return ActiveQueryInterface
      */
     public function search( array $params ): ActiveQueryInterface;
+
+    /**
+     * @param $data
+     * @param $formName
+     *
+     * @return mixed
+     */
+    public function load( $data, $formName = null );
 }

@@ -2,45 +2,65 @@
 
 namespace app\console\components\handlers\parents;
 
-use app\common\components\core\moels\items\base\BaseModel;
-use app\common\components\core\handlers\items\base\BaseHandler;
+use app\common\components\base\dataProviders\items\source\SourceActiveDataProvider;
+use app\common\components\base\handlers\dto\ConfigSourceHandlerDto;
+use app\common\components\base\handlers\items\source\SourceHandler;
+use app\common\components\base\moels\items\source\SourceModel;
+use app\common\components\base\producers\items\source\SourceProducer;
+use app\common\components\base\repository\items\source\SourceRepository;
+use app\common\components\interfaces\models\SearchModelInterface;
 
 /**
  * < Console > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
  *
+ * @property array $configService;
+ * @property ConfigSourceHandlerDto $configSourceHandlerDto
+ *
  * @package app\console\components\handlers\parents
  *
- * @tag #abstract #console #core #handler
+ * @tag: #abstract #console #parent #boilerplate #handler
  */
-abstract class ConsoleHandler extends BaseHandler
+abstract class ConsoleHandler extends SourceHandler
 {
-    //TODO: Доделать обработчик
+    /** @var SourceModel|string Класс `модели` */
+    public SourceModel|string $classModel;
+
+    /** @var SearchModelInterface|string Класс `Модели поиска` */
+    public SearchModelInterface|string $classSearchModel;
+
+    /** @var SourceActiveDataProvider|string Класс `Провайдера данных` */
+    public SourceActiveDataProvider|string $classDataProvider;
+
+    /** @var SourceProducer|string Класс `Продюсера` */
+    public SourceProducer|string $classProducer;
+
+    /** @var SourceRepository|string Класс `Репозиторий` */
+    public SourceRepository|string $classRepository;
+
+
+
     public function processIndex(): array
     {
-
+        return [];
     }
 
-    //TODO: Доделать обработчик
-    public function processCreate(): ?BaseModel
+    public function processCreate( string $json ): ?SourceModel
     {
-
+        return new $this->classModel();
     }
 
-    //TODO: Доделать обработчик
-    public function processUpdate(): ?BaseModel
+    public function processView( int $id ): ?SourceModel
     {
-
+        return new $this->classModel();
     }
 
-    //TODO: Доделать обработчик
-    public function processView(): ?BaseModel
+    public function processUpdate( int $id, $json ): ?SourceModel
     {
-
+        return new $this->classModel();
     }
 
-    //TODO: Доделать обработчик
-    public function processDelete(): int
+    public function processDelete( int $id ): int
     {
-
+        return 0;
     }
 }

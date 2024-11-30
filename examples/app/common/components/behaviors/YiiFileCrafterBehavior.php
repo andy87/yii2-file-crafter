@@ -20,7 +20,7 @@ use andy87\yii2\file_crafter\components\events\{ CrafterEvent, CrafterEventComma
  *
  * @package app\common\components\behaviors
  *
- * @tag: #behavior #yii2 #file_crafter
+ * @tag: #abstract #behavior #yii2 #file_crafter
  */
 class YiiFileCrafterBehavior extends Behavior
 {

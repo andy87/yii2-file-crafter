@@ -4,37 +4,20 @@ namespace app\backend\components\controllers\parents;
 
 use yii\filters\AccessControl;
 use app\backend\components\handlers\parents\BackendHandler;
-use app\common\components\core\controllers\WebHandlerController;
-use app\common\components\core\providers\items\base\CoreProducer;
-use app\common\components\core\repository\items\base\CoreRepository;
+use app\common\components\base\controllers\items\BaseWebHandlerController;
+
 
 /**
  * < Backend > Родительский класс для контроллеров в окружении: `backend`
  *
  * @property BackendHandler $handler
- * @property array $configHandler
  *
  * @package app\backend\components\controllers\parents
  *
- * @tag: #parent #abstract #backend #controller
- */
-abstract class BackendController extends WebHandlerController
+ * @tag: #abstract #backend #parent #controller
+* \ */
+abstract class BackendController extends BaseWebHandlerController
 {
-    /** @var array Настройки для Обработчика */
-    public array $configHandler = [
-        'class' => BackendHandler::class,
-        'configProducer' => [
-            'class' => CoreProducer::class,
-
-        ],
-        'configRepository' => [
-            'class' => CoreRepository::class,
-
-        ],
-    ];
-
-
-
     /**
      * @return array
      */

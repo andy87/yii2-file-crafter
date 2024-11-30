@@ -9,7 +9,7 @@ use yii\base\Model;
  *
  * @package app\common\components\models
  *
- * @tag #component #common #modelInfo
+ * @tag: #abstract #common #model #dto
  */
 class ModelInfo
 {

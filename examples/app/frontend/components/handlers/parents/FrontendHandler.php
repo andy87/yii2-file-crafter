@@ -3,20 +3,25 @@
 namespace app\frontend\components\handlers\parents;
 
 use app\common\components\enums\Action;
-use app\backend\components\resources\crud\BackendViewResource;
-use app\backend\components\resources\crud\BackendIndexResource;
-use app\backend\components\resources\crud\BackendUpdateResource;
-use app\backend\components\resources\crud\BackendCreateResource;
-use app\common\components\core\{ handlers\items\WebHandler, resources\sources\CoreTemplateResource, services\items\CoreItemService };
-use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendIndexResource, FrontendUpdateResource, FrontendViewResource };
+use app\common\components\base\handlers\items\BaseWebHandler;
+use app\common\components\base\services\items\BaseService;
+use app\common\components\base\resources\items\BaseTemplateResource;
+use app\backend\components\resources\parents\crud\BackendViewResource;
+use app\backend\components\resources\parents\crud\BackendIndexResource;
+use app\backend\components\resources\parents\crud\BackendCreateResource;
+use app\backend\components\resources\parents\crud\BackendUpdateResource;
+use app\frontend\components\resources\parents\crud\FrontendViewResource;
+use app\frontend\components\resources\parents\crud\FrontendIndexResource;
+use app\frontend\components\resources\parents\crud\FrontendCreateResource;
+use app\frontend\components\resources\parents\crud\FrontendUpdateResource;
 
 /**
  * < Frontend > Обработчик контроллеров работающих с сущностью `{{PascalCase}}`
  *
  * @property array configService;
- * @method CoreItemService getService()
+ * @method BaseService getService()
  *
- * @method CoreTemplateResource|FrontendIndexResource|FrontendViewResource|FrontendCreateResource|FrontendUpdateResource|string getResources(string $action )
+ * @method BaseTemplateResource|FrontendIndexResource|FrontendViewResource|FrontendCreateResource|FrontendUpdateResource|string getResources(string $action )
  * @method BackendIndexResource processIndex(array $params)
  * @method BackendViewResource processView(int $id)
  * @method BackendCreateResource processCreate(array $params = [], string $key = '')
@@ -25,9 +30,9 @@ use app\frontend\components\resources\crud\{ FrontendCreateResource, FrontendInd
  *
  * @package app\frontend\components\handlers\parents
  *
- * @tag #parent #abstract #frontend #handler
+ * @tag: #abstract #frontend #parent #handler
  */
-abstract class FrontendHandler extends WebHandler
+abstract class FrontendHandler extends BaseWebHandler
 {
     /**
      * {@inheritdoc}
@@ -39,6 +44,6 @@ abstract class FrontendHandler extends WebHandler
         Action::VIEW => FrontendViewResource::class,
         Action::CREATE => FrontendCreateResource::class,
         Action::UPDATE => FrontendUpdateResource::class,
-        null => CoreTemplateResource::class,
+        null => BaseTemplateResource::class,
     ];
 }

@@ -3,11 +3,11 @@
 namespace app\common\components\interfaces\services;
 
 /**
- * < Common > Service Interface
+ * < Common >
  *
  * @package app\common\components\interfaces\handlers
  *
- * @tag: #common #interface #services
+ * @tag: #abstract #common #interface #service
  */
 interface ServiceInterface
 {

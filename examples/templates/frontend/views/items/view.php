@@ -2,7 +2,7 @@
 
 use yii\web\View;
 use yii\bootstrap5\{ Html, ActiveForm };
-use app\frontend\resources\items\snake_case\PascalCaseViewResource;
+use app\frontend\components\resources\items\PascalCaseViewResource;
 
 /**
  * < Frontend > view.php

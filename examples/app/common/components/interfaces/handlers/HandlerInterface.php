@@ -3,11 +3,11 @@
 namespace app\common\components\interfaces\handlers;
 
 /**
- * < Common > Handler Interface
+ * < Common >
  *
  * @package app\common\components\interfaces\handlers
  *
- * @tag: #common #interface #handlers
+ * @tag: #abstract #common #interface #handler
  */
 interface HandlerInterface
 {
