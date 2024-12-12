@@ -55,7 +55,7 @@ class Field extends Model
     public string $name;
     public string $comment;
     public string $type;
-    public int $size;
+    public ?int $size;
     public bool $foreignKeys;
     public bool $unique;
 
