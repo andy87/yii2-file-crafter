@@ -445,10 +445,19 @@ class Crafter extends CoreGenerator
      */
     public function render($template, $params = []): string
     {
-        $view = new View();
-        $params['generator'] = $this;
+        if(str_contains($template, '.php'))
+        {
+            $params['generator'] = $this;
 
-        return $view->renderFile( $template, $params, $this);
+            $content = (new View)->renderFile( $template, $params, $this);
+
+        } else {
+            $templatePath = Yii::getAlias($template);
+
+            $content = file_get_contents($templatePath);
+        }
+
+        return $content;
     }
 
     /**
