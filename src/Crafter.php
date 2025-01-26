@@ -300,7 +300,17 @@ class Crafter extends CoreGenerator
         {
             /** @var CrafterEventGenerate $event */
             $event = $this->event(CrafterEventGenerate::BEFORE, $listSchemaDto ?? $this->panelResources->listSchemaDto);
-            $event->generateList = ($listSchemaDto === null )
+
+            $filter = (Yii::$app->request->isPost)
+                ? (Yii::$app->request->post('Crafter') ?? [])
+                : [];
+
+            if (isset($filter['generateList']))
+            {
+                $this->generateList = $filter['generateList'];
+            }
+
+            $event->generateList = (empty($this->generateList) )
                 ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
                 : array_keys($this->generateList);
 
@@ -312,7 +322,7 @@ class Crafter extends CoreGenerator
 
                     $this->commandResult = $this->execCommands( $replaceList );
 
-                    $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ) );
+                    $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ));
                 }
             }
 
@@ -321,6 +331,7 @@ class Crafter extends CoreGenerator
 
             $files = $event->files;
         }
+
 
         return $files;
     }
