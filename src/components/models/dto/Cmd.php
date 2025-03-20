@@ -19,7 +19,7 @@ class Cmd
     /**
      * @var string
      */
-    public string $output;
+    public ?string $output;
 
     /**
      * @var array
