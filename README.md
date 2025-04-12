@@ -110,7 +110,7 @@ Full Config with all options
                 'commands' => [
                     'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="common\models" --interactive=0' //... 
                 ],
-                'eventHandlers' => app\composents\behavior\FileCrafterBehavior::class,
+                'eventHandler' => app\composents\behavior\FileCrafterBehavior::class,
                 'autoCompleteStatus' => true,
                 'autoCompleteList' => [
                     'autocomplete name 1',

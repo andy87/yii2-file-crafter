@@ -314,13 +314,15 @@ class Crafter extends CoreGenerator
                 ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
                 : array_keys($this->generateList);
 
+            $isProcessGenerate = $this->isGenerateProcess();
+
             foreach ($event->listSchemaDto as $schema )
             {
                 if ( in_array( $schema->getTableName(), $event->generateList ) )
                 {
                     $replaceList = $this->panelService->getReplaceList( $schema );
 
-                    $this->commandResult = $this->execCommands( $replaceList );
+                    if ($isProcessGenerate) $this->commandResult = $this->execCommands( $replaceList );
 
                     $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ));
                 }
@@ -355,17 +357,13 @@ class Crafter extends CoreGenerator
                 $commandCli->exec = $this->panelService->replacing($command, $replaceList);
                 $commandCli->replaceList = $replaceList;
 
-
                 $this->event(CrafterEventCommand::BEFORE, $commandCli );
-
 
                 $output = $this->panelService->runBash($commandCli);
 
                 $commandCli->output = $output;
 
-
                 $this->event(CrafterEventCommand::AFTER, $commandCli );
-
 
                 $result[$commandCli->exec] = $commandCli->output;
             }
@@ -510,5 +508,15 @@ class Crafter extends CoreGenerator
         $results = implode("\n", $lines) . "\n" . $results;
 
         return $saveResult;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isGenerateProcess(): bool
+    {
+        $answer = Yii::$app->request->post('answers', []);
+
+        return (Yii::$app->request->isPost && count($answer) > 0);
     }
 }
