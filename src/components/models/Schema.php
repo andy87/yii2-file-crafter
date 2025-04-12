@@ -324,7 +324,7 @@ class Schema extends Model
      */
     public function isPreviewGenerate(array $generateList): bool
     {
-        return in_array($this->getTableName(), $generateList);
+        return isset($generateList[$this->getTableName()]);
     }
 
     /**
