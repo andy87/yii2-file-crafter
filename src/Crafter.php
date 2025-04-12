@@ -500,7 +500,10 @@ class Crafter extends CoreGenerator
             {
                 $lines[] = "executing: " . $command;
 
-                $lines = array_merge($lines, explode("\n", $output));
+                if ($output && strlen($output) > 0)
+                {
+                    $lines = array_merge($lines, explode("\n", $output));
+                }
             }
         }
 
