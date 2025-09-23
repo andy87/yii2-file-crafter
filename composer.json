@@ -3,12 +3,11 @@
   "description": "PHP library for Yii2 - developed by and_y87",
   "keywords": ["and_y87", "php", "generator", "crafter", "yii2", "library"],
   "homepage": "https://andy87.ru",
-  "license": "CC-BY-SA-4.0",
+  "license": "MIT",
 
-  "version": "1.2.1",
   "minimum-stability": "dev",
 
-  "prefer-stable": true,
+  "version": "dev-master",
 
   "authors": [
     {
@@ -16,14 +15,15 @@
       "email": "kidin_a@list.ru"
     }
   ],
+
   "require": {
     "php": ">=8.0",
     "ext-json": "*"
   },
 
   "require-dev": {
-    "yiisoft/yii2": "~2.0.45",
-    "yiisoft/yii2-gii": "~2.2.0",
+    "yiisoft/yii2": "^2.0.53",
+    "yiisoft/yii2-gii": "^2.2.7",
     "phpunit/phpunit": "^10.5",
     "symfony/dom-crawler": "^6.0",
     "symfony/browser-kit": "^6.0"
