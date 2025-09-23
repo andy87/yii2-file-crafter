@@ -322,6 +322,10 @@ class Crafter extends CoreGenerator
                 {
                     $replaceList = $this->panelService->getReplaceList( $schema );
 
+                    $migrate = $this->generateMiration( $schema, $replaceList );
+
+                    if ( $migrate ) $files[] = $migrate;
+
                     if ($isProcessGenerate) $this->commandResult = $this->execCommands( $replaceList );
 
                     $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ));
@@ -383,6 +387,7 @@ class Crafter extends CoreGenerator
     {
         $files = [];
 
+
         if ( count($this->templateGroup[$this->template]) )
         {
             $eventRender = new CrafterEventRender();
@@ -416,15 +421,6 @@ class Crafter extends CoreGenerator
                     $this->event(CrafterEventRender::AFTER, $eventRender );
 
                     $files[] = new CodeFile( $eventRender->generatePath, $eventRender->content );
-
-                } else {
-
-                    $this->panelResources->schema->addError(
-                        Schema::TEMPLATE,
-                        "Template `$eventRender->sourcePath` Not found."
-                    );
-
-                    return [];
                 }
             }
         }
@@ -518,5 +514,66 @@ class Crafter extends CoreGenerator
         $answer = Yii::$app->request->post('answers', []);
 
         return (Yii::$app->request->isPost && count($answer) > 0);
+    }
+
+    /**
+     * Generate migration file
+     * naming: mYYMMDD_HHMMSS_file_crafter_update_table_name.php
+     * drop old table if exists
+     * create new table with all columns
+     * add primary key
+     * add foreign keys
+     * add indexes
+     * add comments
+     *
+     * @param Schema $schema
+     * @param array $replaceList
+     *
+     * @return ?CodeFile
+     */
+    private function generateMiration( Schema $schema, array $replaceList): ?CodeFile
+    {
+        if ( $this->options->migration )
+        {
+            $tableName = $schema->getTableName();
+            $className = 'm' . date('ymd_Hi00') . sprintf( $this->options->migration['fileName'],$tableName);
+            $fileName = $className . '.php';
+
+            $replaceList['{{migrationClass}}'] = $className;
+            $replaceList['{{tableName}}'] = $tableName;
+
+            $sourcePath = $this->panelService
+                ->constructSourcePath(
+                    $this->options->migration['template'],
+                    $this->options->source['ext'],
+                    $replaceList
+                );
+
+            $generatePath = $this->panelService
+                ->constructGeneratePath(
+                    rtrim($this->options->migration['root'], '/') . '/' . $fileName,
+                    $replaceList
+                );
+
+            $schema->template = $this->options->migration['template'];
+
+            if ( file_exists($sourcePath) )
+            {
+                $params = [
+                    'sourcePath' => $sourcePath,
+                    'generatePath' => $generatePath,
+                    'schema' => $schema,
+                    'replaceList' => $replaceList,
+                ];
+
+                $content = $this->renderTemplate(
+                    new CrafterEventRender($params)
+                );
+
+                return new CodeFile( $generatePath, $content );
+            }
+        }
+
+        return null;
     }
 }

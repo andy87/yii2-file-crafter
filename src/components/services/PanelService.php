@@ -204,6 +204,9 @@ class PanelService
             $generatePath = '@app/' . $generatePath;
         }
 
+        $generatePath = rtrim($generatePath, '/\\');
+        $generatePath = str_replace('\\', '/', $generatePath);
+
         return Yii::getAlias($generatePath);
     }
 

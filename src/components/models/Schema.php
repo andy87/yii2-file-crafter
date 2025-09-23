@@ -146,6 +146,7 @@ class Schema extends Model
             'post',
             'presentation',
             'product',
+            'profile',
             'project',
             'provider',
             'purchase',

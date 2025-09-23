@@ -10,6 +10,13 @@ use andy87\yii2\file_crafter\components\core\CoreGenerator;
  */
 class Options extends Model
 {
+    private const DEFAULT = [
+        'migration' => [
+            'root' => '@app/migrations',
+            'fileName' => '_file_crafter_migration_%s',
+            'template' => '@vendor/andy87/yii2-file-crafter/src/components/templates/migration.php',
+        ],
+    ];
     /** @var array  */
     public array $cache = [
         'dir' => CoreGenerator::DEFAULT_RESOURCES_DIR . '/cache',
@@ -46,10 +53,20 @@ class Options extends Model
     /** @var array  */
     public array $parseDataBase = [];
 
+    public array $migration = [];
+
     /** @var array  */
-    public array $templates = [];
+    public array $templates = [
+        'migration' => 'migration',
+    ];
 
 
+    public function init(): void
+    {
+        parent::init();
+
+        $this->prepareMigration();
+    }
 
     /** @return array */
     public function rules(): array
@@ -59,8 +76,9 @@ class Options extends Model
             [['eventHandler'], 'string'],
             [['eventHandler'], 'trim'],
             [['autoCompleteStatus', 'previewStatus', 'canDelete'], 'boolean'],
-            [['cache', 'source', 'templates', 'custom_fields'], 'each', 'rule' => ['safe']],
+            [['cache', 'source', 'templates','migration','custom_fields'], 'each', 'rule' => ['safe']],
             [['commands', 'autoCompleteList', 'parseDataBase'], 'each', 'rule' => ['string']],
+            ['migration', 'prepareMigration']
         ];
     }
 
@@ -79,5 +97,21 @@ class Options extends Model
             'parseDataBase' => 'Parse Data Base',
             'templates' => 'Templates',
         ];
+    }
+
+    /**
+     * Подготовка настроек миграции по умолчанию.
+     */
+    public function prepareMigration(): void
+    {
+        foreach (self::DEFAULT['migration'] as $key => $defaultValue) {
+            if (isset($this->migration[$key])) {
+                continue;
+            }
+            $this->migration[$key] = $defaultValue;
+        }
+
+        $this->migration['root'] = str_replace('\\', '/', $this->migration['root']);
+        $this->migration['root'] = rtrim($this->migration['root'], '/\\');
     }
 }
