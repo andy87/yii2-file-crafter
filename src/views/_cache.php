@@ -74,6 +74,5 @@ $R = $generator->panelResources;
 
         </div>
     <?php endforeach; ?>
-
 </div>
 

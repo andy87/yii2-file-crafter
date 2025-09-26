@@ -314,8 +314,6 @@ class Crafter extends CoreGenerator
                 ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
                 : array_keys($this->generateList);
 
-            $isProcessGenerate = $this->isGenerateProcess();
-
             foreach ($event->listSchemaDto as $schema )
             {
                 if ( in_array( $schema->getTableName(), $event->generateList ) )
@@ -326,7 +324,9 @@ class Crafter extends CoreGenerator
 
                     if ( $migrate ) $files[] = $migrate;
 
-                    if ($isProcessGenerate) $this->commandResult = $this->execCommands( $replaceList );
+                    if ( $this->isGenerateProcess() ) {
+                        $this->commandResult[] = $this->execCommands( $replaceList );
+                    }
 
                     $files = array_merge( $files, $this->fileGenerating( $schema, $replaceList ));
                 }
@@ -337,8 +337,7 @@ class Crafter extends CoreGenerator
 
             $files = $event->files;
         }
-
-
+    
         return $files;
     }
 
@@ -358,7 +357,9 @@ class Crafter extends CoreGenerator
             foreach ( $this->options->commands as $command )
             {
                 $commandCli = new Cmd();
-                $commandCli->exec = $this->panelService->replacing($command, $replaceList);
+                $command = $this->panelService->replacing($command, $replaceList);
+                $command = Yii::getAlias($command);
+                $commandCli->exec = $command;
                 $commandCli->replaceList = $replaceList;
 
                 $this->event(CrafterEventCommand::BEFORE, $commandCli );
@@ -372,6 +373,7 @@ class Crafter extends CoreGenerator
                 $result[$commandCli->exec] = $commandCli->output;
             }
         }
+
         return $result;
     }
 

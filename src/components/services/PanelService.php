@@ -243,7 +243,21 @@ class PanelService
      */
     public function runBash(Cmd $commandCli): ?string
     {
-        return shell_exec($commandCli->exec) ?? null;
+        $command = $commandCli->exec ?? null;
+
+        $result = 'command is empty';
+
+        if ( $command ) {
+            $result = null;
+            $resultCode = null;
+
+            exec($command, $result, $resultCode);
+        }
+
+        return print_r([
+            'result' => $result,
+            'resultCode' => $resultCode,
+        ], true);
     }
 
     /**

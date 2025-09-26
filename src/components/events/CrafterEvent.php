@@ -2,9 +2,9 @@
 
 namespace andy87\yii2\file_crafter\components\events;
 
-use andy87\yii2\file_crafter\components\models\Options;
 use yii\base\Event;
 use andy87\yii2\file_crafter\Crafter;
+use andy87\yii2\file_crafter\components\models\Options;
 
 /**
  * CrafterEvent

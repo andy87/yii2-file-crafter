@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if ( fieldName.indexOf('content') !== -1 ) option = 'text';
                 if ( fieldName.indexOf('html') !== -1 ) option = 'text';
                 if ( fieldName.indexOf('text') !== -1 ) option = 'text';
+                if ( fieldName.indexOf('message') !== -1 ) option = 'text';
 
                 if ( fieldName.indexOf('name') !== -1 ) {
                     option = 'string';
