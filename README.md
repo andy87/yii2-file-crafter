@@ -1,678 +1,511 @@
-
 <h1 align="center">Yii2 File Crafter</h1>
 
-Yii2 File Crafter - library for generating a many templates with minimal differences
+Yii2 File Crafter is a Gii generator for creating files from reusable templates and named schemas.
 
-### Content
+## Contents
 
 - [Setup](#yii2-file-crafter-setup)
-- [Config](#yii2-file-crafter-config)
-- [Using](#yii2-file-crafter-using)
-
-
-___
+- [Config and Quick Start](#yii2-file-crafter-config)
+- [Migrations](#yii2-file-crafter-migrations)
+- [Options and templates](#yii2-file-crafter-using)
+- [Schema editing and generation](#yii2-file-crafter-schema)
+- [Tests](#yii2-file-crafter-tests)
 
 <span id="yii2-file-crafter-setup"></span>
-<h2 align="center">
-    Setup
-</h2>
 
-<span id="yii2-migrate-architect-setup-require"></span>
-<h3>Requirements</h3> 
+## Setup
 
-- php >=8.0
-- Yii2
+Requirements: PHP 8.0 or newer, a Yii 2 application, and `yiisoft/yii2-gii`.
+Install File Crafter and Gii as development dependencies in the application:
 
-<h3>
-    <a href="https://getcomposer.org/download/">Composer</a>
-</h3>
-
-<span id="yii2-migrate-architect-setup"></span>
-## Add package to project
-
-<h3>Using console</h3>
-<small><i>(Recommended)</i></small>
-
-- Composer ( global setup )
-```bash
-composer require andy87/yii2-file-crafter:dev-master --dev
-````  
-- Composer.phar ( local setup )
-```bash
-php composer.phar require andy87/yii2-file-crafter:dev-master --dev
+```sh
+composer require --dev andy87/yii2-file-crafter:dev-master "yiisoft/yii2-gii:^2.2.7"
 ```
 
-<span id="yii2-file-crafter-setup-composer-composer"></span>
-<h3>Using: file `composer.json`</h3>
+For a local Composer installation, replace `composer` with `php composer.phar`.
+Alternatively, merge these entries into the application's existing `composer.json`:
 
-Open file `composer.json`, in section with key `require` add line:  
-`"andy87/yii2-file-crafter": "dev-master"`  
-
-dont forget update composer
-```bash
-composer update
+<!-- example: composer-config -->
+```json
+{
+    "require-dev": {
+        "andy87/yii2-file-crafter": "dev-master",
+        "yiisoft/yii2-gii": "^2.2.7"
+    }
+}
 ```
-<p align="center">- - - - -</p>
 
+Then run:
+
+```sh
+composer update andy87/yii2-file-crafter yiisoft/yii2-gii
+```
+
+Gii must be installed in the application: Composer does not install the
+`require-dev` dependencies of dependency packages. See the
+[Composer documentation](https://getcomposer.org/doc/04-schema.md#require-dev) and
+[Gii installation guide](https://www.yiiframework.com/extension/yiisoft/yii2-gii/doc/guide/2.2/en/installation).
 
 <span id="yii2-file-crafter-config"></span>
-<h2 align="center">
-    Config
-</h2>
 
-Config in the configuration file.  
- - basic:`config/(web|web-local|local).php`  
- - advanced:`(frontend|backend)/config/main-local.php`  
+## Config and Quick Start
 
+The examples use `$config` for the application's configuration array. In a Basic
+application, add the minimum configuration inside the existing `if (YII_ENV_DEV)`
+block in `config/web.php`, before `return $config`. In an Advanced application,
+merge the same entries into the development configuration of the application
+that serves Gii, for example `backend/config/main-local.php`.
+Keep Gii in `bootstrap` only once if the application already enables it.
 
-Minimum config
+Minimum configuration (generates a service file without a migration):
+
+<!-- example: minimal-config -->
 ```php
- $config['modules']['gii'] = [
+$config['bootstrap'][] = 'gii';
+$config['modules']['gii'] = [
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
             'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
+                'source' => ['dir' => '@app/templates/file-crafter', 'ext' => '.tpl'],
+                'migration' => false,
                 'templates' => [
-                    'group_name' => [
-                        // 'template' => 'path/to/file.php',
-                        'common/services/PascalCaseService' => '@app/common/services/items/{PascalCase}Service.php',
-                        'template/test/unit/camelCaseService.tpl' => '@backend/test/unit/{{camelCase}}Service.php',
-                        'templates/view/index.php' => 'custom/dir/{{snake_case}}/index.php',
-                    ]
-                ]
-            ]
-        ]
+                    'default' => [
+                        'service' => '@app/services/{{PascalCase}}Service.php',
+                    ],
+                ],
+            ],
+        ],
     ],
 ];
 ```
 
-Full Config with all options
+Create `templates/file-crafter/service.tpl` under the application's base directory:
+
+<!-- example: service-template -->
+```text
+<?php
+
+namespace app\services;
+
+/** Service for {{PascalCase}} records. */
+class {{PascalCase}}Service
+{
+}
+```
+
+1. Open `http://localhost/index.php?r=gii/fileCrafter`, adjusting the host and entry-script path for the application.
+2. Enter `Product Items` in **Schema name** and click **Create**. Database attributes can be left empty for this template.
+3. Select the `default` template group and the saved schema, then click **Preview**.
+4. Check the proposed `services/ProductItemsService.php`, keep it selected, and click **Generate**.
+
+The resulting file contains:
+
+<!-- example: service-result -->
 ```php
- $config['modules']['gii'] = [
+<?php
+
+namespace app\services;
+
+/** Service for ProductItems records. */
+class ProductItemsService
+{
+}
+```
+
+`@app` refers to the selected application's base directory. Aliases such as
+`@backend` and `@frontend` require an Advanced application or explicit alias
+configuration; the Quick Start does not depend on them.
+
+The following alternative configuration shows every File Crafter option. Create
+the referenced templates before selecting their group. The `commands` and
+`eventHandler` options are explained below.
+
+<!-- example: full-config -->
+```php
+$config['bootstrap'][] = 'gii';
+$config['modules']['gii'] = [
     'class' => yii\gii\Module::class,
     'generators' => [
         'fileCrafter' => [
             'class' => andy87\yii2\file_crafter\Crafter::class,
             'options' => [
-                'cache' => [
-                    'dir' => '@runtime/yii2-file-crafter/cache',
-                    'ext' => '.tpl'
-                ],
-                'source' => [
-                    'dir' => '@runtime/yii2-file-crafter/templates/source',
-                    'ext' => '.tpl'
-                ],
-                'custom_fields' => [
-                    'singular' => 'label - one',
-                    'plural' => 'label - many',
-               ],
-                'commands' => [
-                    'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="common\models" --interactive=0' //... 
-                ],
-                'eventHandler' => app\composents\behavior\FileCrafterBehavior::class,
+                'cache' => ['dir' => '@app/runtime/yii2-file-crafter/cache', 'ext' => '.json'],
+                'source' => ['dir' => '@app/templates/file-crafter', 'ext' => '.tpl'],
+                'custom_fields' => ['singular' => 'Singular name', 'plural' => 'Plural name'],
+                'commands' => [],
+                'eventHandler' => null,
                 'autoCompleteStatus' => true,
-                'autoCompleteList' => [
-                    'autocomplete name 1',
-                    'autocomplete name 2',
-                ],
+                'autoCompleteList' => ['Product Items', 'Category Group'],
                 'previewStatus' => true,
                 'canDelete' => true,
-                'parseDataBase' => ['autocomplete','fakeCache'],
-                'templates' => [
-                    'common' => [
-                        'common/services/PascalCaseService' => 'app/common/services/items/{[PascalCase]}Service.php',
-                    ],
-                    'backend' => [
-                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                    ],
-                    'frontend' => [
-                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
-                    ],
-                    'all' => [
-                        'common/services/PascalCaseService' => 'app/common/services/items/{PascalCase}Service.php',
-                        'backend/test/unit/camelCaseService.tpl' => 'backend/test/unit/{{camelCase}}Service.php',
-                        'frontend/view/index.php' => 'app/frontend/view/{{snake_case}}/index.php',
-                    ]
+                'parseDataBase' => ['autocomplete', 'fakeCache'],
+                'migration' => [
+                    'root' => '@app/migrations',
+                    'fileName' => '_file_crafter_migration_%s',
+                    'template' => '@vendor/andy87/yii2-file-crafter/src/components/templates/migration.php',
                 ],
-            ]
-        ]
+                'templates' => [
+                    'default' => ['service' => '@app/services/{{PascalCase}}Service.php'],
+                    'views' => ['view.php' => '@app/views/{{snake_case}}/index.php'],
+                    'all' => [
+                        'service' => '@app/services/{{PascalCase}}Service.php',
+                        'view.php' => '@app/views/{{snake_case}}/index.php',
+                    ],
+                ],
+            ],
+        ],
     ],
 ];
 ```
 
-<h2>Migrations</h2>
+<span id="yii2-file-crafter-migrations"></span>
 
-By default, a create-table migration is generated for each selected schema.
-Applying it to an existing table fails without dropping the table or its data.
-Changes to existing tables require an explicit migration using Yii's column and index operations.
+## Migrations
 
-To generate only the configured templates, disable migrations in the generator options:
+Unless `migration` is `false`, a create-table migration is generated for each
+selected schema. Applying it to an existing table fails without dropping the
+table or its data. Changes to existing tables require an explicit migration
+using Yii's column and index operations. Generated migrations are not applied
+automatically.
+
+The `migration` settings shown in the full configuration are the defaults:
+
+- `root`: output directory, resolved through Yii aliases.
+- `fileName`: suffix pattern; `%s` is replaced with the schema's table name. A migration timestamp prefix and `.php` extension are added automatically.
+- `template`: PHP template used to render the migration.
+
+All option examples below modify the minimum configuration above. To disable migrations:
 
 ```php
-'options' => [
-    'migration' => false,
-    'templates' => [ /* template groups */ ],
-],
+$config['modules']['gii']['generators']['fileCrafter']['options']['migration'] = false;
 ```
 
 <span id="yii2-file-crafter-using"></span>
-<h2>
-    Using
-</h2>  
 
-- [Marks](#yii2-file-crafter-using-Marks)  
-- [Cache](#yii2-file-crafter-using-Cache)  
-- [Source](#yii2-file-crafter-using-Source)  
-- [Custom Fields](#yii2-file-crafter-using-CustomFields)  
-- [Autocomplete status](#yii2-file-crafter-autoCompleteStatus)
-- [Autocomplete list](#yii2-file-crafter-autoCompleteList)
-- [Preview status](#yii2-file-crafter-previewStatus)
-- [Can delete](#yii2-file-crafter-canDelete)
-- [Parse data base](#yii2-file-crafter-parseDataBase)
-- [Commands](#yii2-file-crafter-using-Commands)  
-- [Events](#yii2-file-crafter-using-Events)  
-- [Templates](#yii2-file-crafter-using-Templates)  
+## Options and templates
 
---- 
+- [Marks](#yii2-file-crafter-using-Marks)
+- [Cache](#yii2-file-crafter-using-Cache)
+- [Source](#yii2-file-crafter-using-Source)
+- [Templates](#yii2-file-crafter-using-Templates)
+- [Custom fields](#yii2-file-crafter-using-CustomFields)
+- [Autocomplete status](#yii2-file-crafter-using-autoCompleteStatus)
+- [Autocomplete list](#yii2-file-crafter-using-autoCompleteList)
+- [Preview status](#yii2-file-crafter-using-previewStatus)
+- [Can delete](#yii2-file-crafter-using-canDelete)
+- [Parse database](#yii2-file-crafter-using-parseDataBase)
+- [Commands](#yii2-file-crafter-using-Commands)
+- [Events](#yii2-file-crafter-using-Events)
 
-<span id="yii2-file-crafter-using-Marks"></span>  
-<h2 align="center">Marks</h2>  
+<span id="yii2-file-crafter-using-Marks"></span>
 
-Module use marks for replace variables in templates.  
- - `{{PascalCase}}` - PascalCase by schema name  
- - `{{camelCase}}` - camelCase by schema name  
- - `{{snake_case}}` - snake_case by schema name  
- - `{{kebab-case}}` - kebab-case by schema name  
- - `{{UPPERCASE}}` - UPPERCASE by schema name  
- - `{{lowercase}}` - lowercase by schema name
- - `{{[key]}}` - custom key from property `custom_fields` on `config` ( see [Custom Fields](#yii2-file-crafter-using-Custom) )
+## Marks
 
-#### Example
-for schema name `Product Items` replace marks:
-- `{{PascalCase}}` - `ProductItems`  
-- `{{camelCase}}` - `productItems`  
-- `{{snake_case}}` - `product_items`  
-- `{{kebab-case}}` - `product-items`  
-- `{{UPPERCASE}}` - `PRODUCT ITEMS`  
-- `{{lowercase}}` - `product items`  
+Marks are replaced in template contents, paths and commands. Use double braces
+with the exact spelling shown below. For a schema named `Product Items`:
 
---- 
+| Mark | Result |
+| --- | --- |
+| `{{PascalCase}}` | `ProductItems` |
+| `{{camelCase}}` | `productItems` |
+| `{{snake_case}}` | `product_items` |
+| `{{kebab-case}}` | `product-items` |
+| `{{UPPERCASE}}` | `PRODUCT_ITEMS` |
+| `{{lowercase}}` | `product_items` |
+
+Uppercase and lowercase use the normalized table name, including underscores.
+Custom fields use the same syntax, for example `{{singular}}`; see
+[Custom fields](#yii2-file-crafter-using-CustomFields).
+Unknown marks are left unchanged, so check filenames in Preview.
 
 <span id="yii2-file-crafter-using-Cache"></span>
-<h2 align="center">
-    Cache
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>  
 
-Configuration for the cache folder with schema data.
+## Cache
 
-- `dir` - path to the cache directory with schema data  
-- `ext` - extension of the cache file  
+Schemas are stored as JSON files. Default cache settings:
 
-Default configuration:
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'cache' => [
-                    'dir' => '@runtime/yii2-file-crafter/cache',
-                    'ext' => '.json'
-                ],
-                // ...
-            ],
-        ],
-    ]
+$config['modules']['gii']['generators']['fileCrafter']['options']['cache'] = [
+    'dir' => '@app/runtime/yii2-file-crafter/cache',
+    'ext' => '.json',
 ];
 ```
-
-
---- 
 
 <span id="yii2-file-crafter-using-Source"></span>
-<h2 align="center">
-    Source
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>  
 
-Configuration for the source folder with templates files.
+## Source
 
-- `dir` - path to the directory with the templates files source for generation  
-- `ext` - extension of the templates file  
+Default source settings (the Quick Start overrides `dir`):
 
-Default configuration:
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'source' => [
-                    'dir' => '@runtime/yii2-file-crafter/templates/source',
-                    'ext' => '.tpl'
-                ],
-                // ...
-            ],
-        ],
-    ]
+$config['modules']['gii']['generators']['fileCrafter']['options']['source'] = [
+    'dir' => '@app/runtime/yii2-file-crafter/templates/source',
+    'ext' => '.tpl',
 ];
 ```
 
---- 
-<span id="yii2-file-crafter-using-CustomFields"></span>
-<h2 align="center">
-    Templates
-    <small style="color: #900; font-size:9px">(required)</small>
-</h2>
+<span id="yii2-file-crafter-using-Templates"></span>
 
-Array with groups of templates for use on generate files.  
+## Templates
+
+`templates` maps group names to arrays of source-template paths and output paths:
+
+<!-- example: template-groups -->
 ```php
-[
-    ['group1'] => [
-        'template1' => 'path/from/project/root/to/resultFile.tpl',
-        'template2.tpl' => 'path/from/project/root/to/resultFile.php',
-        // ...
+$config['modules']['gii']['generators']['fileCrafter']['options']['templates'] = [
+    'group1' => [
+        'service' => '@app/services/{{PascalCase}}Service.php',
     ],
-    ['group2'] => [
-        'template1.php' => '@path/alias/to/resultFile.tpl',
-        '@alias/to/template' => 'path/from/project/root/to/resultFile.php',
-        // ...
+    'group2' => [
+        'view.php' => '@app/views/{{snake_case}}/index.php',
+        '@app/templates/file-crafter/service.tpl' => 'services/{{PascalCase}}Service.php',
     ],
-]
-```
-The source path may contain:  
- - some `@` alias ( `source['dir']` - default container )  
- - `ext` for generate any file type ( `.php` default )  
- - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
-
-File source-template will be searched in the `source` folder.  
-Source folder path can be set in the configuration file. ( see [Source](#yii2-file-crafter-using-Source) )  
-
-The resultFile path may contain:  
- - some `@` alias ( `@app/` - default prefix )  
- - `ext` for generate any file type ( `.php` default )  
- - some `{{variable}}` ( see [Marks](#yii2-file-crafter-using-Marks) )  
-
-Content of the templates file rendered with the `View` method `renderFile`  
-And prepared with the `$replaceList` array contains all marks. ( see [Marks](#yii2-file-crafter-using-Marks) )  
-And also passed to the render method:  
- - `$schema` - schema object  
- - `$generator` - self generator object
-
-```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'templates' => [
-                    'all' => [
-                        '@backend/dir/by/alias/camelCaseService.tpl' => '@backend/generate/by/alias/{{camelCase}}Service.php',
-                        'dir/on/source/dir/generate_file' => 'custom/dir/on/source/dir/{{snake_case}}/generate_file.tpl',
-                    ],
-                ],
-                // ...
-            ],
-        ],
-    ]
 ];
 ```
 
----
+Select the required group in Gii before Preview.
+
+- Relative source paths start at `source['dir']`; paths beginning with a Yii alias use that alias. A source path without an extension receives `source['ext']`, which defaults to `.tpl`.
+- Relative output paths start at `@app`. Specify the desired extension explicitly; no extension is added to ordinary template output paths.
+- Both paths may contain [marks](#yii2-file-crafter-using-Marks).
+
+A regular `.tpl` file is read as text and then its marks are replaced. PHP inside
+it is copied into the output, as in the Quick Start. PHP templates are rendered
+with `yii\web\View::renderFile` and receive `$schema` and `$generator`; mark
+replacement follows rendering. The current implementation selects PHP rendering
+when the source path contains `.php`, so keep text templates outside directories
+whose names contain `.php`.
+
+For example, `templates/file-crafter/view.php` can contain:
+
+<!-- example: php-template -->
+```php
+<?php
+
+/** @var andy87\yii2\file_crafter\components\models\Schema $schema Schema being generated. */
+/** @var andy87\yii2\file_crafter\Crafter $generator Active generator. */
+echo $schema->getName() . ' from ' . $generator->getName();
+```
+
+For `Product Items`, the output is:
+
+<!-- example: php-result -->
+```text
+Product Items from File Crafter
+```
 
 <span id="yii2-file-crafter-using-CustomFields"></span>
-<h2 align="center">
-    Custom Fields
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>  
 
-Array with custom fields for use custom variables in templates.  
-Using on template key wrapped in square brackets: `{{%key%}}`    
-Example: `{{key_one}}`, `{{key_two}}`...  
+## Custom fields
 
-Example simple config  
+The keys define custom marks; the values define labels in the schema editor:
+
+<!-- example: custom-fields -->
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'custom_fields' => [
-                    'singular' => 'one',
-                    'plural' => 'many',
-                ],
-                // ...
-            ],
-        ],
-    ]
+$config['modules']['gii']['generators']['fileCrafter']['options']['custom_fields'] = [
+    'singular' => 'Singular name',
+    'plural' => 'Plural name',
 ];
 ```
-with template:
-```php
-Value - ONE = {{singular}}
-Value - MANY = ({{plural}})
-```
-<p> ___ </p>
 
-Schema 1: `Product Items`  
-Field `one` = `!!product!!`  
-Field `many` = `>>> products <<<`  
+For schema `Product Items`, enter `product` in **Singular name** and `products`
+in **Plural name**. A text template can use these values:
 
-...generate...
-
-Result: `app/frontend/views/info--product_items.php`
-```php
-Value - ONE = !!product!!
-Value - MANY = (>>> products <<<)
+<!-- example: custom-template -->
+```text
+Item: {{singular}}
+List: {{plural}}
 ```
 
-<p> ___ </p>
+Result:
 
-Schema 2: `Category Group`  
-Field `label one` = `--category--`   
-Field `label many` = `+++categories+++`  
-
-...generate...
-
-Result: `app/frontend/views/info--category_group.php`
-```php
-Value - ONE = --category--
-Value - MANY = (+++categories+++)
+<!-- example: custom-result -->
+```text
+Item: product
+List: products
 ```
-
---- 
 
 <span id="yii2-file-crafter-using-autoCompleteStatus"></span>
-<h2 align="center">Autocomplete status</h2>
 
-Key `autoCompleteStatus` contain status for autocomplete field `Schema name` in the form 200 populated values.
-  
-Variants: `true` or `false`(default)  
+## Autocomplete status
+
+`autoCompleteStatus` enables built-in suggestions for **Schema name**. Default: `false`.
+
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'autoCompleteStatus' => true,
-                // ...
-            ],
-        ],
-    ],
-];
+$config['modules']['gii']['generators']['fileCrafter']['options']['autoCompleteStatus'] = true;
 ```
-
---- 
 
 <span id="yii2-file-crafter-using-autoCompleteList"></span>
-<h2 align="center">
-    Autocomplete list
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>
 
-Key `autoCompleteList` contain list of autocomplete field `Schema name` in the form self custom list.
-  
-Type: `array`  
+## Autocomplete list
+
+`autoCompleteList` supplies custom schema-name suggestions. Default: an empty array.
+
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'autoCompleteList' => [
-                    'Product Items',
-                    'Category Group',
-                    'User Profile',
-                    // ...
-                ],
-                // ...
-            ],
-        ],
-    ],
+$config['modules']['gii']['generators']['fileCrafter']['options']['autoCompleteList'] = [
+    'Product Items',
+    'Category Group',
+    'User Profile',
 ];
 ```
-
---- 
 
 <span id="yii2-file-crafter-using-previewStatus"></span>
-    <h2 align="center">Preview status
-    <small style="color: #009; font-size:9px">(optional)</small> 
-</h2>
 
-Key `previewStatus` contain status for preview file content on hover icon in the form.
-  
-Variants: `true`(default) or `false`  
+## Preview status
+
+`previewStatus` enables the schema-content preview shown on icon hover. Default: `true`.
+
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'previewStatus' => true,
-                // ...
-            ],
-        ],
-    ],
-];
+$config['modules']['gii']['generators']['fileCrafter']['options']['previewStatus'] = true;
 ```
-
---- 
 
 <span id="yii2-file-crafter-using-canDelete"></span>
-    <h2 align="center">Can delete
-    <small style="color: #009; font-size:9px">(optional)</small> 
-</h2>
 
-Key `canDelete` contain status for delete schema from the form.
+## Can delete
 
-Variants: `true`(default) or `false`
+`canDelete` controls schema deletion from the panel. Default: `true`.
+
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'canDelete' => true,
-                // ...
-            ],
-        ],
-    ],
-];
+$config['modules']['gii']['generators']['fileCrafter']['options']['canDelete'] = true;
 ```
 
---- 
-
 <span id="yii2-file-crafter-using-parseDataBase"></span>
-<h2 align="center">
-    Parse data base
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>
 
-Key `parseDataBase` contain list of target for extend schema name list from database.
+## Parse database
 
-Variants: `array` with values: 
-- `autocomplete`
-- `fakeCache`
+`parseDataBase` imports table names into suggestions (`autocomplete`) and/or
+database-derived schemas into the panel (`fakeCache`). Default: an empty array.
+These options require a configured `db` application component.
 
-Default `empty`;
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'parseDataBase' => ['autocomplete','fakeCache'],
-                // ...
-            ],
-        ],
-    ],
-];
+$config['modules']['gii']['generators']['fileCrafter']['options']['parseDataBase'] = ['autocomplete', 'fakeCache'];
 ```
 
 <span id="yii2-file-crafter-using-Commands"></span>
-<h2 align="center">
-    Commands
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>
 
-Key `commands` contain list `cli` command for call before generate any file.  
-command make use of the `{{variable}}` in the command string ( see [Marks](#yii2-file-crafter-using-Marks) )
+## Commands
 
-Example: generate gii model for table name from schema name before generate fileContent
+`commands` is a list of CLI commands with [mark](#yii2-file-crafter-using-Marks)
+replacement. Default: an empty array. Commands run for each selected schema on
+an explicit **Generate** submission with selected files, before rendering its
+configured templates. **Preview** never executes them.
 
-Default `empty`;
+For an application with the Gii console module configured, an existing table
+and a `common\models` namespace, this command generates its ActiveRecord model:
+
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-            'fileCrafter' => [
-            'options' => [
-                // ... 
-                'commands' => [
-                    'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="common\models"  --interactive=0 --overwrite=1' // ... 
-                ],
-                // ...
-            ],
-        ],
-    ],
+$config['modules']['gii']['generators']['fileCrafter']['options']['commands'] = [
+    'php yii gii/model --tableName={{snake_case}} --modelClass={{PascalCase}} --ns="common\models" --interactive=0',
 ];
 ```
+
+Commands run in the PHP process's working directory. Adjust the PHP executable,
+console entry-script path and namespace for the application. Commands can modify
+files independently of the files selected in Gii.
 
 <span id="yii2-file-crafter-using-Events"></span>
-<h2 align="center">
-    Events
-    <small style="color: #009; font-size:9px">(optional)</small>
-</h2>
 
-Make use of the `eventHandlers` key to add a behavior to the module.
+## Events
 
-Example: add behavior `FileCrafterBehavior` to the module
+`eventHandler` attaches a Yii behavior to the generator. Default: `null`.
+Create `components/behaviors/FileCrafterBehavior.php` in the application:
 
-Default `null`;
+<!-- example: event-behavior -->
 ```php
-$config['modules']['gii'] = [
-    'class' => Module::class,
-        'generators' => [
-        'options' => [
-                // ... 
-                'eventHandlers' => FileCrafterBehavior::class,
-                // ...
-            ],
-        ],
-    ],
-];
-```
+<?php
 
+namespace app\components\behaviors;
 
-#### Before init
-`CrafterEvent::BEFORE_INIT` before init module
+use Yii;
+use yii\base\Behavior;
+use andy87\yii2\file_crafter\components\events\{CrafterEvent, CrafterEventCommand, CrafterEventGenerate, CrafterEventRender};
 
-#### After init
-`CrafterEvent::AFTER_INIT` after init module
+/** Records generator events without changing generated files or commands. */
+class FileCrafterBehavior extends Behavior
+{
+    /** @return array Event names mapped to their handlers. */
+    public function events(): array
+    {
+        return [
+            CrafterEvent::BEFORE_INIT => 'onInit',
+            CrafterEvent::AFTER_INIT => 'onInit',
+            CrafterEventGenerate::BEFORE => 'onGenerate',
+            CrafterEventGenerate::AFTER => 'onGenerate',
+            CrafterEventCommand::BEFORE => 'onCommand',
+            CrafterEventCommand::AFTER => 'onCommand',
+            CrafterEventRender::BEFORE => 'onRender',
+            CrafterEventRender::AFTER => 'onRender',
+        ];
+    }
 
-Come events has special properties...
+    /**
+     * Record generator initialization.
+     * @param CrafterEvent $event Initialization event with the active options.
+     * @return void
+     */
+    public function onInit(CrafterEvent $event): void
+    {
+        Yii::info($event->name, __METHOD__);
+    }
 
-#### Before generate
-`CrafterEventGenerate::BEFORE` before generate all files
+    /**
+     * Record the input schemas before generation and the output files afterwards.
+     * @param CrafterEventGenerate $event Generation event and its current payload.
+     * @return void
+     */
+    public function onGenerate(CrafterEventGenerate $event): void
+    {
+        Yii::info([$event->name, $event->listSchemaDto, $event->files], __METHOD__);
+    }
 
-```php
-//class FileCrafterBehavior extends Behavior
-public function beforeGenerate(CrafterEventGenerate $crafterEventGenerate): void {
-    Yii::info([ 'Generated files', [
-        $crafterEventGenerate->files // empty (call before generate)
-    ]]); 
+    /**
+     * Record the command before execution and its output afterwards.
+     * @param CrafterEventCommand $event Command event containing a Cmd object.
+     * @return void
+     */
+    public function onCommand(CrafterEventCommand $event): void
+    {
+        Yii::info([$event->name, $event->cmd->exec, $event->cmd->output, $event->cmd->replaceList], __METHOD__);
+    }
+
+    /**
+     * Record template paths before rendering and the generated content afterwards.
+     * @param CrafterEventRender $event Render event for one schema and template.
+     * @return void
+     */
+    public function onRender(CrafterEventRender $event): void
+    {
+        Yii::info([$event->name, $event->schema, $event->sourcePath, $event->generatePath, $event->replaceList, $event->content], __METHOD__);
+    }
 }
 ```
 
-#### Before command
-`CrafterEventCommand::BEFORE` before run cli command
+Enable the behavior in the minimum configuration:
 
+<!-- example: event-config -->
 ```php
-//class FileCrafterBehavior extends Behavior
-public function beforeCommand(CrafterEventCommand $crafterEventCommand): void {
-       Yii::error([ __METHOD__, [
-        $crafterEventCommand->cmd->exec,
-        $crafterEventCommand->cmd->output, // empty (call before exec command)
-        $crafterEventCommand->cmd->replaceList
-    ]]);
-}
+$config['modules']['gii']['generators']['fileCrafter']['options']['eventHandler'] = app\components\behaviors\FileCrafterBehavior::class;
 ```
 
-##### Cmd  
-`\andy87\yii2\file_crafter\components\models\Dto`  
- - string **$exec** - _exec command_
- - string **$output** - _exec output_
- - array **$replaceList** - _replace map_
+In an Advanced application, adjust the behavior's namespace and configuration
+to match its location, for example `backend\components\behaviors`.
+The `events()` map is required: handler method names alone do not subscribe to events.
 
-#### After command
-`CrafterEventCommand::AFTER` after run cli command
+All events expose `options`. Generation events contain `listSchemaDto` and
+`generateList` before generation, and `files` (`yii\gii\CodeFile[]`) afterwards.
+Render events expose `schema`, `sourcePath`, `generatePath`, `replaceList` and
+`content`; `content` is populated after rendering.
 
-```php
-//class FileCrafterBehavior extends Behavior
-public function afterCommand(CrafterEventCommand $crafterEventCommand): void {
-    Yii::error([ __METHOD__, [
-        $crafterEventCommand->cmd->exec,
-        $crafterEventCommand->cmd->output, // output command
-        $crafterEventCommand->cmd->replaceList
-    ]]);
-}
-```
+Command events expose `cmd`, an instance of
+`andy87\yii2\file_crafter\components\models\dto\Cmd`:
 
-#### Before render
-`CrafterEventRender::BEFORE` before render file
+- `exec` (`string`): command after mark replacement.
+- `output` (`?string`): `null` before execution, command output afterwards.
+- `replaceList` (`array`): mark replacement map for the schema.
 
-```php
-//class FileCrafterBehavior extends Behavior
-public function beforeRender(CrafterEventRender $crafterEventRender): void {
-    Yii::error([ __METHOD__, [
-        $crafterEventRender->schema,
-        $crafterEventRender->sourcePath,
-        $crafterEventRender->generatePath,
-        $crafterEventRender->replaceList,
-        $crafterEventRender->content // empty (call before render file)
-    ]]);
-}
-```
-
-#### After render
-`CrafterEventRender::AFTER` after render file
-
-```php
-//class FileCrafterBehavior extends Behavior
-public function afterRender(CrafterEventRender $crafterEventRender): void {
-    Yii::error([ __METHOD__, [
-        $crafterEventRender->schema,
-        $crafterEventRender->sourcePath,
-        $crafterEventRender->generatePath,
-        $crafterEventRender->replaceList,
-        $crafterEventRender->content // content file
-    ]]);
-}
-```
-
-#### After generate
-`CrafterEventGenerate::AFTER` after generate all files
-
-```php
-public function afterGenerate(CrafterEventGenerate $crafterEventGenerate): void {
-    Yii::info([ 'Generated files', [
-        $crafterEventGenerate->files // CodeFile[]
-    ]]); 
-}
-```
-
-___
+<span id="yii2-file-crafter-schema"></span>
 
 ## Schema editing and generation
 
@@ -689,14 +522,29 @@ decimal scale, auto-increment, unsigned flags and column defaults in the cached
 schema. Foreign keys are created with the table; referenced tables must already
 exist. As with all generated migrations, review the result before applying it.
 
+<span id="yii2-file-crafter-tests"></span>
+
 ## Tests
 
 The PHPUnit development dependencies require PHP 8.1 or newer and the `dom`, `mbstring` and `pdo_sqlite` extensions.
+Run these commands from a clone of this repository:
 
 ```sh
 composer update --prefer-stable --prefer-dist
 composer test
 ```
+
+To check only the README:
+
+```sh
+composer test:docs
+```
+
+The documentation tests read examples directly from this file. They check PHP
+syntax, generator configuration, the Quick Start's Preview/Generate flow,
+template rendering, marks, event subscriptions, unique section anchors and
+internal links. They do not execute the documented application-specific CLI
+commands or request external websites.
 
 The default suite uses temporary files and an in-memory SQLite database. To enable the MySQL regression test, provide a disposable test database and the `pdo_mysql` extension:
 
@@ -710,7 +558,8 @@ vendor/bin/phpunit --fail-on-warning --fail-on-risky --fail-on-incomplete --fail
 The MySQL tests create and remove only their own randomly named tables. They check
 imported keys, decimal values, defaults and constraint enforcement. Gii controller
 tests cover isolated generator mutations, repeated Preview, migration selection
-across a minute boundary, and enum/set form validation. CI runs the suite on PHP
-8.1, 8.2, 8.4 and 8.5 with MySQL 8.4, and checks PHP 8.0 syntax separately.
+across a minute boundary, and enum/set form validation. CI runs the suite, including
+the README checks, on PHP 8.1, 8.2, 8.4 and 8.5 with MySQL 8.4, and checks PHP 8.0
+syntax separately.
 
 [Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)

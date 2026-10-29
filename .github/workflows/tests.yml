@@ -37,7 +37,8 @@ jobs:
           coverage: none
           tools: composer:v2
       - run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
-      - run: vendor/bin/phpunit --fail-on-warning --fail-on-risky --fail-on-incomplete --fail-on-skipped --fail-on-deprecation --fail-on-notice
+      - name: Test code, README examples and internal links
+        run: vendor/bin/phpunit --fail-on-warning --fail-on-risky --fail-on-incomplete --fail-on-skipped --fail-on-deprecation --fail-on-notice
 
   php80-syntax:
     runs-on: ubuntu-latest

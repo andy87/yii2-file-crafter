@@ -44,7 +44,8 @@
   },
 
   "scripts": {
-    "test": "vendor/bin/phpunit"
+    "test": "vendor/bin/phpunit",
+    "test:docs": "vendor/bin/phpunit tests/ReadmeTest.php --fail-on-warning --fail-on-risky --fail-on-incomplete --fail-on-skipped --fail-on-deprecation --fail-on-notice"
   },
 
   "config": {
