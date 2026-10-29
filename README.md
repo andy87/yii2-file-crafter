@@ -1,5 +1,9 @@
 <h1 align="center">Yii2 File Crafter</h1>
 
+**Languages / Языки:** [English](README.md) | [Русский](docs/i18n/README.ru.md) | [简体中文](docs/i18n/README.zh-CN.md) | [Português (Brasil)](docs/i18n/README.pt-BR.md) | [Español](docs/i18n/README.es.md) | [日本語](docs/i18n/README.ja.md) | [Қазақша](docs/i18n/README.kk.md) | [Français](docs/i18n/README.fr.md) | [Deutsch](docs/i18n/README.de.md)
+
+Code examples and interface labels remain in English in all translations.
+
 Yii2 File Crafter is a Gii generator for creating files from reusable templates and named schemas.
 
 ## Contents
@@ -165,8 +169,8 @@ $config['modules']['gii'] = [
 ## Migrations
 
 Unless `migration` is `false`, a create-table migration is generated for each
-selected schema. Applying it to an existing table fails without dropping the
-table or its data. Changes to existing tables require an explicit migration
+selected schema. Applying it to an existing table raises an error. The existing
+table and its data are preserved. Changes to existing tables require an explicit migration
 using Yii's column and index operations. Generated migrations are not applied
 automatically.
 
@@ -185,6 +189,51 @@ $config['modules']['gii']['generators']['fileCrafter']['options']['migration'] =
 <span id="yii2-file-crafter-using"></span>
 
 ## Options and templates
+
+### Working with schemas
+
+Create a schema with **Create**. Select the edit icon to change or rename a
+saved schema, and use the delete button to remove it when `canDelete` is enabled.
+The schema name is converted to a lowercase table name: spaces become
+underscores and characters other than ASCII letters, digits, underscores and
+whitespace are removed. Saved schemas are JSON files in the configured cache
+directory; retain those files when moving the application or clearing its runtime.
+
+The panel supports selecting multiple schemas and selecting all at once. An
+empty schema selection causes the generator to process all available schemas.
+Preview shows the proposed files; Generate writes the selected files. A missing
+source template is skipped, so verify the source path if an expected file is absent.
+
+### Database fields and imports
+
+Add, remove and reorder fields in the schema editor. Each field has a name,
+comment, type, size and `FK`, `UN` and `NN` flags. `UN` means unique and `NN`
+means not null. The `FK` flag alone does not define a foreign-key constraint;
+the referenced table and columns must be present in the schema's foreign-key
+metadata. Field names can suggest a type and flags, which should be reviewed.
+
+The field type selector offers `string`, `int`, `boolean`, `text`, `timestamp`, `datetime`,
+`date`, `time`, `json`, `float`, `double`, `decimal`, `jsonb`, `binary`, `money`, `smallint`, `bigint`,
+`char`, `varchar`, `tinyint`, `enum` and `set`. Database support varies by type and driver.
+The regression suite exercises SQLite and MySQL; it does not establish support
+for every type on every database.
+
+`parseDataBase` can add table names to autocomplete or show database-derived
+schemas with `fakeCache`. The latter are displayed without creating JSON cache
+files and cannot be deleted through the panel. Database autocomplete requires
+`autoCompleteStatus` to be enabled.
+
+### Applying and customising migrations
+
+Generated migrations must be reviewed and applied through the application's Yii
+migration commands. The generated `safeDown()` drops the created table; review
+the data-loss impact before rolling a migration back. A custom migration template
+can use `{{migrationClass}}` and `{{tableName}}` along with the schema and generator
+objects. Imported primary keys, foreign keys and indexes are stored in schema
+metadata; individual field flags do not supply a referenced table or columns.
+
+The command result includes output and `resultCode`. A non-zero command exit code
+is reported but does not by itself stop generation of configured templates.
 
 - [Marks](#yii2-file-crafter-using-Marks)
 - [Cache](#yii2-file-crafter-using-Cache)
@@ -331,7 +380,7 @@ List: products
 
 ## Autocomplete status
 
-`autoCompleteStatus` enables built-in suggestions for **Schema name**. Default: `false`.
+`autoCompleteStatus` enables built-in, custom and database suggestions for **Schema name**. Default: `false`.
 
 ```php
 $config['modules']['gii']['generators']['fileCrafter']['options']['autoCompleteStatus'] = true;
@@ -341,7 +390,7 @@ $config['modules']['gii']['generators']['fileCrafter']['options']['autoCompleteS
 
 ## Autocomplete list
 
-`autoCompleteList` supplies custom schema-name suggestions. Default: an empty array.
+`autoCompleteList` supplies custom schema-name suggestions when `autoCompleteStatus` is `true`. Default: an empty array.
 
 ```php
 $config['modules']['gii']['generators']['fileCrafter']['options']['autoCompleteList'] = [
@@ -493,8 +542,9 @@ In an Advanced application, adjust the behavior's namespace and configuration
 to match its location, for example `backend\components\behaviors`.
 The `events()` map is required: handler method names alone do not subscribe to events.
 
-All events expose `options`. Generation events contain `listSchemaDto` and
-`generateList` before generation, and `files` (`yii\gii\CodeFile[]`) afterwards.
+All events expose `options`. Before generation, the event contains `listSchemaDto`
+and the resolved `generateList`; handlers can change the selected table names.
+After generation, the event contains `files` (`yii\gii\CodeFile[]`).
 Render events expose `schema`, `sourcePath`, `generatePath`, `replaceList` and
 `content`; `content` is populated after rendering.
 

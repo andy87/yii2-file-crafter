@@ -25,6 +25,19 @@ use andy87\yii2\file_crafter\tests\core\ApplicationTestCore;
 /** Exercises actual Gii requests, including generator selection and repeated form submissions. */
 class GiiFlowTest extends ApplicationTestCore
 {
+    /** @return void The autocomplete switch controls both built-in and custom suggestions. */
+    public function testAutocompleteSwitchControlsSuggestions(): void
+    {
+        foreach ([false, true] as $enabled) {
+            $html = $this->submit([], ['fileCrafter' => $this->configuration('autocomplete', [
+                'autoCompleteStatus' => $enabled,
+                'autoCompleteList' => ['Unique suggestion'],
+            ])]);
+            $options = (new Crawler($html))->filterXPath('//datalist[@id="schema-name-list"]/option');
+            $this->assertCount($enabled ? 1 : 0, $options);
+            if ($enabled) $this->assertSame('Unique suggestion', $options->text());
+        }
+    }
     /** @return void Restore the real clock after every scenario. */
     protected function tearDown(): void
     {

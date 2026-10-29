@@ -10,6 +10,38 @@ use andy87\yii2\file_crafter\tests\core\ApplicationTestCore;
 /** Verifies the payload and effective changes of registered event handlers. */
 class EventFlowTest extends ApplicationTestCore
 {
+    /** @return void Before-generation handlers receive and can change the selected schemas. */
+    public function testBeforeGenerateReceivesAndCanChangeSelection(): void
+    {
+        file_put_contents($this->testRoot . '/runtime/source.tpl', '{{PascalCase}}');
+        $crafter = $this->createCrafter([
+            'migration' => false, 'eventHandler' => Behavior::class,
+            'templates' => ['default' => ['@app/runtime/source.tpl' => '@app/runtime/{{PascalCase}}.txt']],
+        ]);
+        $producer = new SchemaProducer([]);
+        $schemas = [$producer->create(['name' => 'Alpha']), $producer->create(['name' => 'Beta'])];
+        $this->setRequest(['preview' => 1, 'Crafter' => ['generateList' => ['alpha' => 'generate']]]);
+        $crafter->on(CrafterEventGenerate::BEFORE, function (CrafterEventGenerate $event): void {
+            $this->assertSame(['alpha'], $event->generateList);
+            $event->generateList = ['beta'];
+        });
+
+        $files = $crafter->generate($schemas);
+        $this->assertCount(1, $files);
+        $this->assertSame('Beta', $files[0]->content);
+    }
+
+    /** @return void An empty selection is resolved to all schemas before the event. */
+    public function testBeforeGenerateReceivesDefaultSelection(): void
+    {
+        $crafter = $this->createCrafter(['migration' => false, 'eventHandler' => Behavior::class]);
+        $producer = new SchemaProducer([]);
+        $schemas = [$producer->create(['name' => 'Alpha']), $producer->create(['name' => 'Beta'])];
+        $crafter->on(CrafterEventGenerate::BEFORE, function (CrafterEventGenerate $event): void {
+            $this->assertSame(['alpha', 'beta'], $event->generateList);
+        });
+        $crafter->generate($schemas);
+    }
     /** @return void Render handlers receive the schema and can change paths and content. */
     public function testRenderHandlersReceiveAndModifyActualData(): void
     {

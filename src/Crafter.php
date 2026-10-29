@@ -289,7 +289,7 @@ class Crafter extends CoreGenerator
                 $event->cmd = $data;
                 break;
             case CrafterEventGenerate::BEFORE:
-                $event->listSchemaDto = $data;
+                if (is_array($data)) $event->listSchemaDto = $data;
                 break;
             case CrafterEventGenerate::AFTER:
                 $event->files = $data;
@@ -313,9 +313,6 @@ class Crafter extends CoreGenerator
 
         if ( count( $this->panelResources->schema->errors ) === 0 || is_array($listSchemaDto) )
         {
-            /** @var CrafterEventGenerate $event */
-            $event = $this->event(CrafterEventGenerate::BEFORE, $listSchemaDto ?? $this->panelResources->listSchemaDto);
-
             $filter = (Yii::$app->request->isPost)
                 ? (Yii::$app->request->post('Crafter') ?? [])
                 : [];
@@ -325,9 +322,13 @@ class Crafter extends CoreGenerator
                 $this->generateList = $filter['generateList'];
             }
 
+            $event = new CrafterEventGenerate();
+            $event->listSchemaDto = $listSchemaDto ?? $this->panelResources->listSchemaDto;
             $event->generateList = (empty($this->generateList) )
                 ? array_column( $event->listSchemaDto, Schema::TABLE_NAME )
                 : array_keys($this->generateList);
+            /** @var CrafterEventGenerate $event */
+            $event = $this->event(CrafterEventGenerate::BEFORE, $event);
 
             foreach ($event->listSchemaDto as $schema )
             {

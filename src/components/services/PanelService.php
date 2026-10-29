@@ -417,6 +417,11 @@ class PanelService
      */
     public function prepareAutocomplete( Options $options, PanelResources $panelResources): void
     {
+        if (!$options->autoCompleteStatus) {
+            $panelResources->schema->setAutoCompleteData(Schema::NAME, []);
+            return;
+        }
+
         if ($options->autoCompleteStatus)
         {
             $autocompleteData = $panelResources->schema->autoCompleteData()[Schema::NAME] ?? [];
