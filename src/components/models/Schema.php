@@ -4,7 +4,6 @@ namespace andy87\yii2\file_crafter\components\models;
 
 use Yii;
 use yii\base\Model;
-use yii\db\Exception;
 
 /**
  * SchemaDto
@@ -423,11 +422,14 @@ class Schema extends Model
     {
         foreach ($this->db_fields as $index => $dbField)
         {
-            if (isset($dbField[Field::FOREIGN_KEYS])) $this->db_fields[$index][Field::FOREIGN_KEYS] = 'checked';
-
-            if (isset($dbField[Field::UNIQUE])) $this->db_fields[$index][Field::UNIQUE] = 'checked';
-
-            if (isset($dbField[Field::NOT_NULL])) $this->db_fields[$index][Field::NOT_NULL] = 'checked';
+            if ($dbField instanceof Field) $this->db_fields[$index] = $dbField->attributes;
+            foreach ([Field::FOREIGN_KEYS, Field::UNIQUE, Field::NOT_NULL] as $flag) {
+                if (!empty($dbField[$flag])) {
+                    $this->db_fields[$index][$flag] = 'checked';
+                } else {
+                    unset($this->db_fields[$index][$flag]);
+                }
+            }
         }
     }
 
@@ -503,21 +505,10 @@ Example:
 
         if ($this->scenario === self::SCENARIO_PARSE_DB)
         {
-          try {
-
-              $params = [
-                  'table_name' => $this->table_name,
-                  'fields' => $this->getSchemaTableFields($this->table_name)
-              ];
-
-          } catch (\Exception $e) {
-
-              Yii::error([ __METHOD__,
-                  'message' => $e->getMessage(),
-                  'position' => $e->getFile() . ':' . $e->getLine(),
-                  'trace' => $e->getTraceAsString()
-              ]);
-          }
+            $params = [
+                'table_name' => $this->table_name,
+                'fields' => $this->db_fields,
+            ];
         }
 
         return Yii::$app->view->renderFile('@vendor/andy87/yii2-file-crafter/src/views/__preview.php', $params );
@@ -547,31 +538,4 @@ Example:
         return ($options->previewStatus);
     }
 
-    /**
-     * @param string $tableName
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    private function getSchemaTableFields( string $tableName ): array
-    {
-        $fields = Yii::$app->db->createCommand('SHOW FULL COLUMNS FROM ' . $tableName)->queryAll();
-
-        $result = [];
-
-        foreach ($fields as $field) {
-            $result[] = [
-                Field::NAME => $field['Field'],
-                Field::COMMENT => $field['Comment'],
-                Field::TYPE => $field['Type'],
-                Field::SIZE => $field['Type'],
-                Field::FOREIGN_KEYS => $field['Key'] === 'MUL',
-                Field::UNIQUE => $field['Key'] === 'UNI',
-                Field::NOT_NULL => $field['Null'] === 'NO',
-            ];
-        }
-
-        return $result;
-    }
 }

@@ -52,9 +52,9 @@ $fields = $fields ?? $schema->db_fields;
                 <td><?= Html::encode($field[Field::COMMENT]) ?></td>
                 <td><?= Html::encode($field[Field::TYPE]) ?></td>
                 <td><?= Html::encode($field[Field::SIZE]) ?></td>
-                <td><?= (isset($field[Field::FOREIGN_KEYS])) ? 'X' : '' ?></td>
-                <td><?= (isset($field[Field::UNIQUE])) ? 'X' : '' ?></td>
-                <td><?= (isset($field[Field::NOT_NULL])) ? 'X' : '' ?></td>
+                <td><?= (!empty($field[Field::FOREIGN_KEYS])) ? 'X' : '' ?></td>
+                <td><?= (!empty($field[Field::UNIQUE])) ? 'X' : '' ?></td>
+                <td><?= (!empty($field[Field::NOT_NULL])) ? 'X' : '' ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

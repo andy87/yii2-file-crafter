@@ -4,6 +4,7 @@ namespace andy87\yii2\file_crafter\tests;
 
 use Yii;
 use yii\db\Migration;
+use andy87\yii2\file_crafter\components\models\Schema;
 use andy87\yii2\file_crafter\components\services\producers\SchemaProducer;
 use andy87\yii2\file_crafter\tests\core\ApplicationTestCore;
 
@@ -63,15 +64,32 @@ class MigrationTest extends ApplicationTestCore
         $this->assertSame(['keep this row'], Yii::$app->db->createCommand('SELECT title FROM migration_existing')->queryColumn());
     }
 
+    /** @return void Imported field objects generate executable columns with their original names and types. */
+    public function testImportedColumnsGenerateMigration(): void
+    {
+        Yii::$app->db->createCommand('CREATE TABLE migration_source (id INTEGER NOT NULL, title VARCHAR(64))')->execute();
+        $schema = (new SchemaProducer([]))->createParseDb(['name' => 'Migration source']);
+        $schema->table_name = 'migration_imported';
+        $migration = $this->createMigration('migration_imported', $schema);
+
+        $this->assertNull($migration->up());
+        $table = Yii::$app->db->getTableSchema('migration_imported', true);
+        $this->assertSame(['id', 'title'], array_keys($table->columns));
+        $this->assertSame('integer', $table->columns['id']->type);
+        $this->assertFalse($table->columns['id']->allowNull);
+        $this->assertTrue($table->columns['title']->allowNull);
+    }
+
     /**
      * Render and load the package's actual migration template.
      *
      * @param string $tableName Name unique to the test scenario.
+     * @param ?Schema $schema Imported schema, or null to use a simple string column.
      * @return Migration Executable generated migration.
      */
-    private function createMigration(string $tableName): Migration
+    private function createMigration(string $tableName, ?Schema $schema = null): Migration
     {
-        $schema = (new SchemaProducer([]))->create([
+        $schema = $schema ?? (new SchemaProducer([]))->create([
             'name' => $tableName,
             'db_fields' => ['title' => ['name' => 'title', 'type' => 'string', 'size' => 64]],
         ]);
@@ -83,7 +101,6 @@ class MigrationTest extends ApplicationTestCore
         require $path;
         $className = pathinfo($path, PATHINFO_FILENAME);
 
-        // Isolate data preservation from the separately tracked non-MySQL options bug.
-        return new $className(['db' => Yii::$app->db, 'tableOptions' => null, 'compact' => true]);
+        return new $className(['db' => Yii::$app->db, 'compact' => true]);
     }
 }

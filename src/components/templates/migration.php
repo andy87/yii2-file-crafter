@@ -25,7 +25,7 @@ class {{migrationClass}} extends Migration
 {
     public string $tableName = <?= var_export($schema->getTableName(), true) ?>;
 
-    public ?string $tableOptions;
+    public ?string $tableOptions = null;
 
     public function init(): void
     {
@@ -90,6 +90,7 @@ class {{migrationClass}} extends Migration
                     $fieldSchema = "\$this->string($length)";
                     break;
                 case 'int':
+                case 'integer':
                     $length = $size ?? 12;
 
                     $fieldSchema = "\$this->integer($length)";

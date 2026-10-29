@@ -6,6 +6,7 @@ use andy87\yii2\file_crafter\components\models\Field;
 use andy87\yii2\file_crafter\components\models\Schema;
 use Yii;
 use yii\base\NotSupportedException;
+use yii\base\InvalidArgumentException;
 
 /**
  * SchemaDto creator
@@ -59,14 +60,19 @@ class SchemaProducer
      *
      * @return Schema
      * @throws NotSupportedException
+     * @throws InvalidArgumentException When the requested table does not exist.
      */
     public function createParseDb(array $params = []): Schema
     {
         $schema = $this->create($params);
 
         $schema->scenario = Schema::SCENARIO_PARSE_DB;
+        $schema->table_name = $params[Schema::TABLE_NAME] ?? $schema->table_name;
 
         $tableSchema = Yii::$app->db->schema->getTableSchema($schema->table_name);
+        if ($tableSchema === null) {
+            throw new InvalidArgumentException('Table does not exist: ' . $schema->table_name);
+        }
 
         $tableColumns = $tableSchema->columns;
         $foreignKeys = $tableSchema->foreignKeys;
@@ -76,14 +82,17 @@ class SchemaProducer
         {
             $fields = new Field();
             $fields->name = $column->name;
-            $fields->comment = $column->comment;
+            $fields->comment = $column->comment ?? '';
             $fields->type = $column->type;
             $fields->size = $column->size;
-            $fields->foreignKeys = isset($foreignKeys[$column->name]);
-            $fields->unique = isset($unique[$column->name]);
-            $fields->notNull = $column->allowNull;
+            $fields->foreignKeys = false;
+            foreach ($foreignKeys as $foreignKey) {
+                if (array_key_exists($column->name, $foreignKey)) $fields->foreignKeys = true;
+            }
+            $fields->unique = in_array([$column->name], $unique, true);
+            $fields->notNull = !$column->allowNull;
 
-           $schema->db_fields[] = $fields;
+            $schema->db_fields[$column->name] = $fields;
         }
 
         return $schema;
