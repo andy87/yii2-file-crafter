@@ -33,7 +33,6 @@ class MigrationLiteralTest extends ApplicationTestCore
         $class = pathinfo($path, PATHINFO_FILENAME);
         $migration = new $class(['db' => Yii::$app->db, 'compact' => true]);
         $method = new \ReflectionMethod($migration, 'columns');
-        $method->setAccessible(true);
         $columns = $method->invoke($migration);
 
         $this->assertArrayHasKey($name, $columns);
@@ -43,7 +42,6 @@ class MigrationLiteralTest extends ApplicationTestCore
         $this->assertSame("set('owner''s', 'other')", (string) $columns['choices']);
         $this->assertSame('jsonb', (string) $columns['data']);
         $commentProperty = new \ReflectionProperty($columns[$name], 'comment');
-        $commentProperty->setAccessible(true);
         $this->assertSame($comment, $commentProperty->getValue($columns[$name]));
     }
 

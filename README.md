@@ -674,4 +674,24 @@ public function afterGenerate(CrafterEventGenerate $crafterEventGenerate): void 
 
 ___
 
+## Tests
+
+The PHPUnit development dependencies require PHP 8.1 or newer and the `dom`, `mbstring` and `pdo_sqlite` extensions.
+
+```sh
+composer update --prefer-stable --prefer-dist
+composer test
+```
+
+The default suite uses temporary files and an in-memory SQLite database. To enable the MySQL regression test, provide a disposable test database and the `pdo_mysql` extension:
+
+```sh
+FILE_CRAFTER_TEST_MYSQL_DSN='mysql:host=127.0.0.1;port=3306;dbname=file_crafter_test' \
+FILE_CRAFTER_TEST_MYSQL_USER=root \
+FILE_CRAFTER_TEST_MYSQL_PASSWORD=test-password \
+vendor/bin/phpunit --fail-on-warning --fail-on-risky --fail-on-incomplete --fail-on-skipped
+```
+
+The MySQL test creates and removes only its own randomly named tables. CI runs the suite on PHP 8.1, 8.2, 8.4 and 8.5 with MySQL 8.4, and checks PHP 8.0 syntax separately.
+
 [Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)
