@@ -44,11 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return document.querySelector(this.targets.template_db_field).innerHTML;
             },
 
-            changeIndex: function (HTML, fieldName)
-            {
-                return HTML.replace(/\[0\]/g, `[${fieldName}]`);
-            },
-
             autocomplete : function(TR, fieldName)
             {
                 //Some autocomplete
@@ -156,6 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 let TR = tbody.querySelector('TR').cloneNode(true);
 
+                // Set user-provided names through the DOM, never through HTML parsing.
+                TR.querySelectorAll('[name]').forEach(input => {
+                    input.name = input.name.replace('[0]', `[${fieldName}]`);
+                });
+
                 let inputFieldName = TR
                     .querySelector('[data-db-field="name"]')
                     .querySelector('input');
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let fieldName = prompt('Field name'),
                     TR = this.getTemplateTr();
 
-                TR = this.changeIndex(TR, fieldName);
+                if (!fieldName) return;
 
                 this.appendNewTR(TR, fieldName);
             },

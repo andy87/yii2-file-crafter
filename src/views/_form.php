@@ -2,6 +2,7 @@
 
 use andy87\yii2\file_crafter\Crafter;
 use yii\{ web\View, widgets\ActiveForm };
+use yii\helpers\Html;
 use andy87\yii2\file_crafter\components\models\{ Field, Schema };
 
 /**
@@ -44,11 +45,11 @@ SVG;
             <b class="b_form--label __main">Custom fields</b>
             <?php foreach ($customFields as $fieldKey => $fieldLabel) : ?>
                 <div class="b_form--layer">
-                    <label class="b_form--label" for="<?= $fieldKey?>"><?= $fieldLabel?></label>
+                    <label class="b_form--label" for="<?= Html::encode($fieldKey) ?>"><?= Html::encode($fieldLabel) ?></label>
                     <input class="input" type="text"
-                           title="{{<?= $fieldKey?>}}"
-                           name="<?= Schema::CUSTOM_FIELDS ."[$fieldKey]"?>"
-                           value="<?= (count($R->schema->getCustomFields())) ? $R->schema->custom_fields[$fieldKey] : '' ?>">
+                           title="{{<?= Html::encode($fieldKey) ?>}}"
+                           name="<?= Html::encode(Schema::CUSTOM_FIELDS . "[$fieldKey]") ?>"
+                           value="<?= Html::encode($R->schema->custom_fields[$fieldKey] ?? '') ?>">
                 </div>
             <?php endforeach; ?>
         </div>
@@ -93,24 +94,24 @@ SVG;
                                 <labeL>
                                     <input class=input type="text"
                                            onchange="app.dbFields.changeKey(this)"
-                                           data-key="<?= $dbField[Field::NAME] ?>"
-                                           name="<?= $prefix ?>[<?= Field::NAME ?>]"
-                                           value="<?= $dbField[Field::NAME] ?? '' ?>">
+                                           data-key="<?= Html::encode($dbField[Field::NAME]) ?>"
+                                           name="<?= Html::encode($prefix) ?>[<?= Field::NAME ?>]"
+                                           value="<?= Html::encode($dbField[Field::NAME] ?? '') ?>">
                                     </labeL>
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= Field::COMMENT ?>">
                                 <label>
                                     <input class="input" type="text"
-                                           name="<?= $prefix ?>[<?= Field::COMMENT ?>]"
-                                           value="<?= $dbField[Field::COMMENT] ?? '' ?>">
+                                           name="<?= Html::encode($prefix) ?>[<?= Field::COMMENT ?>]"
+                                           value="<?= Html::encode($dbField[Field::COMMENT] ?? '') ?>">
                                 </label>
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
                                 <?php $option = $dbField[Field::TYPE] ?>
                                <label>
-                                   <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
+                                   <select class="input" name="<?= Html::encode($prefix) ?>[<?= Field::TYPE ?>]">
                                        <?php foreach (Field::TYPES as $key => $value ) : ?>
                                            <option value="<?= $key?>" <?= ($option === $key) ? 'selected' : '' ?>><?= $value?></option>
                                        <?php endforeach; ?>
@@ -121,32 +122,32 @@ SVG;
                             <td class="b_field--cell" data-db-field="<?= Field::SIZE ?>">
                                 <label>
                                     <input class="input" type="number"
-                                           name="<?= $prefix ?>[<?= Field::SIZE ?>]"
-                                           value="<?= $dbField[Field::SIZE] ?? '' ?>">
+                                           name="<?= Html::encode($prefix) ?>[<?= Field::SIZE ?>]"
+                                           value="<?= Html::encode($dbField[Field::SIZE] ?? '') ?>">
                                 </label>
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= Field::FOREIGN_KEYS ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Foreign Key"
-                                           name="<?= $prefix ?>[<?= Field::FOREIGN_KEYS ?>]"
-                                        <?= $dbField[Field::FOREIGN_KEYS] ?? '' ?>>
+                                           name="<?= Html::encode($prefix) ?>[<?= Field::FOREIGN_KEYS ?>]"
+                                        <?= !empty($dbField[Field::FOREIGN_KEYS]) ? 'checked' : '' ?>>
                                 </label>
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= Field::UNIQUE ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Unique"
-                                       name="<?= $prefix ?>[<?= Field::UNIQUE ?>]"
-                                    <?= $dbField[Field::UNIQUE] ?? '' ?>>
+                                       name="<?= Html::encode($prefix) ?>[<?= Field::UNIQUE ?>]"
+                                    <?= !empty($dbField[Field::UNIQUE]) ? 'checked' : '' ?>>
                                 </label>
                             </td>
 
                             <td class="b_field--cell __mini" data-db-field="<?= Field::NOT_NULL ?>">
                                 <label>
                                     <input class="b_form--checkbox" type="checkbox" title="Not Null"
-                                       name="<?= $prefix ?>[<?= Field::NOT_NULL ?>]"
-                                    <?= $dbField[Field::NOT_NULL] ?? '' ?>>
+                                       name="<?= Html::encode($prefix) ?>[<?= Field::NOT_NULL ?>]"
+                                    <?= !empty($dbField[Field::NOT_NULL]) ? 'checked' : '' ?>>
                                 </label>
                             </td>
 
