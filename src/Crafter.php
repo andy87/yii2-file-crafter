@@ -66,7 +66,11 @@ class Crafter extends CoreGenerator
     /** @var array Schema list from request for generate files */
     public array $generateList = [];
 
+    /** @var mixed Timestamp carried by the preview form and validated before use in filenames. */
+    public mixed $migrationTimestamp = '';
 
+    /** @var bool Whether the selected panel has already handled this request. */
+    private bool $panelPrepared = false;
 
     /**
      * Init
@@ -78,6 +82,7 @@ class Crafter extends CoreGenerator
     public function init(): void
     {
         $this->options = new Options($this->options);
+        if ($this->migrationTimestamp === '') $this->migrationTimestamp = date('ymd_His');
 
         if ( $this->options->eventHandler ) {
             $this->attachBehavior('eventHandler', $this->options->eventHandler);
@@ -95,9 +100,6 @@ class Crafter extends CoreGenerator
         $this->panelResources = $this->getPanelResources();
 
 
-        $this->panelService->handlers($this->panelResources, $this->options->canDelete);
-
-
         $this->event(CrafterEvent::AFTER_INIT, $this->options );
 
         $this->panelService->prepareResourceSchemaList($this->options, $this->panelResources );
@@ -113,19 +115,44 @@ class Crafter extends CoreGenerator
         $rules = parent::rules();
 
         $rules[] = [ ['generateList'], 'safe' ];
+        $rules[] = [['generateList'], 'validateSchemas', 'skipOnEmpty' => false];
+        $rules[] = [['migrationTimestamp'], 'match', 'pattern' => '/\A[0-9]{6}_[0-9]{6}\z/', 'skipOnEmpty' => false];
 
         return $rules;
+    }
+
+    /**
+     * Report invalid selected schemas as Gii form errors before template rendering.
+     * @param string $attribute Selection attribute receiving validation errors.
+     * @return void
+     */
+    public function validateSchemas(string $attribute): void
+    {
+        foreach ($this->panelResources->listSchemaDto as $schema) {
+            if ($this->generateList && !array_key_exists($schema->getTableName(), $this->generateList)) continue;
+            if (!$schema->validate([Schema::DB_FIELDS])) {
+                $this->addError($attribute, $schema->getName() . ': ' . implode(' ', $schema->getErrors(Schema::DB_FIELDS)));
+            }
+        }
     }
 
 
 
     /**
-     * Return extension `formView`
+     * Prepare only the selected generator's panel and return its view.
      *
      * @return string
+     * @throws \yii\web\HttpException When a panel mutation is not allowed.
      */
     public function formView(): string
     {
+        if (!$this->panelPrepared) {
+            // Gii initializes every generator, but renders only the selected panel.
+            $this->panelService->handlers($this->panelResources, $this->options->canDelete);
+            $this->panelResources->listSchemaDto = $this->panelService->getListSchemaDto();
+            $this->panelService->prepareResourceSchemaList($this->options, $this->panelResources);
+            $this->panelPrepared = true;
+        }
 
         $this->panelService->prepareAutocomplete($this->options, $this->panelResources);
 
@@ -497,13 +524,17 @@ class Crafter extends CoreGenerator
     }
 
     /**
-     * @return bool
+     * Check for an explicit Generate submission with selected files.
+     * @return bool Whether configured commands may run for this request.
      */
     private function isGenerateProcess(): bool
     {
         $answer = Yii::$app->request->post('answers', []);
 
-        return (Yii::$app->request->isPost && count($answer) > 0);
+        return Yii::$app->request->isPost
+            && Yii::$app->request->post('generate') !== null
+            && Yii::$app->request->post('preview') === null
+            && is_array($answer) && !empty(array_filter($answer));
     }
 
     /**
@@ -520,17 +551,21 @@ class Crafter extends CoreGenerator
      * @param array $replaceList
      *
      * @return ?CodeFile
+     * @throws \yii\base\InvalidArgumentException When a migration timestamp or column definition is invalid.
      */
     private function generateMiration( Schema $schema, array $replaceList): ?CodeFile
     {
         if ( $this->options->migration )
         {
+            if (!is_string($this->migrationTimestamp) || !preg_match('/\A[0-9]{6}_[0-9]{6}\z/', $this->migrationTimestamp)) {
+                throw new \yii\base\InvalidArgumentException('Invalid migration timestamp.');
+            }
             $tableName = $schema->getTableName();
             $classSuffix = preg_replace('/[^a-zA-Z0-9_]/', '_', $tableName);
             if ($classSuffix !== $tableName) {
                 $classSuffix .= '_' . substr(hash('sha256', $tableName), 0, 8);
             }
-            $className = 'm' . date('ymd_Hi00') . sprintf( $this->options->migration['fileName'], $classSuffix);
+            $className = 'm' . $this->migrationTimestamp . sprintf( $this->options->migration['fileName'], $classSuffix);
             $fileName = $className . '.php';
 
             $replaceList['{{migrationClass}}'] = $className;

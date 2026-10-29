@@ -36,11 +36,15 @@ $prefix = Schema::DB_FIELDS . '[0]';
 
         <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
             <label>
-                <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]">
+                <select class="input" name="<?= $prefix ?>[<?= Field::TYPE ?>]" onchange="app.dbFields.changeType(this)">
                     <?php foreach (Field::TYPES as $key => $value ) : ?>
                         <option value="<?= $key?>"><?= $value?></option>
                     <?php endforeach; ?>
                 </select>
+            </label>
+            <label data-db-field="<?= Field::VALUES ?>" hidden>
+                <input class="input" type="text" name="<?= $prefix ?>[<?= Field::VALUES ?>]"
+                       title="Enum/set values (JSON array)" aria-label="Enum/set values (JSON array)" placeholder='["draft","published"]'>
             </label>
         </td>
 

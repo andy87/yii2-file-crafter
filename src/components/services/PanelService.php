@@ -96,12 +96,25 @@ class PanelService
 
             if ( $isCreate || $updatedTableName )
             {
-                // Gii constructs generators before the controller validates CSRF.
+                // Keep direct service calls protected as well as the Gii controller.
                 if (!Yii::$app->request->validateCsrfToken()) {
                     throw new BadRequestHttpException('Unable to verify your data submission.');
                 }
 
-                $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
+                $params = Yii::$app->request->bodyParams;
+                if (!$isCreate && $updatedTableName) {
+                    foreach (['primaryKey', 'foreignKeys', 'indexes'] as $attribute) {
+                        if (!array_key_exists($attribute, $params)) $params[$attribute] = $schema->$attribute;
+                    }
+                    // Form controls omit these imported column properties; omission is not deletion.
+                    foreach ($params[Schema::DB_FIELDS] ?? [] as $name => $field) {
+                        if (!is_array($field)) continue;
+                        $stored = $schema->db_fields[$name] ?? [];
+                        $params[Schema::DB_FIELDS][$name] = $field + array_intersect_key($stored,
+                            array_flip(['scale', 'autoIncrement', 'unsigned', 'defaultValue', 'defaultExpression']));
+                    }
+                }
+                $schema = $this->schemaProducer->create($params);
 
                 $schema->scenario = $updatedTableName ? Schema::SCENARIO_UPDATE : Schema::SCENARIO_CREATE;
                 $schema->validate();

@@ -66,7 +66,7 @@ class EventFlowTest extends ApplicationTestCore
             $this->assertStringContainsString('changed-by-event', $event->cmd->output);
             $event->cmd->output = 'event-result';
         });
-        $this->setRequest(['answers' => ['selected' => 1]]);
+        $this->setRequest(['generate' => 1, 'answers' => ['selected' => 1]]);
 
         $crafter->generate([$schema]);
 

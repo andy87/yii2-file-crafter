@@ -80,6 +80,25 @@ class MigrationTest extends ApplicationTestCore
         $this->assertTrue($table->columns['title']->allowNull);
     }
 
+    /** @return void Composite primary keys and foreign keys are created inline, including on SQLite. */
+    public function testImportedCompositeKeysWorkOnSqlite(): void
+    {
+        $db = Yii::$app->db;
+        $db->createCommand('PRAGMA foreign_keys = ON')->execute();
+        $db->createCommand('CREATE TABLE composite_parent (id INTEGER PRIMARY KEY)')->execute();
+        $db->createCommand('CREATE TABLE composite_source (parent_id INTEGER NOT NULL, code VARCHAR(32) NOT NULL, PRIMARY KEY(parent_id, code), FOREIGN KEY(parent_id) REFERENCES composite_parent(id) ON DELETE CASCADE)')->execute();
+        $schema = (new SchemaProducer([]))->createParseDb(['name' => 'Composite source']);
+        $schema->table_name = 'composite_target';
+        $this->assertNull($this->createMigration('composite_target', $schema)->up());
+        $table = $db->getTableSchema('composite_target', true);
+        $this->assertSame(['parent_id', 'code'], $table->primaryKey);
+        $this->assertCount(1, $table->foreignKeys);
+        $db->createCommand()->insert('composite_parent', ['id' => 1])->execute();
+        $db->createCommand()->insert('composite_target', ['parent_id' => 1, 'code' => 'ok'])->execute();
+        $db->createCommand()->delete('composite_parent', ['id' => 1])->execute();
+        $this->assertSame(0, (int) $db->createCommand('SELECT COUNT(*) FROM composite_target')->queryScalar());
+    }
+
     /**
      * Render and load the package's actual migration template.
      *

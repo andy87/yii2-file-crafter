@@ -60,7 +60,9 @@ abstract class ApplicationTestCore extends UnitTestCore
         ]);
 
         Yii::setAlias('@vendor/andy87/yii2-file-crafter', dirname(__DIR__, 2));
+        Yii::setAlias('@bower', Yii::getAlias('@vendor') . '/bower-asset');
         Yii::$app->request->setPathInfo('gii/fileCrafter');
+        Yii::$app->request->setUrl('/gii/fileCrafter');
         Yii::$app->request->setQueryParams([]);
         Yii::$app->request->setBodyParams([]);
     }
@@ -83,17 +85,20 @@ abstract class ApplicationTestCore extends UnitTestCore
     }
 
     /**
-     * Configure a generator without additional user templates.
+     * Configure a generator and prepare its selected panel without user templates.
      *
      * @param array $options Options required by the current scenario.
      * @return Crafter Initialized generator.
      */
     protected function createCrafter(array $options = []): Crafter
     {
-        return new Crafter([
+        $crafter = new Crafter([
             'template' => 'default',
             'options' => array_replace(['templates' => ['default' => []]], $options),
         ]);
+        $crafter->formView();
+
+        return $crafter;
     }
 
     /**

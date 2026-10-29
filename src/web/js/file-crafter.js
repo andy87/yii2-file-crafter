@@ -185,6 +185,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 TR.remove();
             },
 
+            /** Show the list of permitted values only for enum/set columns. */
+            changeType : function (self)
+            {
+                self.closest('TR').querySelector('[data-db-field="values"]').hidden = !['enum', 'set'].includes(self.value);
+            },
+
             changeKey : function (self)
             {
                 let TR = self.closest('TR');
@@ -194,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 TR.querySelector('[data-db-field="comment"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][comment]`);
                 TR.querySelector('[data-db-field="type"]').querySelector('select').setAttribute('name', `db_fields[${self.value}][type]`);
                 TR.querySelector('[data-db-field="size"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][size]`);
+                TR.querySelector('[data-db-field="values"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][values]`);
                 TR.querySelector('[data-db-field="foreignKeys"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][foreignKeys]`);
                 TR.querySelector('[data-db-field="unique"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][unique]`);
                 TR.querySelector('[data-db-field="notNull"]').querySelector('input').setAttribute('name', `db_fields[${self.value}][notNull]`);

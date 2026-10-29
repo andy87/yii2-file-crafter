@@ -69,7 +69,8 @@ class SchemaProducer
         $schema->scenario = Schema::SCENARIO_PARSE_DB;
         $schema->table_name = $params[Schema::TABLE_NAME] ?? $schema->table_name;
 
-        $tableSchema = Yii::$app->db->schema->getTableSchema($schema->table_name);
+        $dbSchema = Yii::$app->db->schema;
+        $tableSchema = $dbSchema->getTableSchema($schema->table_name);
         if ($tableSchema === null) {
             throw new InvalidArgumentException('Table does not exist: ' . $schema->table_name);
         }
@@ -77,6 +78,37 @@ class SchemaProducer
         $tableColumns = $tableSchema->columns;
         $foreignKeys = $tableSchema->foreignKeys;
         $unique = Yii::$app->db->schema->findUniqueIndexes($tableSchema);
+        $schema->primaryKey = $tableSchema->primaryKey;
+
+        if ($dbSchema instanceof \yii\db\ConstraintFinderInterface) {
+            $sourceSchema = $tableSchema->schemaName ?: $dbSchema->defaultSchema;
+            if (!$sourceSchema && Yii::$app->db->driverName === 'mysql') {
+                $sourceSchema = Yii::$app->db->createCommand('SELECT DATABASE()')->queryScalar();
+            }
+            foreach ($dbSchema->getTableForeignKeys($schema->table_name) as $foreignKey) {
+                $reference = $foreignKey->foreignTableName;
+                if ($foreignKey->foreignSchemaName && $foreignKey->foreignSchemaName !== $sourceSchema) {
+                    $reference = $foreignKey->foreignSchemaName . '.' . $reference;
+                }
+                $schema->foreignKeys[] = [
+                    'columns' => $foreignKey->columnNames,
+                    'refTable' => $reference,
+                    'refColumns' => $foreignKey->foreignColumnNames,
+                    'onDelete' => $foreignKey->onDelete,
+                    'onUpdate' => $foreignKey->onUpdate,
+                ];
+            }
+            foreach ($dbSchema->getTableIndexes($schema->table_name) as $index) {
+                if ($index->isPrimary) continue;
+                $schema->indexes[] = ['columns' => $index->columnNames, 'unique' => $index->isUnique];
+            }
+        } else {
+            foreach ($foreignKeys as $foreignKey) {
+                $reference = array_shift($foreignKey);
+                $schema->foreignKeys[] = ['columns' => array_keys($foreignKey), 'refTable' => $reference, 'refColumns' => array_values($foreignKey)];
+            }
+            foreach ($unique as $columns) $schema->indexes[] = ['columns' => $columns, 'unique' => true];
+        }
 
         foreach ($tableColumns as $column)
         {
@@ -85,6 +117,14 @@ class SchemaProducer
             $fields->comment = $column->comment ?? '';
             $fields->type = $column->type;
             $fields->size = $column->size;
+            $fields->scale = $column->scale;
+            $fields->autoIncrement = $column->autoIncrement;
+            $fields->unsigned = (bool) $column->unsigned;
+            if ($column->defaultValue instanceof \yii\db\Expression) {
+                $fields->defaultExpression = $column->defaultValue->expression;
+            } else {
+                $fields->defaultValue = $column->defaultValue;
+            }
             $fields->foreignKeys = false;
             foreach ($foreignKeys as $foreignKey) {
                 if (array_key_exists($column->name, $foreignKey)) $fields->foreignKeys = true;

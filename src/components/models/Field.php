@@ -17,6 +17,7 @@ class Field extends Model
     public const COMMENT = 'comment';
     public const TYPE = 'type';
     public const SIZE = 'size';
+    public const VALUES = 'values';
     public const FOREIGN_KEYS = 'foreignKeys';
     public const UNIQUE = 'unique';
     public const NOT_NULL = 'notNull';
@@ -60,6 +61,24 @@ class Field extends Model
     public bool $unique;
 
     public bool $notNull;
+
+    /** @var string[] Allowed enum/set values, preserved as strings in cached schemas. */
+    public array $values = [];
+
+    /** @var ?int Number of fractional digits in a decimal column. */
+    public ?int $scale = null;
+
+    /** @var bool Whether the database generates successive numeric values. */
+    public bool $autoIncrement = false;
+
+    /** @var bool Whether a numeric column excludes negative values. */
+    public bool $unsigned = false;
+
+    /** @var mixed Literal column default, kept separate from executable SQL expressions. */
+    public mixed $defaultValue = null;
+
+    /** @var ?string Database default expression, such as CURRENT_TIMESTAMP. */
+    public ?string $defaultExpression = null;
 
     /**
      * @return array[]

@@ -674,6 +674,21 @@ public function afterGenerate(CrafterEventGenerate $crafterEventGenerate): void 
 
 ___
 
+## Schema editing and generation
+
+The schema editor accepts enum/set values as a JSON array of strings, for example
+`["draft", "published", "owner's"]`. Invalid lists are reported before saving the
+schema. Legacy invalid schemas are reported in Preview instead of causing an exception.
+
+Preview never runs configured CLI commands. Commands run only for an explicit
+Generate submission with selected files. Migration filenames retain the timestamp
+submitted by the preview form, including when Generate happens in a later minute.
+
+Database imports retain primary and foreign keys, referential actions, indexes,
+decimal scale, auto-increment, unsigned flags and column defaults in the cached
+schema. Foreign keys are created with the table; referenced tables must already
+exist. As with all generated migrations, review the result before applying it.
+
 ## Tests
 
 The PHPUnit development dependencies require PHP 8.1 or newer and the `dom`, `mbstring` and `pdo_sqlite` extensions.
@@ -692,6 +707,10 @@ FILE_CRAFTER_TEST_MYSQL_PASSWORD=test-password \
 vendor/bin/phpunit --fail-on-warning --fail-on-risky --fail-on-incomplete --fail-on-skipped
 ```
 
-The MySQL test creates and removes only its own randomly named tables. CI runs the suite on PHP 8.1, 8.2, 8.4 and 8.5 with MySQL 8.4, and checks PHP 8.0 syntax separately.
+The MySQL tests create and remove only their own randomly named tables. They check
+imported keys, decimal values, defaults and constraint enforcement. Gii controller
+tests cover isolated generator mutations, repeated Preview, migration selection
+across a minute boundary, and enum/set form validation. CI runs the suite on PHP
+8.1, 8.2, 8.4 and 8.5 with MySQL 8.4, and checks PHP 8.0 syntax separately.
 
 [Packagist](https://packagist.org/packages/andy87/yii2-file-crafter)

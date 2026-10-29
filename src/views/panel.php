@@ -13,6 +13,11 @@ FileCrafterPanelAsset::register($this);
 
 ?>
 
+<?= \yii\helpers\Html::activeHiddenInput($generator, 'migrationTimestamp', [
+    'value' => is_string($generator->migrationTimestamp) ? $generator->migrationTimestamp : '',
+]) ?>
+<?= \yii\helpers\Html::errorSummary($generator) ?>
+
 <div class="block__generator">
 
     <?= $this->render('_form', [

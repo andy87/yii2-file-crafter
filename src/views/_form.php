@@ -62,6 +62,7 @@ SVG;
             </svg>
             Attributes
         </h4>
+        <?= Html::error($R->schema, Schema::DB_FIELDS, ['class' => 'help-block text-danger']) ?>
         <table class="b_field--table">
             <thead class="b_field--layer">
             <tr class="b_field--row">
@@ -111,12 +112,17 @@ SVG;
                             <td class="b_field--cell" data-db-field="<?= Field::TYPE ?>">
                                 <?php $option = $dbField[Field::TYPE] ?>
                                <label>
-                                   <select class="input" name="<?= Html::encode($prefix) ?>[<?= Field::TYPE ?>]">
+                                    <select class="input" name="<?= Html::encode($prefix) ?>[<?= Field::TYPE ?>]" onchange="app.dbFields.changeType(this)">
                                        <?php foreach (Field::TYPES as $key => $value ) : ?>
                                            <option value="<?= $key?>" <?= ($option === $key) ? 'selected' : '' ?>><?= $value?></option>
                                        <?php endforeach; ?>
                                    </select>
                                </label>
+                                <label data-db-field="<?= Field::VALUES ?>" <?= in_array($option, ['enum', 'set'], true) ? '' : 'hidden' ?>>
+                                    <input class="input" type="text" name="<?= Html::encode($prefix) ?>[<?= Field::VALUES ?>]"
+                                           title="Enum/set values (JSON array)" aria-label="Enum/set values (JSON array)" placeholder='["draft","published"]'
+                                           value="<?= Html::encode(is_array($dbField[Field::VALUES] ?? null) ? json_encode($dbField[Field::VALUES], JSON_UNESCAPED_UNICODE) : ($dbField[Field::VALUES] ?? '')) ?>">
+                                </label>
                             </td>
 
                             <td class="b_field--cell" data-db-field="<?= Field::SIZE ?>">

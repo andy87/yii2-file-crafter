@@ -58,6 +58,15 @@ class Schema extends Model
     /** @var Field[] */
     public array $db_fields = [];
 
+    /** @var string[] Ordered columns of the imported primary key. */
+    public array $primaryKey = [];
+
+    /** @var array[] Imported foreign-key columns, references and referential actions. */
+    public array $foreignKeys = [];
+
+    /** @var array[] Imported non-primary indexes, including composite unique constraints. */
+    public array $indexes = [];
+
     /** @var string Для вывода ошибок по шаблонам */
     public string $template = '';
 
@@ -244,7 +253,34 @@ class Schema extends Model
             [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS ], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
+            [self::DB_FIELDS, 'validateDbFields'],
+            [['primaryKey', 'foreignKeys', 'indexes'], 'safe'],
         ];
+    }
+
+    /**
+     * Normalize enum/set form input and reject unusable values before saving or rendering.
+     * @param string $attribute Database-fields attribute being validated.
+     * @return void Validation errors are attached to the schema.
+     */
+    public function validateDbFields(string $attribute): void
+    {
+        foreach ($this->db_fields as $key => $field) {
+            if (!is_array($field) && !$field instanceof Field) {
+                $this->addError($attribute, 'Invalid database field: ' . $key);
+                continue;
+            }
+            if (!in_array($field[Field::TYPE] ?? null, ['enum', 'set'], true)) continue;
+
+            $values = $field[Field::VALUES] ?? [];
+            if (is_string($values)) $values = json_decode($values);
+            if (!is_array($values) || !$values || array_keys($values) !== range(0, count($values) - 1)
+                || count(array_filter($values, 'is_string')) !== count($values)) {
+                $this->addError($attribute, 'Field ' . $key . ' requires a non-empty JSON array of strings for enum/set values.');
+                continue;
+            }
+            $this->db_fields[$key][Field::VALUES] = $values;
+        }
     }
 
     /**

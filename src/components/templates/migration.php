@@ -53,13 +53,15 @@ class {{migrationClass}} extends Migration
     }
 
     /**
-     * Boilerplate for indexes
+     * Create the imported non-primary indexes after the table exists.
      *
      * @return void
      */
     public function indexUp(): void
     {
-        //boilerplate for indexes
+<?php foreach ($schema->indexes as $index => $definition): ?>
+        $this->createIndex(<?= var_export('idx_' . substr(hash('sha256', $schema->getTableName() . ':' . $index), 0, 24), true) ?>, $this->tableName, <?= var_export($definition['columns'], true) ?>, <?= var_export((bool) $definition['unique'], true) ?>);
+<?php endforeach; ?>
     }
 
     /**
@@ -74,6 +76,7 @@ class {{migrationClass}} extends Migration
 <?php
     /** @var Schema $schema */
 
+        $inlinePrimaryKey = false;
         foreach ($schema->db_fields as $nameColumn => $property):
             $size = $property['size'] ?? null;
             if ($size === '') $size = null;
@@ -106,7 +109,12 @@ class {{migrationClass}} extends Migration
                 case 'double': $fieldSchema = "\$this->double()"; break;
                 case 'decimal':
                     $precision = $size ?? 10;
-                    $fieldSchema = "\$this->decimal($precision, 0)";
+                    $scale = $property['scale'] ?? 0;
+                    if (!preg_match('/\A[0-9]+\z/', (string) $scale) || (int) $scale > $precision) {
+                        throw new InvalidArgumentException('Invalid decimal scale: ' . $nameColumn);
+                    }
+                    $scale = (int) $scale;
+                    $fieldSchema = "\$this->decimal($precision, $scale)";
                     break;
                 case 'jsonb': $fieldSchema = "\$this->db->getSchema()->createColumnSchemaBuilder('jsonb')"; break;
                 case 'binary': $fieldSchema = "\$this->binary()"; break;
@@ -135,7 +143,21 @@ class {{migrationClass}} extends Migration
                     $fieldSchema = "\$this->string(255)";
                     break;
             }
-            if ($property['unique'] ?? false)
+            $columnName = (string) ($property['name'] ?? $nameColumn);
+            if (!empty($property['autoIncrement']) && $schema->primaryKey === [$columnName]) {
+                $primaryType = ($property['type'] === 'bigint') ? 'bigpk' : 'pk';
+                if (!empty($property['unsigned'])) $primaryType = 'u' . $primaryType;
+                $fieldSchema = "\$this->db->getSchema()->createColumnSchemaBuilder('$primaryType')";
+                $inlinePrimaryKey = true;
+            } else {
+                if (!empty($property['unsigned'])) $fieldSchema .= '->unsigned()';
+                if (!empty($property['autoIncrement'])) $fieldSchema .= "->append('AUTO_INCREMENT')";
+            }
+            $hasUniqueIndex = false;
+            foreach ($schema->indexes as $definition) {
+                if ($definition['unique'] && $definition['columns'] === [$columnName]) $hasUniqueIndex = true;
+            }
+            if (($property['unique'] ?? false) && !$hasUniqueIndex)
             {
                 $fieldSchema .= "->unique()";
             }
@@ -147,12 +169,35 @@ class {{migrationClass}} extends Migration
             {
                 $fieldSchema .= '->comment(' . var_export($property['comment'], true) . ')';
             }
+            if (isset($property['defaultExpression'])) {
+                $fieldSchema .= '->defaultExpression(' . var_export($property['defaultExpression'], true) . ')';
+            } elseif (isset($property['defaultValue'])) {
+                $fieldSchema .= '->defaultValue(' . var_export($property['defaultValue'], true) . ')';
+            }
 
-        $columnName = var_export((string) ($property['name'] ?? $nameColumn), true);
+        $columnName = var_export($columnName, true);
         echo "        \$columns[$columnName] = $fieldSchema;\n";
 
     endforeach;
 ?>
+<?php if ($schema->primaryKey && !$inlinePrimaryKey): ?>
+        $columns[] = 'PRIMARY KEY (' . implode(', ', array_map([$this->db, 'quoteColumnName'], <?= var_export($schema->primaryKey, true) ?>)) . ')';
+<?php endif; ?>
+<?php foreach ($schema->foreignKeys as $foreignKey):
+    $actions = '';
+    foreach (['onDelete' => 'DELETE', 'onUpdate' => 'UPDATE'] as $key => $action) {
+        $rule = strtoupper($foreignKey[$key] ?? '');
+        if ($rule === '') continue;
+        if (!in_array($rule, ['CASCADE', 'RESTRICT', 'SET NULL', 'SET DEFAULT', 'NO ACTION'], true)) {
+            throw new InvalidArgumentException('Invalid foreign key action: ' . $key);
+        }
+        $actions .= ' ON ' . $action . ' ' . $rule;
+    }
+?>
+        $columns[] = 'FOREIGN KEY (' . implode(', ', array_map([$this->db, 'quoteColumnName'], <?= var_export($foreignKey['columns'], true) ?>)) . ') REFERENCES '
+            . $this->db->quoteTableName(<?= var_export($foreignKey['refTable'], true) ?>)
+            . ' (' . implode(', ', array_map([$this->db, 'quoteColumnName'], <?= var_export($foreignKey['refColumns'], true) ?>)) . ')' . <?= var_export($actions, true) ?>;
+<?php endforeach; ?>
 
         return $columns;
     }

@@ -23,7 +23,7 @@ class CommandTest extends ApplicationTestCore
         $crafter->generate($schemas);
         $this->assertSame([], $crafter->commandResult, 'Preview must not execute commands.');
 
-        $this->setRequest(['answers' => ['selected' => 1]]);
+        $this->setRequest(['generate' => 1, 'answers' => ['selected' => 1]]);
         $files = $crafter->generate($schemas);
         $answers = array_fill_keys(array_column($files, 'id'), 1);
         $results = '';
@@ -55,7 +55,7 @@ class CommandTest extends ApplicationTestCore
     {
         $crafter = $this->createCrafter(['migration' => false, 'commands' => ['']]);
         $schema = (new SchemaProducer([]))->create(['name' => 'Empty command']);
-        $this->setRequest(['answers' => ['selected' => 1]]);
+        $this->setRequest(['generate' => 1, 'answers' => ['selected' => 1]]);
 
         $crafter->generate([$schema]);
 
