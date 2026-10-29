@@ -1,6 +1,7 @@
 <?php
 
 use andy87\yii2\file_crafter\components\models\Schema;
+use yii\base\InvalidArgumentException;
 
 
 /**
@@ -22,7 +23,7 @@ use yii\console\ExitCode;
  */
 class {{migrationClass}} extends Migration
 {
-    public string $tableName = '{{snake_case}}';
+    public string $tableName = <?= var_export($schema->getTableName(), true) ?>;
 
     public ?string $tableOptions;
 
@@ -74,16 +75,22 @@ class {{migrationClass}} extends Migration
     /** @var Schema $schema */
 
         foreach ($schema->db_fields as $nameColumn => $property):
+            $size = $property['size'] ?? null;
+            if ($size === '') $size = null;
+            if ($size !== null && !preg_match('/\A[0-9]+\z/', (string) $size)) {
+                throw new InvalidArgumentException('Invalid column size: ' . $nameColumn);
+            }
+            $size = $size === null ? null : (int) $size;
             $fieldSchema = '';
             switch($property['type'])
             {
                 case 'string':
                 case 'varchar':
-                    $length = $property['size'] ?? 255;
+                    $length = $size ?? 255;
                     $fieldSchema = "\$this->string($length)";
                     break;
                 case 'int':
-                    $length = $field->size ?? 12;
+                    $length = $size ?? 12;
 
                     $fieldSchema = "\$this->integer($length)";
                     break;
@@ -97,31 +104,31 @@ class {{migrationClass}} extends Migration
                 case 'float': $fieldSchema = "\$this->float()"; break;
                 case 'double': $fieldSchema = "\$this->double()"; break;
                 case 'decimal':
-                    $precision = $property['size'] ?? 10;
+                    $precision = $size ?? 10;
                     $fieldSchema = "\$this->decimal($precision, 0)";
                     break;
-                case 'jsonb': $fieldSchema = "\$this->jsonb()"; break;
+                case 'jsonb': $fieldSchema = "\$this->db->getSchema()->createColumnSchemaBuilder('jsonb')"; break;
                 case 'binary': $fieldSchema = "\$this->binary()"; break;
                 case 'money': $fieldSchema = "\$this->money()"; break;
                 case 'smallint': $fieldSchema = "\$this->smallInteger()"; break;
                 case 'bigint': $fieldSchema = "\$this->bigInteger()"; break;
                 case 'char':
-                    $length = $property['size'] ?? 1;
+                    $length = $size ?? 1;
                     $fieldSchema = "\$this->char($length)";
                     break;
                 case 'tinyint':
-                    $length = $property['size'] ?? 1;
+                    $length = $size ?? 1;
                     $fieldSchema = "\$this->tinyInteger($length)";
                     break;
                 case 'enum':
-                    $values = $property['values'] ?? [];
-                    $valuesList = "'" . implode("', '", $values) . "'";
-                    $fieldSchema = "\$this->enum($valuesList)";
-                    break;
                 case 'set':
                     $values = $property['values'] ?? [];
-                    $valuesList = "'" . implode("', '", $values) . "'";
-                    $fieldSchema = "\$this->set($valuesList)";
+                    if (!is_array($values) || !$values || count(array_filter($values, 'is_string')) !== count($values)) {
+                        throw new InvalidArgumentException('Enum/set requires a non-empty list of string values: ' . $nameColumn);
+                    }
+                    $valuesList = var_export(array_values($values), true);
+                    $type = $property['type'];
+                    $fieldSchema = "\$this->db->getSchema()->createColumnSchemaBuilder('$type(' . implode(', ', array_map([\$this->db, 'quoteValue'], $valuesList)) . ')')";
                     break;
                 default:
                     $fieldSchema = "\$this->string(255)";
@@ -137,10 +144,11 @@ class {{migrationClass}} extends Migration
             }
             if ($property['comment'] ?? false)
             {
-                $fieldSchema .= "->comment('{$property['comment']}')";
+                $fieldSchema .= '->comment(' . var_export($property['comment'], true) . ')';
             }
 
-        echo "        \$columns['$nameColumn'] = $fieldSchema;\n";
+        $columnName = var_export((string) ($property['name'] ?? $nameColumn), true);
+        echo "        \$columns[$columnName] = $fieldSchema;\n";
 
     endforeach;
 ?>

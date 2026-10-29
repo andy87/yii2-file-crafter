@@ -549,6 +549,13 @@ class Crafter extends CoreGenerator
 
             if ( file_exists($sourcePath) )
             {
+                if (realpath($sourcePath) === realpath(Yii::getAlias(self::SRC . '/components/templates/migration.php'))) {
+                    // Do not interpolate arbitrary custom values into already escaped PHP literals.
+                    $replaceList = [
+                        '{{migrationClass}}' => $className,
+                        '{{snake_case}}' => $tableName,
+                    ];
+                }
                 $params = [
                     'sourcePath' => $sourcePath,
                     'generatePath' => $generatePath,
