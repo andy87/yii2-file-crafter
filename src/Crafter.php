@@ -3,7 +3,7 @@
 namespace andy87\yii2\file_crafter;
 
 use Yii;
-use yii\{base\Event, gii\CodeFile, base\InvalidRouteException, web\View};
+use yii\{base\Event, gii\CodeFile, base\InvalidRouteException, web\View, helpers\Html};
 use andy87\yii2\file_crafter\{components\core\CoreGenerator,
     components\events\CrafterEvent,
     components\events\CrafterEventCommand,
@@ -295,6 +295,7 @@ class Crafter extends CoreGenerator
     public function generate( ?array $listSchemaDto = null ): array
     {
         $files = [];
+        $this->commandResult = [];
 
         if ( count( $this->panelResources->schema->errors ) === 0 || is_array($listSchemaDto) )
         {
@@ -492,18 +493,19 @@ class Crafter extends CoreGenerator
         {
             $lines[] = "executing bash commands...";
 
-            foreach ($this->commandResult as $command => $output)
+            foreach ($this->commandResult as $commandResults)
             {
-                $lines[] = "executing: " . $command;
+                foreach ($commandResults as $command => $output) {
+                    $lines[] = "executing: " . $command;
 
-                if ($output && strlen($output) > 0)
-                {
-                    $lines = array_merge($lines, explode("\n", $output));
+                    if ($output !== null && $output !== '') {
+                        $lines = array_merge($lines, explode("\n", $output));
+                    }
                 }
             }
         }
 
-        $results = implode("\n", $lines) . "\n" . $results;
+        $results = Html::encode(implode("\n", $lines)) . "\n" . $results;
 
         return $saveResult;
     }
