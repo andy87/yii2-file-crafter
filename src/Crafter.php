@@ -95,7 +95,7 @@ class Crafter extends CoreGenerator
         $this->panelResources = $this->getPanelResources();
 
 
-        $this->panelService->handlers($this->panelResources);
+        $this->panelService->handlers($this->panelResources, $this->options->canDelete);
 
 
         $this->event(CrafterEvent::AFTER_INIT, $this->options );

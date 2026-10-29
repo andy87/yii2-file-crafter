@@ -4,6 +4,7 @@ namespace andy87\yii2\file_crafter\components\services;
 
 use Yii;
 use yii\{ helpers\Inflector, base\InvalidRouteException };
+use yii\web\{BadRequestHttpException, ForbiddenHttpException};
 use andy87\yii2\file_crafter\components\models\{Options, Schema, dto\Cmd};
 use andy87\yii2\file_crafter\components\{
     resources\PanelResources,
@@ -269,11 +270,7 @@ class PanelService
      */
     public function removeItem(string $cacheFileName): void
     {
-        $itemPath =  $this->cacheService->constructPath($cacheFileName);
-
-        $itemPath = Yii::getAlias($itemPath);
-
-        if ( file_exists($itemPath)) unlink($itemPath);
+        $this->cacheService->removeItem($cacheFileName);
     }
 
     /**
@@ -328,13 +325,18 @@ class PanelService
     }
 
     /**
-     * Common Handler for
+     * Handle panel mutations and stop after a completed deletion.
      *
+     * @param PanelResources $panelResources Current panel models.
+     * @param bool $canDelete Whether the configuration permits deletion.
+     * @return void
      * @throws InvalidRouteException
+     * @throws BadRequestHttpException When deletion has no valid CSRF token.
+     * @throws ForbiddenHttpException When deletion is disabled.
      */
-    public function handlers(PanelResources$panelResources): void
+    public function handlers(PanelResources $panelResources, bool $canDelete = true): void
     {
-        $this->removeHandler();
+        if ($this->removeHandler($canDelete)) return;
 
         $panelResources->schema = $this->handlerSchema($panelResources->schema);
     }
@@ -342,18 +344,33 @@ class PanelService
     /**
      * Remove handler
      *
-     * @return void
+     * @param bool $canDelete Whether the configuration permits deletion.
+     * @return bool Whether a deletion was handled.
      *
      * @throws InvalidRouteException
+     * @throws BadRequestHttpException When the submitted request is invalid.
+     * @throws ForbiddenHttpException When deletion is disabled.
      */
-    private function removeHandler(): void
+    private function removeHandler(bool $canDelete): bool
     {
-        if ( $remove = Yii::$app->request->get(Schema::SCENARIO_REMOVE) )
+        $request = Yii::$app->request;
+        $remove = $request->isPost ? $request->post(Schema::SCENARIO_REMOVE) : null;
+
+        if ($remove !== null)
         {
+            if (!$canDelete) throw new ForbiddenHttpException('Schema deletion is disabled.');
+            if (!is_string($remove) || !$request->validateCsrfToken()) {
+                throw new BadRequestHttpException('Invalid schema deletion request.');
+            }
+
             $this->removeModel( $remove );
 
             $this->goHome();
+
+            return true;
         }
+
+        return false;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace andy87\yii2\file_crafter\components\services;
 
+use yii\base\InvalidArgumentException;
 use andy87\yii2\file_crafter\components\{core\CoreGenerator};
 
 /**
@@ -18,6 +19,30 @@ class CacheService extends DirectoryProviderService
 
     /** @var string Default cache ext */
     public const DEFAULT_EXT = '.json';
+
+    /**
+     * Resolve a schema identifier without allowing paths or symbolic links.
+     *
+     * @param string $fileName Schema identifier without an extension.
+     * @param bool $useAlias Whether to resolve the configured directory alias.
+     * @return string Path inside the configured cache directory.
+     * @throws InvalidArgumentException When the name or target is unsafe.
+     */
+    public function constructPath(string $fileName, bool $useAlias = true): string
+    {
+        if (!preg_match('/\A[a-zA-Z0-9_]+\z/', $fileName)) {
+            throw new InvalidArgumentException('Invalid schema name.');
+        }
+
+        $path = parent::constructPath($fileName);
+        $resolved = realpath($path);
+
+        if (is_link($path) || ($resolved !== false && dirname($resolved) !== realpath($this->getDir()))) {
+            throw new InvalidArgumentException('The schema must remain inside the cache directory.');
+        }
+
+        return parent::constructPath($fileName, $useAlias);
+    }
 
 
 
@@ -36,7 +61,12 @@ class CacheService extends DirectoryProviderService
         {
             if ($file === '.' || $file === '..') continue;
 
-            if (preg_match('/[^\w\_\.]/', $file)) continue;
+            if (!str_ends_with($file, $this->getExt())) continue;
+
+            $name = substr($file, 0, -strlen($this->getExt()));
+            if (!preg_match('/\A[a-zA-Z0-9_]+\z/', $name)) continue;
+            if (!is_file($this->getDir() . DIRECTORY_SEPARATOR . $file)) continue;
+            if (is_link($this->getDir() . DIRECTORY_SEPARATOR . $file)) continue;
 
             $list[] = $file;
         }

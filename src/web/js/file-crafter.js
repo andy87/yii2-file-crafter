@@ -201,13 +201,19 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         cache : {
-            removeModel: function (modelName)
+            removeModel: function (self, modelName)
             {
                 let message = `Do you really want to remove the model "${modelName}"?`;
 
                 if ( confirm(message) )
                 {
-                    window.location.href = `?remove=${modelName}`;
+                    const form = self.closest('form');
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'remove';
+                    input.value = modelName;
+                    form.append(input);
+                    form.submit();
                 }
             },
             checkedAll(self) {

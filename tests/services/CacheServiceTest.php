@@ -2,175 +2,67 @@
 
 namespace andy87\yii2\file_crafter\tests\services;
 
-use andy87\yii2\file_crafter\components\services\CacheService;
-use andy87\yii2\file_crafter\tests\core\UnitTestCore;
 use Yii;
+use yii\helpers\FileHelper;
+use andy87\yii2\file_crafter\components\services\CacheService;
+use andy87\yii2\file_crafter\tests\core\ApplicationTestCore;
 
 /**
- * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox
+ * Verifies cache access using temporary schemas owned by each test.
  *
  * @package andy87\yii2\file_crafter\tests\services
- *
- * @tag: #test #service #cache
  */
-class CacheServiceTest extends UnitTestCore
+class CacheServiceTest extends ApplicationTestCore
 {
-    /** @var string[]  */
-    private const PARAMS = [
-        'dir' => '@app/runtime',
-        'ext' => '.json',
-    ];
-
-    private const FILES = ['yii2-unit-test-file-1.json','yii2-unit-test-file-2.json'];
-
-    /** @var CacheService */
+    /** @var CacheService Cache isolated from application and developer files. */
     private CacheService $cacheService;
 
-
-
-
     /**
+     * Create a writable cache without depending on a pre-existing runtime folder.
+     *
      * @return void
-     **/
-    public function setUp(): void
+     */
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->cacheService = new CacheService(self::PARAMS);
-
-        if ( ! isset(Yii::$aliases['@app']) )
-        {
-            Yii::setAlias('@app', __DIR__ );
-        }
-
-        $dir = $this->cacheService->getDir();
-
-        $this->cacheService->params['isExist'] = is_dir($dir);
-        $this->cacheService->params['isWritable'] = is_writable($dir);
+        $this->cacheService = new CacheService(['dir' => '@app/runtime/cache', 'ext' => '.json']);
+        FileHelper::createDirectory($this->cacheService->getDir());
     }
 
-    /**
-     * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testGetCacheFileList
-     *
-     * @return void
-     **/
+    /** @return void Only schema files with the configured extension are listed. */
     public function testGetCacheFileList(): void
     {
-        if ( $this->hasDirectoryAccess() )
-        {
-            foreach (self::FILES as $index => $file)
-            {
-                $filePath = $this->cacheService->constructPath($file);
-
-                if (file_exists($filePath)) continue;
-
-                file_put_contents( $filePath, "test_$index" );
-            }
-
-            $list = $this->cacheService->getCacheFileList();
-
-            $this->assertNotEmpty($list);
-
-            $this->assertTrue(in_array('test1.json', $list));
-            $this->assertTrue(in_array('test2.json', $list));
-
-            foreach (self::FILES as $file)
-            {
-                $filePath = $this->cacheService->constructPath($file);
-
-                if (file_exists($filePath)) unlink($filePath);
-            }
-
-        } else {
-
-            $this->infoMessage();
+        foreach (['test1', 'test2'] as $name) {
+            file_put_contents($this->cacheService->constructPath($name), '{}');
         }
+        file_put_contents(Yii::getAlias('@app/runtime/cache/ignore.txt'), 'not a schema');
+        FileHelper::createDirectory(Yii::getAlias('@app/runtime/cache/directory.json'));
+
+        $this->assertSame(['test1.json', 'test2.json'], $this->cacheService->getCacheFileList());
     }
 
-    /**
-     * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testGetContentCacheFile
-     *
-     * @return void
-     **/
+    /** @return void Cached content is returned without adding another extension. */
     public function testGetContentCacheFile(): void
     {
-        if ( $this->hasDirectoryAccess() )
-        {
-            $fileName = self::FILES[0];
+        $content = '{"name":"Test"}';
+        file_put_contents($this->cacheService->constructPath('test1'), $content);
 
-            $fielContent = date('Y-m-d H:i:s');
-
-            $filePath = $this->cacheService->constructPath($fileName);
-
-            file_put_contents( $filePath, $fielContent );
-
-            $content = $this->cacheService->getContentCacheFile($fileName);
-
-            $this->assertEquals($content, $fielContent);
-
-        } else {
-
-            $this->infoMessage();
-        }
+        $this->assertSame($content, $this->cacheService->getContentCacheFile('test1'));
+        $this->assertNull($this->cacheService->getContentCacheFile('missing'));
     }
 
-    /**
-     * @cli vendor/bin/phpunit tests/services/CacheServiceTest.php --testdox --filter testRemoveItem
-     *
-     * @return void
-     **/
+    /** @return void Removing one schema preserves every other cached schema. */
     public function testRemoveItem(): void
     {
-        if ( $this->hasDirectoryAccess() )
-        {
-            $fileName = self::FILES[0];
+        $path = $this->cacheService->constructPath('test1');
+        $other = $this->cacheService->constructPath('test2');
+        file_put_contents($path, '{}');
+        file_put_contents($other, '{}');
 
-            $filePath = $this->cacheService->constructPath($fileName);
+        $this->cacheService->removeItem('test1');
 
-            if (file_exists($filePath)) unlink($filePath);
-
-            file_put_contents( $filePath, 'test' );
-
-            $this->assertTrue(file_exists($filePath));
-
-            $this->cacheService->removeItem($fileName);
-
-            $this->assertFalse(file_exists($filePath));
-
-        } else {
-
-            $this->infoMessage();
-        }
-    }
-
-    /**
-     * @return bool
-     **/
-    private function hasDirectoryAccess(): bool
-    {
-        $params = $this->cacheService->params;
-
-        return $params['isExist'] && $params['isWritable'];
-    }
-
-    /**
-     * @return void
-     **/
-    private function infoMessage(): void
-    {
-        $dirNotFound = !$this->cacheService->params['isExist'];
-        $writableAccessDenied = !$this->cacheService->params['isExist'];
-
-        if ( $dirNotFound )
-        {
-            $this->markTestIncomplete('No runtime directory');
-
-        } else {
-
-            if ( $writableAccessDenied )
-            {
-                $this->markTestIncomplete('No write permission to runtime');
-            }
-        }
+        $this->assertFileDoesNotExist($path);
+        $this->assertFileExists($other);
     }
 }

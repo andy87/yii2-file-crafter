@@ -95,4 +95,24 @@ abstract class ApplicationTestCore extends UnitTestCore
             'options' => array_replace(['templates' => ['default' => []]], $options),
         ]);
     }
+
+    /**
+     * Populate a browser-like request, optionally with a valid CSRF token.
+     *
+     * @param array $body Submitted form values; an empty array represents GET.
+     * @param array $query URL parameters.
+     * @param bool $csrf Whether to include the application's valid token.
+     * @return void
+     */
+    protected function setRequest(array $body = [], array $query = [], bool $csrf = true): void
+    {
+        $_SERVER['REQUEST_METHOD'] = $body ? 'POST' : 'GET';
+        if ($body && $csrf) {
+            $body[Yii::$app->request->csrfParam] = Yii::$app->request->getCsrfToken();
+        }
+        $_POST = $body;
+        $_GET = $query;
+        Yii::$app->request->setBodyParams($body);
+        Yii::$app->request->setQueryParams($query);
+    }
 }
