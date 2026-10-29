@@ -53,7 +53,8 @@ class Options extends Model
     /** @var array  */
     public array $parseDataBase = [];
 
-    public array $migration = [];
+    /** @var array|false Migration settings, or false to disable generation. */
+    public array|false $migration = [];
 
     /** @var array  */
     public array $templates = [
@@ -76,7 +77,7 @@ class Options extends Model
             [['eventHandler'], 'string'],
             [['eventHandler'], 'trim'],
             [['autoCompleteStatus', 'previewStatus', 'canDelete'], 'boolean'],
-            [['cache', 'source', 'templates','migration','custom_fields'], 'each', 'rule' => ['safe']],
+            [['cache', 'source', 'templates','custom_fields'], 'each', 'rule' => ['safe']],
             [['commands', 'autoCompleteList', 'parseDataBase'], 'each', 'rule' => ['string']],
             ['migration', 'prepareMigration']
         ];
@@ -101,9 +102,13 @@ class Options extends Model
 
     /**
      * Подготовка настроек миграции по умолчанию.
+     *
+     * @return void
      */
     public function prepareMigration(): void
     {
+        if ($this->migration === false) return;
+
         foreach (self::DEFAULT['migration'] as $key => $defaultValue) {
             if (isset($this->migration[$key])) {
                 continue;

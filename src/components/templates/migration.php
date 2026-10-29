@@ -36,13 +36,13 @@ class {{migrationClass}} extends Migration
     }
 
     /**
+    * Create a new table without replacing existing data.
+    *
     * @return int
+    * @throws \yii\db\Exception When the table already exists or creation fails.
     */
     public function safeUp(): int
     {
-        //drop table if exists
-        $this->dropTable($this->tableName);
-
         //create table
         $this->createTable( $this->tableName, $this->columns(), $this->tableOptions);
 

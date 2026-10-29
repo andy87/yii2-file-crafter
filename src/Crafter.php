@@ -521,7 +521,7 @@ class Crafter extends CoreGenerator
     /**
      * Generate migration file
      * naming: mYYMMDD_HHMMSS_file_crafter_update_table_name.php
-     * drop old table if exists
+     * create a new table without replacing an existing table
      * create new table with all columns
      * add primary key
      * add foreign keys

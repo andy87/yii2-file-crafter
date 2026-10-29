@@ -141,6 +141,21 @@ Full Config with all options
 ];
 ```
 
+<h2>Migrations</h2>
+
+By default, a create-table migration is generated for each selected schema.
+Applying it to an existing table fails without dropping the table or its data.
+Changes to existing tables require an explicit migration using Yii's column and index operations.
+
+To generate only the configured templates, disable migrations in the generator options:
+
+```php
+'options' => [
+    'migration' => false,
+    'templates' => [ /* template groups */ ],
+],
+```
+
 <span id="yii2-file-crafter-using"></span>
 <h2>
     Using
