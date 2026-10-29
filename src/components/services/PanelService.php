@@ -67,6 +67,7 @@ class PanelService
      * @return Schema
      *
      * @throws InvalidRouteException
+     * @throws BadRequestHttpException When a mutation has no valid CSRF token.
      */
     public function handlerSchema(Schema $schema): Schema
     {
@@ -95,6 +96,11 @@ class PanelService
 
             if ( $isCreate || $updatedTableName )
             {
+                // Gii constructs generators before the controller validates CSRF.
+                if (!Yii::$app->request->validateCsrfToken()) {
+                    throw new BadRequestHttpException('Unable to verify your data submission.');
+                }
+
                 $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
                 if ($isCreate && $schema->name)
