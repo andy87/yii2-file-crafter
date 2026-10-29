@@ -26,12 +26,14 @@ class MigrationLiteralTest extends ApplicationTestCore
                 'data' => ['name' => 'data', 'type' => 'jsonb'],
             ],
         ]);
+        $schema->table_name = "literal's-table";
         $files = $this->createCrafter()->generate([$schema]);
         $path = $this->testRoot . '/' . basename($files[0]->path);
         file_put_contents($path, $files[0]->content);
         require $path;
         $class = pathinfo($path, PATHINFO_FILENAME);
         $migration = new $class(['db' => Yii::$app->db, 'compact' => true]);
+        $this->assertSame("literal's-table", $migration->tableName);
         $method = new \ReflectionMethod($migration, 'columns');
         $columns = $method->invoke($migration);
 

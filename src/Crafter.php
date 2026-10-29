@@ -526,7 +526,11 @@ class Crafter extends CoreGenerator
         if ( $this->options->migration )
         {
             $tableName = $schema->getTableName();
-            $className = 'm' . date('ymd_Hi00') . sprintf( $this->options->migration['fileName'],$tableName);
+            $classSuffix = preg_replace('/[^a-zA-Z0-9_]/', '_', $tableName);
+            if ($classSuffix !== $tableName) {
+                $classSuffix .= '_' . substr(hash('sha256', $tableName), 0, 8);
+            }
+            $className = 'm' . date('ymd_Hi00') . sprintf( $this->options->migration['fileName'], $classSuffix);
             $fileName = $className . '.php';
 
             $replaceList['{{migrationClass}}'] = $className;
@@ -553,7 +557,6 @@ class Crafter extends CoreGenerator
                     // Do not interpolate arbitrary custom values into already escaped PHP literals.
                     $replaceList = [
                         '{{migrationClass}}' => $className,
-                        '{{snake_case}}' => $tableName,
                     ];
                 }
                 $params = [

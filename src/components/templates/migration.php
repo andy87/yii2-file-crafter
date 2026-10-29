@@ -17,9 +17,9 @@ use yii\db\Migration;
 use yii\console\ExitCode;
 
 /**
- * Class {{snake_case}}
+ * Creates the table described by the saved schema.
  *
- * @tags: #migration, #table, #{{snake_case}}
+ * @tags: #migration, #table
  */
 class {{migrationClass}} extends Migration
 {
