@@ -49,4 +49,16 @@ class CommandTest extends ApplicationTestCore
         $this->assertStringContainsString('&lt;img', $results);
         $this->assertStringContainsString('executing: empty', $results);
     }
+
+    /** @return void An empty configured command returns a diagnostic without a PHP warning. */
+    public function testEmptyCommandDoesNotFailGeneration(): void
+    {
+        $crafter = $this->createCrafter(['migration' => false, 'commands' => ['']]);
+        $schema = (new SchemaProducer([]))->create(['name' => 'Empty command']);
+        $this->setRequest(['answers' => ['selected' => 1]]);
+
+        $crafter->generate([$schema]);
+
+        $this->assertStringContainsString('command is empty', $crafter->commandResult[0]['']);
+    }
 }

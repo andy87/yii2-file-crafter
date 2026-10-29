@@ -256,10 +256,10 @@ class PanelService
         $command = $commandCli->exec ?? null;
 
         $result = 'command is empty';
+        $resultCode = null;
 
         if ( $command ) {
             $result = null;
-            $resultCode = null;
 
             exec($command, $result, $resultCode);
         }
