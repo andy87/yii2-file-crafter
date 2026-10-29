@@ -39,7 +39,7 @@ class UniqueSchemaNameValidator extends UniqueValidator
      */
     public function validateAttribute( $model, $attribute ): void
     {
-        if( $this->cacheService->getContentCacheFile($model->table_name) )
+        if( file_exists($this->cacheService->constructPath($model->table_name)) )
         {
             $this->addError($model, Schema::NAME, self::MESSAGE );
         }

@@ -241,7 +241,7 @@ class Schema extends Model
     public function rules(): array
     {
         return [
-            [ [self::NAME], 'required' ],
+            [ [self::NAME, self::TABLE_NAME], 'required' ],
             [ [self::TABLE_NAME,self::NAME], 'string', 'max' => 255 ],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS ], 'safe'],
             [ [self::CUSTOM_FIELDS, self::DB_FIELDS], 'each', 'rule' => ['safe'] ],
@@ -368,13 +368,15 @@ class Schema extends Model
 
 
     /**
-     * Save schema to cache file
+     * Save the complete schema without truncating an existing file on failure.
      *
-     * @param string $fileName
+     * @param string $fileName Target cache path or alias.
+     * @param bool $overwrite Whether the existing schema may be replaced.
      *
-     * @return bool
+     * @return bool Whether every byte was saved successfully.
+     * @throws \yii\base\InvalidArgumentException When the target alias is invalid.
      */
-    public function save(string $fileName): bool
+    public function save(string $fileName, bool $overwrite = true): bool
     {
         $this->prepareCheckboxItems();
 
@@ -384,7 +386,32 @@ class Schema extends Model
 
         $content = json_encode( $params, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES );
 
-        return (bool) file_put_contents( Yii::getAlias($fileName), $content );
+        if ($content === false) return false;
+
+        $fileName = Yii::getAlias($fileName);
+
+        if (!$overwrite) {
+            // Exclusive creation protects a destination created after validation.
+            $file = @fopen($fileName, 'x');
+            if ($file === false) return false;
+            $saved = @fwrite($file, $content) === strlen($content);
+            fclose($file);
+            if (!$saved) unlink($fileName);
+
+            return $saved;
+        }
+
+        $temporary = @tempnam(dirname($fileName), '.schema-');
+        if ($temporary === false) return false;
+
+        try {
+            if (realpath(dirname($temporary)) !== realpath(dirname($fileName))) return false;
+            if (@file_put_contents($temporary, $content) !== strlen($content)) return false;
+
+            return @rename($temporary, $fileName);
+        } finally {
+            if (is_file($temporary)) unlink($temporary);
+        }
     }
 
     /**

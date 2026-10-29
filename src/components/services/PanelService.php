@@ -103,7 +103,10 @@ class PanelService
 
                 $schema = $this->schemaProducer->create( Yii::$app->request->bodyParams );
 
-                if ($isCreate && $schema->name)
+                $schema->scenario = $updatedTableName ? Schema::SCENARIO_UPDATE : Schema::SCENARIO_CREATE;
+                $schema->validate();
+
+                if (!$schema->hasErrors() && ($isCreate || $updatedTableName !== $schema->getTableName()))
                 {
                     (new UniqueSchemaNameValidator($this->cacheService))->validateAttribute($schema, Schema::NAME);
                 }
@@ -116,16 +119,16 @@ class PanelService
 
                     $update = Yii::$app->request->get(Schema::SCENARIO_UPDATE);
 
-                    if ( $update && $update !== $schema->getTableName() ) {
-                        $this->removeItem($update);
-                    }
-
-                    $this->cacheService->removeItem($schema->getTableName());
-
                     $fileName = $this->cacheService->constructPath($schema->getTableName());
+                    $overwrite = !$isCreate && $update === $schema->getTableName();
 
-                    if ( $schema->save($fileName) ) {
+                    if ( $schema->save($fileName, $overwrite) ) {
+                        if ($update && $update !== $schema->getTableName()) {
+                            $this->removeItem($update);
+                        }
                         $this->goHome();
+                    } else {
+                        $schema->addError(Schema::NAME, 'Unable to save schema. Existing files have been preserved.');
                     }
                 }
             }
