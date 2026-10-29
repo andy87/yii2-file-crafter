@@ -17,9 +17,9 @@ class Cmd
     public string $exec;
 
     /**
-     * @var string
+     * @var ?string Output is unavailable before command execution.
      */
-    public ?string $output;
+    public ?string $output = null;
 
     /**
      * @var array

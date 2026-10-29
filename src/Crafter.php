@@ -222,7 +222,7 @@ class Crafter extends CoreGenerator
      * Event handler
      *
      * @param $name
-     * @param array $data
+     * @param mixed $data Options, generated files, schema list, render event or command.
      *
      * @return ?Event
      */
@@ -248,38 +248,25 @@ class Crafter extends CoreGenerator
     private function fabricEvent( string $eventName, mixed $data = [] ): CrafterEvent
     {
         $className = self::EVENT_MAPPING[$eventName];
+        $event = $data instanceof $className ? $data : new $className();
+        $event->options = $this->options;
 
         switch ($eventName)
         {
-            case CrafterEventCommand::class:
-            case CrafterEventRender::class:
-                /** @var CrafterEventCommand|CrafterEventRender $data */
-                $event = $data;
+            case CrafterEvent::BEFORE_INIT:
+            case CrafterEvent::AFTER_INIT:
+                $event->options = $data;
                 break;
-
-            default:
-
-                /** @var CrafterEvent|CrafterEventGenerate $event */
-                $event = new $className();
-
-                switch ($eventName)
-                {
-                    case CrafterEvent::BEFORE_INIT:
-                    case CrafterEvent::AFTER_INIT:
-                        /** @var CrafterEvent $event */
-                        $event->options = $data;
-                        break;
-
-                    case CrafterEventGenerate::BEFORE:
-                        /** @var CrafterEventGenerate $event */
-                        $event->listSchemaDto = $data;
-                        break;
-
-                    case CrafterEventGenerate::AFTER:
-                        /** @var CrafterEventGenerate $event */
-                        $event->files = $data;
-                        break;
-                }
+            case CrafterEventCommand::BEFORE:
+            case CrafterEventCommand::AFTER:
+                $event->cmd = $data;
+                break;
+            case CrafterEventGenerate::BEFORE:
+                $event->listSchemaDto = $data;
+                break;
+            case CrafterEventGenerate::AFTER:
+                $event->files = $data;
+                break;
         }
 
         return $event;
@@ -393,12 +380,11 @@ class Crafter extends CoreGenerator
 
         if ( count($this->templateGroup[$this->template]) )
         {
-            $eventRender = new CrafterEventRender();
-            $eventRender->schema = $schema;
-            $eventRender->replaceList = $replaceList;
-
             foreach ($this->templateGroup[$this->template] as $sourcePath => $generatePath)
             {
+                $eventRender = new CrafterEventRender();
+                $eventRender->schema = $schema;
+                $eventRender->replaceList = $replaceList;
                 $eventRender->sourcePath = $sourcePath;
                 $eventRender->generatePath = $generatePath;
 
@@ -406,15 +392,15 @@ class Crafter extends CoreGenerator
 
                 $eventRender->sourcePath = $this->panelService
                     ->constructSourcePath(
-                        $sourcePath,
+                        $eventRender->sourcePath,
                         $this->options->source['ext'],
-                        $replaceList
+                        $eventRender->replaceList
                     );
 
                 $eventRender->generatePath = $this->panelService
                     ->constructGeneratePath(
-                        $generatePath,
-                        $replaceList
+                        $eventRender->generatePath,
+                        $eventRender->replaceList
                     );
 
                 if ( file_exists($eventRender->sourcePath) )
